@@ -32,6 +32,7 @@ import MyProjectsPage from '/imports/pages/projects/MyProjectsPage'
 import SendPasswordEmail from '/imports/pages/accounts/SendPasswordEmail'
 import ResetPassword from '/imports/pages/accounts/ResetPassword'
 import NotFound from '/imports/pages/general/NotFound'
+import TerritoryConsultsPage from '/imports/pages/consults/TerritoryConsultsPage'
 import Conditions from '/imports/pages/general/Conditions'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 
@@ -132,6 +133,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={SigninPage} exact path="/sign_in"       { ...this.props } />
                       <Public component={ConsultsPage} exact path="/consults"       { ...this.props } />
                       <Public component={ConsultPage} exact path="/consults/:urlShorten"       { ...this.props } />
+                      <Public component={TerritoryConsultsPage} exact path="/territory/:shorten_url/consults"       { ...this.props } />
                       <Public component={ProfilePage} exact path="/profile/:user_id"       { ...this.props } />
                       <Public component={ProjectsPage} exact path="/projects"       { ...this.props } />
                       <Public component={NewProjectPage} exact path="/projects/new"       { ...this.props } />

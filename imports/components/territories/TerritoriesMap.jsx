@@ -9,7 +9,7 @@ class TerritoriesMap extends Component {
     }
 
     go = (territory) => {
-        this.props.history.push('/admin/territory/' + territory._id)
+        this.props.history.push('/territory/' + territory.shorten_url + '/consults')
     }
 
     render() {

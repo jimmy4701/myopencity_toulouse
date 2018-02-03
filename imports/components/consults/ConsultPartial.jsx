@@ -79,7 +79,7 @@ export class ConsultPartial extends Component {
           <Image src={consult.image_url} />
           <Card.Content>
             <Card.Header>
-              {territory && <div className="territory-label"><Icon name="marker"/>{territory.name}</div>}
+              {territory && <Link to={"/territory/" + territory.shorten_url + "/consults"}><div className="territory-label"><Icon name="marker"/>{territory.name}</div></Link>}
               {consult.title}
               {consult.external_url ?
                 <span className="external-label"><br /><Icon name="sitemap" /> {consult.external_site_name}</span>

@@ -17,6 +17,10 @@ Meteor.publish('territories.active', function() {
     return Territories.find({active: true}, {limit: 1000, sort: {}})
 })
 
+Meteor.publish('territories.by_shorten_url', function(shorten_url) {
+    return Territories.find({shorten_url}, {limit: 1000, sort: {}})
+})
+
 Meteor.publish('territories.authorized_for_me', function() {
     const user = Meteor.user()
     if(Roles.userIsInRole(this.userId, 'admin')){
