@@ -141,7 +141,7 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     value={territory.image_url}
                     name="image_url"
                 />
-                <Form.TextArea
+                <Form.Input
                     label="Coordonnées (format JSON)"
                     value={territory.coordinates}
                     name="coordinates"

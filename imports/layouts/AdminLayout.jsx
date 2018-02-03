@@ -30,6 +30,7 @@ import AdminExternalApisPage from '/imports/pages/admin/AdminExternalApisPage'
 import AdminAlternativesValidationPage from '/imports/pages/admin/AdminAlternativesValidationPage'
 import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
 import AdminTerritoriesPage from '/imports/pages/admin/AdminTerritoriesPage'
+import AdminTerritory from '/imports/pages/admin/AdminTerritory'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -134,6 +135,7 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminAlternativesValidationPage }  exact path="/admin/alternatives" { ...this.props } />
                       <Admin component={ AdminUsersPage }  exact path="/admin/users" { ...this.props } />
                       <Admin component={ AdminTerritoriesPage }  exact path="/admin/territories" { ...this.props } />
+                      <Admin component={ AdminTerritory }  exact path="/admin/territory/:territory_id" { ...this.props } />
                       <Public component={ NotFound } path="*"  { ...this.props } />
                     </Switch>
                   </main>

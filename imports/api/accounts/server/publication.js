@@ -16,3 +16,10 @@ Meteor.publish('user.me', function () {
     return Meteor.users.find({ _id: this.userId }, { fields: { username: 1, profile: 1 } })
   }
 })
+
+
+Meteor.publish('users.moderators_by_territory', function (territory_shorten_url) {
+  if (Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
+    return Meteor.users.find({roles: territory_shorten_url})
+  }
+})

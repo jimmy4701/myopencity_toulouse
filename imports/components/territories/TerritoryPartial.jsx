@@ -48,6 +48,9 @@ export default class TerritoryPartial extends Component {
                 </Card.Content>
                 <Card.Content extra>
                     <Button onClick={this.edit}>Modifier</Button>
+                    <Link to={"/admin/territory/" + territory._id}>
+                        <Button content="Gérer"/>
+                    </Link>
                     {removing ? 
                     [
                         <p>Vous confirmez ?</p>,
