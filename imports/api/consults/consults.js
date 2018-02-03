@@ -89,6 +89,10 @@ const ConsultsSchema = new SimpleSchema({
   attached_files: {
     type: [FilesSchema],
     defaultValue: []
+  },
+  territory: {
+    type: String,
+    optional: true
   }
 })
 

@@ -27,6 +27,8 @@ import '/imports/api/api_authorizations/server/methods'
 import '/imports/api/api_authorizations/server/publication'
 import '/imports/api/external_opencities/server/methods'
 import '/imports/api/external_opencities/server/publication'
+import '/imports/api/territories/server/methods'
+import '/imports/api/territories/server/publication'
 
 Meteor.startup(() => {
 

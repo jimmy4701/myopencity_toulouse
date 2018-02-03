@@ -5,6 +5,7 @@ import {Grid, Header, Input, Button, Container, Loader} from 'semantic-ui-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Consults} from '/imports/api/consults/consults'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
+import { Territories } from '/imports/api/territories/territories'
 import {withRouter} from 'react-router-dom'
 
 export class AdminConsultEditPage extends TrackerReact(Component){
@@ -32,7 +33,7 @@ export class AdminConsultEditPage extends TrackerReact(Component){
   }
 
   render(){
-    const {loading, consult, consult_parts} = this.props
+    const {loading, consult, consult_parts, territories} = this.props
 
     if(!loading){
       return(
@@ -42,7 +43,7 @@ export class AdminConsultEditPage extends TrackerReact(Component){
           </Grid.Column>
           <Grid.Column width={16}>
             <Container>
-              <ConsultForm consult={consult} consult_parts={consult_parts} onFormSubmit={this.go_consults_page.bind(this)}/>
+              <ConsultForm consult={consult} territories={territories} consult_parts={consult_parts} onFormSubmit={this.go_consults_page.bind(this)}/>
             </Container>
           </Grid.Column>
         </Grid>
@@ -56,13 +57,16 @@ export class AdminConsultEditPage extends TrackerReact(Component){
 export default AdminConsultEditPageContainer = createContainer(({ match }) => {
   const {consult_shorten_url} = match.params
   const consultPublication = Meteor.isClient && Meteor.subscribe('consult.admin_by_shorten_url', consult_shorten_url)
+  const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.authorized_for_me')
   const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.admin_by_consult_url_shorten', consult_shorten_url)
-  const loading = Meteor.isClient && !consultPublication.ready() || !consultPartsPublication.ready()
+  const loading = Meteor.isClient && (!consultPublication.ready() || !consultPartsPublication.ready() || !territoriesPublication.ready())
   const consult = Consults.findOne({url_shorten: consult_shorten_url})
   const consult_parts = ConsultParts.find({}).fetch()
+  const territories = Territories.find({}).fetch()
   return {
     loading,
     consult,
-    consult_parts
+    consult_parts,
+    territories
   }
 }, withRouter(AdminConsultEditPage))
