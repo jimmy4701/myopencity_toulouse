@@ -47,7 +47,6 @@ export class Landing extends Component {
             <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
               <Grid.Column width={16}>
                 <TerritoriesMap 
-                  isMarkerShown
                   territories={territories}
                   googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry"
                   loadingElement={<div style={{ height: `100%` }} />}
