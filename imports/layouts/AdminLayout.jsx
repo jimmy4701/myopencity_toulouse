@@ -29,6 +29,7 @@ import AdminExternalOpencitiesPage from '/imports/pages/admin/AdminExternalOpenc
 import AdminExternalApisPage from '/imports/pages/admin/AdminExternalApisPage'
 import AdminAlternativesValidationPage from '/imports/pages/admin/AdminAlternativesValidationPage'
 import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
+import AdminTerritoriesPage from '/imports/pages/admin/AdminTerritoriesPage'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -106,6 +107,12 @@ export class AdminLayout extends TrackerReact(Component) {
                   Opencities connectés
                 </Menu.Item>
               : ''}
+              {Roles.userIsInRole(Meteor.userId(), 'admin') ?
+                <Menu.Item onClick={() => {this.go('/admin/territories')}} name='territories'>
+                  <Icon name='map' />
+                  Quartiers
+                </Menu.Item>
+              : ''}
             </Sidebar>
             <Sidebar.Pusher>
               <Grid stackable>
@@ -126,6 +133,7 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminExternalApisPage }  exact path="/admin/external_apis" { ...this.props } />
                       <Admin component={ AdminAlternativesValidationPage }  exact path="/admin/alternatives" { ...this.props } />
                       <Admin component={ AdminUsersPage }  exact path="/admin/users" { ...this.props } />
+                      <Admin component={ AdminTerritoriesPage }  exact path="/admin/territories" { ...this.props } />
                       <Public component={ NotFound } path="*"  { ...this.props } />
                     </Switch>
                   </main>
