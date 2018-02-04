@@ -6,6 +6,7 @@ import TinyMCE from 'react-tinymce'
 import ProjectForm from '/imports/components/projects/ProjectForm'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
 import {Projects} from '/imports/api/projects/projects'
+import {Territories} from '/imports/api/territories/territories'
 import {withRouter} from 'react-router-dom'
 
 export class NewProjectPage extends TrackerReact(Component){
@@ -33,6 +34,9 @@ export class NewProjectPage extends TrackerReact(Component){
     if(this.props.parent_id){
       new_project.parent = this.props.parent_id
     }
+    if(this.props.territory){
+      new_project.territory = this.props.territory._id
+    }
     Meteor.call('projects.insert', new_project, (error, result) => {
       if(error){
         console.log(error)
@@ -52,7 +56,11 @@ export class NewProjectPage extends TrackerReact(Component){
           type: 'success',
           style: 'growl-bottom-left',
         })
-        this.props.history.push('/projects')
+        if(this.props.territory){
+          this.props.history.push('/territory/' + this.props.territory.shorten_url + "/projects")
+        }else{
+          this.props.history.push('/projects')
+        }
       }
     })
   }
@@ -89,7 +97,7 @@ export class NewProjectPage extends TrackerReact(Component){
 
   render(){
     const {step, new_project} = this.state
-    const {loading, parent_project} = this.props
+    const {loading, parent_project, territory} = this.props
     const {projects_anonymous_choice} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
@@ -123,6 +131,7 @@ export class NewProjectPage extends TrackerReact(Component){
                   <Grid.Column width={16} className="">
                     <Container>
                       <Header as="h1" className="wow fadeInUp">Vous êtes sur le point de proposer un projet</Header>
+                      {territory && <Header as="h3" className="wow fadeInDown territory-title">Pour le quartier {territory.name}</Header>}
                       {parent_project ?
                         <p><Icon name="sitemap" /> alternatif au projet "{parent_project.title}"</p>
                         : ''}
@@ -314,13 +323,16 @@ export class NewProjectPage extends TrackerReact(Component){
 }
 
 export default NewProjectPageContainer = createContainer(({match}) => {
-  const {parent_id} = match.params
+  const {parent_id, shorten_url} = match.params
+  const territoryPublication = Meteor.isClient && Meteor.subscribe('territories.by_shorten_url', shorten_url)
   const parentProjectPublication = Meteor.isClient && Meteor.subscribe('project.by_id', parent_id)
-  const loading = Meteor.isClient && !parentProjectPublication.ready()
+  const loading = Meteor.isClient && (!parentProjectPublication.ready() || !territoryPublication.ready())
   const parent_project = Projects.findOne({_id: parent_id, validated: true})
+  const territory = Territories.findOne({shorten_url, active: true})
 
   return {
     loading,
+    territory,
     parent_project
   }
 }, withRouter(NewProjectPage))

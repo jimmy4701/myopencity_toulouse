@@ -6,7 +6,7 @@ import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import { Consults } from '/imports/api/consults/consults'
 import { Territories } from '/imports/api/territories/territories'
 
-export class ConsultsPage extends TrackerReact(Component) {
+export class TerritoryConsultsPage extends TrackerReact(Component) {
 
     /*
       required props:
@@ -83,7 +83,7 @@ export class ConsultsPage extends TrackerReact(Component) {
     }
 }
 
-export default ConsultsPageContainer = createContainer(({ match }) => {
+export default TerritoryConsultsPageContainer = createContainer(({ match }) => {
     const { shorten_url } = match.params
     const territoryPublication = Meteor.isClient && Meteor.subscribe('territories.by_shorten_url', shorten_url )
     const territory = Territories.findOne({shorten_url, active: true})
@@ -101,4 +101,4 @@ export default ConsultsPageContainer = createContainer(({ match }) => {
     }else{
         return {loading: true}
     }
-}, ConsultsPage)
+}, TerritoryConsultsPage)

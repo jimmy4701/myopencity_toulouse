@@ -34,6 +34,7 @@ import ResetPassword from '/imports/pages/accounts/ResetPassword'
 import NotFound from '/imports/pages/general/NotFound'
 import TerritoryConsultsPage from '/imports/pages/consults/TerritoryConsultsPage'
 import TerritoriesPage from '/imports/pages/territories/TerritoriesPage'
+import TerritoryProjectsPage from '/imports/pages/projects/TerritoryProjectsPage'
 import Conditions from '/imports/pages/general/Conditions'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 
@@ -139,6 +140,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={ProjectsPage} exact path="/projects"       { ...this.props } />
                       <Public component={NewProjectPage} exact path="/projects/new"       { ...this.props } />
                       <Public component={NewProjectPage} exact path="/projects/new/:parent_id"       { ...this.props } />
+                      <Public component={NewProjectPage} exact path="/projects/new/territory/:shorten_url"       { ...this.props } />
                       <Public component={EditProjectPage} exact path="/projects/:shorten_url/edit"       { ...this.props } />
                       <Public component={ProjectPage} exact path="/projects/:shorten_url"       { ...this.props } />
                       <Public component={MyProfile} exact path="/me/profile"       { ...this.props } />
@@ -146,6 +148,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={SendPasswordEmail} exact path="/forgot_password" { ...this.props } />
                       <Public component={ResetPassword} exact path="/reset-password/:token" { ...this.props } />
                       <Public component={TerritoriesPage} exact path="/territories" { ...this.props } />
+                      <Public component={TerritoryProjectsPage} exact path="/territory/:shorten_url/projects" { ...this.props } />
                       <Public component={Conditions} exact path="/conditions" { ...this.props } />
                       <Public component={NotFound} path="*"  { ...this.props } />
                     </Switch>

@@ -59,6 +59,10 @@ const ProjectSchema = new SimpleSchema({
   landing_display: {
     type: Boolean,
     defaultValue: false
+  },
+  territory: {
+    type: String,
+    optional: true
   }
 })
 

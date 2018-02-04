@@ -31,6 +31,11 @@ Meteor.publish('projects.me', function(){
   return Projects.find({author: this.userId})
 })
 
+Meteor.publish('projects.by_territory', function(territory_id){
+  return Projects.find({territory: territory_id, validated: true, blocked: false})
+})
+
+
 Meteor.publish('projects.landing', function(){
   return Projects.find({landing_display: true})
 })
