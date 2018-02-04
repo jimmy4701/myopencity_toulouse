@@ -116,6 +116,19 @@ export default class ConfigurationFooterForm extends Component {
                                 <SketchPicker color={configuration.footer_background_color} onChangeComplete={(e) => { this.handleColorChange('footer_background_color', e) }} />
                             </Form.Field>
                         </Form.Group>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>PROFILS UTILISATEURS</Divider>
+                        <Form.Field width={16}>
+                            <label>Explication pour remplir le profil utilisateur</label>
+                            <TinyMCE
+                                content={configuration.fill_profile_explain}
+                                config={{
+                                    plugins: 'image autoresize',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'fill_profile_explain')}
+                                name="fill_profile_explain"
+                            />
+                        </Form.Field>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>CONDITIONS D'UTILISATION</Divider>
                         <Form.Checkbox
                             checked={configuration.footer_cgu_display}

@@ -20,7 +20,9 @@ Meteor.methods({
       email: email,
       password: password,
       profile: {
-        avatar_url: '/images/avatar-logo.png'
+        avatar_url: '/images/avatar-logo.png',
+        display_fill_message: true,
+        public_profile: true
       }
     })
   },
@@ -32,7 +34,9 @@ Meteor.methods({
         email: email,
         password: password,
         profile: {
-          avatar_url: '/images/avatar-logo.png'
+          avatar_url: '/images/avatar-logo.png',
+          display_fill_message: true,
+          public_profile: true
         }
       })
 

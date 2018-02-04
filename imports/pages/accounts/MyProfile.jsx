@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Grid, Image, Form, Input, Button, Header, Container } from 'semantic-ui-react'
+import { Grid, Image, Form, Input, Button, Header, Container, Divider } from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import EditProfileForm from '/imports/components/accounts/EditProfileForm'
+import EditProfileDetailsForm from '/imports/components/accounts/EditProfileDetailsForm'
 import AvatarImage from '/imports/components/accounts/AvatarImage'
 import { Link } from 'react-router-dom'
 
@@ -55,7 +56,7 @@ export class MyProfile extends Component {
           <Grid.Column width={8} className="center-align">
             <AvatarImage src={user.profile.avatar_url} size="medium" className="wow fadeInUp" avatar />
           </Grid.Column>
-          <Grid.Column width={8} className="wow fadeIn">
+          <Grid.Column width={8} className="wow fadeIn profile-form-container">
             <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
             <Link to={Meteor.isClient && ("/profile/" + Meteor.userId())} >
               <Button size="mini" content="Voir mon profil public" />
@@ -74,7 +75,8 @@ export default MyProfileContainer = withTracker(() => {
   const user_id = Meteor.isClient ? Meteor.userId() : this.userId
 
   const currentUserPublication = Meteor.isClient && Meteor.subscribe('user.me')
-  const loading = Meteor.isClient && !currentUserPublication.ready()
+  const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
+  const loading = Meteor.isClient && (!territoriesPublication.ready() || !currentUserPublication.ready())
   const user = Meteor.users.findOne({ _id: user_id })
   return {
     loading,

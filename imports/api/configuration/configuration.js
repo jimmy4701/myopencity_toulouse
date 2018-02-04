@@ -7,6 +7,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: true
   },
+  fill_profile_explain: {
+    type: String,
+    defaultValue: "<p>En remplissant votre profil, vous permettez à votre ville de prendre de meilleures décisions.</p>"
+  },
   seo_active: {
     type: Boolean,
     defaultValue: false
