@@ -164,6 +164,8 @@ export class EditProfileForm extends Component {
                 onClick={() => this.toggleProfile('local_citizen')}
                 checked={user_profile.local_citizen}
               />
+            </Form.Group>
+            <Form.Group widths="equal">
               <Form.Field>
                 <label>Quel quartier habitez-vous ?</label>
                 <Select
