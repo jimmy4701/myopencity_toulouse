@@ -22,13 +22,13 @@ export class ProjectsPage extends TrackerReact(Component){
 
   render(){
     const {loading, projects} = this.props
-    const {projects_page_header_title} = Meteor.isClient && Session.get('global_configuration')
+    const {projects_page_header_title, navbar_color} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       return(
         <Grid stackable>
-          <Grid.Column width={16} className="center-align">
-            <Header className="wow fadeInUp" as="h1">{projects_page_header_title}</Header>
+        <Grid.Column width={16} className="territory-projects-header">
+            <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{projects_page_header_title}</Header>
             <Link to="/projects/new">
               <Button positive size="big">Proposer un projet</Button>
             </Link>
@@ -50,7 +50,8 @@ export class ProjectsPage extends TrackerReact(Component){
 
 export default ProjectsPageContainer = createContainer(() => {
   const projectsPublication = Meteor.isClient && Meteor.subscribe('projects.visible')
-  const loading = Meteor.isClient && !projectsPublication.ready()
+  const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
+  const loading = Meteor.isClient && (!projectsPublication.ready() || !territoriesPublication.ready())
   const projects = Projects.find({visible: true, validated: true}, {sort: {likes: -1}}).fetch()
   return {
     loading,

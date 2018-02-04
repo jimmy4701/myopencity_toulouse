@@ -119,6 +119,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "soutiens"
   },
+  project_territory_prefix: {
+    type: String,
+    defaultValue: "Projet proposé sur le quartier"
+  },
   projects_page_header_title: {
     type: String,
     defaultValue: "Projets proposés"

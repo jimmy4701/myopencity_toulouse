@@ -74,6 +74,13 @@ export default class ConfigurationProjectsForm extends Component {
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group widths="equal">
                             <Form.Input
+                                label="Préfixe de territoire"
+                                placeholder="ex: Projet proposé pour le quartier"
+                                name="project_territory_prefix"
+                                value={configuration.project_territory_prefix}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
                                 label="Titre de la page de propositions"
                                 placeholder="1.2em"
                                 name="projects_page_header_title"

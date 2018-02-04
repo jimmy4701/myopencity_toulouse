@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data'
 import {Projects} from '/imports/api/projects/projects'
 import {Grid, Header, Loader, Container, Image, Icon, Button} from 'semantic-ui-react'
 import {ProjectLikes} from '/imports/api/project_likes/project_likes'
+import {Territories} from '/imports/api/territories/territories'
 import {Link} from 'react-router-dom'
 
 export class ProjectPage extends TrackerReact(Component){
@@ -36,14 +37,16 @@ export class ProjectPage extends TrackerReact(Component){
   }
 
   render(){
-    const {project, author, loading, project_like, parent_project} = this.props
+    const {project, author, loading, project_like, parent_project, territory} = this.props
     const {
       project_header_height,
       project_header_color,
       project_description_background_color,
       project_description_color,
       project_description_font_size,
-      alternative_like_icon_color
+      alternative_like_icon_color,
+      project_territory_prefix,
+      consult_territory_icon
     } = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
@@ -81,6 +84,15 @@ export class ProjectPage extends TrackerReact(Component){
                 <p><Icon name="sitemap"/> Ce projet est alternatif au projet <Link to={"/projects/" + parent_project.shorten_url} style={{cursor: 'pointer'}}>"{parent_project.title}"</Link></p>
               </Grid.Column>
             : ''}
+            {project.territory ?
+            <Grid.Column width={16} className="project-territory-container center-align wow fadeInDown" data-wow-delay="0.5s">
+              <Container>
+                <Link to={"/territory/" + territory.shorten_url + "/projects"}>
+                  <p><Icon name={consult_territory_icon} size="big" /> {project_territory_prefix} {territory.name}</p>
+                </Link>
+              </Container>
+            </Grid.Column>
+          : ''}
             <Grid.Column width={16} className="center-align">
               <Button size="big" onClick={(e) => {this.toggle_like(e)}} icon={<Icon name="thumbs up" style={{color: project_like ? alternative_like_icon_color : null }} />} content={project.likes + ' soutiens'} />
               <Link to={"/projects/new/" + project._id}>
@@ -112,13 +124,16 @@ export default ProjectPageContainer = createContainer(({ match }) => {
     ProjectLikesPublication = Meteor.isClient && Meteor.subscribe('project_likes.by_project', project._id)
     ParentProjectPublication = Meteor.isClient && Meteor.subscribe('project.by_id', project.parent)
     project_like = ProjectLikes.findOne({user: user_id, project: project._id })
+    const territoryPublication = Meteor.isClient && Meteor.subscribe('territories.by_id', project.territory)
     parent_project = Projects.findOne({_id: project.parent})
     const AuthorPublication = Meteor.isClient && Meteor.subscribe('project.author', project.author)
-    const loading = Meteor.isClient && (!ProjectsPublication.ready() || !AuthorPublication.ready() || !ProjectLikesPublication.ready())
+    const loading = Meteor.isClient && (!territoryPublication.ready() || !ProjectsPublication.ready() || !AuthorPublication.ready() || !ProjectLikesPublication.ready())
     const author = Meteor.users.findOne({_id: project.author})
+    const territory = Territories.findOne({_id: project.territory})
     return {
       loading,
       project,
+      territory,
       author,
       project_like,
       parent_project
