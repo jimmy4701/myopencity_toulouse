@@ -27,6 +27,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: true
   },
+  navbar_territories: {
+    type: Boolean,
+    defaultValue: true
+  },
   main_title: {
     type: String,
     defaultValue: "Ma ville"

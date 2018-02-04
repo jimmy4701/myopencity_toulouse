@@ -82,6 +82,11 @@ export default class ConfigurationNavbarForm extends Component {
                                 onClick={() => this.toggleConfiguration('navbar_projects')}
                                 label="Afficher l'onglet propositions"
                             />
+                            <Form.Checkbox
+                                checked={configuration.navbar_territories}
+                                onClick={() => this.toggleConfiguration('navbar_territories')}
+                                label="Afficher l'onglet quartiers"
+                            />
                         </Form.Group>
 
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>COULEURS</Divider>
