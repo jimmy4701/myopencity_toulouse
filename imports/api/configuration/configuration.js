@@ -79,6 +79,18 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "1.2em"
   },
+  consult_territory_icon: {
+    type: String,
+    defaultValue: "marker"
+  },
+  consult_territory_prefix: {
+    type: String,
+    defaultValue: "Consultation lancée sur"
+  },
+  consults_all_territories: {
+    type: String,
+    defaultValue: "Tous les quartiers"
+  },
   consults_title: {
     type: String,
     defaultValue: "Consultations en cours"

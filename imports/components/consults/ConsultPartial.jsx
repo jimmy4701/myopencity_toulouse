@@ -72,6 +72,7 @@ export class ConsultPartial extends Component {
 
   render() {
     const { consult, className, user_id, territory } = this.props
+    const {consult_territory_icon} = Meteor.isClient && Session.get('global_configuration')
 
     if (consult) {
       return (
@@ -79,7 +80,7 @@ export class ConsultPartial extends Component {
           <Image src={consult.image_url} />
           <Card.Content>
             <Card.Header>
-              {territory && <Link to={"/territory/" + territory.shorten_url + "/consults"}><div className="territory-label"><Icon name="marker"/>{territory.name}</div></Link>}
+              {territory && <Link to={"/territory/" + territory.shorten_url + "/consults"}><div className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</div></Link>}
               {consult.title}
               {consult.external_url ?
                 <span className="external-label"><br /><Icon name="sitemap" /> {consult.external_site_name}</span>

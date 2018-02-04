@@ -75,7 +75,15 @@ export default class ConfigurationConsultsForm extends Component {
                         <Form.Group>
                             <Form.Input
                                 width={5}
-                                label="Titre de la page de consultations en cours"
+                                label="Titre de la page de consultations pour tous les territoires"
+                                placeholder="ex: Tous les quartiers de la métropole"
+                                name="consults_all_territories"
+                                value={configuration.consults_all_territories}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Explication de la page de consultations en cours"
                                 placeholder="ex: Consultations en cours"
                                 name="consults_title"
                                 value={configuration.consults_title}
@@ -121,6 +129,23 @@ export default class ConfigurationConsultsForm extends Component {
                                 placeholder="1.2em"
                                 name="consult_description_font_size"
                                 value={configuration.consult_description_font_size}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Préfixe du territoire"
+                                placeholder="ex: Consultation lancée sur"
+                                name="consult_territory_prefix"
+                                value={configuration.consult_territory_prefix}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Icone du territoire"
+                                icon={configuration.consult_territory_icon}
+                                placeholder="ex: marker"
+                                name="consult_territory_icon"
+                                value={configuration.consult_territory_icon}
                                 onChange={this.handleConfigurationChange}
                             />
                         </Form.Group>

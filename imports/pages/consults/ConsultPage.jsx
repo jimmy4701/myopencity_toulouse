@@ -3,8 +3,10 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Grid, Header, Loader, Container, Card, Button, Icon} from 'semantic-ui-react'
 import {Consults} from '/imports/api/consults/consults'
+import {Territories} from '/imports/api/territories/territories'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import ConsultPart from '/imports/components/consult_parts/ConsultPart'
+import { Link } from 'react-router-dom'
 
 export class ConsultPage extends TrackerReact(Component){
 
@@ -27,14 +29,16 @@ export class ConsultPage extends TrackerReact(Component){
   }
 
   render(){
-    const {consult, consult_parts, loading} = this.props
+    const {consult, consult_parts, territory, loading} = this.props
     const {show_files} = this.state
     const {
       consult_header_height,
       consult_header_color,
       consult_description_background_color,
       consult_description_color,
-      consult_description_font_size
+      consult_description_font_size,
+      consult_territory_prefix, 
+      consult_territory_icon
     } = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
@@ -94,6 +98,15 @@ export class ConsultPage extends TrackerReact(Component){
               </Container>
             </Grid.Column>
           : ''}
+          {consult.territory ?
+            <Grid.Column width={16} className="consult-territory-container center-align wow fadeInDown" data-wow-delay="0.5s">
+              <Container>
+                <Link to={"/territory/" + territory.shorten_url + "/consults"}>
+                  <p><Icon name={consult_territory_icon} size="big" /> {consult_territory_prefix} {territory.name}</p>
+                </Link>
+              </Container>
+            </Grid.Column>
+          : ''}
           <Grid.Column width={16} className="parts-container">
             <Container>
               {consult_parts.map((part, index) => {
@@ -112,13 +125,21 @@ export class ConsultPage extends TrackerReact(Component){
 export default ConsultPageContainer = createContainer(({ match }) => {
   const {urlShorten} = match.params
   const consultPublication = Meteor.isClient && Meteor.subscribe('consult', urlShorten)
-  const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.by_consult_url_shorten', urlShorten)
-  const loading = Meteor.isClient && (!consultPublication.ready() || !consultPartsPublication.ready())
   const consult = Consults.findOne({url_shorten: urlShorten, visible: true})
-  const consult_parts = ConsultParts.find({consult_url_shorten: urlShorten, active: true}).fetch()
-  return {
-    loading,
-    consult,
-    consult_parts
+  if(consult){
+    const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.by_consult_url_shorten', urlShorten)
+    const territoryPublication = Meteor.isClient && Meteor.subscribe('territories.by_id', consult.territory)
+    const loading = Meteor.isClient && (!territoryPublication.ready() || !consultPublication.ready() || !consultPartsPublication.ready())
+    const territory = Territories.findOne({_id: consult.territory})
+    const consult_parts = ConsultParts.find({consult_url_shorten: urlShorten, active: true}).fetch()
+    return {
+      loading,
+      consult,
+      consult_parts,
+      territory
+    }
+
+  }else{
+    return {loading: true}
   }
 }, ConsultPage)
