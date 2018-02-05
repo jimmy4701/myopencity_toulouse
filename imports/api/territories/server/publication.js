@@ -8,9 +8,7 @@ Meteor.publish('territories.all', function () {
 })
 
 Meteor.publish('territories.by_id', function (id) {
-    if (Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
-        return Territories.find({ _id: id }, {limit: 1000, sort: {name: 1}})
-    }
+    return Territories.find({ _id: id }, {limit: 1000, sort: {name: 1}})
 })
 
 Meteor.publish('territories.active', function() {
