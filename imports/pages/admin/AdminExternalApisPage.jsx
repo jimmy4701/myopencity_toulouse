@@ -11,12 +11,10 @@ export class AdminExternalApisPage extends TrackerReact(Component) {
       - none
   */
 
-  constructor(props) {
-    super(props);
-    this.state = {
+
+    state = {
       external_apis_configuration: {}
     }
-  }
 
   componentWillReceiveProps(props) {
     this.setState({ external_apis_configuration: props.external_apis_configuration })
@@ -55,6 +53,8 @@ export class AdminExternalApisPage extends TrackerReact(Component) {
     const {
       amazon_public_key,
       amazon_private_key,
+      amazon_bucket_name,
+      amazon_region,
       google_public_key,
       google_private_key,
       facebook_public_key,
@@ -67,8 +67,8 @@ export class AdminExternalApisPage extends TrackerReact(Component) {
       email_smtp_from_domain
     } = this.state.external_apis_configuration
 
-    if (amazon_public_key && amazon_private_key) {
-      Meteor.call('external_apis_configuration.amazon_update', { amazon_public_key, amazon_private_key }, (error, result) => {
+    if (amazon_public_key && amazon_private_key && amazon_bucket_name && amazon_region) {
+      Meteor.call('external_apis_configuration.amazon_update', { amazon_public_key, amazon_private_key, amazon_bucket_name, amazon_region }, (error, result) => {
         if (error) {
           console.log(error)
           Bert.alert({
@@ -209,6 +209,8 @@ export class AdminExternalApisPage extends TrackerReact(Component) {
                           <Form.Group>
                             <Input placeholder="**********" label="Clé privée" value={external_apis_configuration.amazon_private_key} type="text" onChange={(e) => { this.handleExternalConfigChange('amazon_private_key', e) }} />
                             <Input placeholder="**********" label="Clé publique" value={external_apis_configuration.amazon_public_key} type="text" onChange={(e) => { this.handleExternalConfigChange('amazon_public_key', e) }} />
+                            <Input placeholder="ex: myopencity" label="Bucket" value={external_apis_configuration.amazon_bucket_name} type="text" onChange={(e) => { this.handleExternalConfigChange('amazon_bucket_name', e) }} />
+                            <Input placeholder="eu-west-3" label="Region" value={external_apis_configuration.amazon_region} type="text" onChange={(e) => { this.handleExternalConfigChange('amazon_region', e) }} />
                           </Form.Group>
                           {amazon_connected ?
                             <Button color="red" onClick={(e) => { this.reset_api_configuration('amazon', e) }}>Réinitialiser</Button>

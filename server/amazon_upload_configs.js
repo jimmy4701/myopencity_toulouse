@@ -17,11 +17,11 @@ Slingshot.fileRestrictions("ConsultFile", {
 if(external_apis_conf){
   if(external_apis_conf.amazon_public_key && external_apis_conf.amazon_private_key){
     Slingshot.createDirective("ConsultImage", Slingshot.S3Storage, {
-      bucket: "myopencity",
+      bucket: external_apis_conf.amazon_bucket_name,
       acl: "public-read",
       AWSAccessKeyId: external_apis_conf.amazon_public_key,
       AWSSecretAccessKey: external_apis_conf.amazon_private_key,
-      region: 'eu-central-1',
+      region: external_apis_conf.amazon_region,
 
       authorize: function (file, metaContext) {
         if(!this.userId){
@@ -43,11 +43,11 @@ if(external_apis_conf){
     })
 
     Slingshot.createDirective("ConsultFile", Slingshot.S3Storage, {
-      bucket: "myopencity",
+      bucket: external_apis_conf.amazon_bucket_name,
       acl: "public-read",
       AWSAccessKeyId: external_apis_conf.amazon_public_key,
       AWSSecretAccessKey: external_apis_conf.amazon_private_key,
-      region: 'eu-central-1',
+      region: external_apis_conf.amazon_region,
 
       authorize: function (file, metaContext) {
         if(!this.userId){
@@ -55,7 +55,7 @@ if(external_apis_conf){
         }else{
           return true
         }
-      },
+      }, 
 
       key: function (file, metaContext) {
         // User's image url with ._id attached:
