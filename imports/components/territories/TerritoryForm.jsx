@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import TinyMCE from 'react-tinymce'
 import { Grid, Header, Form, Input, Button, Icon } from 'semantic-ui-react'
+import { SketchPicker } from 'react-color'
 
 export default class TerritoryForm extends TrackerReact(Component) {
 
@@ -36,6 +37,12 @@ export default class TerritoryForm extends TrackerReact(Component) {
     toggleTerritory = (attr) => {
         let { territory } = this.state
         territory[attr] = !territory[attr]
+        this.setState({ territory })
+    }
+
+    handleColorChange = (color) => {
+        let { territory } = this.state
+        territory.color = color.hex
         this.setState({ territory })
     }
 
@@ -147,6 +154,10 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     name="coordinates"
                     onChange={this.handleTerritoryChange}
                 />
+                <Form.Field>
+                    <label>Couleur du territoire sur la carte</label>
+                    <SketchPicker color={territory.color} onChangeComplete={this.handleColorChange} />
+                </Form.Field>
                 <Form.Checkbox
                     checked={territory.active}
                     label="Territoire actif"

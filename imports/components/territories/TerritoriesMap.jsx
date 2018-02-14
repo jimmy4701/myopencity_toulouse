@@ -290,8 +290,8 @@ class TerritoriesMap extends Component {
                                 onClick={() => this.go(territory)}
                                 options={{
                                     strokeWeight: 1,
-                                    strokeColor: navbar_color,
-                                    fillColor: navbar_color 
+                                    strokeColor: territory.color,
+                                    fillColor: territory.color 
                                 }}
                             />
                         )
