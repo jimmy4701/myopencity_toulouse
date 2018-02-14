@@ -10,9 +10,7 @@ class InitialConfigPage extends TrackerReact(Component){
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+    state = {
       config: {
         initial_configuration: false
       },
@@ -21,7 +19,6 @@ class InitialConfigPage extends TrackerReact(Component){
       user: {},
       external_services: []
     }
-  }
 
   handleConfigChange(attr, e){
     let config = this.state.config

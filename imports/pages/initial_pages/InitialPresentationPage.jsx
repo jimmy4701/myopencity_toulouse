@@ -56,7 +56,7 @@ class InitialPresentationPage extends TrackerReact(Component){
                  <Grid.Column width={16} className="center-align">
                    <Image size="medium" data-wow-delay="1s" className="inline-block wow fadeInUp" src="https://image.freepik.com/vecteurs-libre/ampoule-lumineuse-a-idees-lumineuses-avec-engrenages_3446-347.jpg" />
                    <Header className="wow fadeInUp" as="h1">Myopencity vous permet</Header>
-                   <Header className="wow fadeInUp" data-wow-delay="1s" as="h2">De remonter les meilleures idées de votre ville</Header>>
+                   <Header className="wow fadeInUp" data-wow-delay="1s" as="h2">De remonter les meilleures idées de votre ville</Header>
                  </Grid.Column>
              : ''}
              {this.state.step == 2 ?
