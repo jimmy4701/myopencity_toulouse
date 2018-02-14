@@ -135,6 +135,11 @@ export default class ConfigurationFooterForm extends Component {
                             onClick={() => this.toggleConfiguration('footer_cgu_display')}
                             label="Afficher le bouton des conditions dans le footer"
                         />
+                        <Form.Checkbox
+                            checked={configuration.cgu_acceptance}
+                            onClick={() => this.toggleConfiguration('cgu_acceptance')}
+                            label="Acceptation des conditions obligatoire à l'inscription"
+                        />
                         <Form.Field width={16}>
                             <label>Conditions générales d'utilisation</label>
                             <TinyMCE

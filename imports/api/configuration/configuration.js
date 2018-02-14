@@ -225,7 +225,11 @@ const ConfigurationSchema = new SimpleSchema({
   },
   cgu: {
     type: String,
-    defaultValue: ""
+    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>"
+  },
+  cgu_acceptance: {
+    type: Boolean,
+    defaultValue: false
   }
 
 })
