@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Menu, Container, Sidebar, Icon} from 'semantic-ui-react'
+import {Menu, Container, Sidebar, Icon, Image} from 'semantic-ui-react'
 import NavbarAccountItem from '/imports/components/navigation/NavbarAccountItem'
 import {Link} from 'react-router-dom'
 
@@ -23,7 +23,7 @@ export default class Navbar extends TrackerReact(Component){
   }
 
   render(){
-    const {navbar_color, main_title, navbar_consults, navbar_projects, navbar_territories} = Session.get('global_configuration')
+    const {navbar_color, main_title, navbar_consults, navbar_projects, navbar_territories, global_image_url} = Session.get('global_configuration')
 
     return(
       <div>
@@ -32,6 +32,7 @@ export default class Navbar extends TrackerReact(Component){
             <Container>
               <Link className="item" to='/'>
                 <div className="navbar-item" header>
+                  <Image inline src={global_image_url} size="mini" />
                   {main_title}
                 </div>
               </Link>

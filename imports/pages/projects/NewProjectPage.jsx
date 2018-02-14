@@ -225,9 +225,9 @@ export class NewProjectPage extends TrackerReact(Component){
                                 content={new_project.content}
                                 autoFocus
                                 config={{
-                                  plugins: 'image autoresize media code link colorpicker textcolor imagetools',
-                                  toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code | formatselect | link | forecolor backcolor | image ",
-                                  menubar: true,
+                                  plugins: 'image autoresize media link imagetools',
+                                  toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image ",
+                                  menubar: false,
                                   branding: false
                                 }}
                                 onChange={this.handleContentChange.bind(this)}
