@@ -29,23 +29,25 @@ export class Landing extends Component {
       landing_main_title,
       landing_header_description,
       landing_consults_background_color,
-      landing_explain_text
+      landing_explain_text,
+      landing_header_height,
+      landing_header_min_height
     } = global_configuration
 
     if (!loading) {
       return (
         <Grid stackable centered className="landing-page">
           <Grid.Column width={16}>
-            <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
+            <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")", height: landing_header_height, minHeight: landing_header_min_height }} verticalAlign="middle">
               <Grid.Column width={16}>
                 <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
                 <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header>
               </Grid.Column>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={16}>
+          <Grid.Column width={16} className="not-padded">
             <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
-              <Grid.Column width={16}>
+              <Grid.Column width={16} className="not-padded">
                 <TerritoriesMap 
                   territories={territories}
                   googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry"
