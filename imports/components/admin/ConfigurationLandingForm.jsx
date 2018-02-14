@@ -119,7 +119,7 @@ export default class ConfigurationLandingForm extends Component {
                                 </Item.Content>
                             </Item>
                         </Item.Group>
-                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>COULEURS</Divider>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>DESIGN ET COULEURS</Divider>
                         <Form.Group widths="equal">
                             <Form.Field>
                                 <label>Couleur du titre</label>
@@ -133,7 +133,22 @@ export default class ConfigurationLandingForm extends Component {
                                 <label>Couleur de fond des consultations mises en avant</label>
                                 <SketchPicker color={configuration.landing_consults_background_color} onChangeComplete={(e) => { this.handleColorChange('landing_consults_background_color', e) }} />
                             </Form.Field>
-
+                        </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                label="Hauteur du header (height)"
+                                placeholder="ex: 100%"
+                                name="landing_header_height"
+                                value={configuration.landing_header_height}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                label="Hauteur minimum du header (min-height)"
+                                placeholder="ex: 100vh"
+                                name="landing_header_min_height"
+                                value={configuration.landing_header_min_height}
+                                onChange={this.handleConfigurationChange}
+                            />
                         </Form.Group>
                         <Button color="green" content="Valider les modifications" />
                     </Form>

@@ -39,21 +39,18 @@ import Conditions from '/imports/pages/general/Conditions'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 
 export class MainLayout extends TrackerReact(Component) {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true
-    }
+  
+  
+  state = {
+    loading: true
   }
 
-  componentDidMount() {
-    this.setState({ loading: false })
-  }
 
-  componentWillReceiveProps(props) {
-    console.log('this.props', props)
-    if (props.global_configuration.initial_configuration) {
-      props.history.push('/initial/presentation')
+  check_initial_config = () => {
+    const {global_configuration} = this.props
+    console.log('this.props', global_configuration)
+    if (global_configuration.initial_configuration) {
+      this.props.history.push('/initial/presentation')
     }
   }
 
@@ -81,6 +78,7 @@ export class MainLayout extends TrackerReact(Component) {
 
     if (!loading) {
       Session.set('global_configuration', global_configuration)
+      this.check_initial_config()
       return (
         <div className="main-container">
           <Helmet>

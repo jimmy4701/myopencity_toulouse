@@ -14,13 +14,10 @@ export class ConsultPartial extends Component {
       - hideButtons: Boolean (hide the partial buttons)
   */
 
-  constructor(props) {
-    super(props)
-    this.state = {
+    state = {
       display_manage_buttons: false,
       remove_confirm: false
     }
-  }
 
   toggleState(attr, e) {
     let state = this.state

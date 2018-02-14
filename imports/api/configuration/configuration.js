@@ -59,6 +59,14 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "#FFFFFF"
   },
+  landing_header_height: {
+    type: String,
+    defaultValue: "100%"
+  },
+  landing_header_min_height: {
+    type: String,
+    defaultValue: "100vh"
+  },
   landing_consults_background_color: {
     type: String,
     defaultValue: '#FFFFFF'

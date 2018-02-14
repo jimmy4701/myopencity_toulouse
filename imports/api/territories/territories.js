@@ -43,6 +43,10 @@ const TerritoriesSchema = new SimpleSchema({
     },
     created_at: {
         type: Date
+    },
+    color: {
+        type: String,
+        optional: true
     }
 })
 Territories.attachSchema(TerritoriesSchema);

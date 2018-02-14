@@ -151,8 +151,8 @@ export default class ConsultPartForm extends TrackerReact(Component){
                  <TinyMCE
                    content={consult_part.content}
                    config={{
-                     plugins: 'image autoresize',
-                     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                     plugins: 'image autoresize media code link colorpicker textcolor imagetools',
+                     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | code | image | media '
                    }}
                    onChange={this.handleContentChange.bind(this)}
                    />

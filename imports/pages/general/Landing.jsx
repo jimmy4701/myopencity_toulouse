@@ -8,6 +8,8 @@ import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 import { Link } from 'react-router-dom'
 import TerritoriesMap from '/imports/components/territories/TerritoriesMap'
+import ConsultPartial from '/imports/components/consults/ConsultPartial'
+import ProjectPartial from '/imports/components/projects/ProjectPartial'
 
 export class Landing extends Component {
 
@@ -29,35 +31,23 @@ export class Landing extends Component {
       landing_main_title,
       landing_header_description,
       landing_consults_background_color,
-      landing_explain_text
+      landing_explain_text,
+      landing_header_height,
+      landing_header_min_height
     } = global_configuration
 
     if (!loading) {
       return (
         <Grid stackable centered className="landing-page">
           <Grid.Column width={16}>
-            <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
+            <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")", height: landing_header_height, minHeight: landing_header_min_height }} verticalAlign="middle">
               <Grid.Column width={16}>
                 <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title ? landing_main_title : main_title}</Header>
                 <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header>
               </Grid.Column>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={16}>
-            <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
-              <Grid.Column width={16}>
-                <TerritoriesMap 
-                  territories={territories}
-                  googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry"
-                  loadingElement={<div style={{ height: `100%` }} />}
-                  containerElement={<div style={{ height: `100vh` }} />}
-                  mapElement={<div style={{ height: `100%` }} />}
-                
-                />
-              </Grid.Column>
-            </Grid>
-          </Grid.Column>
-            <Grid.Column width={16} className="center-align landing-part" verticalAlign="middle">
+          <Grid.Column width={16} className="center-align landing-part landing-explain-part" verticalAlign="middle">
               <Grid verticalAlign="middle" stackable>
                 <Grid.Column width={16} className="center-align landing-title-container">
                   <div className="landing-back-title">{main_title}</div>
@@ -69,57 +59,53 @@ export class Landing extends Component {
                   </Container>
                 </Grid.Column>
               </Grid>
-            </Grid.Column>
+            </Grid.Column>  
             {consults.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container">
                 <div className="landing-back-title">CONSULTATIONS</div>
                 <Header as="h2">Les consultations du moment</Header>
-              </Grid.Column>
-              : ''}
-            {consults.length > 0 ?
-              <Grid.Column width={16} className="landing-consults-part" style={{ backgroundColor: landing_consults_background_color }}>
-                {consults.map((consult, index) => {
-                  return (
-                    <Grid verticalAlign="middle background-img" style={{ minHeight: "20em", backgroundImage: "url(" + consult.image_url + ")" }} stackable>
-                      <Grid.Column width={16} className="center-align landing-consult-container" >
-                        <Container className="landing-consult-text">
-                          <Header as="h2" style={{ color: "white" }}>{consult.title}</Header>
-                          <p>{consult.description}</p>
-                          <Link to={"/consults/" + consult.url_shorten}>
-                            <Button>Voir la consultation</Button>
-                          </Link>
-                        </Container>
+                {consults.length > 0 ?
+                <Grid stackable centered>
+                  {consults.map((consult, index) => {
+                    return (
+                      <Grid.Column width={5} className="center-align wow fadeInUp" key={consult._id}>
+                        <ConsultPartial consult={consult} />
                       </Grid.Column>
-                    </Grid>
-                  )
-                })}
+                    )
+                  })}
+                </Grid>
+                  : ''}
               </Grid.Column>
               : ''}
             {projects.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container">
                 <div className="landing-back-title">PROPOSITIONS</div>
                 <Header as="h2">Les projets proposés du moment</Header>
+                <Grid stackable centered>
+                    {projects.map((project, index) => {
+                      return (
+                        <Grid.Column width={5} className="center-align wow fadeInUp" key={project._id}>
+                          <ProjectPartial project={project}/>
+                        </Grid.Column>
+                      )
+                    })}
+                </Grid>
               </Grid.Column>
               : ''}
-            {projects.length > 0 ?
-              <Grid.Column width={16} className="landing-consults-part" style={{ backgroundColor: landing_consults_background_color }}>
-                {projects.map((project, index) => {
-                  return (
-                    <Grid verticalAlign="middle background-img" style={{ minHeight: "20em", backgroundImage: "url(" + project.image_url + ")" }} stackable>
-                      <Grid.Column width={16} className="center-align landing-consult-container" >
-                        <Container className="landing-consult-text">
-                          <Header as="h2" style={{ color: "white" }}>{project.title}</Header>
-                          <p>{project.description}</p>
-                          <Link to={"/projects/" + project.shorten_url}>
-                            <Button>Voir la proposition</Button>
-                          </Link>
-                        </Container>
-                      </Grid.Column>
-                    </Grid>
-                  )
-                })}
+              <Grid.Column width={16} className="not-padded">
+                <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
+                  <Grid.Column width={16} className="not-padded">
+                    <TerritoriesMap 
+                      territories={territories}
+                      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry"
+                      loadingElement={<div style={{ height: `100%` }} />}
+                      containerElement={<div style={{ height: `100vh` }} />}
+                      mapElement={<div style={{ height: `100%` }} />}
+                    
+                    />
+                  </Grid.Column>
+                </Grid>
               </Grid.Column>
-              : ''}
           </Grid>
           )
     }else{

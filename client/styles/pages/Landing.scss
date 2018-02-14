@@ -3,8 +3,6 @@
 }
 
 .landing-header{
-  min-height: 100vh;
-  height: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -68,4 +66,9 @@
     }
   }
   padding: 5em 0 !important;
+}
+
+
+.landing-explain-part{
+  margin-bottom: 5em;
 }
