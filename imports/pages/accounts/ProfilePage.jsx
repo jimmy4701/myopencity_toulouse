@@ -75,7 +75,7 @@ export class ProfilePage extends TrackerReact(Component) {
                 </Grid>
                 :
                 <div>
-                  <Header as='h1'>Cette personne ne souhaite pas que ses données soient publiques.</Header>
+                  <Header as='h1'>Le profil de cette personne n'est pas public.</Header>
                 </div>
               }
             </Grid.Column>
