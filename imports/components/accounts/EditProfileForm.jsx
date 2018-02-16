@@ -40,17 +40,12 @@ export class EditProfileForm extends Component {
     this.setState({ user_profile })
   }
 
-  handleSocioProSelect = (event, data) => {
+  handleSelect = (event, data) => {
     let { user_profile } = this.state
-    user_profile.socio_pro = data.value
+    user_profile[data.name] = data.value
     this.setState({ user_profile })
   }
 
-  handleTerritorySelect = (event, data) => {
-    let { user_profile } = this.state
-    user_profile.territory = data.value
-    this.setState({ user_profile })
-  }
 
   edit_profile(e) {
     e.preventDefault()
@@ -79,48 +74,17 @@ export class EditProfileForm extends Component {
     const { user_profile } = this.state
     const { territories } = this.props
     const socio_pro_options = [
-      { key: 11, value: 11, text: "Agriculteurs sur petite exploitation" },
-      { key: 12, value: 12, text: "Agriculteurs sur moyenne exploitation" },
-      { key: 13, value: 13, text: "Agriculteurs sur grande exploitation" },
-      { key: 21, value: 21, text: "Artisan" },
-      { key: 22, value: 22, text: "Commerçant et assimilés" },
-      { key: 23, value: 23, text: "Chefs d’entreprise de 10 salariés ou plus" },
-      { key: 31, value: 31, text: "Professions libérales" },
-      { key: 33, value: 33, text: "Cadres de la fonction publique" },
-      { key: 34, value: 34, text: "Professeurs, professions scientifiques" },
-      { key: 35, value: 35, text: "Professions de l’information, des arts et des spectacles" },
-      { key: 37, value: 37, text: "Cadres administratifs et commerciaux d’entreprise" },
-      { key: 38, value: 38, text: "Ingénieurs et cadres techniques d’entreprise" },
-      { key: 42, value: 42, text: "Professeurs des écoles, instituteurs et assimilés" },
-      { key: 43, value: 43, text: "Professions intermédiaires de la santé et du travail social" },
-      { key: 44, value: 44, text: "Clergé, religieux" },
-      { key: 45, value: 45, text: "Professions intermédiaires administratives de la fonction publique" },
-      { key: 46, value: 46, text: "Professions intermédiaires administratives et commerciales des entreprises" },
-      { key: 47, value: 47, text: "Techniciens" },
-      { key: 48, value: 48, text: "Contremaîtres, agents de maîtrise" },
-      { key: 52, value: 52, text: "Employés civils et agents de service de la fonction publique" },
-      { key: 53, value: 53, text: "Policiers et militaires" },
-      { key: 54, value: 54, text: "Employés administratifs d’entreprise" },
-      { key: 55, value: 55, text: "Employés de commerce" },
-      { key: 56, value: 56, text: "Personnels des services directs aux particuliers" },
-      { key: 62, value: 62, text: "Ouvriers qualifiés de type industriel" },
-      { key: 63, value: 63, text: "Ouvriers qualifiés de type artisanal" },
-      { key: 64, value: 64, text: "Chauffeurs" },
-      { key: 65, value: 65, text: "Ouvriers qualifiés de la manutention, du magasinage et du transport" },
-      { key: 67, value: 67, text: "Ouvriers non qualifiés de type industriel" },
-      { key: 68, value: 68, text: "Ouvriers non qualifiés de type artisanal" },
-      { key: 69, value: 69, text: "Ouvriers agricoles" },
-      { key: 71, value: 71, text: "Anciens agriculteurs exploitants" },
-      { key: 72, value: 72, text: "Anciens artisans, commerçants et chefs d’entreprise" },
-      { key: 74, value: 74, text: "Anciens cadres" },
-      { key: 75, value: 75, text: "Anciennes professions intermédiaires" },
-      { key: 77, value: 77, text: "Anciens employés" },
-      { key: 78, value: 78, text: "Anciens ouvriers" },
-      { key: 81, value: 81, text: "Chômeurs n’ayant jamais travaillé" },
-      { key: 83, value: 83, text: "Militaires du contingent" },
-      { key: 84, value: 84, text: "Élèves, étudiants" },
-      { key: 85, value: 85, text: "Personnes diverses sans activité professionnelle de moins de 60 ans (sauf retraités)" },
-      { key: 86, value: 86, text: "Personnes diverses sans activité professionnelle de 60 ans et plus (sauf retraités)" }
+      { key: "farmer", value: "farmer", text: "Agriculteurs"},
+      { key: "entrepreneur", value: "entrepreneur", text: "Artisans, Commerçants, Entrepreneurs"},
+      { key: "independant", value: "independant", text: "Professions libérales et cadres supérieurs"},
+      { key: "middle", value: "middle", text: "Cadres moyens"},
+      { key: "employee", value: "employee", text: "Employés"},
+      { key: "worker", value: "worker", text: "Ouvriers"},
+      { key: "service", value: "service", text: "Personnels de services"},
+      { key: "retired", value: "retired", text: "Retraités"},
+      { key: "student", value: "student", text: "Étudiants"},
+      { key: "military", value: "military", text: "Militaires"},
+      { key: "other", value: "other", text: "Autres"}
     ]
 
     const territories_options = territories.map(territory => {
@@ -131,26 +95,6 @@ export class EditProfileForm extends Component {
       <Grid stackable>
         <Grid.Column width={16}>
           <Form>
-
-            <Form.Input
-              type="text"
-              label="URL de votre photo de profil"
-              value={user_profile.avatar_url}
-              onChange={this.handleProfileChange}
-              name="avatar_url" />
-            <Form.Field>
-              <label>Présentez vous en quelques mots</label>
-              <TinyMCE
-                content={user_profile.description}
-                config={{
-                  menubar: false,
-                  toolbar: false,
-                  branding: false
-                }}
-                onChange={this.handleDescriptionChange.bind(this)}
-              />
-            </Form.Field>
-            <Divider style={{ marginBottom: "2em" }}>Un peu de détails</Divider>
             <Form.Group widths="equal">
               <Form.Checkbox
                 label={{ children: "J'autorise les autres citoyens à voir mes données" }}
@@ -172,7 +116,7 @@ export class EditProfileForm extends Component {
                   disabled={!user_profile.local_citizen}
                   options={territories_options}
                   value={user_profile.territory}
-                  onChange={this.handleTerritorySelect}
+                  onChange={this.handleSelect}
                   name="territory"
                 />
               </Form.Field>
@@ -183,6 +127,18 @@ export class EditProfileForm extends Component {
                 value={user_profile.age}
                 onChange={this.handleProfileChange}
                 name="age" />
+                <Form.Field>
+                <label>Vous êtes</label>
+                <Select
+                  options={[
+                    { key: "man", value: "man", text: "Un homme"},
+                    { key: "woman", value: "woman", text: "Une femme"}
+                  ]}
+                  value={user_profile.gender}
+                  onChange={this.handleSelect}
+                  name="gender"
+                />
+              </Form.Field>
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Field>
@@ -190,7 +146,7 @@ export class EditProfileForm extends Component {
                 <Select
                   options={socio_pro_options}
                   value={user_profile.socio_pro}
-                  onChange={this.handleSocioProSelect}
+                  onChange={this.handleSelect}
                   name="socio_pro"
                 />
               </Form.Field>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Input, Button, Divider} from 'semantic-ui-react'
+import {Form, Input, Button, Divider, Checkbox} from 'semantic-ui-react'
 import {Meteor} from 'meteor/meteor'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Configuration} from '/imports/api/configuration/configuration'
@@ -22,6 +22,10 @@ export class SignupForm extends Component{
     let user = this.state.user
     user[attr] = e.target.value
     this.setState({user: user})
+  }
+
+  toggleState = (attr) => {
+    this.setState({[attr]: !this.state[attr]})
   }
 
   create_account(e){
@@ -88,10 +92,10 @@ export class SignupForm extends Component{
 
 
   render(){
-    const {user} = this.state
+    const {user, accept_conditions} = this.state
     const {global_configuration, loading} = this.props
-    const {facebook_connected, google_connected} = global_configuration
-    const isValid = user.email && user.password && user.username && user.password == user.confirm_password
+    const {facebook_connected, google_connected, cgu_term, cgu_acceptance} = global_configuration
+    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
 
     if(!loading){
       return(
@@ -115,6 +119,15 @@ export class SignupForm extends Component{
               <p>Le mot de passe et la confirmation ne sont pas identiques</p>
             : ''}
           </Form.Field>
+          {cgu_acceptance &&
+            <Form.Field>
+              <Checkbox
+                checked={accept_conditions}
+                onClick={() => this.toggleState('accept_conditions')}
+                label={<label for="accept_conditions"  >J'accepte les <a href="/conditions" target="_blank">{cgu_term}</a></label>}
+              />
+            </Form.Field>
+          }
           <Button  disabled={!isValid} onClick={(e) => {this.create_account(e)}}>M'inscrire</Button>
           {facebook_connected || google_connected ?
             <Divider horizontal>OU</Divider>

@@ -11,7 +11,7 @@ export default class Footer extends Component {
                 <Grid.Column width={16}>
                     <Container>
                         <span className="left-align">{footer_content}</span>
-                        {footer_cgu_display && <Link to='/conditions' className="pointer" style={{float: 'right'}}><span>{cgu_term}</span></Link>}
+                        {footer_cgu_display && <Link to='/conditions' className="pointer" style={{float: 'right'}}><span style={{color: footer_color}}>{cgu_term}</span></Link>}
                     </Container>
                 </Grid.Column>
             </Grid>

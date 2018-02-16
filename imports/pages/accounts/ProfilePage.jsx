@@ -3,6 +3,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Loader, Grid, Header, Image, Container, Statistic } from 'semantic-ui-react'
 import AvatarImage from '/imports/components/accounts/AvatarImage'
+import _ from 'lodash'
 
 export class ProfilePage extends TrackerReact(Component) {
 
@@ -33,18 +34,16 @@ export class ProfilePage extends TrackerReact(Component) {
     if (!loading) {
       return (
         <Container>
-
           <Grid stackable className="main-container" verticalAlign="middle">
             <Grid.Column width={8} className="center-align">
               <AvatarImage src={user.profile.avatar_url} className="wow fadeInUp" />
               <Header className="wow fadeInDown" data-wow-delay="0.2s" as="h1">{user.username}</Header>
             </Grid.Column>
             <Grid.Column width={8} className="profile-description">
-              {user.profile.description ?
+              {user.profile.public_profile ?
                 <Grid stackable>
                   <Grid.Column width={16} >
-                    <Header as='h2' className="wow fadeInUp" >À PROPOS DE MOI</Header>
-                    <div className="wow fadeInUp" data-wow-delay="0.5s" dangerouslySetInnerHTML={{ __html: user.profile.description }}></div>
+                    <Header as='h2' className="wow fadeInUp" >À PROPOS DE {_.upperCase(user.username)}</Header>
                   </Grid.Column>
                   <Grid.Column className="center-align" computer={4} mobile={8}>
                     <Statistic className="wow fadeInDown" data-wow-delay="0.2s">
@@ -76,7 +75,7 @@ export class ProfilePage extends TrackerReact(Component) {
                 </Grid>
                 :
                 <div>
-                  <Header as='h1'>Cette personne n'a encore rien rédigé à propos d'elle</Header>
+                  <Header as='h1'>Le profil de cette personne n'est pas public.</Header>
                 </div>
               }
             </Grid.Column>
