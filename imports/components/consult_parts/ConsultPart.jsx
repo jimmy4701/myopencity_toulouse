@@ -98,6 +98,7 @@ export class ConsultPart extends TrackerReact(Component){
       alternatives_page,
       displaying_alternative
     } = this.state
+    const { consult_yet_voted_term } = Meteor.isClient && Session.get('global_configuration')
     const consult_part_hover_class = this.state.hover_vote ? "hover" : ""
 
     if(!loading){
@@ -174,7 +175,7 @@ export class ConsultPart extends TrackerReact(Component){
               <div>
                 {consult_part_vote ?
                   <div>
-                    <Header as="h3">Vous avez déjà voté</Header>
+                    <Header as="h3">{consult_yet_voted_term}</Header>
                     <ConsultPartResults consult_part={consult_part} chart_type={consult_part.results_format}/>
                   </div>
                   :

@@ -41,9 +41,9 @@ export default class ConsultPartForm extends TrackerReact(Component){
     this.setState({consult_part})
   }
 
-  handleConsultPartChange(attr, e){
+  handleConsultPartChange = (e) => {
     let {consult_part} = this.state
-    consult_part[attr] = e.target.value
+    consult_part[e.target.name] = e.target.value
     this.setState({consult_part})
   }
 
@@ -63,11 +63,7 @@ export default class ConsultPartForm extends TrackerReact(Component){
     this.setState({consult_part})
   }
 
-  handleChange(attr, e){
-    let state = this.state
-    state[attr] = e.target.value
-    this.setState(state)
-  }
+  handleChange = (e) => this.setState({[e.target.name]: e.target.value})
 
   addVote(e){
     e.preventDefault()
@@ -99,6 +95,8 @@ export default class ConsultPartForm extends TrackerReact(Component){
       {key: 'line', value: 'line', text: 'Graphique en lignes'},
       {key: 'radar', value: 'radar', text: 'Graphique radar'},
     ]
+    const {consult_vote_button_term} = Meteor.isClient && Session.get('global_configuration')
+
     return(
        <Grid stackable>
          <Grid.Column width={16}>
@@ -125,13 +123,17 @@ export default class ConsultPartForm extends TrackerReact(Component){
                          <label>Format des résultats</label>
                          <Select onChange={this.handleResultsFormatChange.bind(this)} value={consult_part.results_format} options={results_formats} />
                        </Form.Field>
+                       <Form.Field>
+                         <label>Texte du bouton de vote</label>
+                         <Input value={consult_part.vote_label} type="text" onChange={this.handleConsultPartChange} name="vote_label" />
+                       </Form.Field>
                        <Form.Field as="div">
                          <label>Question de vote</label>
-                         <Input fluid value={consult_part.question} placeholder="ex: Quel revêtement pour le rond-point ?" onChange={(e) => {this.handleConsultPartChange('question', e)}}/>
+                         <Input fluid value={consult_part.question} placeholder="ex: Quel revêtement pour le rond-point ?" onChange={this.handleConsultPartChange} name="question"/>
                        </Form.Field>
                        <Form.Field>
                          <label>Valeur de vote</label>
-                         <Input value={editing_vote} type="text" onChange={(e) => {this.handleChange('editing_vote', e)}} />
+                         <Input value={editing_vote} type="text" onChange={this.handleChange} name="editing_vote" />
                        </Form.Field>
                        <Form.Field>
                          <Button onClick={(e) => {this.addVote(e)}}>Ajouter</Button>
@@ -146,7 +148,7 @@ export default class ConsultPartForm extends TrackerReact(Component){
                </Grid>
                  <Form.Field inline={true} as="div">
                    <label>Titre</label>
-                   <Input value={consult_part.title} onChange={(e) => {this.handleConsultPartChange('title', e)}}/>
+                   <Input value={consult_part.title} onChange={this.handleConsultPartChange} name="title"/>
                  </Form.Field>
                  <TinyMCE
                    content={consult_part.content}
