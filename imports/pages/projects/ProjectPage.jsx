@@ -23,17 +23,22 @@ export class ProjectPage extends TrackerReact(Component){
 
   toggle_like(e){
     e.preventDefault()
-    Meteor.call('project.toggle_like', this.props.project._id, (error, result) => {
-      if(error){
-        console.log(error)
-        Bert.alert({
-          title: "Erreur lors du soutien au projet",
-          message: error.reason,
-          type: 'danger',
-          style: 'growl-bottom-left',
-        })
-      }
-    })
+    if(!Meteor.userId()){
+      Session.set('return_route', this.props.history.location.pathname)
+      this.props.history.push('/sign_up')
+    }else{
+      Meteor.call('project.toggle_like', this.props.project._id, (error, result) => {
+        if(error){
+          console.log(error)
+          Bert.alert({
+            title: "Erreur lors du soutien au projet",
+            message: error.reason,
+            type: 'danger',
+            style: 'growl-bottom-left',
+          })
+        }
+      })
+    }
   }
 
   render(){
