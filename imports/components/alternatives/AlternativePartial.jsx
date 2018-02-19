@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {Feed, Icon, Image} from 'semantic-ui-react'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import 'moment/locale/fr'
 
 export class AlternativePartial extends Component{
@@ -15,26 +15,28 @@ export class AlternativePartial extends Component{
       - onTitleClick: Function
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
 
-    }
   }
 
   toggle_like(e){
     e.preventDefault()
-    Meteor.call('alternatives.toggle_like', this.props.alternative._id , (error, result) => {
-      if(error){
-        console.log(error)
-        Bert.alert({
-          title: "Erreur lors de l'ajout de votre soutien",
-          message: error.reason,
-          type: 'danger',
-          style: 'growl-bottom-left',
-        })
-      }
-    });
+    if(!Meteor.userId()){
+      Session.set('return_route', this.props.history.location.pathname)
+      this.props.history.push('/sign_up')
+    }else{
+      Meteor.call('alternatives.toggle_like', this.props.alternative._id , (error, result) => {
+        if(error){
+          console.log(error)
+          Bert.alert({
+            title: "Erreur lors de l'ajout de votre soutien",
+            message: error.reason,
+            type: 'danger',
+            style: 'growl-bottom-left',
+          })
+        }
+      });
+    }
   }
 
   onTitleClick(e){
@@ -93,7 +95,7 @@ export class AlternativePartial extends Component{
   }
 }
 
-export default AlternativePartialContainer = createContainer(({ alternative }) => {
+export default AlternativePartialContainer = withTracker(({ alternative }) => {
   const userPublication = Meteor.subscribe('alternatives.user', alternative._id)
   const loading = !userPublication.ready()
   const user = Meteor.users.findOne({_id: alternative.user})
@@ -102,4 +104,4 @@ export default AlternativePartialContainer = createContainer(({ alternative }) =
     user,
     alternative
   }
-}, AlternativePartial)
+})(withRouter(AlternativePartial))
