@@ -31,6 +31,18 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: true
   },
+  navbar_consults_term: {
+    type: String,
+    defaultValue: "Consultations"
+  },
+  navbar_projects_term: {
+    type: String,
+    defaultValue: "Propositions"
+  },
+  navbar_territories_term: {
+    type: String,
+    defaultValue: "Quartiers"
+  },
   main_title: {
     type: String,
     defaultValue: "Ma ville"
