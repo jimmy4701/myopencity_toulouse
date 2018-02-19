@@ -90,9 +90,9 @@ const ConsultsSchema = new SimpleSchema({
     type: [FilesSchema],
     defaultValue: []
   },
-  territory: {
-    type: String,
-    optional: true
+  territories: {
+    type: [String],
+    defaultValue: []
   }
 })
 

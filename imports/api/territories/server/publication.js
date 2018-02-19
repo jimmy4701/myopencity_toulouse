@@ -11,6 +11,10 @@ Meteor.publish('territories.by_id', function (id) {
     return Territories.find({ _id: id }, {limit: 1000, sort: {name: 1}})
 })
 
+Meteor.publish('territories.by_ids', function (ids) {
+    return Territories.find({ _id: {$in: ids} }, {limit: 1000, sort: {name: 1}})
+})
+
 Meteor.publish('territories.active', function() {
     return Territories.find({active: true}, {limit: 1000, sort: {name: 1}})
 })

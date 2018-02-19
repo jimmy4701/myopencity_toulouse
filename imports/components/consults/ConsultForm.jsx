@@ -16,7 +16,8 @@ export default class ConsultForm extends TrackerReact(Component) {
       api_votable: true,
       api_recoverable: true,
       alternatives_validation: false,
-      attached_files: []
+      attached_files: [],
+      territories: []
     },
     step: 'global', // 'global' / 'design' / 'parts' / 'documents' / 'settings'
     editing_part: null,
@@ -242,9 +243,9 @@ export default class ConsultForm extends TrackerReact(Component) {
     })
   }
 
-  handleTerritoryChange = (event, data) => {
+  handleTerritoriesChange = (event, data) => {
     let {consult} = this.state
-    consult.territory = data.value
+    consult.territories = data.value
     this.setState({consult})
   }
 
@@ -279,7 +280,7 @@ export default class ConsultForm extends TrackerReact(Component) {
               {territories.length &&
                 <Form.Field>
                   <label>Quartier concerné</label>
-                  <Select value={consult.territory} options={territories_options} onChange={this.handleTerritoryChange} />
+                  <Select value={consult.territories} multiple options={territories_options} onChange={this.handleTerritoriesChange} />
                 </Form.Field>
               }
               <Form.Field>

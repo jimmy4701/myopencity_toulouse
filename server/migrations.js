@@ -2,6 +2,18 @@ import { Meteor } from 'meteor/meteor'
 import { Consults } from '/imports/api/consults/consults'
 import { Configuration } from '/imports/api/configuration/configuration'
 
+Migrations.add({
+  version: 6,
+  name: "MIGRATION 6 : Modifying consults to have multiple territories",
+  up() {
+    Consults.find({}).forEach(consult => { 
+      const territory = consult.territory
+      consult.territories = [territory]
+      delete consult.territory
+      Consults.update(consult._id, {$set: consult})
+    })
+  }
+})
 
 Migrations.add({
   version: 5,
