@@ -119,6 +119,14 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "Aucune consultation en cours"
   },
+  consult_yet_voted_term: {
+    type: String,
+    defaultValue: "Vous avez déjà voté"
+  },
+  consult_vote_button_term: {
+    type: String,
+    defaultValue: "Voter"
+  },
   alternative_like_icon_color: {
     type: String,
     defaultValue: "#3498db"

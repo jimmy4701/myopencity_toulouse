@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import TinyMCE from 'react-tinymce'
 import {Grid, Header, Form, Input, Button, Icon} from 'semantic-ui-react'
 
-export default class AlternativeForm extends TrackerReact(Component){
+export default class AlternativeForm extends Component{
 
   /*
     required props:

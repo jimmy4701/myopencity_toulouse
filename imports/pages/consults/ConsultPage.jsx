@@ -29,7 +29,7 @@ export class ConsultPage extends TrackerReact(Component){
   }
 
   render(){
-    const {consult, consult_parts, territory, loading} = this.props
+    const {consult, consult_parts, territories, loading} = this.props
     const {show_files} = this.state
     const {
       consult_header_height,
@@ -98,12 +98,18 @@ export class ConsultPage extends TrackerReact(Component){
               </Container>
             </Grid.Column>
           : ''}
-          {consult.territory ?
+          {territories.length > 0 ?
             <Grid.Column width={16} className="consult-territory-container center-align wow fadeInDown" data-wow-delay="0.5s">
               <Container>
-                <Link to={"/territory/" + territory.shorten_url + "/consults"}>
-                  <p><Icon name={consult_territory_icon} size="big" /> {consult_territory_prefix} {territory.name}</p>
-                </Link>
+              <p>
+                {consult_territory_prefix}
+                {territories.map(territory => {
+                  return <Link to={"/territory/" + territory.shorten_url + "/consults"} key={territory._id}>
+                    <Icon name={consult_territory_icon} size="big" />  {territory.name}
+                  </Link>
+                })}
+              </p>
+                
               </Container>
             </Grid.Column>
           : ''}
@@ -128,15 +134,15 @@ export default ConsultPageContainer = createContainer(({ match }) => {
   const consult = Consults.findOne({url_shorten: urlShorten, visible: true})
   if(consult){
     const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.by_consult_url_shorten', urlShorten)
-    const territoryPublication = Meteor.isClient && Meteor.subscribe('territories.by_id', consult.territory)
-    const loading = Meteor.isClient && (!territoryPublication.ready() || !consultPublication.ready() || !consultPartsPublication.ready())
-    const territory = Territories.findOne({_id: consult.territory})
+    const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.by_ids', consult.territories)
+    const loading = Meteor.isClient && (!territoriesPublication.ready() || !consultPublication.ready() || !consultPartsPublication.ready())
+    const territories = Territories.find({_id: {$in: consult.territories}}).fetch()
     const consult_parts = ConsultParts.find({consult_url_shorten: urlShorten, active: true}).fetch()
     return {
       loading,
       consult,
       consult_parts,
-      territory
+      territories
     }
 
   }else{

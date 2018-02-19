@@ -45,7 +45,7 @@ const ConsultPartsSchema = new SimpleSchema({
       type: Boolean,
       defaultValue: false
     },
-    vote_label: { // ---------- Text of vote button
+    vote_label: {
       type: String,
       defaultValue: "Voter"
     },

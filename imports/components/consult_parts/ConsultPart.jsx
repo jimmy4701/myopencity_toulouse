@@ -1,19 +1,18 @@
 import React, {Component} from 'react'
-import {Promise} from 'meteor/promise'
-import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Grid, Button, Loader, Header, Input, Feed} from 'semantic-ui-react'
 import ConsultPartVoteButton from '/imports/components/consult_parts/ConsultPartVoteButton'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
 import ConsultPartResults from '/imports/components/consult_parts/ConsultPartResults'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import AlternativeForm from '/imports/components/alternatives/AlternativeForm'
 import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
 import AlternativesList from '/imports/components/alternatives/AlternativesList'
 import ReactPaginate from 'react-paginate'
+import {withRouter} from 'react-router-dom'
 
-export class ConsultPart extends TrackerReact(Component){
+export class ConsultPart extends Component{
 
   /*
     required props:
@@ -89,6 +88,15 @@ export class ConsultPart extends TrackerReact(Component){
     this.setState({displaying_alternative: displaying, search_alternatives_terms: ""})
   }
 
+  toggleAlternativeForm = () => {
+    if(!Meteor.userId()){
+      Session.set('return_route', this.props.history.location.pathname)
+      this.props.history.push('/sign_up')
+    }else{
+      this.setState({display_alternative_form: !this.state.display_alternative_form})
+    }
+  }
+
   render(){
     const {consult_part, consult_part_vote, alternatives, hide_vote_button, alternatives_count, loading} = this.props
     const {
@@ -98,6 +106,7 @@ export class ConsultPart extends TrackerReact(Component){
       alternatives_page,
       displaying_alternative
     } = this.state
+    const { consult_yet_voted_term } = Meteor.isClient && Session.get('global_configuration')
     const consult_part_hover_class = this.state.hover_vote ? "hover" : ""
 
     if(!loading){
@@ -111,7 +120,7 @@ export class ConsultPart extends TrackerReact(Component){
           {display_alternative_form ?
             <Grid.Column width={11} className="animated fadeInLeft">
               <div className="center-align marged">
-                <Button onClick={(e) => {this.toggleState('display_alternative_form', e)}}>
+                <Button onClick={this.toggleAlternativeForm}>
                   Annuler la création d'alternative
                 </Button>
               </div>
@@ -163,7 +172,7 @@ export class ConsultPart extends TrackerReact(Component){
                 </Button>
               : ''}
               {!display_alternative_form ?
-                <Button onClick={(e) => {this.toggleState('display_alternative_form', e)}} size="big" positive onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)}>
+                <Button onClick={this.toggleAlternativeForm} size="big" positive onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)}>
                   Proposer une alternative
                 </Button>
               : ''}
@@ -174,7 +183,7 @@ export class ConsultPart extends TrackerReact(Component){
               <div>
                 {consult_part_vote ?
                   <div>
-                    <Header as="h3">Vous avez déjà voté</Header>
+                    <Header as="h3">{consult_yet_voted_term}</Header>
                     <ConsultPartResults consult_part={consult_part} chart_type={consult_part.results_format}/>
                   </div>
                   :
@@ -191,7 +200,7 @@ export class ConsultPart extends TrackerReact(Component){
   }
 }
 
-export default ConsultPartContainer = createContainer(({ consult_part }) => {
+export default ConsultPartContainer = withTracker(({ consult_part }) => {
   const user_id = Meteor.isClient ? Meteor.userId() : this.userId
   console.log("user_id", user_id);
 
@@ -205,4 +214,4 @@ export default ConsultPartContainer = createContainer(({ consult_part }) => {
     consult_part_vote,
     alternatives_count
   }
-}, ConsultPart)
+})(withRouter(ConsultPart))

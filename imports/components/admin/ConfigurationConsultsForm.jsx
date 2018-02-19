@@ -149,6 +149,26 @@ export default class ConfigurationConsultsForm extends Component {
                                 onChange={this.handleConfigurationChange}
                             />
                         </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                width={5}
+                                label="Terme 'a déjà voté'"
+                                icon={configuration.consult_yet_voted_term}
+                                placeholder="Vous avez déjà voté"
+                                name="consult_yet_voted_term"
+                                value={configuration.consult_yet_voted_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Contenu du bouton de vote"
+                                icon={configuration.consult_vote_button_term}
+                                placeholder="Voter"
+                                name="consult_vote_button_term"
+                                value={configuration.consult_vote_button_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                        </Form.Group>
 
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>COULEURS</Divider>
                         <Form.Group>

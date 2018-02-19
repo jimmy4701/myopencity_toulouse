@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Image, Button, Icon } from 'semantic-ui-react'
 import _ from 'lodash'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import { Link } from 'react-router-dom'
 import { Territories } from '/imports/api/territories/territories'
 
@@ -68,16 +68,19 @@ export class ConsultPartial extends Component {
   }
 
   render() {
-    const { consult, className, user_id, territory } = this.props
+    const { consult, className, user_id, territories, loading } = this.props
     const {consult_territory_icon} = Meteor.isClient && Session.get('global_configuration')
 
-    if (consult) {
+    if (!loading) {
       return (
         <Card className={"inline-block " + className}>
           <Image src={consult.image_url} />
           <Card.Content>
             <Card.Header>
-              {territory && <Link to={"/territory/" + territory.shorten_url + "/consults"}><div className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</div></Link>}
+              {territories && territories.map(territory => {
+                return <Link to={"/territory/" + territory.shorten_url + "/consults"}><span className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</span></Link>
+              })}
+              {territories && <br/>}
               {consult.title}
               {consult.external_url ?
                 <span className="external-label"><br /><Icon name="sitemap" /> {consult.external_site_name}</span>
@@ -137,11 +140,14 @@ export class ConsultPartial extends Component {
   }
 }
 
-export default ConsultPartialContainer = createContainer((props) => {
+export default ConsultPartialContainer = withTracker((props) => {
   const { consult } = props
-  const territory = Territories.findOne({ _id: consult.territory })
+  const territoriesPublication = Meteor.isClient &&  Meteor.subscribe('territories.by_ids', consult.territories)
+  const loading = Meteor.isClient && !territoriesPublication.ready()
+  const territories = Territories.find({ _id: {$in: consult.territories}}, {sort: {}, limit: 1000}).fetch()
   return {
     user_id: Meteor.isClient ? Meteor.userId() : this.userId,
-    territory
+    territories,
+    loading
   }
-}, ConsultPartial)
+})(ConsultPartial)
