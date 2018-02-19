@@ -18,13 +18,10 @@ export class NewProjectPage extends TrackerReact(Component){
       - parent_id: String (id of parent project)
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      step: "presentation", // presentation / anonymous / title / content / description / image
-      new_project: {
-        anonymous: Meteor.isClient && Session.get('global_configuration').projects_anonymous_default
-      }
+  state = {
+    step: "presentation", // presentation / anonymous / title / content / description / image
+    new_project: {
+      anonymous: Meteor.isClient && Session.get('global_configuration').projects_anonymous_default
     }
   }
 

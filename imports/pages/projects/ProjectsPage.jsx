@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import {Grid, Header, Button, Loader} from 'semantic-ui-react'
 import {Projects} from '/imports/api/projects/projects'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
-import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
-export class ProjectsPage extends TrackerReact(Component){
+export class ProjectsPage extends Component{
 
   /*
     required props:
@@ -20,6 +19,15 @@ export class ProjectsPage extends TrackerReact(Component){
     }
   }
 
+  new_project = () => {
+    if(!Meteor.userId()){
+      Session.set('return_route', "/projects/new")
+      this.props.history.push('/sign_up')
+    }else{
+      this.props.history.push('/projects/new')
+    }
+  }
+
   render(){
     const {loading, projects} = this.props
     const {projects_page_header_title, navbar_color} = Meteor.isClient && Session.get('global_configuration')
@@ -29,9 +37,7 @@ export class ProjectsPage extends TrackerReact(Component){
         <Grid stackable>
         <Grid.Column width={16} className="territory-projects-header">
             <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{projects_page_header_title}</Header>
-            <Link to="/projects/new">
-              <Button positive size="big">Proposer un projet</Button>
-            </Link>
+            <Button positive size="big" onClick={this.new_project}>Proposer un projet</Button>
           </Grid.Column>
           {projects.map((project, index) => {
             return(
@@ -48,7 +54,7 @@ export class ProjectsPage extends TrackerReact(Component){
   }
 }
 
-export default ProjectsPageContainer = createContainer(() => {
+export default ProjectsPageContainer = withTracker(() => {
   const projectsPublication = Meteor.isClient && Meteor.subscribe('projects.visible')
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
   const loading = Meteor.isClient && (!projectsPublication.ready() || !territoriesPublication.ready())
@@ -57,4 +63,4 @@ export default ProjectsPageContainer = createContainer(() => {
     loading,
     projects
   }
-}, ProjectsPage)
+})(withRouter(ProjectsPage))
