@@ -15,12 +15,13 @@ export class MyProjectsPage extends Component {
 
   render() {
     const { projects, loading } = this.props
+    const {project_term} = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
       return (
         <Grid stackable>
           <Grid.Column width={16} className="center-align">
-            <Header as="h1" className="wow fadeInUp">Vos projets / propositions</Header>
+            <Header as="h1" className="wow fadeInUp">Vos {project_term}s</Header>
           </Grid.Column>
 
           {projects.length ?
@@ -46,7 +47,7 @@ export class MyProjectsPage extends Component {
         </Grid>
       )
     } else {
-      return <Loader className="inline-block">Chargement de vos projets</Loader>
+      return <Loader className="inline-block">Chargement de vos {project_term}s</Loader>
     }
   }
 }

@@ -28,19 +28,19 @@ export class TerritoryProjectsPage extends Component {
 
     render() {
         const { projects, territory, loading } = this.props
-        const { ended_consults_title, consults_title, consults_no_consults, navbar_color} = Meteor.isClient && Session.get('global_configuration')
+        const { ended_consults_title, consults_title, consults_no_consults, no_projects, navbar_color, project_term, project_create_button_color, projects_page_header_title, project_create_button_text} = Meteor.isClient && Session.get('global_configuration')
 
         if (!loading) {
             return (
                 <Grid className="wow fadeInUp territory-projects-page" stackable>
                     <Grid.Column width={16} className="territory-consults-header">
                         <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{territory.name}</Header>
-                        <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">Propositions citoyennes</Header>
+                        <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{projects_page_header_title}</Header>
                         <Link to={"/projects/new/territory/" + territory.shorten_url}>
-                            <Button positive size="big">Proposer un projet</Button>
+                            <Button  positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big">{project_create_button_text}</Button>
                         </Link>
                     </Grid.Column>
-                    {projects.length == 0 && <Header as="h3">Aucun projet citoyen proposé pour l'instant</Header>}
+                    {projects.length == 0 && <Header as="h3">{no_projects}</Header>}
                     {projects.map((project, index) => {
                         return (
                             <Grid.Column width={4} key={index} className="center-align wow fadeInUp">
@@ -51,7 +51,7 @@ export class TerritoryProjectsPage extends Component {
                 </Grid>
             )
         } else {
-            return <Loader classNaeme="inline-block">Chargement des propositions</Loader>
+            return <Loader classNaeme="inline-block">Chargement des {project_term}s</Loader>
         }
     }
 }

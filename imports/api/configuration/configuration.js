@@ -213,6 +213,14 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     optional: true
   },
+  project_create_button_text: {
+    type: String,
+    defaultValue: "Proposer un projet"
+  },
+  no_projects: {
+    type: String,
+    defaultValue: "Aucun projet proposé pour l'instant"
+  },
   project_term: {
     type: String,
     defaultValue: "proposition"

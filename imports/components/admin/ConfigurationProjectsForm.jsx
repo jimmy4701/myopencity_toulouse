@@ -81,6 +81,13 @@ export default class ConfigurationProjectsForm extends Component {
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group widths="equal">
                             <Form.Input
+                                label="Contenu du bouton de création"
+                                placeholder="Proposer un projet"
+                                name="project_create_button_text"
+                                value={configuration.project_create_button_text}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
                                 label="Préfixe de territoire"
                                 placeholder="ex: Projet proposé pour le quartier"
                                 name="project_territory_prefix"
@@ -106,6 +113,15 @@ export default class ConfigurationProjectsForm extends Component {
                                 placeholder="10em"
                                 name="project_description_font_size"
                                 value={configuration.project_description_font_size}
+                                onChange={this.handleConfigurationChange}
+                            />
+                        </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                label="Texte si pas de proposition"
+                                placeholder="Aucun projet proposé"
+                                name="no_projects"
+                                value={configuration.no_projects}
                                 onChange={this.handleConfigurationChange}
                             />
                         </Form.Group>

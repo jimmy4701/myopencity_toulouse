@@ -6,6 +6,7 @@ import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import { Consults } from '/imports/api/consults/consults'
 import { Territories } from '/imports/api/territories/territories'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export class TerritoriesPage extends TrackerReact(Component) {
 
@@ -29,7 +30,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
 
     render() {
         const { territories, loading } = this.props
-        const { navbar_color } = Meteor.isClient && Session.get('global_configuration')
+        const { navbar_color, project_term } = Meteor.isClient && Session.get('global_configuration')
         if (!loading) {
             return (
                 <Grid className="wow fadeInUp" stackable>
@@ -52,7 +53,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                             <Button content="Consultations" />
                                         </Link>
                                         <Link to={"/territory/" + territory.shorten_url + "/projects" }>
-                                            <Button content="Propositions" />
+                                            <Button content={_.capitalize(project_term) + "s"} />
                                         </Link>
                                         </Card.Content>
                                     </Card>
