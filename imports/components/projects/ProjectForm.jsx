@@ -93,7 +93,7 @@ export class ProjectForm extends TrackerReact(Component){
   render(){
     const {loading, project, parent_project} = this.props
     const {editing_project} = this.state
-    const {project_term} = Meteor.isClient && Session.get('global_configuration')
+    const {project_term, projects_anonymous_choice} = Meteor.isClient && Session.get('global_configuration')
     
     if(!loading){
       return(
@@ -119,26 +119,28 @@ export class ProjectForm extends TrackerReact(Component){
               onChange={this.handleContentChange}
               />
           </Form.Field>
-          <Form.Field>
-            <label>Configurez l'anonymat de votre projet</label>
-            <Grid stackable>
-              <Grid.Column width={16} className="center-align">
-                <Button active={editing_project.anonymous} size="huge" positive={editing_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
-                  <Icon name="spy" size="big"/>
-                  Anonyme
-                </Button>
-                <Button active={!editing_project.anonymous} size="huge" positive={!editing_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
-                  <Icon name="user" size="big"/>
-                  Publique
-                </Button>
-                {editing_project.anonymous ?
-                  <p><strong>Votre projet est actuellement anonyme</strong> : votre nom ne sera pas lié à ce projet</p>
-                :
-                  <p><strong>Votre projet est actuellement publique</strong> : vos lecteurs pourront consulter votre profil</p>
-                }
-              </Grid.Column>
-            </Grid>
-          </Form.Field>
+          {projects_anonymous_choice &&
+            <Form.Field>
+              <label>Configurez l'anonymat de votre projet</label>
+              <Grid stackable>
+                <Grid.Column width={16} className="center-align">
+                  <Button active={editing_project.anonymous} size="huge" positive={editing_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
+                    <Icon name="spy" size="big"/>
+                    Anonyme
+                  </Button>
+                  <Button active={!editing_project.anonymous} size="huge" positive={!editing_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
+                    <Icon name="user" size="big"/>
+                    Publique
+                  </Button>
+                  {editing_project.anonymous ?
+                    <p><strong>Votre projet est actuellement anonyme</strong> : votre nom ne sera pas lié à ce projet</p>
+                  :
+                    <p><strong>Votre projet est actuellement publique</strong> : vos lecteurs pourront consulter votre profil</p>
+                  }
+                </Grid.Column>
+              </Grid>
+            </Form.Field>
+          }
           <Form.Field>
             <Button positive onClick={(e) => {this.submit_form(e)}}>{project ? "Modifier" : "Créer"}</Button>
           </Form.Field>
