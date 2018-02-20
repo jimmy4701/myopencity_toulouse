@@ -71,6 +71,14 @@ export default class ConfigurationConsultsForm extends Component {
             <Grid stackable {...this.props} >
                 <Grid.Column width={16}>
                     <Form onSubmit={this.submit_form}>
+                        <Form.Input
+                                width={5}
+                                label="Terme générique pour une consultation"
+                                placeholder="consultation"
+                                name="consult_term"
+                                value={configuration.consult_term}
+                                onChange={this.handleConfigurationChange}
+                            />
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group>
                             <Form.Input

@@ -38,7 +38,8 @@ export class ConsultPage extends TrackerReact(Component){
       consult_description_color,
       consult_description_font_size,
       consult_territory_prefix, 
-      consult_territory_icon
+      consult_territory_icon,
+      consult_term
     } = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
@@ -55,7 +56,7 @@ export class ConsultPage extends TrackerReact(Component){
               <Grid.Column width={16} className="center-align">
                 <Header className="wow fadeInUp" data-wow-delay="1s" as="h1" style={{color: consult_header_color}}>{consult.title}</Header>
                 {consult.external_site_name ?
-                  <Header as="h3" className="wow fadeInDown" data-wow-delay="1.25s" style={{color: consult_header_color, margin: "0"}}>Consultation provenant de <a href={consult.external_url} target="_blank">{consult.external_site_name}</a></Header>
+                  <Header as="h3" className="wow fadeInDown" data-wow-delay="1.25s" style={{color: consult_header_color, margin: "0"}}>{_.capitalize(consult_term)} provenant de <a href={consult.external_url} target="_blank">{consult.external_site_name}</a></Header>
                 : ''}
               </Grid.Column>
             </Grid>
@@ -72,7 +73,7 @@ export class ConsultPage extends TrackerReact(Component){
               <Container>
                 {!show_files ?
                   <span>
-                    <Header as="h4">Des documents sont disponibles avec cette consultation <Button positive onClick={(e) => {this.toggleState('show_files', e)}}>Voir les documents</Button></Header>
+                    <Header as="h4">Des documents sont disponibles avec cette {consult_term} <Button positive onClick={(e) => {this.toggleState('show_files', e)}}>Voir les documents</Button></Header>
                   </span>
                   :
                   <Grid stackable>
@@ -123,7 +124,7 @@ export class ConsultPage extends TrackerReact(Component){
         </Grid>
       )
     }else{
-      return <Loader className="inline-block">Chargement de la consultation</Loader>
+      return <Loader className="inline-block">Chargement de la {consult_term}</Loader>
     }
   }
 }

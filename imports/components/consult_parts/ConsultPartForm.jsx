@@ -125,7 +125,7 @@ export default class ConsultPartForm extends TrackerReact(Component){
                        </Form.Field>
                        <Form.Field>
                          <label>Texte du bouton de vote</label>
-                         <Input value={consult_part.vote_label} type="text" onChange={this.handleConsultPartChange} name="vote_label" />
+                         <Input value={consult_part.vote_label} placeholder="Voter" type="text" onChange={this.handleConsultPartChange} name="vote_label" />
                        </Form.Field>
                        <Form.Field as="div">
                          <label>Question de vote</label>

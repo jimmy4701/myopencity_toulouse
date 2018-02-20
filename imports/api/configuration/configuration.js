@@ -97,6 +97,10 @@ const ConfigurationSchema = new SimpleSchema({
     defaultValue: "Myopencity",
     optional: true
   },
+  consult_term: {
+    type: String,
+    defaultValue: "consultation"
+  },
   consult_header_height: {
     type: String,
     defaultValue: '20em'
