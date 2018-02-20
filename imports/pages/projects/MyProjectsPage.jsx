@@ -15,7 +15,7 @@ export class MyProjectsPage extends Component {
 
   render() {
     const { projects, loading } = this.props
-    const {project_term} = Meteor.isClient && Session.get('global_configuration')
+    const {project_term, project_create_button_text, no_projects} = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
       return (
@@ -38,9 +38,9 @@ export class MyProjectsPage extends Component {
             </Grid.Column>
             :
             <Grid.Column width={16} className="center-align wow fadeInDown" data-wow-delay="0.3s">
-              <Header as='h3'>Vous n'avez encore proposé aucun projet</Header>
+              <Header as='h3'>{no_projects}</Header>
               <Link to="/projects/new">
-                <Button content="Proposer un projet" color="blue" />
+                <Button content={project_create_button_text} color="blue" />
               </Link>
             </Grid.Column>
           }

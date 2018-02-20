@@ -101,6 +101,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "consultation"
   },
+  consults_term: {
+    type: String,
+    defaultValue: "consultations"
+  },
   consult_header_height: {
     type: String,
     defaultValue: '20em'
@@ -225,6 +229,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "proposition"
   },
+  project_descriptive_term: {
+    type: String,
+    defaultValue: "une proposition"
+  },
   amazon_connected: {
     type: Boolean,
     defaultValue: false
@@ -256,6 +264,10 @@ const ConfigurationSchema = new SimpleSchema({
   alternatives_anonymous_default: {
     type: Boolean,
     defaultValue: false
+  },
+  alternatives_anonymous_profile_term: {
+    type: String,
+    defaultValue: "Quelqu'un"
   },
   global_image_url: {
     type: String,

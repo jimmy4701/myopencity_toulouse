@@ -78,6 +78,13 @@ export default class ConfigurationProjectsForm extends Component {
                             value={configuration.project_term}
                             onChange={this.handleConfigurationChange}
                         />
+                        <Form.Input
+                            label="Terme descriptif pour une proposition"
+                            placeholder="une proposition"
+                            name="project_descriptive_term"
+                            value={configuration.project_descriptive_term}
+                            onChange={this.handleConfigurationChange}
+                        />
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group widths="equal">
                             <Form.Input

@@ -30,7 +30,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
 
     render() {
         const { territories, loading } = this.props
-        const { navbar_color, project_term } = Meteor.isClient && Session.get('global_configuration')
+        const { navbar_color, project_term, consults_term } = Meteor.isClient && Session.get('global_configuration')
         if (!loading) {
             return (
                 <Grid className="wow fadeInUp" stackable>
@@ -50,7 +50,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                         </Card.Content>
                                         <Card.Content extra>
                                         <Link to={"/territory/" + territory.shorten_url + "/consults" }>
-                                            <Button content="Consultations" />
+                                            <Button content={_.capitalize(consults_term)} />
                                         </Link>
                                         <Link to={"/territory/" + territory.shorten_url + "/projects" }>
                                             <Button content={_.capitalize(project_term) + "s"} />

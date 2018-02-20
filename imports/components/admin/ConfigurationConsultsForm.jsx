@@ -79,6 +79,14 @@ export default class ConfigurationConsultsForm extends Component {
                                 value={configuration.consult_term}
                                 onChange={this.handleConfigurationChange}
                             />
+                        <Form.Input
+                                width={5}
+                                label="Terme générique pour des consultations"
+                                placeholder="consultations"
+                                name="consults_term"
+                                value={configuration.consults_term}
+                                onChange={this.handleConfigurationChange}
+                            />
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group>
                             <Form.Input
@@ -223,6 +231,15 @@ export default class ConfigurationConsultsForm extends Component {
                                 placeholder="Voter"
                                 name="consult_alternative_button_term"
                                 value={configuration.consult_alternative_button_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Terme de profil anonyme"
+                                icon={configuration.alternatives_anonymous_profile_term}
+                                placeholder="Quelqu'un"
+                                name="alternatives_anonymous_profile_term"
+                                value={configuration.alternatives_anonymous_profile_term}
                                 onChange={this.handleConfigurationChange}
                             />
                             
