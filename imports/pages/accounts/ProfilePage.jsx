@@ -30,6 +30,7 @@ export class ProfilePage extends TrackerReact(Component) {
   render() {
     const { user, loading } = this.props
     const { stats } = this.state
+    const {project_term, alternatives_term} = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
       return (
@@ -48,7 +49,7 @@ export class ProfilePage extends TrackerReact(Component) {
                   <Grid.Column className="center-align" computer={4} mobile={8}>
                     <Statistic className="wow fadeInDown" data-wow-delay="0.2s">
                       <Statistic.Value>{stats.projects}</Statistic.Value>
-                      <Statistic.Label>Propositions</Statistic.Label>
+                      <Statistic.Label>{_.capitalize(project_term)}s</Statistic.Label>
                     </Statistic>
                   </Grid.Column>
                   <Grid.Column className="center-align" computer={4} mobile={8}>
@@ -66,7 +67,7 @@ export class ProfilePage extends TrackerReact(Component) {
                   <Grid.Column className="center-align" computer={4} mobile={8}>
                     <Statistic className="wow fadeInDown" data-wow-delay="0.7s">
                       <Statistic.Value>{stats.alternatives}</Statistic.Value>
-                      <Statistic.Label>Alternatives</Statistic.Label>
+                      <Statistic.Label>{_.capitalize(alternatives_term)}</Statistic.Label>
                     </Statistic>
                   </Grid.Column>
 

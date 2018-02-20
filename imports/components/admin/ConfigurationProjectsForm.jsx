@@ -71,6 +71,13 @@ export default class ConfigurationProjectsForm extends Component {
             <Grid stackable {...this.props} >
                 <Grid.Column width={16}>
                     <Form onSubmit={this.submit_form}>
+                        <Form.Input
+                            label="Terme générique pour une proposition"
+                            placeholder="proposition"
+                            name="project_term"
+                            value={configuration.project_term}
+                            onChange={this.handleConfigurationChange}
+                        />
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group widths="equal">
                             <Form.Input

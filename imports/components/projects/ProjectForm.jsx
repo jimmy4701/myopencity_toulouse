@@ -93,12 +93,13 @@ export class ProjectForm extends TrackerReact(Component){
   render(){
     const {loading, project, parent_project} = this.props
     const {editing_project} = this.state
-
+    const {project_term} = Meteor.isClient && Session.get('global_configuration')
+    
     if(!loading){
       return(
         <Form>
           <Form.Field>
-            <label>Titre de la proposition</label>
+            <label>Titre de votre {project_term}</label>
             <Input value={editing_project.title} type="text" onChange={(e) => {this.handleChange('title', e)}} />
           </Form.Field>
           <Form.Field>

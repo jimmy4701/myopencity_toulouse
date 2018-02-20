@@ -213,6 +213,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     optional: true
   },
+  project_term: {
+    type: String,
+    defaultValue: "proposition"
+  },
   amazon_connected: {
     type: Boolean,
     defaultValue: false
