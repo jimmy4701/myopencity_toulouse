@@ -70,6 +70,7 @@ export class AlternativePresentation extends TrackerReact(Component){
 
   render(){
     const {alternative, load_alternative, user, loading} = this.props
+    const {alternative_descriptive_term} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       return(
@@ -95,18 +96,18 @@ export class AlternativePresentation extends TrackerReact(Component){
           </Grid.Column>
           {this.props.onGoBackClick ?
             <Grid.Column width={16} className="center-align">
-              <Button onClick={(e) => {this.go_back(e)}}>{this.props.goBackLabel ? this.props.goBackLabel : "Ne plus afficher l'alternative"}</Button>
+              <Button onClick={(e) => {this.go_back(e)}}>{this.props.goBackLabel ? this.props.goBackLabel : "Ne plus afficher " + alternative_descriptive_term}</Button>
             </Grid.Column>
           : ''}
           {Roles.userIsInRole(Meteor.userId(), ['admin','moderator']) ?
             <Grid.Column width={16} className="center-align">
-              <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider l'alternative" : "Valider l'alternative"}</Button>
+              <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider " : "Valider "} {alternative_descriptive_term}</Button>
             </Grid.Column>
           : ''}
         </Grid>
       )
     }else{
-      return <Loader className="inline-block">Chargement de l'alternative</Loader>
+      return <Loader className="inline-block">Chargement de {alternative_descriptive_term}</Loader>
     }
   }
 }

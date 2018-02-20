@@ -155,6 +155,18 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "soutiens"
   },
+  alternative_term: {
+    type: String,
+    defaultValue: "alternative"
+  },
+  alternatives_term: {
+    type: String,
+    defaultValue: "alternatives"
+  },
+  alternative_descriptive_term: {
+    type: String,
+    defaultValue: "l'alternative"
+  },
   project_territory_prefix: {
     type: String,
     defaultValue: "Projet proposé sur le quartier"

@@ -109,14 +109,6 @@ export default class ConfigurationConsultsForm extends Component {
                         <Form.Group>
                             <Form.Input
                                 width={5}
-                                label="Terme pour les 'soutiens' d'alternative"
-                                placeholder="ex: likes"
-                                name="alternative_likes_term"
-                                value={configuration.alternative_likes_term}
-                                onChange={this.handleConfigurationChange}
-                            />
-                            <Form.Input
-                                width={5}
                                 label="Hauteur de la bannière de consultation"
                                 placeholder="10em"
                                 name="consult_header_height"
@@ -170,11 +162,41 @@ export default class ConfigurationConsultsForm extends Component {
                             />
                             <Form.Input
                                 width={5}
-                                label="Contenu du bouton d'alternative"
-                                icon={configuration.consult_alternative_button_term}
-                                placeholder="Voter"
-                                name="consult_alternative_button_term"
-                                value={configuration.consult_alternative_button_term}
+                                label="Terme pour les 'soutiens' d'alternative"
+                                placeholder="ex: likes"
+                                name="alternative_likes_term"
+                                value={configuration.alternative_likes_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                        </Form.Group>
+
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>ALTERNATIVES</Divider>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                width={5}
+                                label="Terme générique pour 'alternative'"
+                                icon={configuration.alternative_term}
+                                placeholder="alternative"
+                                name="alternative_term"
+                                value={configuration.alternative_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Terme générique pour 'alternatives' (pluriel)"
+                                icon={configuration.alternatives_term}
+                                placeholder="alternatives"
+                                name="alternatives_term"
+                                value={configuration.alternatives_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Terme descriptif pour une alternative"
+                                icon={configuration.alternative_descriptive_term}
+                                placeholder="l'alternative"
+                                name="alternative_descriptive_term"
+                                value={configuration.alternative_descriptive_term}
                                 onChange={this.handleConfigurationChange}
                             />
                             <Form.Input
@@ -186,8 +208,18 @@ export default class ConfigurationConsultsForm extends Component {
                                 value={configuration.consult_alternative_validation_term}
                                 onChange={this.handleConfigurationChange}
                             />
+                            <Form.Input
+                                width={5}
+                                label="Contenu du bouton d'alternative"
+                                icon={configuration.consult_alternative_button_term}
+                                placeholder="Voter"
+                                name="consult_alternative_button_term"
+                                value={configuration.consult_alternative_button_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            
+                            
                         </Form.Group>
-
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>COULEURS</Divider>
                         <Form.Group>
                             <Form.Field>
