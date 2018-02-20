@@ -139,6 +139,14 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "Voter"
   },
+  consult_alternative_button_term: {
+    type: String,
+    defaultValue: "Proposer une alternative"
+  },
+  consult_alternative_validation_term: {
+    type: String,
+    defaultValue: "Créer l'alternative"
+  },
   alternative_like_icon_color: {
     type: String,
     defaultValue: "#3498db"
@@ -174,6 +182,10 @@ const ConfigurationSchema = new SimpleSchema({
   project_description_font_size: {
     type: String,
     defaultValue: "1.2em"
+  },
+  project_create_button_color: {
+    type: String,
+    optional: true
   },
   amazon_connected: {
     type: Boolean,

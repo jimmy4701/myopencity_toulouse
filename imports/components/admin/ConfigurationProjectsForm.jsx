@@ -117,6 +117,10 @@ export default class ConfigurationProjectsForm extends Component {
                                 <label>Couleur du texte de description</label>
                                 <SketchPicker color={configuration.project_description_color} onChangeComplete={(e) => { this.handleColorChange('project_description_color', e) }} />
                             </Form.Field>
+                            <Form.Field>
+                                <label>Couleur du bouton de création</label>
+                                <SketchPicker color={configuration.project_create_button_color} onChangeComplete={(e) => { this.handleColorChange('project_create_button_color', e) }} />
+                            </Form.Field>
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>ANONYMAT</Divider>
                         <Form.Group>
