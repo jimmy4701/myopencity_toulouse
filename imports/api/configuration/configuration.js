@@ -87,6 +87,16 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "<h1>Myopencity est une plateforme de démocratie en ligne</h1><p>Sur Myopencity, les administrations (mairies / quartiers / départements...) peuvent consulter rapidement les citoyens, et chaque citoyen peut participer aux projets locaux du territoire, et proposer ses propres idées.</p>"
   },
+  landing_explain_title: {
+    type: String,
+    defaultValue: "Qu'est-ce que c'est ?",
+    optional: true
+  },
+  landing_explain_backtext: {
+    type: String,
+    defaultValue: "Myopencity",
+    optional: true
+  },
   consult_header_height: {
     type: String,
     defaultValue: '20em'

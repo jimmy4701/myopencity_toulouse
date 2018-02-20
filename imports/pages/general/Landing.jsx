@@ -33,7 +33,9 @@ export class Landing extends Component {
       landing_consults_background_color,
       landing_explain_text,
       landing_header_height,
-      landing_header_min_height
+      landing_header_min_height,
+      landing_explain_title,
+      landing_explain_backtext
     } = global_configuration
 
     if (!loading) {
@@ -49,10 +51,12 @@ export class Landing extends Component {
           </Grid.Column>
           <Grid.Column width={16} className="center-align landing-part landing-explain-part" verticalAlign="middle">
               <Grid verticalAlign="middle" stackable>
-                <Grid.Column width={16} className="center-align landing-title-container">
-                  <div className="landing-back-title">{main_title}</div>
-                  <Header as="h2">Qu'est-ce que c'est ?</Header>
-                </Grid.Column>
+                {landing_explain_title &&
+                  <Grid.Column width={16} className="center-align landing-title-container">
+                    <div className="landing-back-title">{landing_explain_backtext}</div>
+                    <Header as="h2">{landing_explain_title}</Header>
+                  </Grid.Column>
+                }
                 <Grid.Column width={16}>
                   <Container>
                     <div dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
