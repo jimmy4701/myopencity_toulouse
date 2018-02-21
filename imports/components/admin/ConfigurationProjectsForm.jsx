@@ -71,8 +71,29 @@ export default class ConfigurationProjectsForm extends Component {
             <Grid stackable {...this.props} >
                 <Grid.Column width={16}>
                     <Form onSubmit={this.submit_form}>
+                        <Form.Input
+                            label="Terme générique pour une proposition"
+                            placeholder="proposition"
+                            name="project_term"
+                            value={configuration.project_term}
+                            onChange={this.handleConfigurationChange}
+                        />
+                        <Form.Input
+                            label="Terme descriptif pour une proposition"
+                            placeholder="une proposition"
+                            name="project_descriptive_term"
+                            value={configuration.project_descriptive_term}
+                            onChange={this.handleConfigurationChange}
+                        />
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group widths="equal">
+                            <Form.Input
+                                label="Contenu du bouton de création"
+                                placeholder="Proposer un projet"
+                                name="project_create_button_text"
+                                value={configuration.project_create_button_text}
+                                onChange={this.handleConfigurationChange}
+                            />
                             <Form.Input
                                 label="Préfixe de territoire"
                                 placeholder="ex: Projet proposé pour le quartier"
@@ -102,6 +123,15 @@ export default class ConfigurationProjectsForm extends Component {
                                 onChange={this.handleConfigurationChange}
                             />
                         </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                label="Texte si pas de proposition"
+                                placeholder="Aucun projet proposé"
+                                name="no_projects"
+                                value={configuration.no_projects}
+                                onChange={this.handleConfigurationChange}
+                            />
+                        </Form.Group>
 
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>COULEURS</Divider>
                         <Form.Group>
@@ -116,6 +146,10 @@ export default class ConfigurationProjectsForm extends Component {
                             <Form.Field>
                                 <label>Couleur du texte de description</label>
                                 <SketchPicker color={configuration.project_description_color} onChangeComplete={(e) => { this.handleColorChange('project_description_color', e) }} />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Couleur du bouton de création</label>
+                                <SketchPicker color={configuration.project_create_button_color} onChangeComplete={(e) => { this.handleColorChange('project_create_button_color', e) }} />
                             </Form.Field>
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>ANONYMAT</Divider>

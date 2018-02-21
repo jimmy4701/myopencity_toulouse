@@ -48,6 +48,7 @@ export class AlternativePartial extends Component{
   render(){
     const {user, loading, alternative} = this.props
     moment.locale('fr')
+    const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       console.log("user", user);
@@ -61,12 +62,12 @@ export class AlternativePartial extends Component{
           <Feed.Content>
             <Feed.Summary>
               {alternative.anonymous ?
-                <Feed.User>Quelqu'un </Feed.User>
+                <Feed.User>{alternatives_anonymous_profile_term} </Feed.User>
               :
               <Link to={"/profile/" + user._id}>
                 <Feed.User>{user.username} </Feed.User>
               </Link>}
-              <span> a proposé l'alternative</span> <a onClick={(e) => {this.onTitleClick(e)}}>{alternative.title}</a>
+              <span> a proposé {alternative_descriptive_term}</span> <a onClick={(e) => {this.onTitleClick(e)}}>{alternative.title}</a>
                 <Feed.Date>{moment().to(moment(alternative.created_at))}</Feed.Date>
               </Feed.Summary>
               <Feed.Meta>

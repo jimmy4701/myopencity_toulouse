@@ -89,6 +89,22 @@ export default class ConfigurationLandingForm extends Component {
                                 onChange={this.handleConfigurationChange}
                             />
                         </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                label="Titre de la partie explicative"
+                                onChange={this.handleConfigurationChange}
+                                placeholder="Qu'est-ce que c'est ?"
+                                value={configuration.landing_explain_title}
+                                name='landing_explain_title'
+                            />
+                            <Form.Input
+                                label="Texte de fond du titre explicatif"
+                                onChange={this.handleConfigurationChange}
+                                placeholder="Myopencity"
+                                value={configuration.landing_explain_backtext}
+                                name='landing_explain_backtext'
+                            />
+                        </Form.Group>
                         <Form.Group widths="16">
                             <Form.Field width={16}>
                                 <label>Texte d'explication de la page d'accueil</label>

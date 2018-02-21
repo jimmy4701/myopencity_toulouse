@@ -11,6 +11,7 @@ import AlternativePartial from '/imports/components/alternatives/AlternativePart
 import AlternativesList from '/imports/components/alternatives/AlternativesList'
 import ReactPaginate from 'react-paginate'
 import {withRouter} from 'react-router-dom'
+import _ from 'lodash'
 
 export class ConsultPart extends Component{
 
@@ -106,7 +107,11 @@ export class ConsultPart extends Component{
       alternatives_page,
       displaying_alternative
     } = this.state
-    const { consult_yet_voted_term } = Meteor.isClient && Session.get('global_configuration')
+    const { 
+      consult_alternative_button_term,
+      consult_yet_voted_term,
+      alternatives_term
+    } = Meteor.isClient && Session.get('global_configuration')
     const consult_part_hover_class = this.state.hover_vote ? "hover" : ""
 
     if(!loading){
@@ -121,7 +126,7 @@ export class ConsultPart extends Component{
             <Grid.Column width={11} className="animated fadeInLeft">
               <div className="center-align marged">
                 <Button onClick={this.toggleAlternativeForm}>
-                  Annuler la création d'alternative
+                  Annuler
                 </Button>
               </div>
               <AlternativeForm onCreate={this.create_alternative.bind(this)}/>
@@ -131,11 +136,11 @@ export class ConsultPart extends Component{
             <Grid.Column width={16}>
               <Grid stackable>
                 <Grid.Column width={16} className="center-align">
-                  <Header as="h3">Alternatives proposées</Header>
+                  <Header as="h3">{_.capitalize(alternatives_term)}</Header>
                 </Grid.Column>
                 {!displaying_alternative ?
                   <Grid.Column width={16}>
-                    <Input icon="search" fluid placeholder="Recherchez une alternative" type="text" onChange={(e) => {this.handleChange('search_alternatives_terms', e)}} />
+                    <Input icon="search" fluid placeholder="Rechercher" type="text" onChange={(e) => {this.handleChange('search_alternatives_terms', e)}} />
                   </Grid.Column>
                 : ''}
                 <Grid.Column width={16} className="center-align">
@@ -168,12 +173,12 @@ export class ConsultPart extends Component{
             <Grid.Column width={16} className="center-align">
               {alternatives_count > 0 ?
                 <Button onClick={(e) => {this.toggleState('display_alternatives', e)}}>
-                  {display_alternatives ? "Cacher les alternatives" : "Voir les " + alternatives_count + " alternatives" }
+                  {display_alternatives ? "Cacher les " + alternatives_term : "Voir les " + alternatives_count + " " + alternatives_term }
                 </Button>
               : ''}
               {!display_alternative_form ?
                 <Button onClick={this.toggleAlternativeForm} size="big" positive onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)}>
-                  Proposer une alternative
+                  {consult_alternative_button_term}
                 </Button>
               : ''}
             </Grid.Column>

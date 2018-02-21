@@ -95,7 +95,7 @@ export class NewProjectPage extends TrackerReact(Component){
   render(){
     const {step, new_project} = this.state
     const {loading, parent_project, territory} = this.props
-    const {projects_anonymous_choice} = Meteor.isClient && Session.get('global_configuration')
+    const {projects_anonymous_choice, project_descriptive_term, project_term} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       return(
@@ -127,7 +127,7 @@ export class NewProjectPage extends TrackerReact(Component){
                 <Grid stackable verticalAlign="middle" style={{height: 'inherit'}}>
                   <Grid.Column width={16} className="">
                     <Container>
-                      <Header as="h1" className="wow fadeInUp">Vous êtes sur le point de proposer un projet</Header>
+                      <Header as="h1" className="wow fadeInUp">Vous êtes sur le point de proposer {project_descriptive_term}</Header>
                       {territory && <Header as="h3" className="wow fadeInDown territory-title">Pour le quartier {territory.name}</Header>}
                       {parent_project ?
                         <p><Icon name="sitemap" /> alternatif au projet "{parent_project.title}"</p>
@@ -136,8 +136,8 @@ export class NewProjectPage extends TrackerReact(Component){
                         <Message
                           icon='unhide'
                           compact
-                          header='Donnez un titre expressif à votre projet'
-                          content="Plus votre titre collera au contenu de votre projet, mieux les gens sauront dès le premier coup d'oeil si votre projet les intéresse"
+                          header={'Donnez un titre expressif à votre ' + project_term}
+                          content={"Plus votre titre collera au contenu de votre " + project_term + ", mieux les gens sauront dès le premier coup d'oeil si votre " + project_term + " les intéresse"}
                           className="wow fadeInUp"
                           data-wow-delay="2s"
                           />
@@ -145,7 +145,7 @@ export class NewProjectPage extends TrackerReact(Component){
                           icon='align justify'
                           compact
                           header='Donnez un max de détails'
-                          content="Votre projet aura plus de chances d'être mieux compris, et donc plus facilement apprécié. Mais ne soyez pas non plus trop verbeux pour ne pas perdre les gens."
+                          content={"Être bien compris, c'est être plus facilement apprécié. Mais ne soyez pas non plus trop verbeux pour ne pas perdre les gens."}
                           className="wow fadeInUp"
                           data-wow-delay="2.5s"
                           />
@@ -153,7 +153,7 @@ export class NewProjectPage extends TrackerReact(Component){
                           icon='facebook'
                           compact
                           header='Parlez-en autour de vous !'
-                          content="Une bonne idée qui n'est pas partagée et débattue ne sert à rien. Parlez-en ! Et partagez votre projet sur les réseaux sociaux !"
+                          content={"Une bonne idée qui n'est pas partagée et débattue ne sert à rien. Parlez-en ! Et partagez votre" + project_term + " sur les réseaux sociaux !"}
                           className="wow fadeInUp"
                           data-wow-delay="3s"
                           />
@@ -170,7 +170,7 @@ export class NewProjectPage extends TrackerReact(Component){
                     <Grid stackable verticalAlign="middle" style={{height: 'inherit'}}>
                       <Grid.Column width={16} className="">
                         <Container>
-                          <Header as="h1" className="wow fadeInUp">Premièrement, donnez un titre à votre projet</Header>
+                          <Header as="h1" className="wow fadeInUp">Premièrement, donnez un titre à votre {project_term}</Header>
                           <Input
                             fluid
                             autoFocus
@@ -191,7 +191,7 @@ export class NewProjectPage extends TrackerReact(Component){
                       <Grid stackable verticalAlign="middle" style={{height: 'inherit'}}>
                         <Grid.Column width={16} className="">
                           <Container>
-                            <Header as="h1" className="wow fadeInUp">Rédigez une brève description de votre projet (comme un tweet <Icon name="twitter" />)</Header>
+                            <Header as="h1" className="wow fadeInUp">Rédigez une brève description de votre {project_term} (comme un tweet <Icon name="twitter" />)</Header>
                             <Input
                               fluid
                               size="huge"
@@ -213,9 +213,9 @@ export class NewProjectPage extends TrackerReact(Component){
                         <Grid stackable style={{height: 'inherit'}}>
                           <Grid.Column width={16} className="">
                             <Container>
-                              <Header as="h1" className="wow fadeInUp">Expliquez maintenant en détails votre projet</Header>
+                              <Header as="h1" className="wow fadeInUp">Expliquez maintenant en détails votre {project_term}</Header>
                               {parent_project ?
-                                <Button onClick={(e) => {this.copyParentContent(e)}}>Copier le contenu du projet initial</Button>
+                                <Button onClick={(e) => {this.copyParentContent(e)}}>Copier le contenu initial</Button>
                               : ''}
                               <TinyMCE
                                 id="tinyMCEEditor"
@@ -230,7 +230,7 @@ export class NewProjectPage extends TrackerReact(Component){
                                 onChange={this.handleContentChange.bind(this)}
                                 />
                               <Button size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
-                              <Button positive onClick={(e) => {this.changeStep('image', e)}}>Passer à l'image de projet</Button>
+                              <Button positive onClick={(e) => {this.changeStep('image', e)}}>Passer à l'image</Button>
                             </Container>
                           </Grid.Column>
                         </Grid>
@@ -241,7 +241,7 @@ export class NewProjectPage extends TrackerReact(Component){
                           <Grid stackable style={{height: 'inherit'}}>
                             <Grid.Column width={16} className="">
                               <Container>
-                                <Header as="h1" className="wow fadeInUp">Ajoutez une image d'illustration à votre projet</Header>
+                                <Header as="h1" className="wow fadeInUp">Ajoutez une image d'illustration à votre {project_term}</Header>
                                 <p>Entrez l'URL d'une image pour illustrer votre projet et le rendre unique et visible</p>
                                 <Input
                                   fluid
@@ -261,7 +261,7 @@ export class NewProjectPage extends TrackerReact(Component){
                               </Container>
                             </Grid.Column>
                             <Grid.Column width={16} className="center-align">
-                              <p>Voilà à quoi ressemble votre projet actuellement</p>
+                              <p>Voilà à quoi ressemble votre {project_term} actuellement</p>
                               <ProjectPartial project={new_project} />
                             </Grid.Column>
                           </Grid>
@@ -272,8 +272,8 @@ export class NewProjectPage extends TrackerReact(Component){
                             <Grid stackable style={{height: 'inherit'}}>
                               <Grid.Column width={16} className="">
                                 <Container>
-                                  <Header as="h1" className="wow fadeInUp">Choisissez si votre projet est anonyme ou non</Header>
-                                  <p>En laissant le projet en anonyme, les autres utilisateurs ne pourront pas vous contacter</p>
+                                  <Header as="h1" className="wow fadeInUp">Choisissez si votre {project_term} est anonyme ou non</Header>
+                                  <p>En laissant anonyme, les autres utilisateurs ne pourront pas vous contacter</p>
                                   <Grid stackable className="marged">
                                     <Grid.Column width={16} className="center-align">
                                       <Button active={new_project.anonymous} size="huge" positive={new_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
@@ -285,9 +285,9 @@ export class NewProjectPage extends TrackerReact(Component){
                                         Publique
                                       </Button>
                                       {new_project.anonymous ?
-                                        <p><strong>Votre projet est actuellement anonyme</strong> : votre nom ne sera pas lié à ce projet</p>
+                                        <p><strong>Votre {project_term} est actuellement anonyme</strong> : votre profil ne sera pas affiché</p>
                                         :
-                                        <p><strong>Votre projet est actuellement publique</strong> : vos lecteurs pourront consulter votre profil</p>
+                                        <p><strong>Votre {project_term} est actuellement publique</strong> : vos lecteurs pourront consulter votre profil</p>
                                       }
                                     </Grid.Column>
                                   </Grid>

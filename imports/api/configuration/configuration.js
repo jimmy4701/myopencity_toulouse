@@ -31,6 +31,18 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: true
   },
+  navbar_consults_term: {
+    type: String,
+    defaultValue: "Consultations"
+  },
+  navbar_projects_term: {
+    type: String,
+    defaultValue: "Propositions"
+  },
+  navbar_territories_term: {
+    type: String,
+    defaultValue: "Quartiers"
+  },
   main_title: {
     type: String,
     defaultValue: "Ma ville"
@@ -74,6 +86,24 @@ const ConfigurationSchema = new SimpleSchema({
   landing_explain_text: {
     type: String,
     defaultValue: "<h1>Myopencity est une plateforme de démocratie en ligne</h1><p>Sur Myopencity, les administrations (mairies / quartiers / départements...) peuvent consulter rapidement les citoyens, et chaque citoyen peut participer aux projets locaux du territoire, et proposer ses propres idées.</p>"
+  },
+  landing_explain_title: {
+    type: String,
+    defaultValue: "Qu'est-ce que c'est ?",
+    optional: true
+  },
+  landing_explain_backtext: {
+    type: String,
+    defaultValue: "Myopencity",
+    optional: true
+  },
+  consult_term: {
+    type: String,
+    defaultValue: "consultation"
+  },
+  consults_term: {
+    type: String,
+    defaultValue: "consultations"
   },
   consult_header_height: {
     type: String,
@@ -127,6 +157,14 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "Voter"
   },
+  consult_alternative_button_term: {
+    type: String,
+    defaultValue: "Proposer une alternative"
+  },
+  consult_alternative_validation_term: {
+    type: String,
+    defaultValue: "Créer l'alternative"
+  },
   alternative_like_icon_color: {
     type: String,
     defaultValue: "#3498db"
@@ -134,6 +172,18 @@ const ConfigurationSchema = new SimpleSchema({
   alternative_likes_term: {
     type: String,
     defaultValue: "soutiens"
+  },
+  alternative_term: {
+    type: String,
+    defaultValue: "alternative"
+  },
+  alternatives_term: {
+    type: String,
+    defaultValue: "alternatives"
+  },
+  alternative_descriptive_term: {
+    type: String,
+    defaultValue: "l'alternative"
   },
   project_territory_prefix: {
     type: String,
@@ -162,6 +212,26 @@ const ConfigurationSchema = new SimpleSchema({
   project_description_font_size: {
     type: String,
     defaultValue: "1.2em"
+  },
+  project_create_button_color: {
+    type: String,
+    optional: true
+  },
+  project_create_button_text: {
+    type: String,
+    defaultValue: "Proposer un projet"
+  },
+  no_projects: {
+    type: String,
+    defaultValue: "Aucun projet proposé pour l'instant"
+  },
+  project_term: {
+    type: String,
+    defaultValue: "proposition"
+  },
+  project_descriptive_term: {
+    type: String,
+    defaultValue: "une proposition"
   },
   amazon_connected: {
     type: Boolean,
@@ -194,6 +264,10 @@ const ConfigurationSchema = new SimpleSchema({
   alternatives_anonymous_default: {
     type: Boolean,
     defaultValue: false
+  },
+  alternatives_anonymous_profile_term: {
+    type: String,
+    defaultValue: "Quelqu'un"
   },
   global_image_url: {
     type: String,

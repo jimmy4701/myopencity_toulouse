@@ -72,21 +72,21 @@ export default class AlternativeForm extends Component{
   render(){
 
     const {alternative} = this.state
-    const {alternatives_anonymous_choice} = Session.get('global_configuration')
+    const {alternatives_anonymous_choice, consult_alternative_validation_term, alternative_term} = Session.get('global_configuration')
 
     return(
        <Grid stackable>
          <Grid.Column width={16} className="center-align">
-           <Header as="h3">{this.props.alternative ? "Modification d'alternative" : "Création d'une alternative"}</Header>
+           <Header as="h3">{consult_alternative_validation_term}</Header>
          </Grid.Column>
          <Grid.Column width={16}>
            <Form>
              <Form.Field>
-               <label>Titre de l'alternative</label>
+               <label>Titre</label>
                <Input value={alternative.title} type="text" onChange={(e) => {this.handleAlternativeChange('title', e)}} />
              </Form.Field>
              <Form.Field>
-               <label>Votre proposition d'alternative</label>
+               <label>Votre {alternative_term}</label>
                <TinyMCE
                  content={alternative.content}
                  config={{
@@ -104,7 +104,7 @@ export default class AlternativeForm extends Component{
                      "Votre nom ne sera pas affiché"
                      : 'Votre nom sera affiché'} />
                : ''} 
-               <Button disabled={!this.isValid()} positive onClick={(e) => {this.submit_form(e)}}>{this.props.alternative ? "Modifier l'alternative" : "Proposer l'alternative"}</Button>
+               <Button disabled={!this.isValid()} positive onClick={(e) => {this.submit_form(e)}}>{consult_alternative_validation_term}</Button>
              </Form.Field>
            </Form>
          </Grid.Column>

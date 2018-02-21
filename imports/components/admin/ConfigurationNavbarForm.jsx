@@ -24,6 +24,12 @@ export default class ConfigurationNavbarForm extends Component {
         }
     }
 
+    handleChange = (e) => {
+        let { configuration } = this.state
+        configuration[e.target.name] = e.target.value
+        this.setState({configuration})
+    }
+
     submit_form = (e) => {
         e.preventDefault()
         Meteor.call('configuration.update', this.state.configuration, (error, result) => {
@@ -86,6 +92,26 @@ export default class ConfigurationNavbarForm extends Component {
                                 checked={configuration.navbar_territories}
                                 onClick={() => this.toggleConfiguration('navbar_territories')}
                                 label="Afficher l'onglet quartiers"
+                            />
+                        </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Input
+                                label='Terme pour "Consultations"'
+                                onChange={this.handleChange}
+                                value={configuration.navbar_consults_term}
+                                name='navbar_consults_term'
+                            />
+                            <Form.Input
+                                label='Terme pour "Quartiers"'
+                                onChange={this.handleChange}
+                                value={configuration.navbar_territories_term}
+                                name='navbar_territories_term'
+                            />
+                            <Form.Input
+                                label='Terme pour "Propositions"'
+                                onChange={this.handleChange}
+                                value={configuration.navbar_projects_term}
+                                name='navbar_projects_term'
                             />
                         </Form.Group>
 

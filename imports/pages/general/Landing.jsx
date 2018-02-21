@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import TerritoriesMap from '/imports/components/territories/TerritoriesMap'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
+import _ from 'lodash'
 
 export class Landing extends Component {
 
@@ -33,7 +34,11 @@ export class Landing extends Component {
       landing_consults_background_color,
       landing_explain_text,
       landing_header_height,
-      landing_header_min_height
+      landing_header_min_height,
+      landing_explain_title,
+      landing_explain_backtext,
+      project_term,
+      consult_term
     } = global_configuration
 
     if (!loading) {
@@ -49,10 +54,12 @@ export class Landing extends Component {
           </Grid.Column>
           <Grid.Column width={16} className="center-align landing-part landing-explain-part" verticalAlign="middle">
               <Grid verticalAlign="middle" stackable>
-                <Grid.Column width={16} className="center-align landing-title-container">
-                  <div className="landing-back-title">{main_title}</div>
-                  <Header as="h2">Qu'est-ce que c'est ?</Header>
-                </Grid.Column>
+                {landing_explain_title &&
+                  <Grid.Column width={16} className="center-align landing-title-container">
+                    <div className="landing-back-title">{landing_explain_backtext}</div>
+                    <Header as="h2">{landing_explain_title}</Header>
+                  </Grid.Column>
+                }
                 <Grid.Column width={16}>
                   <Container>
                     <div dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
@@ -62,8 +69,8 @@ export class Landing extends Component {
             </Grid.Column>  
             {consults.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container">
-                <div className="landing-back-title">CONSULTATIONS</div>
-                <Header as="h2">Les consultations du moment</Header>
+                <div className="landing-back-title">{_.upperCase(consult_term + "s")}</div>
+                <Header as="h2">Les {consult_term}s du moment</Header>
                 {consults.length > 0 ?
                 <Grid stackable centered>
                   {consults.map((consult, index) => {
@@ -79,8 +86,8 @@ export class Landing extends Component {
               : ''}
             {projects.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container">
-                <div className="landing-back-title">PROPOSITIONS</div>
-                <Header as="h2">Les projets proposés du moment</Header>
+                <div className="landing-back-title">{_.upperCase(project_term + "s")}</div>
+                <Header as="h2">Les {project_term}s proposés du moment</Header>
                 <Grid stackable centered>
                     {projects.map((project, index) => {
                       return (

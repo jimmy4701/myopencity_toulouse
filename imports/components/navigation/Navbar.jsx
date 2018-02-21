@@ -23,7 +23,16 @@ export default class Navbar extends TrackerReact(Component){
   }
 
   render(){
-    const {navbar_color, main_title, navbar_consults, navbar_projects, navbar_territories, global_image_url} = Session.get('global_configuration')
+    const {navbar_color, 
+      main_title, 
+      navbar_consults, 
+      navbar_projects, 
+      navbar_territories, 
+      global_image_url,
+      navbar_consults_term,
+      navbar_projects_term,
+      navbar_territories_term
+    } = Session.get('global_configuration')
 
     return(
       <div>
@@ -38,17 +47,17 @@ export default class Navbar extends TrackerReact(Component){
               </Link>
               {navbar_consults &&
                 <Link className="item" to="/consults">
-                  <div className="navbar-item">Consultations</div>
+                  <div className="navbar-item">{navbar_consults_term}</div>
                 </Link>
               }
               {navbar_territories && 
                 <Link className="item" to="/territories">
-                  <div className="navbar-item">Quartiers</div>
+                  <div className="navbar-item">{navbar_territories_term}</div>
                 </Link>
               }
               {navbar_projects && 
                 <Link className="item" to="/projects">
-                  <div className="navbar-item">Propositions</div>
+                  <div className="navbar-item">{navbar_projects_term}</div>
                 </Link>
               }
               <Menu.Menu position='right' className="item">
