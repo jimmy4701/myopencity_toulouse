@@ -149,6 +149,10 @@ export default class ConfigurationLandingForm extends Component {
                                 <label>Couleur de fond des consultations mises en avant</label>
                                 <SketchPicker color={configuration.landing_consults_background_color} onChangeComplete={(e) => { this.handleColorChange('landing_consults_background_color', e) }} />
                             </Form.Field>
+                            <Form.Field>
+                                <label>Couleur de fond des propositions mises en avant</label>
+                                <SketchPicker color={configuration.landing_projects_background_color} onChangeComplete={(e) => { this.handleColorChange('landing_projects_background_color', e) }} />
+                            </Form.Field>
                         </Form.Group>
                         <Form.Group widths='equal'>
                             <Form.Input

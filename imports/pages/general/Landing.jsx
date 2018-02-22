@@ -32,6 +32,7 @@ export class Landing extends Component {
       landing_main_title,
       landing_header_description,
       landing_consults_background_color,
+      landing_projects_background_color,
       landing_explain_text,
       landing_header_height,
       landing_header_min_height,
@@ -68,7 +69,7 @@ export class Landing extends Component {
               </Grid>
             </Grid.Column>  
             {consults.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container">
+              <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_consults_background_color}}>
                 <div className="landing-back-title">{_.upperCase(consult_term + "s")}</div>
                 <Header as="h2">Les {consult_term}s du moment</Header>
                 {consults.length > 0 ?
@@ -85,7 +86,7 @@ export class Landing extends Component {
               </Grid.Column>
               : ''}
             {projects.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container">
+              <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_projects_background_color}}>
                 <div className="landing-back-title">{_.upperCase(project_term + "s")}</div>
                 <Header as="h2">Les {project_term}s proposés du moment</Header>
                 <Grid stackable centered>
