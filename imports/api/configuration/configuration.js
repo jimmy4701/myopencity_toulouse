@@ -45,15 +45,18 @@ const ConfigurationSchema = new SimpleSchema({
   },
   main_title: {
     type: String,
-    defaultValue: "Ma ville"
+    defaultValue: "Ma ville",
+    optional: true
   },
   main_description: {
     type: String,
-    defaultValue: "Plateforme de démocratie"
+    defaultValue: "Plateforme de démocratie",
+    optional: true
   },
   landing_main_title: {
     type: String,
-    defaultValue: "Votre espace"
+    defaultValue: "Votre espace",
+    optional: true
   },
   landing_main_title_color: {
     type: String,
@@ -65,7 +68,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   landing_header_description: {
     type: String,
-    defaultValue: "Participez activement à la démocratie locale"
+    defaultValue: "Participez activement à la démocratie locale",
+    optional: true
   },
   landing_header_description_color: {
     type: String,
