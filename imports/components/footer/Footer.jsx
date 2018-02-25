@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid, Container, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 export default class Footer extends Component {
@@ -10,8 +10,18 @@ export default class Footer extends Component {
             <Grid stackable className="footer" verticalAlign="middle" style={{ backgroundColor: footer_background_color, color: footer_color, height: footer_height }}>
                 <Grid.Column width={16}>
                     <Container>
-                        <span className="left-align">{footer_content}</span>
-                        {footer_cgu_display && <Link to='/conditions' className="pointer" style={{float: 'right'}}><span style={{color: footer_color}}>{cgu_term}</span></Link>}
+                        <Grid stackable centered>
+                            <Grid.Column width={4}>
+                                <span className="left-align">{footer_content}</span>
+                            </Grid.Column>
+                            <Grid.Column width={7} className="center-align">
+                                <Image className="inline-block footer-image" src="/images/mairie-toulouse.png" inline fluid size="small"/>
+                                <Image className="inline-block footer-image" src="/images/toulouse-metropole.png" inline fluid size="small"/>
+                            </Grid.Column>
+                            <Grid.Column width={5}>
+                                {footer_cgu_display && <Link to='/conditions' className="pointer" style={{float: 'right'}}><span style={{color: footer_color}}>{cgu_term}</span></Link>}
+                            </Grid.Column>
+                        </Grid>
                     </Container>
                 </Grid.Column>
             </Grid>
