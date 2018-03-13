@@ -320,6 +320,10 @@ const ConfigurationSchema = new SimpleSchema({
   cgu_acceptance: {
     type: Boolean,
     defaultValue: false
+  },
+  cnil_signup_text: {
+    type: String,
+    optional: true
   }
 
 })

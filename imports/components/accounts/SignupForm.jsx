@@ -94,7 +94,7 @@ export class SignupForm extends Component{
   render(){
     const {user, accept_conditions} = this.state
     const {global_configuration, loading} = this.props
-    const {facebook_connected, google_connected, cgu_term, cgu_acceptance} = global_configuration
+    const {facebook_connected, google_connected, cgu_term, cgu_acceptance, cnil_signup_text} = global_configuration
     const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
 
     if(!loading){
@@ -138,6 +138,12 @@ export class SignupForm extends Component{
           {google_connected ?
             <Button color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
           : ''}
+          {cnil_signup_text &&
+            <div>
+              <Divider />
+              <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+            </div>
+          }
         </Form>
       )
     }else{
