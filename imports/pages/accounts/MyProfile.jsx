@@ -54,10 +54,6 @@ export class MyProfile extends Component {
       return (
         <Grid stackable className="main-container" verticalAlign="middle">
           <Grid.Column width={16} className="wow fadeIn profile-form-container">
-            <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
-            <Link to={Meteor.isClient && ("/profile/" + Meteor.userId())} >
-              <Button size="mini" content="Voir mon profil public" />
-            </Link>
             <EditProfileForm />
           </Grid.Column>
         </Grid>
