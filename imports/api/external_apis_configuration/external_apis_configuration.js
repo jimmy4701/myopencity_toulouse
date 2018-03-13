@@ -12,6 +12,14 @@ const ExternalApisConfigurationSchema = new SimpleSchema({
     type: String,
     optional: true
   },
+  amazon_bucket_name: {
+    type: String,
+    optional: true
+  },
+  amazon_region: {
+    type: String,
+    optional: true
+  },
   google_private_key: {
     type: String,
     optional: true

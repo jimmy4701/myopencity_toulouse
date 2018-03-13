@@ -4,19 +4,19 @@ import {Configuration} from '/imports/api/configuration/configuration'
 import _ from 'lodash'
 
 Meteor.methods({
-  'external_apis_configuration.amazon_update'({amazon_public_key, amazon_private_key}){
+  'external_apis_configuration.amazon_update'({amazon_public_key, amazon_private_key, amazon_bucket_name, amazon_region}){
     if(!Roles.userIsInRole(this.userId, 'admin')){
       throw new Meteor.Error('403', "Vous devez être administrateur")
     }else{
-      ExternalApisConfiguration.update({}, {$set: {amazon_public_key, amazon_private_key}})
-      if(amazon_public_key, amazon_private_key){
+      ExternalApisConfiguration.update({}, {$set: {amazon_public_key, amazon_private_key, amazon_bucket_name, amazon_region}})
+      if(amazon_public_key && amazon_private_key && amazon_bucket_name && amazon_region ){
         Configuration.update({}, {$set: {amazon_connected: true}})
         Slingshot.createDirective("ConsultImage", Slingshot.S3Storage, {
-          bucket: "myopencity",
+          bucket: amazon_bucket_name,
           acl: "public-read",
           AWSAccessKeyId: amazon_public_key,
           AWSSecretAccessKey: amazon_private_key,
-          region: 'eu-central-1',
+          region: amazon_region,
 
           authorize: function (file, metaContext) {
             if(!this.userId){
@@ -37,11 +37,11 @@ Meteor.methods({
           }
         })
         Slingshot.createDirective("ConsultFile", Slingshot.S3Storage, {
-          bucket: "myopencity",
+          bucket: amazon_bucket_name,
           acl: "public-read",
           AWSAccessKeyId: amazon_public_key,
           AWSSecretAccessKey: amazon_private_key,
-          region: 'eu-central-1',
+          region: amazon_region,
 
           authorize: function (file, metaContext) {
             if(!this.userId){
