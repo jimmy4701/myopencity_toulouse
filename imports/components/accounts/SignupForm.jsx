@@ -100,19 +100,19 @@ export class SignupForm extends Component{
     if(!loading){
       return(
         <Form>
-          <Form.Field>
-            <label>Nom d'utilisateur</label>
+          <Form.Field required>
+            <label>Nom ou pseudo</label>
             <Input fluid type="text" onChange={(e) => {this.handleChange('username', e)}} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Votre adresse email</label>
             <Input fluid type="email" onChange={(e) => {this.handleChange('email', e)}} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Mot de passe</label>
             <Input fluid type="password" onChange={(e) => {this.handleChange('password', e)}} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Confirmez votre mot de passe</label>
             <Input fluid type="password" onChange={(e) => {this.handleChange('confirm_password', e)}} />
             {this.state.confirm_password && (this.state.password != this.state.confirm_password) ?
@@ -124,7 +124,7 @@ export class SignupForm extends Component{
               <Checkbox
                 checked={accept_conditions}
                 onClick={() => this.toggleState('accept_conditions')}
-                label={<label for="accept_conditions"  >J'accepte les <a href="/conditions" target="_blank">{cgu_term}</a></label>}
+                label={<label for="accept_conditions"  >J'accepte les conditions de la <a href="/conditions" target="_blank">charte d'utilisation</a></label>}
               />
             </Form.Field>
           }
