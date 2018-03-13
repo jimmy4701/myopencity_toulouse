@@ -37,6 +37,7 @@ import TerritoriesPage from '/imports/pages/territories/TerritoriesPage'
 import TerritoryProjectsPage from '/imports/pages/projects/TerritoryProjectsPage'
 import Conditions from '/imports/pages/general/Conditions'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
+import CookieConsent from "react-cookie-consent";
 
 export class MainLayout extends TrackerReact(Component) {
   
@@ -160,6 +161,12 @@ export class MainLayout extends TrackerReact(Component) {
               </Grid>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
+          <CookieConsent
+            location="bottom"
+            buttonText="Compris"
+          >
+              Cette application web utilise des cookies pour améliorer votre expérience démocratique 
+          </CookieConsent>
         </div>
       )
     } else {
