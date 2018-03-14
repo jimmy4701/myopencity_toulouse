@@ -28,34 +28,41 @@ export class SignupForm extends Component{
     this.setState({[attr]: !this.state[attr]})
   }
 
-  create_account(e){
+  create_account = (e) => {
     e.preventDefault()
-    const that = this
-    Meteor.call('user.signup', this.state.user, (error, result) => {
-      if(error){
-        console.log("signup error", error)
-        Bert.alert({
-          title: "Erreur lors de l'inscription",
-          message: error.reason,
-          type: 'danger',
-          style: 'growl-bottom-left',
+    const {cgu_acceptance} = this.props
+    const {user, accept_conditions} = this.state
+    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
+
+    if(isValid){
+        Meteor.call('user.signup', user, (error, result) => {
+          if(error){
+            console.log("signup error", error)
+            Bert.alert({
+              title: "Erreur lors de l'inscription",
+              message: error.reason,
+              type: 'danger',
+              style: 'growl-bottom-left',
+            })
+          }else{
+            const {email, password} = user
+            Meteor.loginWithPassword(email, password)
+            const return_route = Session.get('return_route')
+            if(return_route){
+              this.props.history.push(return_route)
+            }else{
+              this.props.history.push('/consults')
+            }
+            Bert.alert({
+              title: "Votre compte a bien été créé",
+              type: 'success',
+              style: 'growl-bottom-left',
+            })
+          }
         })
-      }else{
-        const {email, password} = that.state.user
-        Meteor.loginWithPassword(email, password)
-        const return_route = Session.get('return_route')
-        if(return_route){
-          this.props.history.push(return_route)
-        }else{
-          this.props.history.push('/consults')
-        }
-        Bert.alert({
-          title: "Votre compte a bien été créé",
-          type: 'success',
-          style: 'growl-bottom-left',
-        })
-      }
-    })
+    }else{
+      this.setState({error_message: true})
+    }
   }
 
   connect_facebook(e){
@@ -92,27 +99,27 @@ export class SignupForm extends Component{
 
 
   render(){
-    const {user, accept_conditions} = this.state
+    const {user, accept_conditions, error_message} = this.state
     const {global_configuration, loading} = this.props
-    const {facebook_connected, google_connected, cgu_term, cgu_acceptance} = global_configuration
+    const {facebook_connected, google_connected, cgu_term, cgu_acceptance, cnil_signup_text} = global_configuration
     const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
 
     if(!loading){
       return(
         <Form>
-          <Form.Field>
-            <label>Nom d'utilisateur</label>
+          <Form.Field required>
+            <label>Nom ou pseudo</label>
             <Input fluid type="text" onChange={(e) => {this.handleChange('username', e)}} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Votre adresse email</label>
             <Input fluid type="email" onChange={(e) => {this.handleChange('email', e)}} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Mot de passe</label>
             <Input fluid type="password" onChange={(e) => {this.handleChange('password', e)}} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Confirmez votre mot de passe</label>
             <Input fluid type="password" onChange={(e) => {this.handleChange('confirm_password', e)}} />
             {this.state.confirm_password && (this.state.password != this.state.confirm_password) ?
@@ -124,11 +131,12 @@ export class SignupForm extends Component{
               <Checkbox
                 checked={accept_conditions}
                 onClick={() => this.toggleState('accept_conditions')}
-                label={<label for="accept_conditions"  >J'accepte les <a href="/conditions" target="_blank">{cgu_term}</a></label>}
+                label={<label for="accept_conditions"  >J'accepte les conditions de la <a href="/conditions" target="_blank">charte d'utilisation</a></label>}
               />
             </Form.Field>
           }
-          <Button  disabled={!isValid} onClick={(e) => {this.create_account(e)}}>M'inscrire</Button>
+          <Button onClick={this.create_account}>M'inscrire</Button>
+          {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
           {facebook_connected || google_connected ?
             <Divider horizontal>OU</Divider>
           : ''}
@@ -138,6 +146,12 @@ export class SignupForm extends Component{
           {google_connected ?
             <Button color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
           : ''}
+          {cnil_signup_text &&
+            <div>
+              <Divider />
+              <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+            </div>
+          }
         </Form>
       )
     }else{

@@ -31,6 +31,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: true
   },
+  navbar_participation: {
+    type: Boolean,
+    defaultValue: false
+  },
   navbar_consults_term: {
     type: String,
     defaultValue: "Consultations"
@@ -320,8 +324,19 @@ const ConfigurationSchema = new SimpleSchema({
   cgu_acceptance: {
     type: Boolean,
     defaultValue: false
+  },
+  cnil_signup_text: {
+    type: String,
+    optional: true
+  },
+  participation_page_content: {
+    type: String,
+    defaultValue: "<p>Remplissez ici le contenu de la page de participation</p>"
+  },
+  navbar_participation_term: {
+    type: String,
+    defaultValue: "Participation"
   }
-
 })
 
 Configuration.attachSchema(ConfigurationSchema);

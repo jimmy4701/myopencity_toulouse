@@ -31,6 +31,7 @@ import TerritoryConsultsPage from '/imports/pages/consults/TerritoryConsultsPage
 import TerritoriesPage from '/imports/pages/territories/TerritoriesPage'
 import TerritoryProjectsPage from '/imports/pages/projects/TerritoryProjectsPage'
 import Conditions from '/imports/pages/general/Conditions'
+import Participation from '/imports/pages/general/Participation'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class MainLayoutServer extends Component {
@@ -86,6 +87,7 @@ export class MainLayoutServer extends Component {
             <Public component={TerritoryProjectsPage} exact path="/territory/:shorten_url/projects" { ...this.props } />
             <Public component={SendPasswordEmail} exact path="/forgot_password" { ...this.props } />
             <Public component={ResetPassword} exact path="/reset-password/:token" { ...this.props } />
+            <Public component={Participation} exact path="/participation" { ...this.props } />
             <Public component={NotFound} path="*"  { ...this.props } />
           </Switch>
         </main>

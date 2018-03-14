@@ -152,6 +152,18 @@ export default class ConfigurationFooterForm extends Component {
                                 name="cgu"
                             />
                         </Form.Field>
+                        <Form.Field width={16}>
+                            <label>Texte CNIL Formulaire inscription (laisser vide pour cacher)</label>
+                            <TinyMCE
+                                content={configuration.cnil_signup_text}
+                                config={{
+                                    plugins: 'autoresize',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | link'
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'cnil_signup_text')}
+                                name="cnil_signup_text"
+                            />
+                        </Form.Field>
                         <Button color="green" content="Valider les modifications" />
                     </Form>
                 </Grid.Column>
