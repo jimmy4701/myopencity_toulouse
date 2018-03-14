@@ -9,6 +9,7 @@ import ConfigurationNavbarForm from '/imports/components/admin/ConfigurationNavb
 import ConfigurationConsultsForm from '/imports/components/admin/ConfigurationConsultsForm'
 import ConfigurationProjectsForm from '/imports/components/admin/ConfigurationProjectsForm'
 import ConfigurationFooterForm from '/imports/components/admin/ConfigurationFooterForm'
+import ConfigurationParticipationForm from '/imports/components/admin/ConfigurationParticipationForm'
 
 export default class AdminConfigurationPage extends TrackerReact(Component) {
 
@@ -99,6 +100,10 @@ export default class AdminConfigurationPage extends TrackerReact(Component) {
                 <Icon name="quote left" />
                 Footer / CGU
           </Menu.Item>
+          <Menu.Item active={part === 'participation'} onClick={() => this.changePart('participation')} >
+                <Icon name="quote left" />
+                Participation
+          </Menu.Item>
             </Menu>
             {part == 'general' &&
               [
@@ -134,6 +139,12 @@ export default class AdminConfigurationPage extends TrackerReact(Component) {
               [
                 <Header as='h3'>Footer / Conditions d'utilisation</Header>,
                 <ConfigurationFooterForm className="wow fadeInDown" />
+              ]
+            }
+            {part == 'participation' &&
+              [
+                <Header as='h3'>Participation</Header>,
+                <ConfigurationParticipationForm className="wow fadeInDown" />
               ]
             }
           </Grid.Column>
