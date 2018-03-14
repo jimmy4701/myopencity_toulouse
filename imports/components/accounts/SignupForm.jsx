@@ -28,34 +28,41 @@ export class SignupForm extends Component{
     this.setState({[attr]: !this.state[attr]})
   }
 
-  create_account(e){
+  create_account = (e) => {
     e.preventDefault()
-    const that = this
-    Meteor.call('user.signup', this.state.user, (error, result) => {
-      if(error){
-        console.log("signup error", error)
-        Bert.alert({
-          title: "Erreur lors de l'inscription",
-          message: error.reason,
-          type: 'danger',
-          style: 'growl-bottom-left',
+    const {cgu_acceptance} = this.props
+    const {user, accept_conditions} = this.state
+    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
+
+    if(isValid){
+        Meteor.call('user.signup', user, (error, result) => {
+          if(error){
+            console.log("signup error", error)
+            Bert.alert({
+              title: "Erreur lors de l'inscription",
+              message: error.reason,
+              type: 'danger',
+              style: 'growl-bottom-left',
+            })
+          }else{
+            const {email, password} = user
+            Meteor.loginWithPassword(email, password)
+            const return_route = Session.get('return_route')
+            if(return_route){
+              this.props.history.push(return_route)
+            }else{
+              this.props.history.push('/consults')
+            }
+            Bert.alert({
+              title: "Votre compte a bien été créé",
+              type: 'success',
+              style: 'growl-bottom-left',
+            })
+          }
         })
-      }else{
-        const {email, password} = that.state.user
-        Meteor.loginWithPassword(email, password)
-        const return_route = Session.get('return_route')
-        if(return_route){
-          this.props.history.push(return_route)
-        }else{
-          this.props.history.push('/consults')
-        }
-        Bert.alert({
-          title: "Votre compte a bien été créé",
-          type: 'success',
-          style: 'growl-bottom-left',
-        })
-      }
-    })
+    }else{
+      this.setState({error_message: true})
+    }
   }
 
   connect_facebook(e){
@@ -92,7 +99,7 @@ export class SignupForm extends Component{
 
 
   render(){
-    const {user, accept_conditions} = this.state
+    const {user, accept_conditions, error_message} = this.state
     const {global_configuration, loading} = this.props
     const {facebook_connected, google_connected, cgu_term, cgu_acceptance, cnil_signup_text} = global_configuration
     const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
@@ -128,7 +135,8 @@ export class SignupForm extends Component{
               />
             </Form.Field>
           }
-          <Button  disabled={!isValid} onClick={(e) => {this.create_account(e)}}>M'inscrire</Button>
+          <Button onClick={this.create_account}>M'inscrire</Button>
+          {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
           {facebook_connected || google_connected ?
             <Divider horizontal>OU</Divider>
           : ''}
