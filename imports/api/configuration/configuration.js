@@ -336,6 +336,10 @@ const ConfigurationSchema = new SimpleSchema({
   navbar_participation_term: {
     type: String,
     defaultValue: "Participation"
+  },
+  territories_title: {
+    type: String,
+    defaultValue: "Quartiers"
   }
 })
 
