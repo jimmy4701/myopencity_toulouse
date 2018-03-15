@@ -14,6 +14,10 @@ const TerritoriesSchema = new SimpleSchema({
     name: {
         type: String
     },
+    reference: {
+        type: String,
+        optional: true
+    },
     shorten_url: {
         type: String
     },
