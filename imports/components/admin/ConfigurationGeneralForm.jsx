@@ -82,6 +82,13 @@ export default class ConfigurationGeneralForm extends Component {
                                 onClick={() => this.toggleConfiguration('seo_active')}
                                 label={"Référencement sur les réseaux sociaux"}
                             />
+                            <Form.Input
+                                label="Titre de la page Quartiers"
+                                placeholder="ex: Quartiers"
+                                name="territories_title"
+                                value={configuration.territories_title}
+                                onChange={this.handleConfigurationChange}
+                            />
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Images et icônes</Divider>
                         <Item.Group divided>

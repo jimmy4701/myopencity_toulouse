@@ -105,6 +105,7 @@ export default class TerritoryForm extends TrackerReact(Component) {
 
         return (
             <Form onSubmit={this.submit_form}>
+            <Form.Group widths='equal'>
                 <Form.Input
                     onChange={this.handleTerritoryChange}
                     type='text'
@@ -112,6 +113,14 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     value={territory.name}
                     name="name"
                 />
+                <Form.Input
+                    onChange={this.handleTerritoryChange}
+                    type='text'
+                    label="Numéro / Référence du territoire"
+                    value={territory.reference}
+                    name="reference"
+                />
+            </Form.Group>
                 <Form.Input
                     onChange={this.handleTerritoryChange}
                     type='text'
