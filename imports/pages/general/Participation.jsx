@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Container } from 'semantic-ui-react'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { withTracker } from 'meteor/react-meteor-data'
 
@@ -19,7 +19,9 @@ class Participation extends Component {
             return(
                 <Grid stackable>
                     <Grid.Column width={16} className="wow fadeInUp">
-                        <div dangerouslySetInnerHTML={{__html: participation_page_content }} />
+                        <Container>
+                            <div dangerouslySetInnerHTML={{__html: participation_page_content }} />
+                        </Container>
                     </Grid.Column>
                 </Grid>
             )

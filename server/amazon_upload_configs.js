@@ -15,7 +15,7 @@ Slingshot.fileRestrictions("ConsultFile", {
 })
 
 if(external_apis_conf){
-  if(external_apis_conf.amazon_public_key && external_apis_conf.amazon_private_key){
+  if(external_apis_conf.amazon_public_key && external_apis_conf.amazon_private_key && external_apis_conf.amazon_bucket_name && external_apis_conf.amazon_region){
     Slingshot.createDirective("ConsultImage", Slingshot.S3Storage, {
       bucket: external_apis_conf.amazon_bucket_name,
       acl: "public-read",
