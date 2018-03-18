@@ -163,6 +163,12 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     name="coordinates"
                     onChange={this.handleTerritoryChange}
                 />
+                <Form.Input
+                    label="Coordonnées du centre(format JSON)"
+                    value={territory.center_coordinates}
+                    name="center_coordinates"
+                    onChange={this.handleTerritoryChange}
+                />
                 <Form.Field>
                     <label>Couleur du territoire sur la carte</label>
                     <SketchPicker color={territory.color} onChangeComplete={this.handleColorChange} />

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon } from "react-google-maps"
 import { withRouter } from 'react-router-dom'
+const { MarkerWithLabel } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
+const { MarkerClusterer } = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 class TerritoriesMap extends Component {
 
@@ -297,6 +299,29 @@ class TerritoriesMap extends Component {
                         )
                     }
                 }) }
+
+                 {/* Markers generation */}
+
+                 {territories && territories.map(territory => {
+                      if(territory.reference && territory.center_coordinates){
+                          const coordinates = JSON.parse(territory.center_coordinates)
+                          return (
+                            <MarkerWithLabel
+                              position={coordinates}
+                              labelAnchor={new google.maps.Point(0, 0)}
+                              icon={{
+                                url: "/images/myopencity-logo",
+                                scale: {height: "10px", width: "10px"}
+                              }}
+                              labelStyle={{color: "#9e9e9e", fontSize: "20px"}}
+                              labelClass="territory-label"
+                            ><div>{territory.reference}</div>
+                            </MarkerWithLabel>
+                              
+                          )
+                      }
+                  }) }
+
             </GoogleMap>
         )
     }

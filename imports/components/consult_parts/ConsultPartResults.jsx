@@ -67,24 +67,29 @@ export default class ConsultPartResults extends TrackerReact(Component){
           {chart_type == 'bar' ?
             <Bar
               options={chartOptions}
+              height={100}
               data={chartData} />
           : ''}
           {chart_type == 'line' ?
             <Line
               options={chartOptions}
+              height={100}
               data={chartData} />
           : ''}
           {chart_type == 'doughnut' ?
             <Doughnut
-              data={chartData} />
+            height={100}  
+            data={chartData} />
           : ''}
           {chart_type == 'pie' ?
             <Pie
-              data={chartData} />
+            height={100}  
+            data={chartData} />
           : ''}
           {chart_type == 'radar' ?
             <Radar
               options={chartOptions}
+              height={100}
               data={chartData} />
           : ''}
         </Grid.Column>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TinyMCE from 'react-tinymce'
-import {Grid, Header, Form, Input, Button, Icon} from 'semantic-ui-react'
+import {Grid, Header, Form, Input, Button, Icon, Checkbox} from 'semantic-ui-react'
 
 export default class AlternativeForm extends Component{
 
@@ -97,11 +97,7 @@ export default class AlternativeForm extends Component{
                 />
              </Form.Field>
              <Form.Field>
-               {alternatives_anonymous_choice ?
-                 <Button onClick={(e) => {this.toggleAlternative('anonymous', e)}} icon="spy" content={alternative.anonymous ?
-                     "Votre nom ne sera pas affiché"
-                     : 'Votre nom sera affiché'} />
-               : ''} 
+                <Checkbox style={{margin: "1em 0"}} checked={alternative.anonymous} onClick={(e) => {this.toggleAlternative('anonymous', e)}} label="Je souhaite rester anonyme"/> <br/>
                <Button disabled={!this.isValid()} positive onClick={(e) => {this.submit_form(e)}}>{consult_alternative_validation_term}</Button>
              </Form.Field>
            </Form>

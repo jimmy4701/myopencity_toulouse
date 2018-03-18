@@ -153,7 +153,7 @@ export class AdminExternalApisPage extends TrackerReact(Component) {
   render() {
     const { loading } = this.props
     const { external_apis_configuration } = this.state
-    const { facebook_connected, google_connected, amazon_connected } = Session.get('global_configuration')
+    const { facebook_connected, google_connected, amazon_connected, email_smtp_connected } = Session.get('global_configuration')
 
     if (!loading) {
       return (
@@ -236,8 +236,8 @@ export class AdminExternalApisPage extends TrackerReact(Component) {
                               <Input placeholder="https://votreopencity.com" label="Domaine d'envoi" value={external_apis_configuration.email_smtp_from_domain} type="text" onChange={(e) => { this.handleExternalConfigChange('email_smtp_from_domain', e) }} />
                             </Form.Group>
                           </Form>
-                          {amazon_connected ?
-                            <Button color="red" onClick={(e) => { this.reset_api_configuration('amazon', e) }}>Réinitialiser</Button>
+                          {email_smtp_connected ?
+                            <Button color="red" onClick={(e) => { this.reset_api_configuration('email_smtp', e) }}>Réinitialiser</Button>
                             : ''}
                         </Item.Description>
                       </Item.Content>
