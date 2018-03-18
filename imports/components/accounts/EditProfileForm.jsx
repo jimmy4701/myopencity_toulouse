@@ -134,7 +134,7 @@ export class EditProfileForm extends Component {
       <Container>
         <Grid stackable>
           <Grid.Column width={8}>
-          <Header as='h1'>Les quartiers de la Métropole et vous</Header>
+          <Header as='h1'>Les quartiers de la ville et vous</Header>
             <Form>
                 <Form.Field>
                   <label>J'y habite</label>
