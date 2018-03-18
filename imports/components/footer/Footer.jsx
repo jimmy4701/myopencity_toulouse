@@ -15,8 +15,12 @@ export default class Footer extends Component {
                                 <span className="left-align">{footer_content}</span>
                             </Grid.Column>
                             <Grid.Column width={7} className="center-align">
-                                <Image className="inline-block footer-image" src="/images/mairie-toulouse.png" inline fluid size="small"/>
-                                <Image className="inline-block footer-image" src="/images/toulouse-metropole.png" inline fluid size="small"/>
+                                <Link to="//toulouse.fr" target="_blank">
+                                    <Image className="inline-block footer-image" src="/images/mairie-toulouse.png" inline fluid size="small"/>
+                                </Link>
+                                <Link to="//toulouse-metropole.fr" target="_blank">
+                                    <Image className="inline-block footer-image" src="/images/toulouse-metropole.png" inline fluid size="small"/>
+                                </Link>
                             </Grid.Column>
                             <Grid.Column width={5}>
                                 {footer_cgu_display && <Link to='/conditions' className="pointer" style={{float: 'right'}}><span style={{color: footer_color}}>{cgu_term}</span></Link>}
