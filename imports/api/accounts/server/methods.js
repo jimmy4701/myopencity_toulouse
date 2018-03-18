@@ -12,6 +12,7 @@ import { Projects } from '/imports/api/projects/projects'
 import { Alternatives } from '/imports/api/alternatives/alternatives'
 import { ProjectLikes } from '/imports/api/project_likes/project_likes'
 import { ConsultPartVotes } from '/imports/api/consult_part_votes/consult_part_votes'
+import { AlternativeLikes } from '/imports/api/alternative_likes/alternative_likes'
 
 Meteor.methods({
   'user.signup'({ email, password, username }) {
@@ -170,5 +171,19 @@ Meteor.methods({
     }else{
       throw new Meteor.Error('403', "Utilisateur introuvable")
     }
+  },
+  'current_user.remove_account'(){
+    if(!this.userId){
+      throw new Meteor.Error('403', "Action impossible")
+    }
+    // Remove all participations
+    ConsultPartVotes.remove({user: this.userId})
+    Alternatives.remove({user: this.userId})
+    AlternativeLikes.remove({user: this.userId})
+    ProjectLikes.remove({user: this.userId})
+    Projects.remove({author: this.userId})
+
+    Meteor.users.remove({_id: this.userId})
+    return true
   }
 })

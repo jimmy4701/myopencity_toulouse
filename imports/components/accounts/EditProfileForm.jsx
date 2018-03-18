@@ -78,51 +78,41 @@ export class EditProfileForm extends Component {
   render() {
     const {user_profile} = this.state
     const {territories} = this.props
-    const socio_pro_options = [
+    const age_options = [
       {
-        key: "farmer",
-        value: "farmer",
-        text: "Agriculteurs"
-      }, {
-        key: "entrepreneur",
-        value: "entrepreneur",
-        text: "Artisans, Commerçants, Entrepreneurs"
-      }, {
-        key: "independant",
-        value: "independant",
-        text: "Professions libérales et cadres supérieurs"
-      }, {
-        key: "middle",
-        value: "middle",
-        text: "Cadres moyens"
-      }, {
-        key: "employee",
-        value: "employee",
-        text: "Employés"
-      }, {
-        key: "worker",
-        value: "worker",
-        text: "Ouvriers"
-      }, {
-        key: "service",
-        value: "service",
-        text: "Personnels de services"
-      }, {
-        key: "retired",
-        value: "retired",
-        text: "Retraités"
-      }, {
-        key: "student",
-        value: "student",
-        text: "Étudiants"
-      }, {
-        key: "military",
-        value: "military",
-        text: "Militaires"
-      }, {
-        key: "other",
-        value: "other",
-        text: "Autres"
+        key: "18",
+        value: "18",
+        text: "Moins de 18 ans"
+      },
+      {
+        key: "30",
+        value: "30",
+        text: "Entre 18 et 30 ans"
+      },
+      {
+        key: "40",
+        value: "40",
+        text: "Entre 30 et 40 ans"
+      },
+      {
+        key: "50",
+        value: "50",
+        text: "Entre 40 et 50 ans"
+      },
+      {
+        key: "60",
+        value: "60",
+        text: "Entre 50 et 60 ans"
+      },
+      {
+        key: "70",
+        value: "70",
+        text: "Entre 60 et 70 ans"
+      },
+      {
+        key: "80",
+        value: "80",
+        text: "Plus de 70 ans"
       }
     ]
 
@@ -130,11 +120,13 @@ export class EditProfileForm extends Component {
       return {key: territory._id, value: territory._id, text: territory.name}
     })
 
+    const {cnil_signup_text} = Meteor.isClient && Session.get('global_configuration')
+
     return (
       <Container>
         <Grid stackable>
           <Grid.Column width={8}>
-          <Header as='h1'>Les quartiers de la Métropole et vous</Header>
+          <Header as='h1'>Les quartiers de la ville et vous</Header>
             <Form>
                 <Form.Field>
                   <label>J'y habite</label>
@@ -192,13 +184,14 @@ export class EditProfileForm extends Component {
                     checked={user_profile.public_profile}/>
                 </Form.Group>
                 <Form.Group widths="equal">
-                  <Form.Input
-                    type="number"
-                    min="0"
-                    label="Votre age"
-                    value={user_profile.age}
-                    onChange={this.handleProfileChange}
-                    name="age"/>
+                  <Form.Field>
+                    <label>Votre âge</label>
+                    <Select
+                      options={age_options}
+                      value={user_profile.age}
+                      onChange={this.handleSelect}
+                      name="age"/>
+                  </Form.Field>
                   <Form.Field>
                     <label>Vous êtes</label>
                     <Select
@@ -219,14 +212,7 @@ export class EditProfileForm extends Component {
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths="equal">
-                  <Form.Field>
-                    <label>Catégorie socio-professionnelle</label>
-                    <Select
-                      options={socio_pro_options}
-                      value={user_profile.socio_pro}
-                      onChange={this.handleSelect}
-                      name="socio_pro"/>
-                  </Form.Field>
+                  
                 </Form.Group>
                 <Form.Field className="padded-bottom center-align">
                   <Button
@@ -236,6 +222,7 @@ export class EditProfileForm extends Component {
                     this.edit_profile(e)
                   }}>Modifier mon profil</Button>
                 </Form.Field>
+                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
               </Form>
             </Grid.Column>
             <Grid.Column width={16}>

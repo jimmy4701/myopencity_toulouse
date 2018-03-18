@@ -5,3 +5,10 @@
 .footer-image{
     margin: 0 1em;
 }
+
+.footer-link{
+    padding-bottom: 5px;
+    &:hover{
+        text-decoration: underline;
+    }
+}
