@@ -57,6 +57,30 @@ export default class ConfigurationLandingForm extends Component {
         this.setState({ configuration })
     }
 
+    handleFileImport = (attr, e) => {
+        e.preventDefault()
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        console.log('UPLOAD', attr)
+        uploader.send(e.target.files[0], (error, downloadUrl) => {
+          if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            Bert.alert({
+              title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+              message: error.reason,
+              type: 'danger',
+              style: 'growl-bottom-left',
+            })
+          }
+          else {
+              let {configuration} = this.state
+              configuration[attr] = downloadUrl
+            this.setState({configuration})
+          }
+        })
+      }
+
     handleColorChange = (attr, color, e) => {
         let { configuration } = this.state
         configuration[attr] = color.hex
@@ -67,6 +91,7 @@ export default class ConfigurationLandingForm extends Component {
 
     render() {
         const { configuration } = this.state
+        const { amazon_connected } = Session.get('global_configuration')
 
         return (
             <Grid stackable {...this.props} >
@@ -132,6 +157,7 @@ export default class ConfigurationLandingForm extends Component {
                                         value={configuration.landing_header_background_url}
                                         onChange={this.handleConfigurationChange}
                                     />
+                                    {amazon_connected && <Input onChange={(e) => { this.handleFileImport('landing_header_background_url', e) }} type="file" />}
                                 </Item.Content>
                             </Item>
                         </Item.Group>
