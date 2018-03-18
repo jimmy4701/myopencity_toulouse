@@ -138,5 +138,13 @@ Meteor.methods({
       ExternalApisConfiguration.update({}, {$unset: {amazon_public_key: 1, amazon_private_key: 1}})
       Configuration.update({}, {$set: {amazon_connected: false}})
     }
+  },
+  'external_apis_configuration.reset_email_smtp'(){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Vous n'êtes pas administrateur")
+    }else{
+      ExternalApisConfiguration.update({}, {$unset: {email_smtp_password: 1, email_smtp_port: 1, email_smtp_server: 1, email_smtp_user: 1, email_smtp_from: 1, email_smtp_from_domain: 1}})
+      Configuration.update({}, {$set: {email_smtp_connected: false}})
+    }
   }
 })
