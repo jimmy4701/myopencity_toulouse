@@ -116,6 +116,9 @@ export class ConsultPartial extends Component {
                       <Link to={"/admin/consults/" + consult.url_shorten + "/stats"}>
                         <Button fluid>Statistiques</Button>
                       </Link>
+                      <Link to={"/admin/consult_summary/" + consult.url_shorten}>
+                        <Button fluid>Compte rendu</Button>
+                      </Link>
                       <Button onClick={(e) => { this.toggleEditConsult('landing_display', e) }} fluid>{consult.landing_display ? "Ne plus mettre en avant" : "Mettre en avant"}</Button>
                       {this.state.remove_confirm ?
                         <div className="animated fadeInUp">
