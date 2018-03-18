@@ -137,6 +137,7 @@ export class SignupForm extends Component{
           }
           <Button onClick={this.create_account}>M'inscrire</Button>
           {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
+          <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
           {facebook_connected || google_connected ?
             <Divider horizontal>OU</Divider>
           : ''}
