@@ -120,6 +120,8 @@ export class EditProfileForm extends Component {
       return {key: territory._id, value: territory._id, text: territory.name}
     })
 
+    const {cnil_signup_text} = Meteor.isClient && Session.get('global_configuration')
+
     return (
       <Container>
         <Grid stackable>
@@ -220,6 +222,7 @@ export class EditProfileForm extends Component {
                     this.edit_profile(e)
                   }}>Modifier mon profil</Button>
                 </Form.Field>
+                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
               </Form>
             </Grid.Column>
             <Grid.Column width={16}>
