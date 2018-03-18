@@ -114,7 +114,8 @@ export class ProjectForm extends TrackerReact(Component){
                 plugins: 'image autoresize media link imagetools',
                 toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image ",
                 menubar: false,
-                branding: false
+                branding: false,
+                statusbar: false
               }}
               onChange={this.handleContentChange}
               />

@@ -76,9 +76,6 @@ export default class AlternativeForm extends Component{
 
     return(
        <Grid stackable>
-         <Grid.Column width={16} className="center-align">
-           <Header as="h3">{consult_alternative_validation_term}</Header>
-         </Grid.Column>
          <Grid.Column width={16}>
            <Form>
              <Form.Field>
@@ -93,7 +90,8 @@ export default class AlternativeForm extends Component{
                    plugins: 'image',
                    toolbar: false,
                    menubar: false,
-                   branding: false
+                   branding: false,
+                   statusbar: false
                  }}
                  onChange={this.handleContentChange.bind(this)}
                 />
