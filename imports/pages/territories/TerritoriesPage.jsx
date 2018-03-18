@@ -59,7 +59,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                         <Image src={territory.image_url}/>
                                         <Card.Content>
                                             <Card.Header>{territory.name}</Card.Header>
-                                            <Card.Meta>Élu/Élue: {territory.official_user_name}</Card.Meta>
+                                            <Card.Meta>Maire de quartier: {territory.official_user_name}</Card.Meta>
                                         </Card.Content>
                                         <Card.Content extra>
                                             <Link to={"/territory/" + territory.shorten_url + "/consults"}>
