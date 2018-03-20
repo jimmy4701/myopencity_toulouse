@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 
 //packages
-import { Switch, withRouter } from 'react-router-dom'
+import { Switch, withRouter, Link } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
 import { Loader, Grid, Sidebar, Button, Menu, Icon } from 'semantic-ui-react'
@@ -165,9 +165,11 @@ export class MainLayout extends TrackerReact(Component) {
           </Sidebar.Pushable>
           <CookieConsent
             location="bottom"
-            buttonText="Compris"
+            buttonText="J'accepte"
+            style={{ background: "rgba(1,1,1,0.8)" }}
+            buttonStyle={{ color: "white", backgroundColor: "rgb(140,140,140)", cursor: "pointer" }}
           >
-              Cette application web utilise des cookies pour améliorer votre expérience démocratique 
+              En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de cookies pour vous proposer des contenus et services adaptés à vos centres d’intérêt. <Link to="/conditions" target="_blank">En savoir plus et gérer ces paramètres</Link> 
           </CookieConsent>
         </div>
       )
