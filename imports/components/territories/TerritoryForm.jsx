@@ -46,6 +46,32 @@ export default class TerritoryForm extends TrackerReact(Component) {
         this.setState({ territory })
     }
 
+    uploadImage = (e) => {
+        e.preventDefault()
+        this.setState({ loading_image: true })
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(e.target.files[0], (error, downloadUrl) => {
+          if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            this.setState({ loading_image: false })
+            Bert.alert({
+              title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+              message: error.reason,
+              type: 'danger',
+              style: 'growl-bottom-left',
+            })
+          }
+          else {
+            let { territory } = this.state
+            territory.image_url = downloadUrl
+            this.setState({ territory, loading_image: false })
+          }
+          // you will need this in the event the user hit the update button because it will remove the avatar url
+        })
+      }
+
     submit_form = (e) => {
         e.preventDefault()
         if (this.props.territory) {
@@ -101,7 +127,7 @@ export default class TerritoryForm extends TrackerReact(Component) {
 
     render() {
 
-        const { territory } = this.state
+        const { territory, loading_image } = this.state
 
         return (
             <Form onSubmit={this.submit_form}>
@@ -157,6 +183,9 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     value={territory.image_url}
                     name="image_url"
                 />
+                <Form.Field>
+                    <Input loading={loading_image} onChange={(e) => { this.uploadImage(e) }} type="file" />
+                  </Form.Field>
                 <Form.Input
                     label="Coordonnées (format JSON)"
                     value={territory.coordinates}
