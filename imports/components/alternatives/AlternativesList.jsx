@@ -48,15 +48,9 @@ export class AlternativesList extends TrackerReact(Component){
           :
             <Grid.Column width={16}>
               <Grid stackable>
-                <Grid.Column width={16} className="">
-                  <Feed>
                     {_.sortBy(alternatives, function(al){return -al.likes}).map((alternative, index) => {
                       return <AlternativePartial alternative={alternative} onTitleClick={() => {this.select_alternative(alternative)}} key={index} />
                     })}
-
-                  </Feed>
-                </Grid.Column>
-
               </Grid>
             </Grid.Column>
           }
