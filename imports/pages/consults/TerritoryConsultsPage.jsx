@@ -90,8 +90,8 @@ export default TerritoryConsultsPageContainer = createContainer(({ match }) => {
     if(territory){
         const consultsPublication = Meteor.isClient && Meteor.subscribe('consults.by_territory', territory._id)
         const loading = Meteor.isClient && (!territoryPublication.ready() || !consultsPublication.ready())
-        const consults = Consults.find({ visible: true, ended: false, territory: territory._id }).fetch()
-        const ended_consults = Consults.find({ visible: true, ended: true, territory: territory._id }).fetch()
+        const consults = Consults.find({ visible: true, ended: false, territories: territory._id }).fetch()
+        const ended_consults = Consults.find({ visible: true, ended: true, territories: territory._id }, {sort: {title: 1}}).fetch()
         return {
             loading,
             consults,
