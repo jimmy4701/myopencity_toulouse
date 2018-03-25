@@ -88,7 +88,7 @@ class SigninForm extends Component{
   }
 
   render(){
-    const {facebook_connected, google_connected, email_smtp_connected} = Meteor.isClient && Session.get('global_configuration')
+    const {facebook_connected, google_connected, email_smtp_connected, buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
 
     return(
        <Form onSubmit={(e) => {this.signin(e)}} className="center-align">
@@ -100,7 +100,7 @@ class SigninForm extends Component{
            <label>Mot de passe</label>
            <Input type="password" onChange={(e) => {this.handleChange('password', e)}} />
          </Form.Field>
-         <Button positive onClick={(e) => {this.signin(e)}}>Se connecter</Button>
+         <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.signin(e)}}>Se connecter</Button>
          <Button onClick={(e) => {this.go('/sign_up', e)}}>Je n'ai pas encore de compte</Button>
          {facebook_connected || google_connected ?
            <Divider horizontal>OU</Divider>

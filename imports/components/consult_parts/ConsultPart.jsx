@@ -110,7 +110,9 @@ export class ConsultPart extends Component{
     const { 
       consult_alternative_button_term,
       consult_yet_voted_term,
-      alternatives_term
+      alternatives_term,
+      buttons_validation_background_color,
+      buttons_validation_text_color
     } = Meteor.isClient && Session.get('global_configuration')
     const consult_part_hover_class = this.state.hover_vote ? "hover" : ""
 
@@ -177,7 +179,7 @@ export class ConsultPart extends Component{
                 </Button>
               : ''}
               {!display_alternative_form ?
-                <Button onClick={this.toggleAlternativeForm} size="big" positive onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)}>
+                <Button onClick={this.toggleAlternativeForm} size="big" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)}>
                   {consult_alternative_button_term}
                 </Button>
               : ''}

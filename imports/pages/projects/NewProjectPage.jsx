@@ -95,7 +95,7 @@ export class NewProjectPage extends TrackerReact(Component){
   render(){
     const {step, new_project} = this.state
     const {loading, parent_project, territory} = this.props
-    const {projects_anonymous_choice, project_descriptive_term, project_term} = Meteor.isClient && Session.get('global_configuration')
+    const {projects_anonymous_choice, project_descriptive_term, project_term, buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       return(
@@ -158,7 +158,7 @@ export class NewProjectPage extends TrackerReact(Component){
                           data-wow-delay="3s"
                           />
                         <div className="wow fadeInUp" data-wow-delay="3.5s">
-                          <Button positive onClick={(e) => {this.changeStep('title', e)}}>Commencer</Button>
+                          <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('title', e)}}>Commencer</Button>
                         </div>
                       </Container>
                     </Grid.Column>
@@ -180,7 +180,7 @@ export class NewProjectPage extends TrackerReact(Component){
                             defaultValue={new_project.title}
                             className="marged"
                             />
-                          <Button positive onClick={(e) => {this.changeStep('description', e)}}>Passer à la description</Button>
+                          <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('description', e)}}>Passer à la description</Button>
                         </Container>
                       </Grid.Column>
                     </Grid>
@@ -202,7 +202,7 @@ export class NewProjectPage extends TrackerReact(Component){
                               className="marged"
                               />
                             <Button size="tiny" onClick={(e) => {this.changeStep('title', e)}}>Précédent</Button>
-                            <Button positive onClick={(e) => {this.changeStep('content', e)}}>Passer au contenu</Button>
+                            <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('content', e)}}>Passer au contenu</Button>
                           </Container>
                         </Grid.Column>
                       </Grid>
@@ -231,7 +231,7 @@ export class NewProjectPage extends TrackerReact(Component){
                                 onChange={this.handleContentChange.bind(this)}
                                 />
                               <Button size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
-                              <Button positive onClick={(e) => {this.changeStep('image', e)}}>Passer à l'image</Button>
+                              <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('image', e)}}>Passer à l'image</Button>
                             </Container>
                           </Grid.Column>
                         </Grid>
@@ -255,9 +255,9 @@ export class NewProjectPage extends TrackerReact(Component){
                                   />
                                 <Button size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
                                   {projects_anonymous_choice ?
-                                    <Button positive onClick={(e) => {this.changeStep('anonymous', e)}}>Passer à l'anonymat</Button>
+                                    <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('anonymous', e)}}>Passer à l'anonymat</Button>
                                   :
-                                    <Button positive onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
+                                    <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
                                   }
                               </Container>
                             </Grid.Column>
@@ -277,11 +277,11 @@ export class NewProjectPage extends TrackerReact(Component){
                                   <p>En laissant anonyme, les autres utilisateurs ne pourront pas vous contacter</p>
                                   <Grid stackable className="marged">
                                     <Grid.Column width={16} className="center-align">
-                                      <Button active={new_project.anonymous} size="huge" positive={new_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
+                                      <Button active={new_project.anonymous} size="huge"  onClick={(e) => {this.toggleProject('anonymous',e)}}>
                                         <Icon name="spy" size="big"/>
                                         Anonyme
                                       </Button>
-                                      <Button active={!new_project.anonymous} size="huge" positive={!new_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
+                                      <Button active={!new_project.anonymous} size="huge"  onClick={(e) => {this.toggleProject('anonymous',e)}}>
                                         <Icon name="user" size="big"/>
                                         Publique
                                       </Button>
@@ -293,7 +293,7 @@ export class NewProjectPage extends TrackerReact(Component){
                                     </Grid.Column>
                                   </Grid>
                                   <Button size="tiny" onClick={(e) => {this.changeStep('image', e)}}>Précédent</Button>
-                                  <Button positive onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
+                                  <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
                                 </Container>
                               </Grid.Column>
                             </Grid>
@@ -306,7 +306,7 @@ export class NewProjectPage extends TrackerReact(Component){
                                   <Container>
                                     <Header as="h1" className="wow fadeInUp">Lancez la validation de votre projet</Header>
                                     <Button size="tiny" onClick={(e) => {this.changeStep('anonymous', e)}}>Précédent</Button>
-                                    <Button positive onClick={(e) => {this.submit_form(e)}}>Créer le projet</Button>
+                                    <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.submit_form(e)}}>Créer le projet</Button>
                                   </Container>
                                 </Grid.Column>
                               </Grid>

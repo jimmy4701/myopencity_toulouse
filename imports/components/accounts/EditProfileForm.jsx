@@ -78,6 +78,7 @@ export class EditProfileForm extends Component {
   render() {
     const {user_profile} = this.state
     const {territories} = this.props
+    const {buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
     const age_options = [
       {
         key: "18",
@@ -218,6 +219,7 @@ export class EditProfileForm extends Component {
                   <Button
                     size="big"
                     positive
+                    style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}}
                     onClick={(e) => {
                     this.edit_profile(e)
                   }}>Modifier mon profil</Button>

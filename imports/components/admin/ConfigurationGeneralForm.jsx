@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Grid, Form, Input, Checkbox, Divider, Button, Item, Image, Header } from 'semantic-ui-react'
+import { SketchPicker } from 'react-color'
 
 export default class ConfigurationGeneralForm extends Component {
 
@@ -64,6 +65,12 @@ export default class ConfigurationGeneralForm extends Component {
                 })
             }
         })
+    }
+
+    handleColorChange = (attr, color, e) => {
+        let { configuration } = this.state
+        configuration[attr] = color.hex
+        this.setState({ configuration })
     }
 
     handleConfigurationChange = (e) => {
@@ -146,6 +153,17 @@ export default class ConfigurationGeneralForm extends Component {
                                 </Item.Content>
                             </Item>
                         </Item.Group>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Boutons et couleurs</Divider>
+                        <Form.Group widths="equal">
+                            <Form.Field>
+                                <label>Couleur de fond des boutons de validation</label>
+                                <SketchPicker color={configuration.buttons_validation_background_color} onChangeComplete={(e) => { this.handleColorChange('buttons_validation_background_color', e) }} />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Couleur du texte des boutons de validation</label>
+                                <SketchPicker color={configuration.buttons_validation_text_color} onChangeComplete={(e) => { this.handleColorChange('buttons_validation_text_color', e) }} />
+                            </Form.Field>
+                        </Form.Group>
                         <Button color="green" content="Valider les modifications" />
                     </Form>
                 </Grid.Column>

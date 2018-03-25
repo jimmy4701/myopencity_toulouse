@@ -357,6 +357,14 @@ const ConfigurationSchema = new SimpleSchema({
   territories_title: {
     type: String,
     defaultValue: "Quartiers"
+  },
+  buttons_validation_background_color: {
+    type: String,
+    defaultValue: "green"
+  },
+  buttons_validation_text_color: {
+    type: String,
+    defaultValue: "white"
   }
 })
 
