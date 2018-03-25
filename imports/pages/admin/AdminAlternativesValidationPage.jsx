@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
-import {Grid, Header, Loader} from 'semantic-ui-react'
+import {Grid, Header, Loader, Container} from 'semantic-ui-react'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
 import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
 
@@ -24,18 +24,20 @@ export class AdminAlternativesValidationPage extends TrackerReact(Component){
 
     if(!loading){
       return(
-        <Grid stackable>
-          <Grid.Column width={16} className="center-align">
-            <Header as="h2">Validation des alternatives</Header>
-          </Grid.Column>
-          <Grid.Column width={16}>
-            {alternatives.map((alternative, index) => {
-              return (
-               <AlternativePartial alternative={alternative} />
-              )
-            })}
-          </Grid.Column>
-        </Grid>
+        <Container>
+          <Grid stackable>
+            <Grid.Column width={16} className="center-align">
+              <Header as="h2">Validation des alternatives</Header>
+            </Grid.Column>
+            <Grid.Column width={16}>
+              {alternatives.map((alternative, index) => {
+                return (
+                <AlternativePartial alternative={alternative} />
+                )
+              })}
+            </Grid.Column>
+          </Grid>
+        </Container>
       )
     }else{
       return <Loader className="inline-block">Chargement des alternatives</Loader>
