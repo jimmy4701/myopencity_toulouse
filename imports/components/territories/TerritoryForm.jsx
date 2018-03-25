@@ -207,6 +207,11 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     label="Territoire actif"
                     onClick={() => this.toggleTerritory('active')}
                 />
+                <Form.Checkbox
+                    checked={territory.projects_active}
+                    label="Propositions activées"
+                    onClick={() => this.toggleTerritory('projects_active')}
+                />
                 <Button color="green">{this.props.territory ? "Modifier" : "Créer"}</Button>
             </Form>
         )

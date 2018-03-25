@@ -59,6 +59,10 @@ const TerritoriesSchema = new SimpleSchema({
     priority: {
         type: Number,
         defaultValue: 1
+    },
+    projects_active: {
+        type: Boolean,
+        defaultValue: true
     }
 })
 Territories.attachSchema(TerritoriesSchema);
