@@ -181,8 +181,8 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     <TinyMCE
                         content={territory.official_user_description}
                         config={{
-                            plugins: 'image autoresize',
-                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image',
+                            plugins: 'image autoresize media code link',
+                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
                             images_upload_handler: this.handleUploadImage
                         }}
                         onChange={(e) => this.handleRichContent(e, 'official_user_description')}
@@ -193,8 +193,9 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     <TinyMCE
                         content={territory.description}
                         config={{
-                            plugins: 'image autoresize',
-                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                            plugins: 'image autoresize media code link',
+                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                            images_upload_handler: this.handleUploadImage
                         }}
                         onChange={(e) => this.handleRichContent(e, 'description')}
                     />

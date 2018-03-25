@@ -51,6 +51,28 @@ export default class ConfigurationParticipationForm extends Component {
         })
     }
 
+    handleUploadImage = (blobInfo, success, failure) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(blobInfo.blob(), (error, downloadUrl) => {
+        if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+            })
+            failure("Erreur lors de l'envoi de l'image : " + error)
+        }
+        else {
+            success(downloadUrl)
+        }
+        })
+        
+    }
+
     handleConfigurationChange = (e) => {
         let { configuration } = this.state
         configuration[e.target.name] = e.target.value
@@ -94,8 +116,9 @@ export default class ConfigurationParticipationForm extends Component {
                             <TinyMCE
                                 content={configuration.participation_page_content}
                                 config={{
-                                    plugins: 'image autoresize',
-                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image'
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'participation_page_content')}
                                 name="participation_page_content"
