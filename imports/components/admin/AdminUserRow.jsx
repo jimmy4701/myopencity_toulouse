@@ -3,6 +3,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Grid, Header, Loader, Table, Button, Label} from 'semantic-ui-react'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 
 export default class AdminUserRow extends TrackerReact(Component){
 
@@ -73,6 +74,9 @@ export default class AdminUserRow extends TrackerReact(Component){
           {Roles.userIsInRole(Meteor.userId(), 'admin') ?
             <Button color={moderator ? "green" : ""} onClick={(e) => {this.toggleModerator(e)}}>{moderator ? "Modérateur" : "Utilisateur"}</Button>
           : ''}
+          <Link to={"/profile/" + user._id}>
+            <Button>Profil</Button>
+          </Link>
         </Table.Cell>
       </Table.Row>
     )
