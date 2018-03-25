@@ -29,13 +29,11 @@ export class AdminAlternativesValidationPage extends TrackerReact(Component){
             <Grid.Column width={16} className="center-align">
               <Header as="h2">Validation des alternatives</Header>
             </Grid.Column>
-            <Grid.Column width={16}>
               {alternatives.map((alternative, index) => {
                 return (
                 <AlternativePartial alternative={alternative} />
                 )
               })}
-            </Grid.Column>
           </Grid>
         </Container>
       )

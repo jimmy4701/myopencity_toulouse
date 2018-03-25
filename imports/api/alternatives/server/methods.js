@@ -20,6 +20,7 @@ Meteor.methods({
         alternative.user = this.userId
         alternative.consult_part = consult_part_id
         alternative.consult = consult_part.consult
+        alternative.created_at = new Date()
         if(consult.alternatives_validation){
           alternative.validated = false
         }

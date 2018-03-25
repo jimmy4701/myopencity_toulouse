@@ -140,11 +140,6 @@ export class ConsultPart extends Component{
                 <Grid.Column width={16} className="center-align">
                   <Header as="h3">{_.capitalize(alternatives_term)}</Header>
                 </Grid.Column>
-                {!displaying_alternative ?
-                  <Grid.Column width={16}>
-                    <Input icon="search" fluid placeholder="Rechercher" type="text" onChange={(e) => {this.handleChange('search_alternatives_terms', e)}} />
-                  </Grid.Column>
-                : ''}
                 <Grid.Column width={16} className="center-align">
                   <AlternativesList
                     consult_part={consult_part}

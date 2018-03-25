@@ -4,6 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import {Link, withRouter} from 'react-router-dom'
 import 'moment/locale/fr'
+import Truncate from 'react-truncate-html'
 
 export class AlternativePartial extends Component{
 
@@ -18,6 +19,8 @@ export class AlternativePartial extends Component{
   state = {
     actived_alternative: false
   }
+
+  toggleState = (e) => this.setState({[e.target.name]: !this.state[e.target.name]})
 
   toggle_like = (e) => {
     e.preventDefault()
@@ -94,10 +97,22 @@ export class AlternativePartial extends Component{
               {moment().to(moment(alternative.created_at))}
               </Grid.Column>
               <Grid.Column width={16}>
+              {actived_alternative ? 
                 <div dangerouslySetInnerHTML={{__html: alternative.content }} />
+              :
+              <Truncate
+                lines={3}
+                dangerouslySetInnerHTML={{
+                __html: alternative.content
+                }}
+              />
+              }
               </Grid.Column>
               <Grid.Column width={16}>
-                <Button onClick={this.toggle_like} icon="thumbs up" size="small">
+              {alternative.content.length > 300 &&
+                <Button onClick={this.toggleState} name="actived_alternative" icon="eye" size="tiny">{actived_alternative ? "Cacher le contenu" : "Voir tout"}</Button>
+              }
+                <Button onClick={this.toggle_like} icon="thumbs up" size="tiny">
                   <Icon name="thumbs up"/>
                   {alternative.likes}
                 </Button>
