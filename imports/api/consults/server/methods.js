@@ -48,5 +48,101 @@ Meteor.methods({
       Alternatives.remove({consult: consult_id})
       Consults.remove({_id: consult_id})
     }
+  },
+  'consults.get_users_statistics'(consult_id){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous ne pouvez pas faire cela")
+    }else{
+      const consult_parts = ConsultParts.find({consult: consult_id}).fetch()
+      const consult_parts_ids = consult_parts.map(part => part._id)
+      const votes = ConsultPartVotes.find({consult_part: {$in: consult_parts_ids}}).fetch()
+      console.log('votes', votes)
+      const filtered_votes = _.uniqBy(votes, function(vote){ return vote.user })
+      const voters_ids = filtered_votes.map(vote => vote.user)
+      console.log('voters ids', voters_ids)
+      const voters = Meteor.users.find({_id: {$in: voters_ids}}).fetch()
+      console.log('voters', voters)
+
+      const statistics = {
+        total_voters: voters_ids.length,
+        ages: {
+          '18': 0,
+          '24': 0,
+          '39': 0,
+          '65': 0,
+          '80': 0,
+          'none': 0
+        },
+        genders: {
+          'man': 0,
+          'woman': 0,
+          'other': 0,
+          'none': 0
+        },
+        territories: {
+          'home_territories': {},
+          'work_territories': {},
+          'interest_territories': {},
+          'travel_territories': {}
+        }
+      }
+
+      voters.map(voter => {
+        // Age stat
+        if(voter.profile.age){
+          statistics.ages[voter.profile.age] += 1
+        }else{
+          statistics.ages['none'] += 1
+        }
+        //Gender stat
+        if(voter.profile.gender){
+          statistics.genders[voter.profile.gender] += 1
+        }else{
+          statistics.genders['none'] += 1
+        }
+        // Territories stat
+        voter.profile.home_territories && voter.profile.home_territories.map(home => 
+          {
+            if(statistics.territories.home_territories[home]){
+              statistics.territories.home_territories[home]++
+            }else{
+              statistics.territories.home_territories[home] = 1
+            }
+
+          }
+        )
+        voter.profile.work_territories && voter.profile.work_territories.map(work => 
+          {
+            if(statistics.territories.work_territories[work]){
+              statistics.territories.work_territories[work]++
+            }else{
+              statistics.territories.work_territories[work] = 1
+            }
+          }
+        )
+        voter.profile.interest_territories && voter.profile.interest_territories.map(interest => 
+          {
+            if(statistics.territories.interest_territories[interest]){
+              statistics.territories.interest_territories[interest]++
+            }else{
+              statistics.territories.interest_territories[interest] = 1
+            }
+          }
+        )
+        voter.profile.travel_territories && voter.profile.travel_territories.map(travel => 
+          {
+            if(statistics.territories.travel_territories[travel]){
+              statistics.territories.travel_territories[travel]++
+            }else{
+              statistics.territories.travel_territories[travel] = 1
+            }
+          }
+        )
+      })
+
+      console.log('STATISTICS', statistics)
+
+      return statistics
+    }
   }
 })

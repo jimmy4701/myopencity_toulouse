@@ -10,9 +10,42 @@ import _ from 'lodash'
 import Helmet from 'react-helmet'
 
 export class AdminConsultSummary extends Component {
+
+    state = {
+        statistics: {}
+    }
+
+    componentWillReceiveProps(){
+        if(this.props.consult){
+            Meteor.call('consults.get_users_statistics', this.props.consult._id, (error, result) => {
+                if(error){
+                    console.log('Erreur', error.message)
+                }else{
+                    this.setState({statistics: result})
+                }
+            })
+        }
+    }
     render() {
         const { loading, consult, consult_parts, configuration } = this.props
         const actual_date = moment().format('DD.MM.YYYY')
+        const {statistics} = this.state
+
+        const ages_options = {
+            "18": "Moins de 18 ans",
+            "24": "Entre 18 et 24 ans",
+            "39": "Entre 25 et 39 ans",
+            "65": "Entre 40 et 65 ans",
+            "80": "Plus de 65 ans",
+            "none": "Non renseigné"
+        }
+
+        const genders_options = {
+            "man": "Homme",
+            "woman": "Femme",
+            "other": "Autre",
+            "none": "Non renseigné"
+        }
         
         if (!loading) {
             const { global_image_url, navbar_color, main_title } = configuration
@@ -56,6 +89,35 @@ export class AdminConsultSummary extends Component {
                                         )
                                     })}
                                 </Grid>
+                            </Grid.Column>
+                            <Grid.Column width={16}>
+                                <Header as='h2'>Concernant les participants</Header>
+                                <Header as='h3'>Ages</Header>
+                                {Object.keys(statistics.ages).map(key => {
+                                    return(
+                                        <Statistic>
+                                            <Statistic.Value>{statistics.ages[key]}</Statistic.Value>
+                                            <Statistic.Label>{ages_options[key]}</Statistic.Label>
+                                        </Statistic>
+                                    )
+                                })}
+                                <Header as='h3'>Genre</Header>
+                                {Object.keys(statistics.genders).map(key => {
+                                    return(
+                                        <Statistic>
+                                            <Statistic.Value>{statistics.genders[key]}</Statistic.Value>
+                                            <Statistic.Label>{genders_options[key]}</Statistic.Label>
+                                        </Statistic>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Habitations</Header>
+                                {Object.keys(statistics.home_territories).map(key => {
+                                    return(
+                                        <p>{statistics.home_territories[key]} des participants habitent dans le quartier {_.find(Territories, t => t._id == key).name}</p>
+                                    )
+                                })}
                             </Grid.Column>
                     </Grid>
                 </Container>
