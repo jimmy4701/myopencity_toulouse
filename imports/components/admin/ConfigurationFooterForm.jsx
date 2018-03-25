@@ -98,6 +98,13 @@ export default class ConfigurationFooterForm extends Component {
                                 onChange={this.handleConfigurationChange}
                             />
                             <Form.Input
+                                label="Terme pour 'mentions légales' "
+                                placeholder="ex: Conditions générales / Mentions légales"
+                                name="legal_notice_term"
+                                value={configuration.legal_notice_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
                                 label="Hauteur du footer"
                                 placeholder="ex: 10em"
                                 name="footer_height"
@@ -129,17 +136,31 @@ export default class ConfigurationFooterForm extends Component {
                                 name="fill_profile_explain"
                             />
                         </Form.Field>
-                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>CONDITIONS D'UTILISATION</Divider>
-                        <Form.Checkbox
-                            checked={configuration.footer_cgu_display}
-                            onClick={() => this.toggleConfiguration('footer_cgu_display')}
-                            label="Afficher le bouton des conditions dans le footer"
-                        />
-                        <Form.Checkbox
-                            checked={configuration.cgu_acceptance}
-                            onClick={() => this.toggleConfiguration('cgu_acceptance')}
-                            label="Acceptation des conditions obligatoire à l'inscription"
-                        />
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>CONDITIONS D'UTILISATION / MENTIONS LÉGALES</Divider>
+                        <Form.Group widths='equal'>
+                            <Form.Checkbox
+                                checked={configuration.footer_cgu_display}
+                                onClick={() => this.toggleConfiguration('footer_cgu_display')}
+                                label="Afficher le bouton des conditions dans le footer"
+                            />
+                            <Form.Checkbox
+                                checked={configuration.cgu_acceptance}
+                                onClick={() => this.toggleConfiguration('cgu_acceptance')}
+                                label="Acceptation des conditions obligatoire à l'inscription"
+                            />
+                        </Form.Group>
+                        <Form.Group widths='equal'>
+                            <Form.Checkbox
+                                checked={configuration.footer_legal_notice_display}
+                                onClick={() => this.toggleConfiguration('footer_legal_notice_display')}
+                                label="Afficher le bouton des mentions légales dans le footer"
+                            />
+                            <Form.Checkbox
+                                checked={configuration.legal_notice_acceptance}
+                                onClick={() => this.toggleConfiguration('legal_notice_acceptance')}
+                                label="Acceptation des mentions légales obligatoire à l'inscription"
+                            />
+                        </Form.Group>
                         <Form.Field width={16}>
                             <label>Conditions générales d'utilisation</label>
                             <TinyMCE
@@ -162,6 +183,18 @@ export default class ConfigurationFooterForm extends Component {
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'cnil_signup_text')}
                                 name="cnil_signup_text"
+                            />
+                        </Form.Field>
+                        <Form.Field width={16}>
+                            <label>Mentions légales</label>
+                            <TinyMCE
+                                content={configuration.legal_notice}
+                                config={{
+                                    plugins: 'autoresize',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | link'
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'legal_notice')}
+                                name="legal_notice"
                             />
                         </Form.Field>
                         <Button color="green" content="Valider les modifications" />
