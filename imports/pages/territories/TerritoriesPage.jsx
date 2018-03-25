@@ -92,7 +92,7 @@ export default TerritoriesPageContainer = createContainer(({match}) => {
         active: true
     }, {
         sort: {
-            name: 1
+            priority: 1
         }
     }).fetch()
     const global_configuration = Configuration.findOne()
