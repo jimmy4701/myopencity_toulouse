@@ -48,5 +48,10 @@ Meteor.methods({
       Alternatives.remove({consult: consult_id})
       Consults.remove({_id: consult_id})
     }
+  },
+  'consults.get_by_id'(consult_id){
+    if(Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      return Consults.findOne({_id: consult_id})
+    }
   }
 })

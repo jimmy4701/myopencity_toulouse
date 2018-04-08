@@ -1,54 +1,52 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
-import {Grid, Header, Loader, Container} from 'semantic-ui-react'
-import {Alternatives} from '/imports/api/alternatives/alternatives'
+import {Grid, Header, Menu, Container, Icon} from 'semantic-ui-react'
 import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
+import AdminUnverifiedAlternatives from '/imports/components/admin/AdminUnverifiedAlternatives'
+import AdminUnvalidatedAlternatives from '/imports/components/admin/AdminUnvalidatedAlternatives'
 
-export class AdminAlternativesValidationPage extends TrackerReact(Component){
+export default class AdminAlternativesValidationPage extends TrackerReact(Component){
 
   /*
     required props:
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-
-    }
+  state = {
+    part: "unverified"
   }
 
-  render(){
-    const {alternatives, loading} = this.props
+  changePart = (part) => this.setState({part})
 
-    if(!loading){
+  render(){
+    const {part} = this.state
+
       return(
         <Container>
           <Grid stackable>
-            <Grid.Column width={16} className="center-align">
-              <Header as="h2">Validation des alternatives</Header>
+            <Grid.Column width={16}>
+              <Menu pointing secondary stackable>
+                  <Menu.Item active={part === 'unverified'} onClick={() => this.changePart('unverified')} >
+                      <Icon name="find" />
+                      Non vérifiées
+                  </Menu.Item>
+                  <Menu.Item active={part === 'unvalidated'} onClick={() => this.changePart('unvalidated')} >
+                    <Icon name="ban" />
+                    Invalidées
+                  </Menu.Item>
+              </Menu>
             </Grid.Column>
-              {alternatives.map((alternative, index) => {
-                return (
-                <AlternativePartial alternative={alternative} />
-                )
-              })}
+            {part == "unverified" &&
+              <AdminUnverifiedAlternatives />
+            }
+            {part == 'unvalidated' &&
+              <AdminUnvalidatedAlternatives />
+            }
           </Grid>
         </Container>
       )
-    }else{
-      return <Loader className="inline-block">Chargement des alternatives</Loader>
-    }
   }
 }
 
-export default AdminAlternativesValidationPageContainer = createContainer(({}) => {
-  const alternativesPublication = Meteor.isClient && Meteor.subscribe('alternatives.unvalidated')
-  const loading = Meteor.isClient && !alternativesPublication.ready()
-  const alternatives = Alternatives.find({validated: false}).fetch()
-  return {
-    loading,
-    alternatives
-  }
-}, AdminAlternativesValidationPage)
+
