@@ -173,7 +173,7 @@ export class EditProfileForm extends Component {
                     style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}}
                     onClick={(e) => {
                     this.edit_profile(e)
-                  }}>Modifier mon profil</Button>
+                  }}>Enregistrer vos modifications</Button>
                 </Form.Field>
                 <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
               </Form>
