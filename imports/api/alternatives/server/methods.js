@@ -77,5 +77,14 @@ Meteor.methods({
       alternative.validated = !alternative.validated
       Alternatives.update({_id: alternative_id}, {$set: alternative})
     }
+  },
+  'alternatives.toggle_verified'(alternative_id){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }else{
+      let alternative = Alternatives.findOne({_id: alternative_id})
+      alternative.verified = !alternative.verified
+      Alternatives.update({_id: alternative_id}, {$set: alternative})
+    }
   }
 })

@@ -68,6 +68,20 @@ export class AlternativePartial extends Component{
     this.props.onTitleClick(this.props.alternative)
   }
 
+  toggle_verified = (e) => {
+    Meteor.call('alternatives.toggle_verified', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Déclaré comme vérifié',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
 
   render(){
     const {user, loading, alternative} = this.props
@@ -120,6 +134,9 @@ export class AlternativePartial extends Component{
                   [
                     <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider " : "Valider "} {alternative_descriptive_term}</Button>
                   ]
+                }
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && !alternative.verified &&
+                  <Button onClick={(e) => {this.toggle_verified(e)}}>Déclarer comme vérifié</Button>
                 }
               </Grid.Column>
             </Grid>
