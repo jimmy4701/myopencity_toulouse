@@ -8,11 +8,11 @@ Meteor.publish('consults.all', function(){
 })
 
 Meteor.publish('consults.visible', function(){
-  return Consults.find({visible: true}, {limit: 1000, sort: {}})
+  return Consults.find({visible: true}, {limit: 1000, sort: {title: 1}})
 })
 
 Meteor.publish('consult', function(urlShorten){
-  return Consults.find({url_shorten: urlShorten, visible: true})
+  return Consults.find({url_shorten: urlShorten, visible: true}, {limit: 1, sort: {}})
 })
 
 Meteor.publish('consult.admin_by_shorten_url', function(urlShorten){
@@ -20,10 +20,10 @@ Meteor.publish('consult.admin_by_shorten_url', function(urlShorten){
 })
 
 Meteor.publish('consults.landing', function(){
-  return Consults.find({landing_display: true}, {limit: 1000, sort: {}})
+  return Consults.find({landing_display: true}, {limit: 1000, sort: {title: 1}})
 })
 
 Meteor.publish('consults.by_territory', function(territory_id){
-  return Consults.find({territory: territory_id, visible: true}, {limit: 1000, sort: {}})
+  return Consults.find({territories: territory_id, visible: true}, {limit: 1000, sort: {title: 1}})
 })
 

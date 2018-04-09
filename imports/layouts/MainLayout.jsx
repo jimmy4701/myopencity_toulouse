@@ -36,6 +36,7 @@ import TerritoryConsultsPage from '/imports/pages/consults/TerritoryConsultsPage
 import TerritoriesPage from '/imports/pages/territories/TerritoriesPage'
 import TerritoryProjectsPage from '/imports/pages/projects/TerritoryProjectsPage'
 import Conditions from '/imports/pages/general/Conditions'
+import LegalNotice from '/imports/pages/general/LegalNotice'
 import Participation from '/imports/pages/general/Participation'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import CookieConsent from "react-cookie-consent";
@@ -150,6 +151,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={TerritoriesPage} exact path="/territories" { ...this.props } />
                       <Public component={TerritoryProjectsPage} exact path="/territory/:shorten_url/projects" { ...this.props } />
                       <Public component={Conditions} exact path="/conditions" { ...this.props } />
+                      <Public component={LegalNotice} exact path="/mentions_legales" { ...this.props } />
                       <Public component={Participation} exact path="/participation" { ...this.props } />
                       <Public component={NotFound} path="*"  { ...this.props } />
                     </Switch>

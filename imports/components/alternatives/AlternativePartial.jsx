@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {Feed, Icon, Image} from 'semantic-ui-react'
+import {Icon, Image, Segment, Grid, Button} from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import {Link, withRouter} from 'react-router-dom'
 import 'moment/locale/fr'
+import Truncate from 'react-truncate-html'
 
 export class AlternativePartial extends Component{
 
@@ -16,10 +17,26 @@ export class AlternativePartial extends Component{
   */
 
   state = {
-
+    actived_alternative: false,
+    consult: null,
+    removing: false
   }
 
-  toggle_like(e){
+  toggleState = (e) => this.setState({[e.target.name]: !this.state[e.target.name]})
+
+  componentDidMount(){
+    if(this.props.display_consult){
+      Meteor.call('consults.get_by_id', this.props.alternative.consult , (error, result) => {
+        if(error){
+          console.log('Erreur', error.message)
+        }else{
+          this.setState({consult: result})
+        }
+      })
+    }
+  }
+
+  toggle_like = (e) => {
     e.preventDefault()
     if(!Meteor.userId()){
       Session.set('return_route', this.props.history.location.pathname)
@@ -39,58 +56,130 @@ export class AlternativePartial extends Component{
     }
   }
 
+
+  toggle_validated = (e) => {
+    Meteor.call('alternatives.toggle_validity', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log(error)
+        Bert.alert({
+          title: "Erreur lors de la modification de validité de l'alternative",
+          message: error.reason,
+          type: 'danger',
+          style: 'growl-bottom-left',
+        })
+      }else{
+        Bert.alert({
+          title: "Validité de l'alternative modifiée",
+          type: 'success',
+          style: 'growl-bottom-left',
+        })
+      }
+    });
+  }
+
   onTitleClick(e){
     e.preventDefault()
     this.props.onTitleClick(this.props.alternative)
   }
 
+  toggle_verified = (e) => {
+    Meteor.call('alternatives.toggle_verified', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Déclaré comme vérifié',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
+  remove = () => {
+    Meteor.call('alternatives.remove', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Alternative supprimée',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
 
   render(){
-    const {user, loading, alternative} = this.props
+    const {user, loading, alternative, display_consult, removable} = this.props
+    const {actived_alternative, consult, removing} = this.state 
     moment.locale('fr')
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       console.log("user", user);
       return(
-        <Feed.Event className="animated fadeInUp">
-          <Feed.Label>
-            {!alternative.anonymous ?
-              <Image avatar src={user.profile.avatar_url} />
-            : ''}
-          </Feed.Label>
-          <Feed.Content>
-            <Feed.Summary>
-              {alternative.anonymous ?
-                <Feed.User>{alternatives_anonymous_profile_term} </Feed.User>
+        <Grid.Column width={actived_alternative ? 16 :8} className="wow fadeInUp">
+          <Segment>
+            <Grid stackable>
+              <Grid.Column width={16} style={{paddingBottom: "0"}}>
+                {!alternative.anonymous ?
+                  <Image avatar src={user.profile.avatar_url} />
+                : ''}
+                {alternative.anonymous ?
+                  <span>{alternatives_anonymous_profile_term} </span>
+                :
+                <Link to={"/profile/" + user._id}>
+                  <span>{user.username} </span>
+                </Link>}
+                <span> a proposé {alternative_descriptive_term}</span> <a onClick={(e) => {this.onTitleClick(e)}}>{alternative.title}</a>
+              </Grid.Column>
+              <Grid.Column width={16} style={{paddingTop: "0", color: "#b7b7b7"}}>
+              {moment().to(moment(alternative.created_at))} {display_consult && <Link to={"/consults/" + consult.urlShorten}>{consult.title}</Link>}
+              </Grid.Column>
+              <Grid.Column width={16}>
+              {actived_alternative ? 
+                <div dangerouslySetInnerHTML={{__html: alternative.content }} />
               :
-              <Link to={"/profile/" + user._id}>
-                <Feed.User>{user.username} </Feed.User>
-              </Link>}
-              <span> a proposé {alternative_descriptive_term}</span> <a onClick={(e) => {this.onTitleClick(e)}}>{alternative.title}</a>
-                <Feed.Date>{moment().to(moment(alternative.created_at))}</Feed.Date>
-              </Feed.Summary>
-              <Feed.Meta>
-                <Feed.Like onClick={(e) => {this.toggle_like(e)}}>
-                  <Icon name='thumbs up' />
+              <Truncate
+                lines={3}
+                dangerouslySetInnerHTML={{
+                __html: alternative.content
+                }}
+              />
+              }
+              </Grid.Column>
+              <Grid.Column width={16}>
+              {alternative.content.length > 300 &&
+                <Button onClick={this.toggleState} name="actived_alternative" icon="eye" size="tiny">{actived_alternative ? "Cacher le contenu" : "Voir tout"}</Button>
+              }
+                <Button onClick={this.toggle_like} icon="thumbs up" size="tiny">
+                  <Icon name="thumbs up"/>
                   {alternative.likes}
-                </Feed.Like>
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
-        )
+                </Button>
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
+                  [
+                    <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider " : "Valider "} {alternative_descriptive_term}</Button>
+                  ]
+                }
+                {removing &&
+                  <Button onClick={this.remove} color="red">Supprimer définitivement</Button>
+                }
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && removable &&
+                  <Button color={!removing && "red"} onClick={this.toggleState} name="removing">{removing ? "Annuler" : "Supprimer"}</Button>
+                }
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && !alternative.verified &&
+                  <Button onClick={(e) => {this.toggle_verified(e)}}>Déclarer comme vérifié</Button>
+                }
+              </Grid.Column>
+            </Grid>
+          </Segment>
+        </Grid.Column>
+      )
     }else{
       return(
-        <Feed.Event>
-          <Feed.Label>
-            <Icon name="idea" />
-          </Feed.Label>
-          <Feed.Content>
-            <Feed.Summary>
-              Chargement de l'alternative
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
+        <Segment loading></Segment>
       )
     }
   }

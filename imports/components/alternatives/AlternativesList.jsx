@@ -43,24 +43,13 @@ export class AlternativesList extends TrackerReact(Component){
 
       return(
         <Grid stackable centered>
-          {selected_alternative ?
-              <AlternativePresentation alternative={selected_alternative} onGoBackClick={() => {this.hide_selected_alternative()}} />
-          :
             <Grid.Column width={16}>
-              <Grid stackable>
-                <Grid.Column width={16} className="">
-                  <Feed>
+              <Grid stackable stretched>
                     {_.sortBy(alternatives, function(al){return -al.likes}).map((alternative, index) => {
-                      return <AlternativePartial alternative={alternative} onTitleClick={() => {this.select_alternative(alternative)}} key={index} />
+                      return <AlternativePartial alternative={alternative} key={index} />
                     })}
-
-                  </Feed>
-                </Grid.Column>
-
               </Grid>
             </Grid.Column>
-          }
-
         </Grid>
       )
   }

@@ -69,6 +69,12 @@ export class AdminLayout extends TrackerReact(Component) {
           </Helmet>
           <Sidebar.Pushable>
             <Sidebar as={Menu} animation='push' width='thin' visible={Session.get('open_sidebar')} className="main-sidebar" icon='labeled' vertical inverted>
+              {window.innerWidth <= 768 && 
+                <Menu.Item onClick={() => {this.go('/')}} name='cogs'>
+                  <Icon name='home' />
+                  Accueil
+                </Menu.Item>
+              }
               {Roles.userIsInRole(Meteor.userId(), 'admin') ?
                 <Menu.Item onClick={() => {this.go('/admin/configuration')}} name='cogs'>
                   <Icon name='cogs' />

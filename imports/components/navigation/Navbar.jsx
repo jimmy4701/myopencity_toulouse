@@ -74,10 +74,8 @@ export default class Navbar extends TrackerReact(Component){
             </Container>
           </Menu>
           :
-          <Menu secondary className="main-navbar" size="large" style={{backgroundColor: navbar_color}}>
-            <Container>
+          <Menu secondary className="main-navbar" size="large" style={{backgroundColor: navbar_color, padding: "0 2em"}}>
               <Menu.Item className="navbar-item" icon="content" onClick={(e) => {this.toggleSidebar(e) }} header/>
-            </Container>
           </Menu>
         }
       </div>

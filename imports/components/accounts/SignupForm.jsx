@@ -99,10 +99,10 @@ export class SignupForm extends Component{
 
 
   render(){
-    const {user, accept_conditions, error_message} = this.state
+    const {user, accept_conditions, accept_legal_notice, error_message} = this.state
     const {global_configuration, loading} = this.props
-    const {facebook_connected, google_connected, cgu_term, cgu_acceptance, cnil_signup_text} = global_configuration
-    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
+    const {facebook_connected, google_connected, cgu_term, cgu_acceptance, legal_notice_term, legal_notice_acceptance, cnil_signup_text} = global_configuration
+    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true) && (legal_notice_acceptance ? accept_legal_notice : true)
 
     if(!loading){
       return(
@@ -132,6 +132,15 @@ export class SignupForm extends Component{
                 checked={accept_conditions}
                 onClick={() => this.toggleState('accept_conditions')}
                 label={<label for="accept_conditions"  >J'accepte les conditions de la <a href="/conditions" target="_blank">charte d'utilisation</a></label>}
+              />
+            </Form.Field>
+          }
+          {legal_notice_acceptance &&
+            <Form.Field>
+              <Checkbox
+                checked={accept_legal_notice}
+                onClick={() => this.toggleState('accept_legal_notice')}
+                label={<label for="accept_legal_notice"  >J'accepte les <a href="/mentions_legales" target="_blank">mentions légales</a></label>}
               />
             </Form.Field>
           }

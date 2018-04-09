@@ -55,6 +55,14 @@ const TerritoriesSchema = new SimpleSchema({
     center_coordinates: {
         type: String,
         optional: true
+    },
+    priority: {
+        type: Number,
+        defaultValue: 1
+    },
+    projects_active: {
+        type: Boolean,
+        defaultValue: true
     }
 })
 Territories.attachSchema(TerritoriesSchema);

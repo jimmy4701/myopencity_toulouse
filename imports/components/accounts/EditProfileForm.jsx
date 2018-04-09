@@ -78,6 +78,7 @@ export class EditProfileForm extends Component {
   render() {
     const {user_profile} = this.state
     const {territories} = this.props
+    const {buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
     const age_options = [
       {
         key: "18",
@@ -85,34 +86,24 @@ export class EditProfileForm extends Component {
         text: "Moins de 18 ans"
       },
       {
-        key: "30",
-        value: "30",
-        text: "Entre 18 et 30 ans"
+        key: "24",
+        value: "24",
+        text: "Entre 18 et 24 ans"
       },
       {
-        key: "40",
-        value: "40",
-        text: "Entre 30 et 40 ans"
+        key: "39",
+        value: "39",
+        text: "Entre 25 et 39 ans"
       },
       {
-        key: "50",
-        value: "50",
-        text: "Entre 40 et 50 ans"
-      },
-      {
-        key: "60",
-        value: "60",
-        text: "Entre 50 et 60 ans"
-      },
-      {
-        key: "70",
-        value: "70",
-        text: "Entre 60 et 70 ans"
+        key: "65",
+        value: "65",
+        text: "Entre 40 et 65 ans"
       },
       {
         key: "80",
         value: "80",
-        text: "Plus de 70 ans"
+        text: "Plus de 65 ans"
       }
     ]
 
@@ -125,8 +116,71 @@ export class EditProfileForm extends Component {
     return (
       <Container>
         <Grid stackable>
+          <Grid.Column width={16}>
+            <Message color="blue" icon="info circle"content="En remplissant votre profil, vous nous aidez à mieux comprendre vos attentes."/>
+          </Grid.Column>
           <Grid.Column width={8}>
-          <Header as='h1'>Les quartiers de la ville et vous</Header>
+              <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
+              <Form>
+                <Form.Group widths="equal">
+                  <Form.Checkbox
+                    label={{
+                    children: "J'autorise les autres citoyens à voir mes données"
+                  }}
+                    vertical
+                    onClick={() => this.toggleProfile('public_profile')}
+                    checked={user_profile.public_profile}/>
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Form.Field>
+                    <label>Votre âge</label>
+                    <Select
+                      options={age_options}
+                      value={user_profile.age}
+                      onChange={this.handleSelect}
+                      name="age"/>
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Vous êtes</label>
+                    <Select
+                      options={[
+                      {
+                        key: "man",
+                        value: "man",
+                        text: "Un homme"
+                      }, {
+                        key: "woman",
+                        value: "woman",
+                        text: "Une femme"
+                      }, {
+                        key: "other",
+                        value: "other",
+                        text: "Autre"
+                      }
+                    ]}
+                      value={user_profile.gender}
+                      onChange={this.handleSelect}
+                      name="gender"/>
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group widths="equal">
+                  
+                </Form.Group>
+                <Form.Field className="padded-bottom center-align">
+                  <Button
+                    size="big"
+                    positive
+                    style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}}
+                    onClick={(e) => {
+                    this.edit_profile(e)
+                  }}>Enregistrer vos modifications</Button>
+                </Form.Field>
+                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+              </Form>
+            </Grid.Column>
+          <Grid.Column width={8}>
+          <Header as='h1'>Vos quartiers</Header>
+          <p>Choix multiples possibles dans chaque rubrique</p>
             <Form>
                 <Form.Field>
                   <label>J'y habite</label>
@@ -171,63 +225,6 @@ export class EditProfileForm extends Component {
                     </Form.Field>
               </Form>
             </Grid.Column>
-            <Grid.Column width={8}>
-              <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
-              <Form>
-                <Form.Group widths="equal">
-                  <Form.Checkbox
-                    label={{
-                    children: "J'autorise les autres citoyens à voir mes données"
-                  }}
-                    vertical
-                    onClick={() => this.toggleProfile('public_profile')}
-                    checked={user_profile.public_profile}/>
-                </Form.Group>
-                <Form.Group widths="equal">
-                  <Form.Field>
-                    <label>Votre âge</label>
-                    <Select
-                      options={age_options}
-                      value={user_profile.age}
-                      onChange={this.handleSelect}
-                      name="age"/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Vous êtes</label>
-                    <Select
-                      options={[
-                      {
-                        key: "man",
-                        value: "man",
-                        text: "Un homme"
-                      }, {
-                        key: "woman",
-                        value: "woman",
-                        text: "Une femme"
-                      }
-                    ]}
-                      value={user_profile.gender}
-                      onChange={this.handleSelect}
-                      name="gender"/>
-                  </Form.Field>
-                </Form.Group>
-                <Form.Group widths="equal">
-                  
-                </Form.Group>
-                <Form.Field className="padded-bottom center-align">
-                  <Button
-                    size="big"
-                    positive
-                    onClick={(e) => {
-                    this.edit_profile(e)
-                  }}>Modifier mon profil</Button>
-                </Form.Field>
-                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
-              </Form>
-            </Grid.Column>
-            <Grid.Column width={16}>
-            <Message color="blue" icon="thumbs up" header="Vous comprendre, ça passe par cette page" content="En remplissant votre profil correctement, vous permettez à la Métropole de Toulouse de mieux comprendre vos avis, et de prendre de meilleures décisions."/>
-          </Grid.Column>
         </Grid>
       </Container>
     ) 

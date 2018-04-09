@@ -93,7 +93,7 @@ export class ProjectForm extends TrackerReact(Component){
   render(){
     const {loading, project, parent_project} = this.props
     const {editing_project} = this.state
-    const {project_term, projects_anonymous_choice} = Meteor.isClient && Session.get('global_configuration')
+    const {project_term, projects_anonymous_choice, buttons_validation_text_color, buttons_validation_background_color} = Meteor.isClient && Session.get('global_configuration')
     
     if(!loading){
       return(
@@ -112,7 +112,7 @@ export class ProjectForm extends TrackerReact(Component){
               content={editing_project.content}
               config={{
                 plugins: 'image autoresize media link imagetools',
-                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image ",
+                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image media ",
                 menubar: false,
                 branding: false,
                 statusbar: false
@@ -143,7 +143,7 @@ export class ProjectForm extends TrackerReact(Component){
             </Form.Field>
           }
           <Form.Field>
-            <Button positive onClick={(e) => {this.submit_form(e)}}>{project ? "Modifier" : "Créer"}</Button>
+            <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.submit_form(e)}}>{project ? "Modifier" : "Créer"}</Button>
           </Form.Field>
         </Form>
       )

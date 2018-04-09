@@ -53,7 +53,7 @@ export class Landing extends Component {
               </Grid.Column>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={16} className="center-align landing-part landing-explain-part" verticalAlign="middle">
+          <Grid.Column width={16} className="center-align landing-explain-part" verticalAlign="middle">
               <Grid verticalAlign="middle" stackable>
                 {landing_explain_title &&
                   <Grid.Column width={16} className="center-align landing-title-container">

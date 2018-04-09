@@ -38,7 +38,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
 
     render() {
         const {territories, loading} = this.props
-        const {navbar_color, project_term, consults_term, territories_title} = this.props.global_configuration
+        const {navbar_color, project_term, consults_term, territories_title, navbar_projects} = this.props.global_configuration
         if (!loading) {
             return (
                 <Grid className="wow fadeInUp" stackable>
@@ -51,29 +51,31 @@ export class TerritoriesPage extends TrackerReact(Component) {
                         }}>{territories_title}</Header>
                     </Grid.Column>
                     <Grid.Column width={16}>
-                        <Card.Group>
-
-                            {territories.map((territory, index) => {
-                                return (
-                                    <Card key={territory._id}>
-                                        <Image src={territory.image_url}/>
-                                        <Card.Content>
-                                            <Card.Header>{territory.name}</Card.Header>
-                                            <Card.Meta>Maire de quartier: {territory.official_user_name}</Card.Meta>
-                                        </Card.Content>
-                                        <Card.Content extra>
-                                            <Link to={"/territory/" + territory.shorten_url + "/consults"}>
-                                                <Button content={_.capitalize(consults_term)}/>
-                                            </Link>
-                                            <Link to={"/territory/" + territory.shorten_url + "/projects"}>
-                                                <Button content={_.capitalize(project_term) + "s"}/>
-                                            </Link>
-                                        </Card.Content>
-                                    </Card>
-                                )
-                            })}
-                        </Card.Group>
-
+                        <Grid stackable>
+                                {territories.map((territory, index) => {
+                                    return (
+                                        <Grid.Column key={territory._id} className="center-align" width={4}>
+                                            <Card className="inline-block">
+                                                <Image src={territory.image_url}/>
+                                                <Card.Content>
+                                                    <Card.Header>{territory.name}</Card.Header>
+                                                    <Card.Meta>Maire de quartier: {territory.official_user_name}</Card.Meta>
+                                                </Card.Content>
+                                                <Card.Content extra>
+                                                    <Link to={"/territory/" + territory.shorten_url + "/consults"}>
+                                                        <Button content={_.capitalize(consults_term)}/>
+                                                    </Link>
+                                                    {territory.projects_active && navbar_projects &&
+                                                        <Link to={"/territory/" + territory.shorten_url + "/projects"}>
+                                                            <Button content={_.capitalize(project_term) + "s"}/>
+                                                        </Link>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+                                    )
+                                })}
+                        </Grid>
                     </Grid.Column>
                 </Grid>
             )
@@ -92,7 +94,7 @@ export default TerritoriesPageContainer = createContainer(({match}) => {
         active: true
     }, {
         sort: {
-            name: 1
+            priority: 1
         }
     }).fetch()
     const global_configuration = Configuration.findOne()

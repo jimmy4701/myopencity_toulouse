@@ -1,6 +1,17 @@
 import { Meteor } from 'meteor/meteor'
 import { Consults } from '/imports/api/consults/consults'
 import { Configuration } from '/imports/api/configuration/configuration'
+import { Territories } from '/imports/api/territories/territories'
+
+Migrations.add({
+  version: 7,
+  name: "MIGRATION 7 : Activated projects_active on territories",
+  up() {
+    Territories.find({projects_active: {$exists: false}}).forEach(territory => { 
+      Territories.update({_id: territory._id}, {$set: {projects_active: true}})
+    })
+  }
+}) 
 
 Migrations.add({
   version: 6,

@@ -309,6 +309,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
+  footer_legal_notice_display: {
+    type: Boolean,
+    defaultValue: false
+  },
   footer_content: {
     type: String,
     defaultValue: "Développé avec Myopencity, plateforme de Démocratie Open-Source"
@@ -322,6 +326,19 @@ const ConfigurationSchema = new SimpleSchema({
     defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>"
   },
   cgu_acceptance: {
+    type: Boolean,
+    defaultValue: false
+  },
+  legal_notice_term: {
+    type: String,
+    defaultValue: "Mentions légales"
+  },
+  legal_notice: {
+    type: String,
+    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>",
+    optional: true
+  },
+  legal_notice_acceptance: {
     type: Boolean,
     defaultValue: false
   },
@@ -340,6 +357,14 @@ const ConfigurationSchema = new SimpleSchema({
   territories_title: {
     type: String,
     defaultValue: "Quartiers"
+  },
+  buttons_validation_background_color: {
+    type: String,
+    defaultValue: "green"
+  },
+  buttons_validation_text_color: {
+    type: String,
+    defaultValue: "white"
   }
 })
 

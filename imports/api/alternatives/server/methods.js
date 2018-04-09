@@ -20,6 +20,7 @@ Meteor.methods({
         alternative.user = this.userId
         alternative.consult_part = consult_part_id
         alternative.consult = consult_part.consult
+        alternative.created_at = new Date()
         if(consult.alternatives_validation){
           alternative.validated = false
         }
@@ -74,6 +75,15 @@ Meteor.methods({
     }else{
       let alternative = Alternatives.findOne({_id: alternative_id})
       alternative.validated = !alternative.validated
+      Alternatives.update({_id: alternative_id}, {$set: alternative})
+    }
+  },
+  'alternatives.toggle_verified'(alternative_id){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }else{
+      let alternative = Alternatives.findOne({_id: alternative_id})
+      alternative.verified = !alternative.verified
       Alternatives.update({_id: alternative_id}, {$set: alternative})
     }
   }

@@ -72,7 +72,7 @@ export default class AlternativeForm extends Component{
   render(){
 
     const {alternative} = this.state
-    const {alternatives_anonymous_choice, consult_alternative_validation_term, alternative_term} = Session.get('global_configuration')
+    const {alternatives_anonymous_choice, consult_alternative_validation_term, alternative_term, buttons_validation_background_color, buttons_validation_text_color} = Session.get('global_configuration')
 
     return(
        <Grid stackable>
@@ -98,7 +98,7 @@ export default class AlternativeForm extends Component{
              </Form.Field>
              <Form.Field>
                 <Checkbox style={{margin: "1em 0"}} checked={alternative.anonymous} onClick={(e) => {this.toggleAlternative('anonymous', e)}} label="Je souhaite rester anonyme"/> <br/>
-               <Button disabled={!this.isValid()} positive onClick={(e) => {this.submit_form(e)}}>{consult_alternative_validation_term}</Button>
+               <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} disabled={!this.isValid()} positive onClick={(e) => {this.submit_form(e)}}>{consult_alternative_validation_term}</Button>
              </Form.Field>
            </Form>
          </Grid.Column>

@@ -72,9 +72,10 @@ class ConsultPartVoteButton extends TrackerReact(Component){
   render(){
     const {open_modal} = this.state
     const {consult_part} = this.props
+    const {buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
     return(
       <div>
-        <Button onMouseOver={(e) => {this.on_mouse_over(e)}} onMouseOut={(e) => {this.on_mouse_out(e)}} size="huge" positive onClick={(e) => {this.toggleVoteModal(e)}}>{consult_part.vote_label}</Button>
+        <Button onMouseOver={(e) => {this.on_mouse_over(e)}} onMouseOut={(e) => {this.on_mouse_out(e)}} size="huge" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.toggleVoteModal(e)}}>{consult_part.vote_label}</Button>
           <Modal open={open_modal} onClose={(e) => {this.toggleState('open_modal', e)}}>
             <Modal.Header>{consult_part.question}</Modal.Header>
             <Modal.Content>

@@ -291,9 +291,10 @@ class TerritoriesMap extends Component {
                                 paths={coordinates} 
                                 onClick={() => this.go(territory)}
                                 options={{
-                                    strokeWeight: 1,
+                                    strokeWeight: 0,
                                     strokeColor: territory.color,
-                                    fillColor: territory.color 
+                                    fillColor: territory.color,
+                                    fillOpacity: 0.5
                                 }}
                             />
                         )
@@ -313,7 +314,7 @@ class TerritoriesMap extends Component {
                                 url: "/images/myopencity-logo",
                                 scale: {height: "10px", width: "10px"}
                               }}
-                              labelStyle={{color: "#9e9e9e", fontSize: "20px"}}
+                              labelStyle={{color: "#111111", fontSize: "20px"}}
                               labelClass="territory-label"
                             ><div>{territory.reference}</div>
                             </MarkerWithLabel>

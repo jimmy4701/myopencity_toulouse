@@ -75,7 +75,7 @@ export default class AdminConfigurationPage extends TrackerReact(Component) {
             <Header as="h1" className="wow fadeInLeft">Configuration de votre OpenCity</Header>
           </Grid.Column>
           <Grid.Column width={16} className="admin-form-container">
-            <Menu pointing secondary>
+            <Menu pointing secondary stackable>
               <Menu.Item active={part === 'general'} onClick={() => this.changePart('general')} >
                 <Icon name="settings" />
                 Général

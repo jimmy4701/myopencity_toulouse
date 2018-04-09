@@ -30,6 +30,10 @@ const AlternativeSchema = new SimpleSchema({
       type: Boolean,
       defaultValue: true
     },
+    verified: {
+      type: Boolean,
+      defaultValue: false
+    },
     created_at: {
       type: Date,
       defaultValue: new Date()

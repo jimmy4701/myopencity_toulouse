@@ -39,6 +39,8 @@ export class ConsultPage extends TrackerReact(Component){
       consult_description_font_size,
       consult_territory_prefix, 
       consult_territory_icon,
+      buttons_validation_text_color,
+      buttons_validation_background_color,
       consult_term
     } = Meteor.isClient && Session.get('global_configuration')
 
@@ -73,7 +75,7 @@ export class ConsultPage extends TrackerReact(Component){
               <Container>
                 {!show_files ?
                   <span>
-                    <Header as="h4">Des documents sont disponibles avec cette {consult_term} <Button positive onClick={(e) => {this.toggleState('show_files', e)}}>Voir les documents</Button></Header>
+                    <Header as="h4">Des documents sont disponibles avec cette {consult_term} <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.toggleState('show_files', e)}}>Voir les documents</Button></Header>
                   </span>
                   :
                   <Grid stackable>

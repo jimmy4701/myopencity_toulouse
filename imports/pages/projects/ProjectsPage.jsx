@@ -30,14 +30,21 @@ export class ProjectsPage extends Component{
 
   render(){
     const {loading, projects} = this.props
-    const {projects_page_header_title, navbar_color, project_create_button_color, project_term, project_create_button_text} = Meteor.isClient && Session.get('global_configuration')
+    const {projects_page_header_title,
+      navbar_color, 
+      project_create_button_color,
+      project_term, 
+      project_create_button_text,
+      buttons_validation_background_color,
+      buttons_validation_text_color
+    } = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       return(
         <Grid stackable>
         <Grid.Column width={16} className="territory-projects-header">
             <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{projects_page_header_title}</Header>
-            <Button positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big" onClick={this.new_project}>{project_create_button_text}</Button>
+            <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} size="big" onClick={this.new_project}>{project_create_button_text}</Button>
           </Grid.Column>
           {projects.map((project, index) => {
             return(

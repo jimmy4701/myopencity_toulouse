@@ -125,6 +125,28 @@ export default class TerritoryForm extends TrackerReact(Component) {
         this.setState({ territory })
     }
 
+    handleUploadImage = (blobInfo, success, failure) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(blobInfo.blob(), (error, downloadUrl) => {
+        if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+            })
+            failure("Erreur lors de l'envoi de l'image : " + error)
+        }
+        else {
+            success(downloadUrl)
+        }
+        })
+        
+    }
+
     render() {
 
         const { territory, loading_image } = this.state
@@ -159,8 +181,9 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     <TinyMCE
                         content={territory.official_user_description}
                         config={{
-                            plugins: 'image autoresize',
-                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                            plugins: 'image autoresize media code link',
+                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                            images_upload_handler: this.handleUploadImage
                         }}
                         onChange={(e) => this.handleRichContent(e, 'official_user_description')}
                     />
@@ -170,8 +193,9 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     <TinyMCE
                         content={territory.description}
                         config={{
-                            plugins: 'image autoresize',
-                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                            plugins: 'image autoresize media code link',
+                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                            images_upload_handler: this.handleUploadImage
                         }}
                         onChange={(e) => this.handleRichContent(e, 'description')}
                     />
@@ -206,6 +230,11 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     checked={territory.active}
                     label="Territoire actif"
                     onClick={() => this.toggleTerritory('active')}
+                />
+                <Form.Checkbox
+                    checked={territory.projects_active}
+                    label="Propositions activées"
+                    onClick={() => this.toggleTerritory('projects_active')}
                 />
                 <Button color="green">{this.props.territory ? "Modifier" : "Créer"}</Button>
             </Form>

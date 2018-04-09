@@ -85,8 +85,8 @@ export default ConsultsPageContainer = createContainer(() => {
   const consultsPublication = Meteor.isClient && Meteor.subscribe('consults.visible')
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
   const loading = Meteor.isClient && (!territoriesPublication.ready() || !consultsPublication.ready())
-  const consults = Consults.find({ visible: true, ended: false }).fetch()
-  const ended_consults = Consults.find({ visible: true, ended: true }).fetch()
+  const consults = Consults.find({ visible: true, ended: false }, {sort: {title: 1}}).fetch()
+  const ended_consults = Consults.find({ visible: true, ended: true },  {sort: {title: 1}}).fetch()
   return {
     loading,
     consults,
