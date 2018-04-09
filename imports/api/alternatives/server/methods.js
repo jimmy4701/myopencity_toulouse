@@ -24,7 +24,10 @@ Meteor.methods({
         if(consult.alternatives_validation){
           alternative.validated = false
         }
-        Alternatives.insert(alternative)
+        const alternative_id = Alternatives.insert(alternative)
+        if(configuration.email_smtp_connected){
+          Meteor.call('mailing_service.alternative_notification', alternative_id)
+        }
       }else{
         throw new Meteor.Error('403', "Les alternatives sont désactivées sur cette partie")
       }
