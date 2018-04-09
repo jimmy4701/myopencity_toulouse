@@ -57,7 +57,7 @@ class NavbarAccountItem extends TrackerReact(Component){
 
   render(){
     const current_user = Meteor.user()
-    const {project_term} = Meteor.isClient && Session.get('global_configuration')
+    const {project_term, navbar_projects} = Meteor.isClient && Session.get('global_configuration')
     
     if(current_user){
       const trigger = (
@@ -71,9 +71,11 @@ class NavbarAccountItem extends TrackerReact(Component){
             <Link to="/me/profile">
               <Dropdown.Item>Profil</Dropdown.Item>
             </Link>
-            <Link to="/me/projects">
-              <Dropdown.Item>Mes {project_term}s</Dropdown.Item>
-            </Link>
+            {navbar_projects &&
+              <Link to="/me/projects">
+                <Dropdown.Item>Mes {project_term}s</Dropdown.Item>
+              </Link> 
+            }
             {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) ?
               <Link to="/admin/consults">
                 <Dropdown.Item>Admin</Dropdown.Item>
