@@ -53,5 +53,24 @@ Meteor.methods({
     if(Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
       return Consults.findOne({_id: consult_id})
     }
-  }
+  },
+  'consults.export_alternatives'(consult_id){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Not authorized")
+    }else{
+      const alternatives_cursor = Alternatives.find({consult: consult_id})
+      let lines = []
+      if(alternatives_cursor.count()){
+        const alternatives = alternatives_cursor.fetch()
+        lines = alternatives.map((alternative, index) => {
+          const consult_part = ConsultParts.findOne({_id: alternative.consult_part})
+          const author = Meteor.users.findOne({_id: alternative.user})
+          return {alternative: alternative.title, author: author ? author.username : '', email: author.emails[0].address ? author.emails[0].address : '', content: alternative.content, consult_part: consult_part.title}
+        })
+        return lines
+      }else{
+        throw new Meteor.Error('403', "Aucun produit trouvé")
+      }
+    }
+  },
 })
