@@ -112,7 +112,7 @@ export class ProjectForm extends TrackerReact(Component){
               content={editing_project.content}
               config={{
                 plugins: 'image autoresize media link imagetools',
-                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image ",
+                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image media ",
                 menubar: false,
                 branding: false,
                 statusbar: false

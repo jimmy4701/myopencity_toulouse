@@ -81,6 +81,28 @@ export default class ConfigurationLandingForm extends Component {
         })
       }
 
+      handleUploadImage = (blobInfo, success, failure) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(blobInfo.blob(), (error, downloadUrl) => {
+        if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+            })
+            failure("Erreur lors de l'envoi de l'image : " + error)
+        }
+        else {
+            success(downloadUrl)
+        }
+        })
+        
+    }
+
     handleColorChange = (attr, color, e) => {
         let { configuration } = this.state
         configuration[attr] = color.hex
@@ -136,8 +158,9 @@ export default class ConfigurationLandingForm extends Component {
                                 <TinyMCE
                                     content={configuration.landing_explain_text}
                                     config={{
-                                        plugins: 'image autoresize',
-                                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                                        plugins: 'image autoresize media code link',
+                                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                        images_upload_handler: this.handleUploadImage
                                     }}
                                     onChange={(e) => this.handleRichContent(e, 'landing_explain_text')}
                                     name="landing_explain_text"

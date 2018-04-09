@@ -23,7 +23,7 @@ const SortableList = SortableContainer(({items, onEditClick}) => {
 })
 
 const SortableItem = SortableElement(({value, onEditClick}) =>
-  <TerritoryPartial territory={value} onEditClick={onEditClick} />
+  <TerritoryPartial territory={value} onEditClick={() => onEditClick(value)} />
 )
 
 export class AdminTerritoriesPage extends Component{
@@ -91,7 +91,7 @@ export class AdminTerritoriesPage extends Component{
                   <TerritoryForm territory={editing_territory} onSubmitForm={this.onSubmit} />
               :
                 <Grid stackable>
-                  <SortableList axis="xy" items={sorted_territories} onSortEnd={this.onSortEnd} onEditClick={() => this.editTerritory(territory)} />
+                  <SortableList axis="xy" items={sorted_territories} onSortEnd={this.onSortEnd} onEditClick={this.editTerritory} />
                 </Grid>
               }
             </Container>

@@ -16,13 +16,47 @@ export class ConsultPartial extends Component {
 
     state = {
       display_manage_buttons: false,
-      remove_confirm: false
+      remove_confirm: false,
+      exporting: false
     }
 
   toggleState(attr, e) {
     let state = this.state
     state[attr] = !state[attr]
     this.setState(state)
+  }
+
+  export_alternatives = () => {
+    this.setState({loading: true})
+    const { consult } = this.props
+    Meteor.call('consults.export_alternatives', consult._id, (error, result) => {
+      if(error){
+        console.log(error)
+        Bert.alert({
+          title: "Erreur lors de l'export des alternatives",
+          message: error.reason,
+          type: 'danger',
+          style: 'growl-bottom-left',
+        })
+        this.setState({exporting: false})
+      }else{
+        const csv = Papa.unparse(result, {delimiter: ";", header: true})
+        const blob = new Blob([csv])
+        if (window.navigator.msSaveOrOpenBlob)  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx
+          window.navigator.msSaveBlob(blob, consult.title + ".csv")
+        else
+        {
+          const a = window.document.createElement("a")
+          a.href = window.URL.createObjectURL(blob, {type: "text/plain;charset=UTF-8"})
+          a.download = consult.title + ".csv"
+          document.body.appendChild(a)
+          a.click()  // IE: "Access is denied" see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
+          document.body.removeChild(a)
+        }
+
+        this.setState({exporting: false})
+      }
+    })
   }
 
   toggleEditConsult(attr, e) {
@@ -69,6 +103,7 @@ export class ConsultPartial extends Component {
 
   render() {
     const { consult, className, user_id, territories, loading } = this.props
+    const { exporting } = this.state
     const {consult_territory_icon} = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
@@ -113,6 +148,7 @@ export class ConsultPartial extends Component {
                       <Button onClick={(e) => { this.toggleEditConsult('visible', e) }} fluid>{consult.visible ? "Rendre invisible" : "Rendre visible"}</Button>
                       <Button onClick={(e) => { this.toggleEditConsult('votable', e) }} fluid>{consult.votable ? "Stopper les votes" : "Lancer les votes"}</Button>
                       <Button onClick={(e) => { this.toggleEditConsult('ended', e) }} fluid>{consult.ended ? "Lancer la consultation" : "Stopper la consultation"}</Button>
+                      <Button loading={exporting} onClick={this.export_alternatives} fluid>Excel alternatives</Button>
                       <Link to={"/admin/consults/" + consult.url_shorten + "/stats"}>
                         <Button fluid>Statistiques</Button>
                       </Link>

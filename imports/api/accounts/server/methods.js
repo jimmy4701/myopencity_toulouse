@@ -185,5 +185,23 @@ Meteor.methods({
 
     Meteor.users.remove({_id: this.userId})
     return true
+  },
+  'admin.toggle_alternative_moderator'(user_id){
+    if(Roles.userIsInRole(this.userId, 'admin')){
+      const user = Meteor.users.findOne({_id: user_id})
+      if(user){
+       if(Roles.userIsInRole(user_id, 'alternative_moderator')){
+        const index = user.roles.indexOf('alternative_moderator')
+        user.roles.splice(index, 1)
+        Meteor.users.update({_id: user_id}, {$set: {roles: user.roles}})
+       }else{
+        Roles.addUsersToRoles(user_id, 'alternative_moderator')
+       }
+      }else{
+        throw new Meteor.Error('500', "User not found")
+      }
+    }else{
+      throw new Meteor.Error('403', "Action non autorisée")
+    }
   }
 })

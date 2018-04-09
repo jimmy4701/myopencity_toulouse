@@ -69,6 +69,28 @@ export default class ConfigurationFooterForm extends Component {
         this.setState({ configuration })
     }
 
+    handleUploadImage = (blobInfo, success, failure) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(blobInfo.blob(), (error, downloadUrl) => {
+        if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+            })
+            failure("Erreur lors de l'envoi de l'image : " + error)
+        }
+        else {
+            success(downloadUrl)
+        }
+        })
+        
+    }
+
     render() {
         const { configuration } = this.state
 
@@ -129,8 +151,9 @@ export default class ConfigurationFooterForm extends Component {
                             <TinyMCE
                                 content={configuration.fill_profile_explain}
                                 config={{
-                                    plugins: 'image autoresize',
-                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'fill_profile_explain')}
                                 name="fill_profile_explain"
@@ -166,8 +189,9 @@ export default class ConfigurationFooterForm extends Component {
                             <TinyMCE
                                 content={configuration.cgu}
                                 config={{
-                                    plugins: 'image autoresize',
-                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect'
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'cgu')}
                                 name="cgu"
@@ -178,8 +202,9 @@ export default class ConfigurationFooterForm extends Component {
                             <TinyMCE
                                 content={configuration.cnil_signup_text}
                                 config={{
-                                    plugins: 'autoresize',
-                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | link'
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'cnil_signup_text')}
                                 name="cnil_signup_text"
@@ -190,8 +215,9 @@ export default class ConfigurationFooterForm extends Component {
                             <TinyMCE
                                 content={configuration.legal_notice}
                                 config={{
-                                    plugins: 'autoresize',
-                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | link'
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'legal_notice')}
                                 name="legal_notice"

@@ -17,10 +17,24 @@ export class AlternativePartial extends Component{
   */
 
   state = {
-    actived_alternative: false
+    actived_alternative: false,
+    consult: null,
+    removing: false
   }
 
   toggleState = (e) => this.setState({[e.target.name]: !this.state[e.target.name]})
+
+  componentDidMount(){
+    if(this.props.display_consult){
+      Meteor.call('consults.get_by_id', this.props.alternative.consult , (error, result) => {
+        if(error){
+          console.log('Erreur', error.message)
+        }else{
+          this.setState({consult: result})
+        }
+      })
+    }
+  }
 
   toggle_like = (e) => {
     e.preventDefault()
@@ -68,10 +82,38 @@ export class AlternativePartial extends Component{
     this.props.onTitleClick(this.props.alternative)
   }
 
+  toggle_verified = (e) => {
+    Meteor.call('alternatives.toggle_verified', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Déclaré comme vérifié',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
+  remove = () => {
+    Meteor.call('alternatives.remove', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Alternative supprimée',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
 
   render(){
-    const {user, loading, alternative} = this.props
-    const {actived_alternative} = this.state 
+    const {user, loading, alternative, display_consult, removable} = this.props
+    const {actived_alternative, consult, removing} = this.state 
     moment.locale('fr')
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
@@ -94,7 +136,7 @@ export class AlternativePartial extends Component{
                 <span> a proposé {alternative_descriptive_term}</span> <a onClick={(e) => {this.onTitleClick(e)}}>{alternative.title}</a>
               </Grid.Column>
               <Grid.Column width={16} style={{paddingTop: "0", color: "#b7b7b7"}}>
-              {moment().to(moment(alternative.created_at))}
+              {moment().to(moment(alternative.created_at))} {display_consult && <Link to={"/consults/" + consult.urlShorten}>{consult.title}</Link>}
               </Grid.Column>
               <Grid.Column width={16}>
               {actived_alternative ? 
@@ -120,6 +162,15 @@ export class AlternativePartial extends Component{
                   [
                     <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider " : "Valider "} {alternative_descriptive_term}</Button>
                   ]
+                }
+                {removing &&
+                  <Button onClick={this.remove} color="red">Supprimer définitivement</Button>
+                }
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && removable &&
+                  <Button color={!removing && "red"} onClick={this.toggleState} name="removing">{removing ? "Annuler" : "Supprimer"}</Button>
+                }
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && !alternative.verified &&
+                  <Button onClick={(e) => {this.toggle_verified(e)}}>Déclarer comme vérifié</Button>
                 }
               </Grid.Column>
             </Grid>

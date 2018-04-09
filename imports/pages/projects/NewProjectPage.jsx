@@ -223,7 +223,7 @@ export class NewProjectPage extends TrackerReact(Component){
                                 autoFocus
                                 config={{
                                   plugins: 'image autoresize media link imagetools',
-                                  toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image ",
+                                  toolbar: "undo redo | bold italic | alignleft aligncenter alignright | formatselect | link | image media ",
                                   menubar: false,
                                   branding: false,
                                   statusbar: false

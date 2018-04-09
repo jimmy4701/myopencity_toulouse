@@ -39,6 +39,20 @@ export default class AdminUserRow extends TrackerReact(Component){
     })
   }
 
+  toggleAlternativeModerator = (e) => {
+    Meteor.call('admin.toggle_alternative_moderator', this.props.user._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Utilisateur modifié',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
   toggleModerator(){
     Meteor.call('users.toggle_moderator', this.props.user._id, (error, result) => {
       if(error){
@@ -63,6 +77,7 @@ export default class AdminUserRow extends TrackerReact(Component){
     const {user} = this.props
     moment.locale('fr')
     const moderator = Roles.userIsInRole(user._id, 'moderator')
+    const alternative_moderator = Roles.userIsInRole(user._id, 'alternative_moderator')
     const admin = Roles.userIsInRole(user._id, 'admin')
     return(
       <Table.Row>
@@ -71,9 +86,12 @@ export default class AdminUserRow extends TrackerReact(Component){
         <Table.Cell>{moment(user.createdAt).format('DD.MM.YYYY - HH:mm')}</Table.Cell>
         <Table.Cell>
           <Button color={user.blocked ? "red" : ""} onClick={(e) => {this.toggleBlocked(e)}}>{user.blocked ? "Bloqué" : "Actif"}</Button>
-          {Roles.userIsInRole(Meteor.userId(), 'admin') ?
-            <Button color={moderator ? "green" : ""} onClick={(e) => {this.toggleModerator(e)}}>{moderator ? "Modérateur" : "Utilisateur"}</Button>
-          : ''}
+          {Roles.userIsInRole(Meteor.userId(), 'admin') &&
+            [
+              <Button color={moderator ? "green" : ""} onClick={(e) => {this.toggleModerator(e)}}>{moderator ? "Modérateur" : "Utilisateur"}</Button>,
+              <Button color={alternative_moderator ? "green" : ""} onClick={(e) => {this.toggleAlternativeModerator(e)}}>Modérateur Alter.</Button>
+            ]
+          }
           <Link to={"/profile/" + user._id}>
             <Button>Profil</Button>
           </Link>
