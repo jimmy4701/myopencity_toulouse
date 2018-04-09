@@ -5,6 +5,7 @@ import {Random} from 'meteor/random'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
+import htmlToText from 'html-to-text'
 
 const generate_url_shorten = (title) => {
   return _.random(100,9999) + '-' + _.kebabCase(title)
@@ -65,7 +66,10 @@ Meteor.methods({
         lines = alternatives.map((alternative, index) => {
           const consult_part = ConsultParts.findOne({_id: alternative.consult_part})
           const author = Meteor.users.findOne({_id: alternative.user})
-          return {alternative: alternative.title, author: author ? author.username : '', email: author.emails[0].address ? author.emails[0].address : '', content: alternative.content, consult_part: consult_part.title}
+          const content = htmlToText.fromString(alternative.content, {
+            wordwrap: null
+          });
+          return {alternative: alternative.title, author: author ? author.username : '', email: author.emails[0].address ? author.emails[0].address : '', content, consult_part: consult_part.title}
         })
         return lines
       }else{

@@ -40,7 +40,7 @@ export class ConsultPartial extends Component {
         })
         this.setState({exporting: false})
       }else{
-        const csv = Papa.unparse(result, {delimiter: ";"})
+        const csv = Papa.unparse(result, {delimiter: ";", header: true})
         const blob = new Blob([csv])
         if (window.navigator.msSaveOrOpenBlob)  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx
           window.navigator.msSaveBlob(blob, consult.title + ".csv")
