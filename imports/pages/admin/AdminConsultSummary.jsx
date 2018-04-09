@@ -92,32 +92,8 @@ export class AdminConsultSummary extends Component {
                             </Grid.Column>
                             <Grid.Column width={16}>
                                 <Header as='h2'>Concernant les participants</Header>
-                                <Header as='h3'>Ages</Header>
-                                {Object.keys(statistics.ages).map(key => {
-                                    return(
-                                        <Statistic>
-                                            <Statistic.Value>{statistics.ages[key]}</Statistic.Value>
-                                            <Statistic.Label>{ages_options[key]}</Statistic.Label>
-                                        </Statistic>
-                                    )
-                                })}
-                                <Header as='h3'>Genre</Header>
-                                {Object.keys(statistics.genders).map(key => {
-                                    return(
-                                        <Statistic>
-                                            <Statistic.Value>{statistics.genders[key]}</Statistic.Value>
-                                            <Statistic.Label>{genders_options[key]}</Statistic.Label>
-                                        </Statistic>
-                                    )
-                                })}
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Header as='h3'>Habitations</Header>
-                                {Object.keys(statistics.home_territories).map(key => {
-                                    return(
-                                        <p>{statistics.home_territories[key]} des participants habitent dans le quartier {_.find(Territories, t => t._id == key).name}</p>
-                                    )
-                                })}
+                                <p>{JSON.stringify(statistics)}</p>
+                                {Object.keys(statistics.ages).map(cle => <p>{cle} {statistics.ages[cle]}</p>)}
                             </Grid.Column>
                     </Grid>
                 </Container>
