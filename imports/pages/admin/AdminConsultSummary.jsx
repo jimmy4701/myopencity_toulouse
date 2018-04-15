@@ -95,7 +95,7 @@ export class AdminConsultSummary extends Component {
                                 <Header as='h2'>Tranches d'âge</Header>
                                 {Object.keys(statistics.ages).map(cle => {
                                     return (
-                                        <Statistic label={ages_options[cle]} value={statistics.ages[cle]*100/statistics.total_voters + " %"} size="tiny" />
+                                        <Statistic label={ages_options[cle]} value={_.round(statistics.ages[cle]*100/statistics.total_voters, 2) + " %"} size="tiny" />
                                     )
                                 })}
                                 <Header as='h2'>Quartiers</Header>
@@ -105,7 +105,7 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.home_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.home_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                        <p>{_.round(statistics.territories.home_territories[cle]*100/statistics.total_voters, 2) + " %"} - {territory && territory.name} </p>
                                     )
                                 })}
                             </Grid.Column>
@@ -114,7 +114,7 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.work_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.work_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                        <p>{_.round(statistics.territories.work_territories[cle]*100/statistics.total_voters, 2) + " %"} - {territory && territory.name} </p>
                                     )
                                 })}
                             </Grid.Column>
@@ -123,7 +123,7 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.travel_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.travel_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                        <p>{_.round(statistics.territories.travel_territories[cle]*100/statistics.total_voters, 2) + " %"} - {territory && territory.name} </p>
                                     )
                                 })}
                             </Grid.Column>
@@ -132,7 +132,7 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.interest_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.interest_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                        <p>{_.round(statistics.territories.interest_territories[cle]*100/statistics.total_voters, 2) + " %"} - {territory && territory.name} </p>
                                     )
                                 })}
                             </Grid.Column>
