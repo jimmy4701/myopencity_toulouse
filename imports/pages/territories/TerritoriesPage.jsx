@@ -38,7 +38,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
 
     render() {
         const {territories, loading} = this.props
-        const {navbar_color, project_term, consults_term, territories_title, navbar_projects} = this.props.global_configuration
+        const {navbar_color, project_term, consults_term, territories_title, navbar_projects, territories_explain, territories_display_explain} = this.props.global_configuration
         if (!loading) {
             return (
                 <Grid className="wow fadeInUp" stackable>
@@ -49,6 +49,9 @@ export class TerritoriesPage extends TrackerReact(Component) {
                             style={{
                             color: navbar_color
                         }}>{territories_title}</Header>
+                        {territories_display_explain &&
+                            <div dangerouslySetInnerHTML={{__html: territories_explain }} />
+                        }
                     </Grid.Column>
                     <Grid.Column width={16}>
                         <Grid stackable>

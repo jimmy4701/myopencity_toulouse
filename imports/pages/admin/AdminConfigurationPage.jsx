@@ -10,6 +10,7 @@ import ConfigurationConsultsForm from '/imports/components/admin/ConfigurationCo
 import ConfigurationProjectsForm from '/imports/components/admin/ConfigurationProjectsForm'
 import ConfigurationFooterForm from '/imports/components/admin/ConfigurationFooterForm'
 import ConfigurationParticipationForm from '/imports/components/admin/ConfigurationParticipationForm'
+import ConfigurationTerritoriesForm from '/imports/components/admin/ConfigurationTerritoriesForm'
 
 export default class AdminConfigurationPage extends TrackerReact(Component) {
 
@@ -88,13 +89,17 @@ export default class AdminConfigurationPage extends TrackerReact(Component) {
                 <Icon name="browser" />
                 Navigation
           </Menu.Item>
-              <Menu.Item active={part === 'consults'} onClick={() => this.changePart('consults')} >
-                <Icon name="retweet" />
-                Consultations
+          <Menu.Item active={part === 'consults'} onClick={() => this.changePart('consults')} >
+              <Icon name="retweet" />
+              Consultations
           </Menu.Item>
           <Menu.Item active={part === 'projects'} onClick={() => this.changePart('projects')} >
                 <Icon name="retweet" />
                 Propositions
+          </Menu.Item>
+          <Menu.Item active={part === 'territories'} onClick={() => this.changePart('territories')} >
+              <Icon name="marker" />
+              Quartiers
           </Menu.Item>
           <Menu.Item active={part === 'footer'} onClick={() => this.changePart('footer')} >
                 <Icon name="quote left" />
@@ -133,6 +138,12 @@ export default class AdminConfigurationPage extends TrackerReact(Component) {
               [
                 <Header as='h3'>Propositions citoyennes</Header>,
                 <ConfigurationProjectsForm className="wow fadeInDown" />
+              ]
+            }
+            {part == 'territories' &&
+              [
+                <Header as='h3'>Quartiers</Header>,
+                <ConfigurationTerritoriesForm className="wow fadeInDown" />
               ]
             }
             {part == 'footer' &&

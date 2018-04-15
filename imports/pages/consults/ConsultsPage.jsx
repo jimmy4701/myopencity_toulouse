@@ -28,7 +28,7 @@ export class ConsultsPage extends TrackerReact(Component) {
   render() {
     const { consults, ended_consults, loading } = this.props
     const { show_ended_consults } = this.state
-    const { ended_consults_title, consults_title, consults_no_consults, navbar_color, consults_all_territories } = Meteor.isClient && Session.get('global_configuration')
+    const { ended_consults_title, consults_title, consults_no_consults, navbar_color, consults_all_territories, consults_display_explain, consults_explain } = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
       return (
@@ -39,6 +39,9 @@ export class ConsultsPage extends TrackerReact(Component) {
             {ended_consults.length > 0 ?
               <Button size="mini" onClick={(e) => { this.toggleState('show_ended_consults', e) }}>Voir les consultations {!show_ended_consults ? "terminées" : "en cours"}</Button>
               : ''}
+            {consults_display_explain &&
+              <div dangerouslySetInnerHTML={{__html: consults_explain }} />
+            }
           </Grid.Column>
           {!show_ended_consults ?
             <Grid.Column width={16}>
