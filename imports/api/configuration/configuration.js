@@ -309,6 +309,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
+  footer_about_display: {
+    type: Boolean,
+    defaultValue: false
+  },
   footer_legal_notice_display: {
     type: Boolean,
     defaultValue: false
@@ -320,6 +324,14 @@ const ConfigurationSchema = new SimpleSchema({
   cgu_term: {
     type: String,
     defaultValue: "Conditions d'utilisation"
+  },
+  about_term: {
+    type: String,
+    defaultValue: "Conditions d'utilisation"
+  },
+  about: {
+    type: String,
+    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>"
   },
   cgu: {
     type: String,
@@ -365,6 +377,22 @@ const ConfigurationSchema = new SimpleSchema({
   buttons_validation_text_color: {
     type: String,
     defaultValue: "white"
+  },
+  consults_explain: {
+    type: String,
+    defaultValue: "<p>Les consultations vous sont proposées afin de connaitre votre avis de citoyen</p>"
+  },
+  territories_explain: {
+    type: String,
+    defaultValue: "<p>Choisissez un quartier pour voir ses consultations en cours</p>"
+  },
+  consults_display_explain: {
+    type: Boolean,
+    defaultValue: false
+  },
+  territories_display_explain: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 

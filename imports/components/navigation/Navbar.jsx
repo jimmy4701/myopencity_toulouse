@@ -48,14 +48,14 @@ export default class Navbar extends TrackerReact(Component){
                   {main_title}
                 </div>
               </Link>
-              {navbar_consults &&
-                <Link className="item" to="/consults">
-                  <div className="navbar-item">{navbar_consults_term}</div>
-                </Link>
-              }
               {navbar_territories && 
                 <Link className="item" to="/territories">
                   <div className="navbar-item">{navbar_territories_term}</div>
+                </Link>
+              }
+              {navbar_consults &&
+                <Link className="item" to="/consults">
+                  <div className="navbar-item">{navbar_consults_term}</div>
                 </Link>
               }
               {navbar_projects && 

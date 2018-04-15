@@ -64,6 +64,34 @@ export default class ConfigurationConsultsForm extends Component {
         this.setState({ configuration })
     }
 
+    handleRichContent = (e, attr) => {
+        let { configuration } = this.state
+        configuration[attr] = e.target.getContent()
+        this.setState({ configuration })
+    }
+
+    handleUploadImage = (blobInfo, success, failure) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        uploader.send(blobInfo.blob(), (error, downloadUrl) => {
+        if (error) {
+            // Log service detailed response
+            console.error('Error uploading', error)
+            Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+            })
+            failure("Erreur lors de l'envoi de l'image : " + error)
+        }
+        else {
+            success(downloadUrl)
+        }
+        })
+        
+    }
+
     render() {
         const { configuration } = this.state
 
@@ -277,6 +305,25 @@ export default class ConfigurationConsultsForm extends Component {
                                 label={"Alternatives anonymes par défaut"}
                             />
                         </Form.Group>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Explication de la page consultations</Divider>
+                            <Form.Checkbox
+                                checked={configuration.consults_display_explain}
+                                onClick={() => this.toggleConfiguration('consults_display_explain')}
+                                label={"Afficher l'explication"}
+                            />
+                            <Form.Field width={16}>
+                                <label>Explication de la page consultations</label>
+                                <TinyMCE
+                                    content={configuration.consults_explain}
+                                    config={{
+                                        plugins: 'image autoresize media code link',
+                                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                        images_upload_handler: this.handleUploadImage
+                                    }}
+                                    onChange={(e) => this.handleRichContent(e, 'consults_explain')}
+                                    name="consults_explain"
+                                />
+                            </Form.Field>
                         <Button color="green" content="Valider les modifications" />
                     </Form>
                 </Grid.Column>

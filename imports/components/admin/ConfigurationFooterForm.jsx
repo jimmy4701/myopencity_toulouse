@@ -127,6 +127,13 @@ export default class ConfigurationFooterForm extends Component {
                                 onChange={this.handleConfigurationChange}
                             />
                             <Form.Input
+                                label="Terme pour 'A propos' "
+                                placeholder="ex: A propos de nous"
+                                name="about_term"
+                                value={configuration.about_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
                                 label="Hauteur du footer"
                                 placeholder="ex: 10em"
                                 name="footer_height"
@@ -184,6 +191,11 @@ export default class ConfigurationFooterForm extends Component {
                                 label="Acceptation des mentions légales obligatoire à l'inscription"
                             />
                         </Form.Group>
+                        <Form.Checkbox
+                                checked={configuration.footer_about_display}
+                                onClick={() => this.toggleConfiguration('footer_about_display')}
+                                label="Afficher le bouton à propos dans le footer"
+                            />
                         <Form.Field width={16}>
                             <label>Conditions générales d'utilisation</label>
                             <TinyMCE
@@ -221,6 +233,19 @@ export default class ConfigurationFooterForm extends Component {
                                 }}
                                 onChange={(e) => this.handleRichContent(e, 'legal_notice')}
                                 name="legal_notice"
+                            />
+                        </Form.Field>
+                        <Form.Field width={16}>
+                            <label>A propos</label>
+                            <TinyMCE
+                                content={configuration.about}
+                                config={{
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'about')}
+                                name="about"
                             />
                         </Form.Field>
                         <Button color="green" content="Valider les modifications" />
