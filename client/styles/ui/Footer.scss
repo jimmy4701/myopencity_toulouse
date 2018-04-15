@@ -1,5 +1,16 @@
 .footer {
     padding-bottom: 2em !important;
+    margin: 5em 0 2em !important;
+}
+
+.footer-logo{
+    position: absolute !important;
+    top: -35px;
+    right: -70px;
+
+    @media screen and (max-width: 768px) {
+        display: none !important;
+    }
 }
 
 .footer-image{

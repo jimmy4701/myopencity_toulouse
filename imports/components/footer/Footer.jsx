@@ -12,7 +12,7 @@ export default class Footer extends Component {
                     <Container>
                         <Grid stackable centered>
                         <Grid.Column width={3}>
-                            
+                            <Image src="/images/logo_smartcity.png" className="footer-logo"/>
                         </Grid.Column>
                             <Grid.Column width={10} className="center-align">
                                 <Link to="http://toulouse.fr" target="_blank">
