@@ -27,7 +27,7 @@ export class AdminConsultSummary extends Component {
         }
     }
     render() {
-        const { loading, consult, consult_parts, configuration } = this.props
+        const { loading, consult, consult_parts, territories, configuration } = this.props
         const actual_date = moment().format('DD.MM.YYYY')
         const {statistics} = this.state
 
@@ -91,10 +91,52 @@ export class AdminConsultSummary extends Component {
                                 </Grid>
                             </Grid.Column>
                             <Grid.Column width={16}>
-                                <Header as='h2'>Concernant les participants</Header>
-                                <p>{JSON.stringify(statistics)}</p>
-                                {Object.keys(statistics.ages).map(cle => <p>{cle} {statistics.ages[cle]}</p>)}
+                                <Header as='h1'>Concernant les participants ({statistics.total_voters} au total)</Header>
+                                <Header as='h2'>Tranches d'âge</Header>
+                                {Object.keys(statistics.ages).map(cle => {
+                                    return (
+                                        <Statistic label={ages_options[cle]} value={statistics.ages[cle]*100/statistics.total_voters + " %"} size="tiny" />
+                                    )
+                                })}
+                                <Header as='h2'>Quartiers</Header>
                             </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils habitent</Header>
+                                {Object.keys(statistics.territories.home_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.home_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils y travaillent</Header>
+                                {Object.keys(statistics.territories.work_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.work_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils y passent régulièrement</Header>
+                                {Object.keys(statistics.territories.travel_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.travel_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils y travaillent</Header>
+                                {Object.keys(statistics.territories.interest_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.interest_territories[cle]*100/statistics.total_voters + " %"} - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+
                     </Grid>
                 </Container>
             );
@@ -110,10 +152,10 @@ export default AdminConsultSummaryContainer = createContainer(({match}) => {
     const consult = Consults.findOne({url_shorten: shorten_url})
     if(consult){
         const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.by_consult_url_shorten', shorten_url)
-        const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.by_ids', consult.territories)
+        const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.all')
         const configurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
         const loading = Meteor.isClient && (!configurationPublication.ready() || !territoriesPublication.ready() || !consultPublication.ready() || !consultPartsPublication.ready())
-        const territories = Territories.find({_id: {$in: consult.territories}}).fetch()
+        const territories = Territories.find({}).fetch()
         const consult_parts = ConsultParts.find({consult_url_shorten: shorten_url, active: true}).fetch()
         const configuration = Configuration.findOne()
         return {
