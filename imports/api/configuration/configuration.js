@@ -377,6 +377,22 @@ const ConfigurationSchema = new SimpleSchema({
   buttons_validation_text_color: {
     type: String,
     defaultValue: "white"
+  },
+  consults_explain: {
+    type: String,
+    defaultValue: "<p>Les consultations vous sont proposées afin de connaitre votre avis de citoyen</p>"
+  },
+  territories_explain: {
+    type: String,
+    defaultValue: "<p>Choisissez un quartier pour voir ses consultations en cours</p>"
+  },
+  consults_display_explain: {
+    type: Boolean,
+    defaultValue: false
+  },
+  territories_display_explain: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 
