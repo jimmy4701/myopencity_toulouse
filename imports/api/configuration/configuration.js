@@ -309,6 +309,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
+  footer_about_display: {
+    type: Boolean,
+    defaultValue: false
+  },
   footer_legal_notice_display: {
     type: Boolean,
     defaultValue: false
@@ -320,6 +324,14 @@ const ConfigurationSchema = new SimpleSchema({
   cgu_term: {
     type: String,
     defaultValue: "Conditions d'utilisation"
+  },
+  about_term: {
+    type: String,
+    defaultValue: "Conditions d'utilisation"
+  },
+  about: {
+    type: String,
+    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>"
   },
   cgu: {
     type: String,
