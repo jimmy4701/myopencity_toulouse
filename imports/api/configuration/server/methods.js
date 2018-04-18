@@ -11,5 +11,12 @@ Meteor.methods({
       config.initial_configuration = false
       Configuration.update({}, {$set: config})
     }
+  },
+  'configuration.get_complete'(config){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }else{
+      return Configuration.findOne({})
+    }
   }
 })

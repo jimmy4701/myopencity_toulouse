@@ -174,10 +174,11 @@ export class ConsultPartial extends Component {
         </Card>
       )
     } else {
-      return <div></div>
+      return <div>ezfezf</div>
     }
   }
 }
+
 
 export default ConsultPartialContainer = withTracker((props) => {
   const { consult } = props

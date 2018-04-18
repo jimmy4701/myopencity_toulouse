@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import { createContainer } from 'meteor/react-meteor-data'
 import { Grid, Form, Input, Checkbox, Divider, Button, Card, Image, Header, Item } from 'semantic-ui-react'
 import TinyMCE from 'react-tinymce'
 import { SketchPicker } from 'react-color'
+import { withTracker } from 'meteor/react-meteor-data'
+import { Configuration } from '/imports/api/configuration/configuration'
 
-export default class ConfigurationFooterForm extends Component {
+class ConfigurationFooterForm extends Component {
 
     /*
       facultative props:
@@ -19,7 +19,7 @@ export default class ConfigurationFooterForm extends Component {
 
     componentWillMount() {
         if (Meteor.isClient) {
-            const configuration = Session.get('global_configuration')
+            const {configuration} = this.props
             this.setState({ configuration })
         }
     }
@@ -256,3 +256,13 @@ export default class ConfigurationFooterForm extends Component {
         )
     }
 }
+
+export default ConfigurationFooterFormContainer = withTracker(() => {
+    const configurationPublication = Meteor.subscribe('configuration.complete')
+    const loading = !configurationPublication.ready()
+    const configuration = Configuration.findOne()
+    return {
+        loading,
+        configuration
+    }
+})(ConfigurationFooterForm)
