@@ -24,3 +24,9 @@
         color: #4183c4 !important;
     }
 }
+
+.footer-links{
+    @media screen and (max-width: 768px) {
+        text-align: center !important;
+    }
+}

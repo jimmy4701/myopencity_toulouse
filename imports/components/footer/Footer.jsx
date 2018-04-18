@@ -11,10 +11,10 @@ export default class Footer extends Component {
                 <Grid.Column width={16}>
                     <Container>
                         <Grid stackable centered>
-                        <Grid.Column width={3}>
+                        <Grid.Column width={2}>
                             <Image src="/images/logo_smartcity.png" className="footer-logo"/>
                         </Grid.Column>
-                            <Grid.Column width={9} className="center-align">
+                            <Grid.Column width={8} className="center-align">
                                 <Link to="http://toulouse.fr" target="_blank">
                                     <Image className="inline-block footer-image" src="/images/mairie-toulouse.png" inline fluid size="small"/>
                                 </Link>
@@ -24,7 +24,7 @@ export default class Footer extends Component {
                                 <br/>
                                 <div style={{margin: "1em 0"}}>{footer_content}</div>
                             </Grid.Column>
-                            <Grid.Column width={4} verticalAlign="middle" style={{textAlign: "right"}}>
+                            <Grid.Column width={6} verticalAlign="middle" className="footer-abouts">
                                 {footer_about_display && <Link to='/a_propos' className="pointer footer-link" ><span style={{color: footer_color}}>{about_term}</span></Link>}
                                 {footer_cgu_display && <Link to='/conditions' className="pointer footer-link" ><span style={{color: footer_color}}> | {cgu_term}</span></Link>}
                                 {footer_legal_notice_display && <Link to='/mentions_legales' className="pointer footer-link" ><span style={{color: footer_color}}> | {legal_notice_term}<br/></span></Link>}
