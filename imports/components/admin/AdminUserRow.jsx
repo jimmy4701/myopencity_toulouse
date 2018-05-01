@@ -53,6 +53,29 @@ export default class AdminUserRow extends TrackerReact(Component){
     })
   }
 
+  toggleState = (e, {name}) => this.setState({[name]: !this.state[name]})
+
+  remove = () => {
+    Meteor.call('admin.remove_account', this.props.user._id , (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+        Bert.alert({
+              title: "Erreur lors de la suppression du compte",
+              message: error.message,
+              style: 'growl-bottom-left',
+              type: 'success'
+            })
+      }else{
+          Bert.alert({
+            title: "Compte supprimé",
+            message: "Tout le contenu associé a également été supprimé",
+            style: 'growl-bottom-left',
+            type: 'success'
+          })
+      }
+    })
+  }
+
   toggleModerator(){
     Meteor.call('users.toggle_moderator', this.props.user._id, (error, result) => {
       if(error){
@@ -75,6 +98,7 @@ export default class AdminUserRow extends TrackerReact(Component){
 
   render(){
     const {user} = this.props
+    const {removing} = this.state
     moment.locale('fr')
     const moderator = Roles.userIsInRole(user._id, 'moderator')
     const alternative_moderator = Roles.userIsInRole(user._id, 'alternative_moderator')
@@ -95,6 +119,14 @@ export default class AdminUserRow extends TrackerReact(Component){
           <Link to={"/profile/" + user._id}>
             <Button>Profil</Button>
           </Link>
+          {Roles.userIsInRole(Meteor.userId(), 'admin') &&
+            <span>
+              {removing && 
+                <Button color="red" onClick={this.remove}>Supprimer le compte</Button>
+              }
+              <Button color={!removing && "red"} name="removing" onClick={this.toggleState}>{removing ? "Annuler" : "Supprimer"}</Button>
+            </span>
+          }
         </Table.Cell>
       </Table.Row>
     )
