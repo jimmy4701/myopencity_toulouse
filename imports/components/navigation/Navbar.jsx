@@ -34,7 +34,8 @@ export default class Navbar extends TrackerReact(Component){
       navbar_projects_term,
       navbar_territories_term,
       navbar_participation,
-      navbar_participation_term
+      navbar_participation_term,
+      navbar_home_term
     } = Session.get('global_configuration')
 
     return(
@@ -45,7 +46,7 @@ export default class Navbar extends TrackerReact(Component){
               <Link className="item" to='/'>
                 <div className="navbar-item" header>
                   <Image inline src={global_image_url} size="mini" />
-                  {main_title}
+                  {navbar_home_term}
                 </div>
               </Link>
               {navbar_territories && 

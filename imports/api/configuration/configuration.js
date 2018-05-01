@@ -363,6 +363,10 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "<p>Remplissez ici le contenu de la page de participation</p>"
   },
+  navbar_home_term: {
+    type: String,
+    defaultValue: "Accueil"
+  },
   navbar_participation_term: {
     type: String,
     defaultValue: "Participation"

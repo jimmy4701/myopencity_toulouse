@@ -96,6 +96,12 @@ export default class ConfigurationNavbarForm extends Component {
                         </Form.Group>
                         <Form.Group widths='equal'>
                             <Form.Input
+                                label='Terme pour "Accueil"'
+                                onChange={this.handleChange}
+                                value={configuration.navbar_home_term}
+                                name='navbar_home_term'
+                            />
+                            <Form.Input
                                 label='Terme pour "Consultations"'
                                 onChange={this.handleChange}
                                 value={configuration.navbar_consults_term}
