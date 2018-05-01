@@ -16,8 +16,7 @@ const ConsultsSchema = new SimpleSchema({
     type: String
   },
   description: {
-    type: String,
-    optional: true
+    type: String
   },
   author: {
     type: String

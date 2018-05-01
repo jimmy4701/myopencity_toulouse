@@ -151,7 +151,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   consults_title: {
     type: String,
-    defaultValue: "Consultations en cours"
+    defaultValue: "Consultations en cours",
+    optional: true
   },
   ended_consults_title: {
     type: String,
