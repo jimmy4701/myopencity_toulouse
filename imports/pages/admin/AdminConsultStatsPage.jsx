@@ -13,11 +13,8 @@ export class AdminConsultStatsPage extends TrackerReact(Component){
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-
-    }
+  state = {
+    
   }
 
   render(){
