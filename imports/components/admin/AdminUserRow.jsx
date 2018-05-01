@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
-import {Grid, Header, Loader, Table, Button, Label, Modal, Form} from 'semantic-ui-react'
+import {Grid, Header, Loader, Table, Button, Label, Modal, Form, Divider} from 'semantic-ui-react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 
@@ -147,6 +147,7 @@ export default class AdminUserRow extends TrackerReact(Component){
             <Modal.Content>
               <Modal.Description>
                 <p>{user.username}</p>
+                <Divider/>
                 {Roles.userIsInRole(Meteor.userId(), 'admin') &&
                 [
                   <Button fluid color={moderator ? "green" : ""} onClick={(e) => {this.toggleModerator(e)}}>{moderator ? "Modérateur" : "Utilisateur"}</Button>,
@@ -156,15 +157,17 @@ export default class AdminUserRow extends TrackerReact(Component){
                 {Roles.userIsInRole(Meteor.userId(), 'admin') && moderator &&
                   <Form>
                       <Form.Select
+                        label="Quartiers de modération"
                         options={territories_options}
                         onChange={this.handleTerritoriesChange}
                         multiple
                         value={user_territories}
                       />
-                  </Form>
-                }
+                    </Form>
+                  }
                 {Roles.userIsInRole(Meteor.userId(), 'admin') &&
                   <span>
+                    <Divider/>
                     {removing && 
                       <Button fluid color="red" onClick={this.remove}>Supprimer le compte</Button>
                     }
