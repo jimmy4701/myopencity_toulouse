@@ -23,7 +23,7 @@ export class Landing extends Component {
 
   render() {
 
-    const { consults, projects, global_configuration, territories, loading } = this.props
+    const { consults, geolocated_consults, projects, global_configuration, territories, loading } = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -102,7 +102,8 @@ export class Landing extends Component {
                   <Grid.Column width={16} className="not-padded">
                     <TerritoriesMap 
                       territories={territories}
-                      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry"
+                      consults={geolocated_consults}
+                      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
                       loadingElement={<div style={{ height: `100%` }} />}
                       containerElement={<div style={{ height: `100vh` }} />}
                       mapElement={<div style={{ height: `100%` }} />}
@@ -125,6 +126,7 @@ export default LandingContainer = createContainer(() => {
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
   const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !territoriesPublication.ready() || !landingProjectsPublication.ready() || !globalConfigurationPublication.ready())
+  const geolocated_consults = Consults.find({coordinates: {$exists: true}, map_display: true}).fetch()
   const consults = Consults.find({landing_display: true}).fetch()
   const projects = Projects.find({landing_display: true}).fetch()
   const territories = Territories.find({active: true}).fetch()
@@ -134,6 +136,7 @@ export default LandingContainer = createContainer(() => {
           consults,
     projects,
     territories,
+    geolocated_consults,
     global_configuration
   }
 },Landing)

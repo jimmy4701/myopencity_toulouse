@@ -92,6 +92,19 @@ const ConsultsSchema = new SimpleSchema({
   territories: {
     type: [String],
     defaultValue: []
+  },
+  address: {
+    type: String,
+    optional: true
+  },
+  coordinates: {
+    type: Object,
+    blackbox: true,
+    optional: true
+  },
+  map_display: {
+    type: Boolean,
+    defaultValue: true
   }
 })
 

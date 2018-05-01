@@ -246,6 +246,13 @@ export default class ConsultForm extends TrackerReact(Component) {
     })
   }
 
+  removeAddress = () => {
+    let {consult} = this.state
+    consult.address = null
+    consult.coordinates = null
+    this.setState({consult})
+  }
+
   handleTerritoriesChange = (event, data) => {
     let {consult} = this.state
     consult.territories = data.value
@@ -309,12 +316,25 @@ export default class ConsultForm extends TrackerReact(Component) {
             : ''}
           {step == 'geolocation' &&
             <Grid stackable>
-              <Grid.Column width={8}>
+              <Grid.Column width={5}>
                 <Form>
+                  <Form.Checkbox
+                    checked={consult.map_display}
+                    onClick={(e) => this.toggleConsult('map_display', e)}
+                    label="Afficher sur la Google Map"
+                    />
                   <Geocomplete onSelect={this.handleAddressSelect} />
+                  {consult.address ?
+                    <div>
+                      <p>Adresse actuelle : {consult.address}</p>
+                      <Button onClick={this.removeAddress}>Supprimer l'adresse</Button>
+                    </div>
+                  :
+                    <p>Actuellement aucune adresse sélectionnée</p>
+                  }
                 </Form>
               </Grid.Column>
-              <Grid.Column width={8}>
+              <Grid.Column width={11}>
                   <StandardMap 
                     marker={consult.coordinates}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&libraries=geometry"
