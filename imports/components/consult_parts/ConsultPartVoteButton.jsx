@@ -49,7 +49,7 @@ class ConsultPartVoteButton extends TrackerReact(Component){
   toggleVoteModal(e){
     if(!Meteor.userId()){
       Session.set('return_route', this.props.history.location.pathname)
-      this.props.history.push('/sign_up')
+      this.props.history.push('/sign_in')
     }else{
       this.toggleState('open_modal', e)
     }

@@ -105,15 +105,6 @@ class SigninForm extends Component{
          </Form.Field>
          <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.signin(e)}}>Se connecter</Button>
          <Button onClick={(e) => {this.go('/sign_up', e)}}>Je n'ai pas encore de compte</Button>
-         <Form.Field>
-            <ReCAPTCHA
-              ref="recaptcha"
-              sitekey="6Lf1g0wUAAAAAEvKqeT6sWNCvRgB4Cxbv2tqvhSo"
-              onChange={this.handleCaptcha}
-              size="invisible"
-              badge="inline"
-            />
-            </Form.Field>
          {facebook_connected || google_connected ?
            <Divider horizontal>OU</Divider>
          : ''}

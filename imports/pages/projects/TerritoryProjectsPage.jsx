@@ -26,6 +26,16 @@ export class TerritoryProjectsPage extends Component {
         this.setState(state)
     }
 
+    newProject = () => {
+        const {territory} = this.props
+        if(!Meteor.userId()){
+            Session.set('return_route', "/projects/new/territory/" + territory.shorten_url)
+            this.props.history.push('/sign_in')
+          }else{
+            this.props.history.push("/projects/new/territory/" + territory.shorten_url)
+          }
+    }
+
     render() {
         const { projects, territory, loading } = this.props
         const { ended_consults_title, consults_title, consults_no_consults, no_projects, navbar_color, project_term, project_create_button_color, projects_page_header_title, project_create_button_text} = Meteor.isClient && Session.get('global_configuration')
@@ -36,9 +46,7 @@ export class TerritoryProjectsPage extends Component {
                     <Grid.Column width={16} className="territory-consults-header">
                         <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{territory.name}</Header>
                         <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{projects_page_header_title}</Header>
-                        <Link to={"/projects/new/territory/" + territory.shorten_url}>
-                            <Button  positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big">{project_create_button_text}</Button>
-                        </Link>
+                        <Button onClick={this.newProject} positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big">{project_create_button_text}</Button>
                     </Grid.Column>
                     {projects.length == 0 && <Header as="h3">{no_projects}</Header>}
                     {projects.map((project, index) => {
