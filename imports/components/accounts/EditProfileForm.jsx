@@ -189,7 +189,6 @@ export class EditProfileForm extends Component {
                       value={user_profile.home_territories}
                       onChange={this.handleSelect}
                       name="home_territories"
-                      multiple
                       />
                 </Form.Field>
                 <Form.Field>
@@ -199,7 +198,6 @@ export class EditProfileForm extends Component {
                       value={user_profile.work_territories}
                       onChange={this.handleSelect}
                       name="work_territories"
-                      multiple
                       />
                 </Form.Field>
 
