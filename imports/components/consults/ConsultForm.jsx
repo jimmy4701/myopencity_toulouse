@@ -5,6 +5,9 @@ import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ConsultPartForm from '/imports/components/consult_parts/ConsultPartForm'
 import Geocomplete from '/imports/components/territories/Geocomplete'
 import StandardMap from '/imports/components/territories/StandardMap'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment'
 
 
 export default class ConsultForm extends TrackerReact(Component) {
@@ -34,6 +37,8 @@ export default class ConsultForm extends TrackerReact(Component) {
   componentWillReceiveProps(new_props) {
     const { consult, consult_parts } = new_props
     if (consult && consult_parts) {
+      consult.start_date = consult.start_date && moment(consult.start_date)
+      consult.end_date = consult.end_date && moment(consult.end_date)
       this.setState({ consult, consult_parts })
     }
   }
@@ -153,6 +158,18 @@ export default class ConsultForm extends TrackerReact(Component) {
     let { consult_parts } = this.state
     const part = consult_parts[index]
     this.setState({ editing_part: part, editing_part_index: index, display_part_form: true })
+  }
+
+  handleStartDate = (date) => {
+    let {consult} = this.state
+    consult.start_date = date.toDate()
+    this.setState({consult})
+  }
+
+  handleEndDate = (date) => {
+    let {consult} = this.state
+    consult.end_date = date.toDate()
+    this.setState({consult})
   }
 
   remove_part(index, e) {
@@ -295,6 +312,24 @@ export default class ConsultForm extends TrackerReact(Component) {
         <Grid.Column width={16}>
           {step == 'global' ?
             <Form onSubmit={(e) => { this.changeStep('design', e) }} className="wow fadeInUp">
+              <Form.Group widths='equal'>
+                <Form.Field>
+                  <label>Date de début de consultation</label>
+                  <DatePicker
+                      selected={moment(consult.start_date)}
+                      dateFormat="DD/MM/YYYY"
+                      onChange={this.handleStartDate}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Date de fin de consultation</label>
+                  <DatePicker
+                      selected={moment(consult.end_date)}
+                      dateFormat="DD/MM/YYYY"
+                      onChange={this.handleEndDate}
+                  />
+                </Form.Field>
+              </Form.Group>
               {territories.length &&
                 <Form.Field>
                   <label>Quartier concerné</label>

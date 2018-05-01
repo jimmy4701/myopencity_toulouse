@@ -105,6 +105,14 @@ const ConsultsSchema = new SimpleSchema({
   map_display: {
     type: Boolean,
     defaultValue: true
+  },
+  start_date: {
+    type: Date,
+    optional: true
+  },
+  end_date: {
+    type: Date,
+    optional: true
   }
 })
 
