@@ -102,14 +102,16 @@ export class ConsultPartial extends Component {
   }
 
   render() {
-    const { consult, className, user_id, territories, loading } = this.props
+    const { consult, className, user_id, territories, loading, display_dates } = this.props
     const { exporting } = this.state
     const {consult_territory_icon} = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
       return (
         <Card className={"inline-block " + className}>
-          <Image src={consult.image_url} />
+          <Link to={"/consults/" + consult.url_shorten}>
+            <Image src={consult.image_url} />
+          </Link>
           <Card.Content>
             <Card.Header>
               {territories && territories.map(territory => {
@@ -117,6 +119,9 @@ export class ConsultPartial extends Component {
               })}
               {territories && <br/>}
               {consult.title}
+              {display_dates && consult.start_date && consult.end_date &&
+                <p className="consult-partial-dates">Du {moment(consult.start_date).format('DD/MM/YYYY')} au {moment(consult.end_date).format('DD/MM/YYYY')}</p>
+              }
               {consult.external_url ?
                 <span className="external-label"><br /><Icon name="sitemap" /> {consult.external_site_name}</span>
                 : ''}

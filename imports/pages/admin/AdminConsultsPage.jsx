@@ -45,7 +45,7 @@ export class AdminConsultsPage extends TrackerReact(Component){
                 {consults.map((consult, index) => {
                   return (
                     <Grid.Column key={index} width={4} className="center-align">
-                      <ConsultPartial consult={consult} />
+                      <ConsultPartial consult={consult} display_dates />
                     </Grid.Column>
                   )
                 })}

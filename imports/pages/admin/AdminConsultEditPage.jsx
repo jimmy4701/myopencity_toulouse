@@ -7,6 +7,7 @@ import {Consults} from '/imports/api/consults/consults'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import { Territories } from '/imports/api/territories/territories'
 import {withRouter} from 'react-router-dom'
+import {Helmet} from 'react-helmet'
 
 export class AdminConsultEditPage extends TrackerReact(Component){
 

@@ -15,11 +15,12 @@ export class ConsultPage extends TrackerReact(Component){
       - consult
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      show_files: false
-    }
+  state = {
+    show_files: false
+  }
+
+  componentDidMount(){
+    Meteor.isClient && window.scrollTo({top: 0, behavior: "smooth"})
   }
 
   toggleState(attr, e){

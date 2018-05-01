@@ -3,6 +3,12 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { Grid, Header, Form, Button, Input, TextArea, Menu, Segment, Checkbox, Popup, Icon, Select } from 'semantic-ui-react'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ConsultPartForm from '/imports/components/consult_parts/ConsultPartForm'
+import Geocomplete from '/imports/components/territories/Geocomplete'
+import StandardMap from '/imports/components/territories/StandardMap'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment'
+
 
 export default class ConsultForm extends TrackerReact(Component) {
 
@@ -31,6 +37,8 @@ export default class ConsultForm extends TrackerReact(Component) {
   componentWillReceiveProps(new_props) {
     const { consult, consult_parts } = new_props
     if (consult && consult_parts) {
+      consult.start_date = consult.start_date && moment(consult.start_date)
+      consult.end_date = consult.end_date && moment(consult.end_date)
       this.setState({ consult, consult_parts })
     }
   }
@@ -152,6 +160,18 @@ export default class ConsultForm extends TrackerReact(Component) {
     this.setState({ editing_part: part, editing_part_index: index, display_part_form: true })
   }
 
+  handleStartDate = (date) => {
+    let {consult} = this.state
+    consult.start_date = date.toDate()
+    this.setState({consult})
+  }
+
+  handleEndDate = (date) => {
+    let {consult} = this.state
+    consult.end_date = date.toDate()
+    this.setState({consult})
+  }
+
   remove_part(index, e) {
     e.preventDefault()
     let { consult_parts, removing_consult_parts } = this.state
@@ -243,9 +263,23 @@ export default class ConsultForm extends TrackerReact(Component) {
     })
   }
 
+  removeAddress = () => {
+    let {consult} = this.state
+    consult.address = null
+    consult.coordinates = null
+    this.setState({consult})
+  }
+
   handleTerritoriesChange = (event, data) => {
     let {consult} = this.state
     consult.territories = data.value
+    this.setState({consult})
+  }
+
+  handleAddressSelect = ({address, coordinates}) => {
+    let {consult} = this.state
+    consult.address = address
+    consult.coordinates = coordinates
     this.setState({consult})
   }
 
@@ -263,6 +297,7 @@ export default class ConsultForm extends TrackerReact(Component) {
         <Grid.Column width={16} className="center-align">
           <Menu>
             <Menu.Item onClick={(e) => { this.changeStep('global', e) }} active={step == 'global'}>Informations générales</Menu.Item>
+            <Menu.Item onClick={(e) => { this.changeStep('geolocation', e) }} active={step == 'geolocation'}>Géolocalisation</Menu.Item>
             <Menu.Item onClick={(e) => { this.changeStep('design', e) }} active={step == 'design'}>Apparence de la consultation</Menu.Item>
             <Menu.Item onClick={(e) => { this.changeStep('parts', e) }} active={step == 'parts'}>Parties / Contenu</Menu.Item>
             <Menu.Item onClick={(e) => { this.changeStep('documents', e) }} active={step == 'documents'}>Documents</Menu.Item>
@@ -277,6 +312,24 @@ export default class ConsultForm extends TrackerReact(Component) {
         <Grid.Column width={16}>
           {step == 'global' ?
             <Form onSubmit={(e) => { this.changeStep('design', e) }} className="wow fadeInUp">
+              <Form.Group widths='equal'>
+                <Form.Field>
+                  <label>Date de début de consultation</label>
+                  <DatePicker
+                      selected={moment(consult.start_date)}
+                      dateFormat="DD/MM/YYYY"
+                      onChange={this.handleStartDate}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Date de fin de consultation</label>
+                  <DatePicker
+                      selected={moment(consult.end_date)}
+                      dateFormat="DD/MM/YYYY"
+                      onChange={this.handleEndDate}
+                  />
+                </Form.Field>
+              </Form.Group>
               {territories.length &&
                 <Form.Field>
                   <label>Quartier concerné</label>
@@ -296,6 +349,37 @@ export default class ConsultForm extends TrackerReact(Component) {
               </Form.Field>
             </Form>
             : ''}
+          {step == 'geolocation' &&
+            <Grid stackable>
+              <Grid.Column width={5}>
+                <Form>
+                  <Form.Checkbox
+                    checked={consult.map_display}
+                    onClick={(e) => this.toggleConsult('map_display', e)}
+                    label="Afficher sur la Google Map"
+                    />
+                  <Geocomplete onSelect={this.handleAddressSelect} />
+                  {consult.address ?
+                    <div>
+                      <p>Adresse actuelle : {consult.address}</p>
+                      <Button onClick={this.removeAddress}>Supprimer l'adresse</Button>
+                    </div>
+                  :
+                    <p>Actuellement aucune adresse sélectionnée</p>
+                  }
+                </Form>
+              </Grid.Column>
+              <Grid.Column width={11}>
+                  <StandardMap 
+                    marker={consult.coordinates}
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&libraries=geometry"
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `100vh` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                     />
+              </Grid.Column>
+            </Grid>
+          }
           {step == 'design' ?
             <Grid stackable className="wow fadeInUp">
               <Grid.Column width={16}>
