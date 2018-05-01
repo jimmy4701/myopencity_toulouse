@@ -28,7 +28,7 @@ Meteor.publish('territories.authorized_for_me', function() {
     if(Roles.userIsInRole(this.userId, 'admin')){
         return Territories.find({}, {limit: 1000, sort: {priority: 1}})
     }else{
-        return Territories.find({shorten_url: {$in: user.roles }}, {limit: 1000, sort: {}})
+        return Territories.find({_id: {$in: user.roles }}, {limit: 1000, sort: {}})
     }
 })
 

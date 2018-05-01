@@ -2,8 +2,11 @@ import {Meteor} from 'meteor/meteor'
 import {Consults} from '../consults'
 
 Meteor.publish('consults.all', function(){
-  if(Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+  if(Roles.userIsInRole(this.userId, 'admin')){
     return Consults.find({}, {limit: 1000, sort: {}})
+  }else if(Roles.userIsInRole(this.userId, 'moderator')){
+    const user = Meteor.users.findOne({_id: this.userId})
+    return Consults.find({territories: {$in: user.roles}})
   }
 })
 

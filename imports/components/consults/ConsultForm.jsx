@@ -330,7 +330,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                   />
                 </Form.Field>
               </Form.Group>
-              {territories.length &&
+              {territories.length > 0 &&
                 <Form.Field>
                   <label>Quartier concerné</label>
                   <Select value={consult.territories} multiple options={territories_options} onChange={this.handleTerritoriesChange} />

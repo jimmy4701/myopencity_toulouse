@@ -18,8 +18,8 @@ Meteor.publish('user.me', function () {
 })
 
 
-Meteor.publish('users.moderators_by_territory', function (territory_shorten_url) {
+Meteor.publish('users.moderators_by_territory', function (territory_id) {
   if (Roles.userIsInRole(this.userId, ['admin', 'moderator'])) {
-    return Meteor.users.find({roles: territory_shorten_url})
+    return Meteor.users.find({roles: territory_id})
   }
 })
