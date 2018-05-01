@@ -151,7 +151,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   consults_title: {
     type: String,
-    defaultValue: "Consultations en cours"
+    defaultValue: "Consultations en cours",
+    optional: true
   },
   ended_consults_title: {
     type: String,
@@ -361,6 +362,10 @@ const ConfigurationSchema = new SimpleSchema({
   participation_page_content: {
     type: String,
     defaultValue: "<p>Remplissez ici le contenu de la page de participation</p>"
+  },
+  navbar_home_term: {
+    type: String,
+    defaultValue: "Accueil"
   },
   navbar_participation_term: {
     type: String,

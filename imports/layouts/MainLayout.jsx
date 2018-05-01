@@ -87,11 +87,16 @@ export class MainLayout extends TrackerReact(Component) {
         <div className="main-container">
           <Helmet>
             <title>{global_configuration.main_title}</title>
+            <meta property="og:title" content={global_configuration.main_title} />
+            <meta property="og:description" content={global_configuration.main_description} />
+            <meta property="og:url"        content="https://jeparticipe.toulouse.fr" />
             <meta name="description" content={global_configuration.main_description} />
             <link rel="icon" href={global_configuration.global_logo_url} />
             {!global_configuration.seo_active ?
-              <meta name="robots" content="noindex" />
-              : ''}
+              <meta name="robots" content="noindex, nofollow" />
+              : 
+              <meta name="robots" content="all" />
+            }
           </Helmet>
           <Sidebar.Pushable>
             <Sidebar as={Menu} animation='push' width='thin' visible={Session.get('open_sidebar')} className="main-sidebar" icon='labeled' vertical inverted>

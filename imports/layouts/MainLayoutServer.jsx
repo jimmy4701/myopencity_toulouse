@@ -57,11 +57,16 @@ export class MainLayoutServer extends Component {
       <div id="main-layout">
         <Helmet>
           <title>{configuration.main_title}</title>
+          <meta property="og:title" content={configuration.main_title} />
+          <meta property="og:description" content={configuration.main_description} />
+          <meta property="og:url"        content="https://jeparticipe.toulouse.fr" />
           <meta name="description" content={configuration.main_description} />
           <link rel="icon" href={configuration.global_logo_url} />
           {!configuration.seo_active ?
-            <meta name="robots" content="noindex" />
-            : ''}
+            <meta name="robots" content="noindex, nofollow" />
+            : 
+            <meta name="robots" content="all" />
+          }
         </Helmet>
         <main>
           <Dimmer active style={{ opacity: '1 !important' }}>

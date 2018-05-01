@@ -89,11 +89,11 @@ class NavbarAccountItem extends TrackerReact(Component){
       return (
         <div>
           <Menu.Item className="navbar-item" onClick={(e) => {this.toggleState('open_modal', e)}} name="Connexion"/>
-          <Modal className="wow fadeInUp" open={this.state.open_modal} onClose={(e) => {this.toggleState('open_modal', e)}}>
+          <Modal size="mini" className="wow fadeInUp" open={this.state.open_modal} onClose={(e) => {this.toggleState('open_modal', e)}}>
             <Modal.Header className="center-align" as="h1">Connexion</Modal.Header>
             <Modal.Content>
               <Modal.Description>
-                <SigninForm onSignin={this.onSignin.bind(this)} onSignupClick={this.onSignupClick.bind(this)} />
+                <SigninForm fluidButtons onSignin={this.onSignin.bind(this)} onSignupClick={this.onSignupClick.bind(this)} />
               </Modal.Description>
             </Modal.Content>
           </Modal>

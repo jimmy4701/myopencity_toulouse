@@ -22,7 +22,7 @@ export class ProjectsPage extends Component{
   new_project = () => {
     if(!Meteor.userId()){
       Session.set('return_route', "/projects/new")
-      this.props.history.push('/sign_up')
+      this.props.history.push('/sign_in')
     }else{
       this.props.history.push('/projects/new')
     }

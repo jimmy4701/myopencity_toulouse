@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon, InfoWindow } from "react-google-maps"
 import { withRouter } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import { Header, Button, Grid, Image } from 'semantic-ui-react'
 const { MarkerWithLabel } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
 const { MarkerClusterer } = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 class TerritoriesMap extends Component {
+
+    state = {
+      info_windows: {}
+    }
 
     componentDidMount(){
         new WOW().init()
@@ -14,8 +20,23 @@ class TerritoriesMap extends Component {
         this.props.history.push('/territory/' + territory.shorten_url + '/consults')
     }
 
+    componentWillReceiveProps(){
+      const info_windows = {}
+      this.props.consults.map(consult => {
+        info_windows[consult._id] = false
+      })
+      this.setState({info_windows})
+    }
+
+    toggleInfoWindow = (consult_id) => {
+      let {info_windows} = this.state
+      info_windows[consult_id] = !info_windows[consult_id]
+      this.setState({info_windows})
+    }
+
     render() {
-        const {territories} = this.props
+        const {territories, consults} = this.props
+        const {info_windows} = this.state
         const {navbar_color} = Session.get('global_configuration')
 
         const custom_style = [
@@ -322,6 +343,38 @@ class TerritoriesMap extends Component {
                           )
                       }
                   }) }
+
+                  <MarkerClusterer
+                    averageCenter
+                    enableRetinaIcons
+                    gridSize={60}
+                  >
+                    {consults && consults.map(consult => {
+                        if(consult.coordinates){
+                            return (
+                              <Marker
+                                key={consult._id}
+                                position={consult.coordinates}
+                                onClick={() => this.toggleInfoWindow(consult._id)}
+                              >
+                                {info_windows[consult._id] &&
+                                  <InfoWindow onCloseClick={() => this.toggleInfoWindow(consult._id)}>
+                                    <div>
+                                        <Image size="medium" src={consult.image_url} />
+                                        <Header as='h4'>{consult.title}</Header>
+                                        <p>{consult.description}</p>
+                                        <Link to={"/consults/" + consult.url_shorten}>
+                                          <Button>Consulter</Button>
+                                        </Link>
+                                    </div>
+                                  </InfoWindow>
+                                }
+                              </Marker>
+                                
+                            )
+                        }
+                    }) }
+                  </MarkerClusterer>
 
             </GoogleMap>
         )

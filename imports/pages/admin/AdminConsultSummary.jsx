@@ -128,7 +128,7 @@ export class AdminConsultSummary extends Component {
                                 })}
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <Header as='h3'>Ils y travaillent</Header>
+                                <Header as='h3'>Ils sont intéressés</Header>
                                 {Object.keys(statistics.territories.interest_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (

@@ -4,6 +4,7 @@ import {Meteor} from 'meteor/meteor'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Configuration} from '/imports/api/configuration/configuration'
 import {Link, withRouter} from 'react-router-dom'
+import ReCAPTCHA from "react-google-recaptcha"
 
 export class SignupForm extends Component{
 
@@ -11,12 +12,10 @@ export class SignupForm extends Component{
     required params:
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      user: {}
+    state = {
+      user: {},
+      captcha: ""
     }
-  }
 
   handleChange(attr, e){
     let user = this.state.user
@@ -97,6 +96,8 @@ export class SignupForm extends Component{
     })
   }
 
+  handleCaptcha = (captcha) => this.setState({captcha})
+
 
   render(){
     const {user, accept_conditions, accept_legal_notice, error_message} = this.state
@@ -135,6 +136,7 @@ export class SignupForm extends Component{
               />
             </Form.Field>
           }
+
           {legal_notice_acceptance &&
             <Form.Field>
               <Checkbox
@@ -144,6 +146,15 @@ export class SignupForm extends Component{
               />
             </Form.Field>
           }
+          <Form.Field>
+            <ReCAPTCHA
+              ref="recaptcha"
+              sitekey="6Lf1g0wUAAAAAEvKqeT6sWNCvRgB4Cxbv2tqvhSo"
+              onChange={this.handleCaptcha}
+              size="invisible"
+              badge="inline"
+            />
+            </Form.Field>
           <Button onClick={this.create_account}>M'inscrire</Button>
           {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
           <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
@@ -162,6 +173,7 @@ export class SignupForm extends Component{
               <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
             </div>
           }
+          
         </Form>
       )
     }else{

@@ -39,8 +39,7 @@ Meteor.methods({
             throw new Meteor.Error('403', 'Vous devez vous connecter')
         } else {
             const user = Meteor.users.findOne({'emails.address': email})
-            const territory = Territories.findOne({_id: territory_id})
-            Roles.addUsersToRoles(user._id, territory.shorten_url)
+            Roles.addUsersToRoles(user._id, territory_id)
         }
     },
     'territories.remove_moderator'({user_id, territory_id}) {
@@ -49,8 +48,23 @@ Meteor.methods({
         } else {
             const territory = Territories.findOne({_id: territory_id})
             let user = Meteor.users.findOne({_id: user_id})
-            user.roles.splice(user.roles.indexOf(territory.shorten_url), 1)
+            user.roles.splice(user.roles.indexOf(territory_id), 1)
             Meteor.users.update({_id: user_id}, {$set: {roles: user.roles}})
         }
+    },
+    'territories.set_moderator'({territories_ids, user_id}){
+        if(!Roles.userIsInRole(this.userId, 'admin')){
+            throw new Meteor.Error('403', "Action interdite")
+        }
+        console.log('toggle moderator', territories_ids, user_id)
+        const user = Meteor.users.findOne({_id: user_id})
+        roles = territories_ids
+        if(Roles.userIsInRole(user_id, 'admin')){
+            roles.push('admin')
+        }
+        if(Roles.userIsInRole(user_id, 'moderator')){
+            roles.push('moderator')
+        }
+        Meteor.users.update({_id: user_id}, {$set: {roles}})
     }
 })

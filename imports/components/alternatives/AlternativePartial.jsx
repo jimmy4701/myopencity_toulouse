@@ -40,7 +40,7 @@ export class AlternativePartial extends Component{
     e.preventDefault()
     if(!Meteor.userId()){
       Session.set('return_route', this.props.history.location.pathname)
-      this.props.history.push('/sign_up')
+      this.props.history.push('/sign_in')
     }else{
       Meteor.call('alternatives.toggle_like', this.props.alternative._id , (error, result) => {
         if(error){

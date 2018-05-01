@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {Form, Input, Button, Grid, Divider} from 'semantic-ui-react'
+import ReCAPTCHA from "react-google-recaptcha"
 
 class SigninForm extends Component{
 
@@ -30,6 +31,8 @@ class SigninForm extends Component{
       this.props.onSignupClick()
     }
   }
+
+  handleCaptcha = (captcha) => this.setState({captcha})
 
   signin(e){
     e.preventDefault()
@@ -89,7 +92,7 @@ class SigninForm extends Component{
 
   render(){
     const {facebook_connected, google_connected, email_smtp_connected, buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
-
+    const {fluidButtons} = this.props
     return(
        <Form onSubmit={(e) => {this.signin(e)}} className="center-align">
          <Form.Field>
@@ -100,16 +103,16 @@ class SigninForm extends Component{
            <label>Mot de passe</label>
            <Input type="password" onChange={(e) => {this.handleChange('password', e)}} />
          </Form.Field>
-         <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.signin(e)}}>Se connecter</Button>
-         <Button onClick={(e) => {this.go('/sign_up', e)}}>Je n'ai pas encore de compte</Button>
+         <Button fluid={fluidButtons} style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.signin(e)}}>Se connecter</Button>
+         <Button fluid={fluidButtons} onClick={(e) => {this.go('/sign_up', e)}}>Je n'ai pas encore de compte</Button>
          {facebook_connected || google_connected ?
            <Divider horizontal>OU</Divider>
          : ''}
          {facebook_connected ?
-            <Button color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
+            <Button fluid={fluidButtons} color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
          : ''}
          {google_connected ?
-            <Button color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
+            <Button fluid={fluidButtons} color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
          : ''}
          {email_smtp_connected &&
           [

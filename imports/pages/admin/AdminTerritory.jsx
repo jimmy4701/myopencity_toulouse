@@ -131,7 +131,7 @@ export default AdminTerritoryContainer = withTracker(({ match }) => {
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.by_id', territory_id)
   const territory = Territories.findOne({ _id: territory_id })
   if (territory) {
-    const usersPublication = Meteor.isClient && Meteor.subscribe('users.moderators_by_territory', territory.shorten_url)
+    const usersPublication = Meteor.isClient && Meteor.subscribe('users.moderators_by_territory', territory._id)
     const loading = Meteor.isClient && (!territoriesPublication.ready() || !usersPublication.ready())
     const users = Meteor.users.find({ _id: { $ne: Meteor.isClient ? Meteor.userId() : this.userId } })
     return {

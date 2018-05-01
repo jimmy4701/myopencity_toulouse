@@ -3,6 +3,28 @@ import { Consults } from '/imports/api/consults/consults'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 
+
+Migrations.add({
+  version: 8,
+  name: "MIGRATION 8 : Corrected territories roles on users",
+  up() {
+    Meteor.users.find({roles: {$exists: true}}).forEach(user => { 
+      const roles = user.roles
+      const new_roles = roles.map(role => {
+        if(role == 'admin' || role == 'moderator'){
+          return role
+        }else{
+          const territory = Territories.findOne({shorten_url: role})
+          if(territory){
+            return territory._id 
+          } 
+        }
+      })
+      Meteor.users.update({_id: user._id}, {$set: {roles: new_roles}})
+    })
+  }
+}) 
+
 Migrations.add({
   version: 7,
   name: "MIGRATION 7 : Activated projects_active on territories",

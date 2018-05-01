@@ -203,5 +203,27 @@ Meteor.methods({
     }else{
       throw new Meteor.Error('403', "Action non autorisée")
     }
+  },
+  'admin.remove_account'(user_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Action non autorisée")
+    }
+    // Account verifications to avoid remove of admin or moderator
+    if(Roles.userIsInRole(user_id, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "L'utilisateur est administrateur ou modérateur, merci de lui enlever ses droits avant de le supprimer")
+    }
+    // Remove associated content
+    const alternatives = Alternatives.find({user: user_id})
+    const alternatives_ids = alternatives.map(alternative => alternative._id)
+    AlternativeLikes.remove({alternative: {$in: alternatives_ids}})
+    const projects = Projects.find({user: user_id})
+    const projects_likes_ids = projects.map(project => project._id)
+    ProjectLikes.remove({project: {$in: projects_likes_ids}})
+    Alternatives.remove({user: user_id})
+    AlternativeLikes.remove({user: user_id})
+    Projects.remove({user: user_id})
+    ProjectLikes.remove({user: user_id})
+    ConsultPartVotes.remove({user: user_id})
+    Meteor.users.remove({_id: user_id})
   }
 })

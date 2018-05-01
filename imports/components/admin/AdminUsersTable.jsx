@@ -3,6 +3,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import {Grid, Header, Loader, Table} from 'semantic-ui-react'
 import AdminUserRow from '/imports/components/admin/AdminUserRow'
+import {Territories} from '/imports/api/territories/territories'
 
 export class AdminUsersTable extends TrackerReact(Component){
 
@@ -15,15 +16,12 @@ export class AdminUsersTable extends TrackerReact(Component){
 
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-
-    }
+  state = {
+    
   }
 
   render(){
-    const {users, loading} = this.props
+    const {users, territories, loading} = this.props
 
     if(!loading){
       return(
@@ -40,7 +38,7 @@ export class AdminUsersTable extends TrackerReact(Component){
           <Table.Body>
             {users.map(function(user, index){
               return(
-                <AdminUserRow user={user} key={index}/>
+                <AdminUserRow user={user} key={index} territories={territories}/>
               )
             })}
           </Table.Body>
@@ -54,10 +52,13 @@ export class AdminUsersTable extends TrackerReact(Component){
 
 export default AdminUsersTableContainer = createContainer(({ page, filter_text, nb_results }) => {
   const usersPublication = Meteor.subscribe('users.search', {page, filter_text, nb_results})
-  const loading = !usersPublication.ready()
+  const territoriesPublication = Meteor.subscribe('territories.authorized_for_me')
+  const loading = !usersPublication.ready() && !territoriesPublication.ready()
   const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
+  const territories = Territories.find({}).fetch()
   return {
     loading,
-    users
+    users,
+    territories
   }
 }, AdminUsersTable)

@@ -57,10 +57,8 @@ Meteor.methods({
       const consult_parts = ConsultParts.find({consult: consult_id}).fetch()
       const consult_parts_ids = consult_parts.map(part => part._id)
       const votes = ConsultPartVotes.find({consult_part: {$in: consult_parts_ids}}).fetch()
-      console.log('votes', votes)
       const filtered_votes = _.uniqBy(votes, function(vote){ return vote.user })
       const voters_ids = filtered_votes.map(vote => vote.user)
-      console.log('voters ids', voters_ids)
       const voters = Meteor.users.find({_id: {$in: voters_ids}}).fetch()
       console.log('voters', voters)
 
@@ -102,25 +100,23 @@ Meteor.methods({
           statistics.genders['none'] += 1
         }
         // Territories stat
-        voter.profile.home_territories && voter.profile.home_territories.map(home => 
-          {
-            if(statistics.territories.home_territories[home]){
-              statistics.territories.home_territories[home]++
-            }else{
-              statistics.territories.home_territories[home] = 1
-            }
+        const home_territory = voter.profile.home_territories
+        if(home_territory){
+          if(statistics.territories.home_territories[home_territory]){
+            statistics.territories.home_territories[home_territory]++
+          }else{
+            statistics.territories.home_territories[home_territory] = 1
+          }
+        }
+        const work_territory = voter.profile.work_territories
+        if(work_territory){
+          if(statistics.territories.work_territories[work_territory]){
+            statistics.territories.work_territories[work_territory]++
+          }else{
+            statistics.territories.work_territories[work_territory] = 1
+          }
+        }
 
-          }
-        )
-        voter.profile.work_territories && voter.profile.work_territories.map(work => 
-          {
-            if(statistics.territories.work_territories[work]){
-              statistics.territories.work_territories[work]++
-            }else{
-              statistics.territories.work_territories[work] = 1
-            }
-          }
-        )
         voter.profile.interest_territories && voter.profile.interest_territories.map(interest => 
           {
             if(statistics.territories.interest_territories[interest]){

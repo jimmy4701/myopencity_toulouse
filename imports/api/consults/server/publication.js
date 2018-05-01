@@ -2,8 +2,11 @@ import {Meteor} from 'meteor/meteor'
 import {Consults} from '../consults'
 
 Meteor.publish('consults.all', function(){
-  if(Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+  if(Roles.userIsInRole(this.userId, 'admin')){
     return Consults.find({}, {limit: 1000, sort: {}})
+  }else if(Roles.userIsInRole(this.userId, 'moderator')){
+    const user = Meteor.users.findOne({_id: this.userId})
+    return Consults.find({territories: {$in: user.roles}})
   }
 })
 
@@ -20,7 +23,7 @@ Meteor.publish('consult.admin_by_shorten_url', function(urlShorten){
 })
 
 Meteor.publish('consults.landing', function(){
-  return Consults.find({landing_display: true}, {limit: 1000, sort: {title: 1}})
+  return Consults.find({$or: [{landing_display: true}, {coordinates: {$exists: true}, map_display: true}], visible: true}, {fields: {content: 0}, limit: 1000, sort: {title: 1}})
 })
 
 Meteor.publish('consults.by_territory', function(territory_id){
