@@ -7,6 +7,7 @@ import {Territories} from '/imports/api/territories/territories'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import ConsultPart from '/imports/components/consult_parts/ConsultPart'
 import { Link } from 'react-router-dom'
+import {Helmet} from 'react-helmet'
 
 export class ConsultPage extends TrackerReact(Component){
 
@@ -48,6 +49,14 @@ export class ConsultPage extends TrackerReact(Component){
     if(!loading){
       return(
         <Grid stackable className="wow fadeInUp">
+          <Helmet>
+            <meta property="og:title" content={consult.title} />
+            <meta property="og:type" content="article" />
+            <meta property="og:description" content={consult.description} />
+            <meta name="description" content={consult.description} />
+            <meta property="og:image" content={consult.image_url} />
+            <meta property="og:url" content={"https://jeparticipe.toulouse.fr" + this.props.location.pathname} />
+          </Helmet>
           <Grid.Column
             width={16}
             className="center-align consult-header"
@@ -117,6 +126,16 @@ export class ConsultPage extends TrackerReact(Component){
               </Container>
             </Grid.Column>
           : ''}
+          <Grid.Column width={16}>
+            {Meteor.isClient && [
+              <Link to={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
+                <Icon size="big" name="facebook"/>
+              </Link>,
+              <Link to={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse " +  consult.title + " " +  window.location.href) } target="_blank">
+                <Icon size="big" name="twitter"/>
+              </Link>
+            ]}
+          </Grid.Column>
           <Grid.Column width={16} className="parts-container">
             <Container>
               {consult_parts.map((part, index) => {
