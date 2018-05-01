@@ -1,0 +1,18 @@
+.geosuggest__suggests {
+    padding: 0;
+
+    li {
+        list-style: none;
+    }
+
+    .geosuggest__item {
+        border-left: 1px solid #949494;
+        border-right: 1px solid #949494;
+        padding: 1em;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #f5f5f5;
+        }
+    }
+}

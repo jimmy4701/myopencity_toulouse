@@ -21,6 +21,7 @@
     "react-color": "^2.11.7",
     "react-cookie-consent": "^1.0.4",
     "react-dom": "^15.4.2",
+    "react-geosuggest": "^2.7.0",
     "react-google-maps": "^9.4.5",
     "react-helmet": "^5.2.0",
     "react-mount": "^0.1.3",

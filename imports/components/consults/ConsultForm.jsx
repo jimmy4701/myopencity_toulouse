@@ -3,6 +3,9 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { Grid, Header, Form, Button, Input, TextArea, Menu, Segment, Checkbox, Popup, Icon, Select } from 'semantic-ui-react'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ConsultPartForm from '/imports/components/consult_parts/ConsultPartForm'
+import Geocomplete from '/imports/components/territories/Geocomplete'
+import StandardMap from '/imports/components/territories/StandardMap'
+
 
 export default class ConsultForm extends TrackerReact(Component) {
 
@@ -249,6 +252,13 @@ export default class ConsultForm extends TrackerReact(Component) {
     this.setState({consult})
   }
 
+  handleAddressSelect = ({address, coordinates}) => {
+    let {consult} = this.state
+    consult.address = address
+    consult.coordinates = coordinates
+    this.setState({consult})
+  }
+
   render() {
     const { consult, editing_part, consult_parts, display_part_form, step, loading_consult_image, loading_consult_file, adding_file_name } = this.state
     const { territories } = this.props
@@ -263,6 +273,7 @@ export default class ConsultForm extends TrackerReact(Component) {
         <Grid.Column width={16} className="center-align">
           <Menu>
             <Menu.Item onClick={(e) => { this.changeStep('global', e) }} active={step == 'global'}>Informations générales</Menu.Item>
+            <Menu.Item onClick={(e) => { this.changeStep('geolocation', e) }} active={step == 'geolocation'}>Géolocalisation</Menu.Item>
             <Menu.Item onClick={(e) => { this.changeStep('design', e) }} active={step == 'design'}>Apparence de la consultation</Menu.Item>
             <Menu.Item onClick={(e) => { this.changeStep('parts', e) }} active={step == 'parts'}>Parties / Contenu</Menu.Item>
             <Menu.Item onClick={(e) => { this.changeStep('documents', e) }} active={step == 'documents'}>Documents</Menu.Item>
@@ -296,6 +307,24 @@ export default class ConsultForm extends TrackerReact(Component) {
               </Form.Field>
             </Form>
             : ''}
+          {step == 'geolocation' &&
+            <Grid stackable>
+              <Grid.Column width={8}>
+                <Form>
+                  <Geocomplete onSelect={this.handleAddressSelect} />
+                </Form>
+              </Grid.Column>
+              <Grid.Column width={8}>
+                  <StandardMap 
+                    marker={consult.coordinates}
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&libraries=geometry"
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `100vh` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                     />
+              </Grid.Column>
+            </Grid>
+          }
           {step == 'design' ?
             <Grid stackable className="wow fadeInUp">
               <Grid.Column width={16}>
