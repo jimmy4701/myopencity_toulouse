@@ -10,11 +10,8 @@ class SigninPage extends TrackerReact(Component){
     required params:
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-
-    }
+  state = {
+    
   }
 
   signed_in(){

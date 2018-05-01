@@ -146,6 +146,15 @@ export class SignupForm extends Component{
               />
             </Form.Field>
           }
+          <Form.Field>
+            <ReCAPTCHA
+              ref="recaptcha"
+              sitekey="6Lf1g0wUAAAAAEvKqeT6sWNCvRgB4Cxbv2tqvhSo"
+              onChange={this.handleCaptcha}
+              size="invisible"
+              badge="inline"
+            />
+            </Form.Field>
           <Button onClick={this.create_account}>M'inscrire</Button>
           {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
           <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
@@ -164,15 +173,7 @@ export class SignupForm extends Component{
               <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
             </div>
           }
-          <Form.Field>
-            <ReCAPTCHA
-              ref="recaptcha"
-              sitekey="6Lf1g0wUAAAAAEvKqeT6sWNCvRgB4Cxbv2tqvhSo"
-              onChange={this.handleCaptcha}
-              size="invisible"
-              badge="bottomleft"
-            />
-            </Form.Field>
+          
         </Form>
       )
     }else{
