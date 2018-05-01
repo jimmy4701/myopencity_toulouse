@@ -126,16 +126,16 @@ export default class ConsultPartForm extends TrackerReact(Component){
                <Grid stackable>
                  <Grid.Column width={8}>
                    <Form.Field inline={true} as="div">
+                     <Checkbox checked={consult_part.active} onClick={(e) => {this.toggleConsultPart('active', e)}}/>
                      <label>Visibilité ({consult_part.active ? "Actuellement visible" : "Actuellement caché"})</label>
-                     <Checkbox checked={consult_part.active} onClick={(e) => {this.toggleConsultPart('active', e)}} toggle/>
                    </Form.Field>
                    <Form.Field inline={true} as="div">
+                     <Checkbox checked={consult_part.votes_activated} onClick={(e) => {this.toggleConsultPart('votes_activated', e)}}/>
                      <label>Votes ({consult_part.votes_activated ? "Actuellement activé" : "Actuellement désactivé"})</label>
-                     <Checkbox checked={consult_part.votes_activated} onClick={(e) => {this.toggleConsultPart('votes_activated', e)}} toggle/>
                    </Form.Field>
                    <Form.Field inline={true} as="div">
+                     <Checkbox checked={consult_part.alternatives_activated} onClick={(e) => {this.toggleConsultPart('alternatives_activated', e)}}/>
                      <label>Alternatives ({consult_part.alternatives_activated ? "Actuellement activé" : "Actuellement désactivé"})</label>
-                     <Checkbox checked={consult_part.alternatives_activated} onClick={(e) => {this.toggleConsultPart('alternatives_activated', e)}} toggle/>
                    </Form.Field>
                  </Grid.Column>
                  {consult_part.votes_activated ?
