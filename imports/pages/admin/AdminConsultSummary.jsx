@@ -10,9 +10,42 @@ import _ from 'lodash'
 import Helmet from 'react-helmet'
 
 export class AdminConsultSummary extends Component {
+
+    state = {
+        statistics: {}
+    }
+
+    componentWillReceiveProps(){
+        if(this.props.consult){
+            Meteor.call('consults.get_users_statistics', this.props.consult._id, (error, result) => {
+                if(error){
+                    console.log('Erreur', error.message)
+                }else{
+                    this.setState({statistics: result})
+                }
+            })
+        }
+    }
     render() {
-        const { loading, consult, consult_parts, configuration } = this.props
+        const { loading, consult, consult_parts, territories, configuration } = this.props
         const actual_date = moment().format('DD.MM.YYYY')
+        const {statistics} = this.state
+
+        const ages_options = {
+            "18": "Moins de 18 ans",
+            "24": "Entre 18 et 24 ans",
+            "39": "Entre 25 et 39 ans",
+            "65": "Entre 40 et 65 ans",
+            "80": "Plus de 65 ans",
+            "none": "Non renseigné"
+        }
+
+        const genders_options = {
+            "man": "Homme",
+            "woman": "Femme",
+            "other": "Autre",
+            "none": "Non renseigné"
+        }
         
         if (!loading) {
             const { global_image_url, navbar_color, main_title } = configuration
@@ -57,6 +90,53 @@ export class AdminConsultSummary extends Component {
                                     })}
                                 </Grid>
                             </Grid.Column>
+                            <Grid.Column width={16}>
+                                <Header as='h1'>Concernant les participants ({statistics.total_voters} au total)</Header>
+                                <Header as='h2'>Tranches d'âge</Header>
+                                {Object.keys(statistics.ages).map(cle => {
+                                    return (
+                                        <Statistic label={ages_options[cle]} value={statistics.ages[cle] + "  (" + _.round(statistics.ages[cle]*100/statistics.total_voters, 2) + " %)"} size="tiny" />
+                                    )
+                                })}
+                                <Header as='h2'>Quartiers</Header>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils habitent</Header>
+                                {Object.keys(statistics.territories.home_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.home_territories[cle]} ({_.round(statistics.territories.home_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils y travaillent</Header>
+                                {Object.keys(statistics.territories.work_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.work_territories[cle]} ({_.round(statistics.territories.work_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils y passent régulièrement</Header>
+                                {Object.keys(statistics.territories.travel_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.travel_territories[cle]} ({_.round(statistics.territories.travel_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Header as='h3'>Ils y travaillent</Header>
+                                {Object.keys(statistics.territories.interest_territories).map(cle => {
+                                    const territory = _.find(territories, (o) =>{ return o._id == cle})
+                                    return (
+                                        <p>{statistics.territories.interest_territories[cle]} ({_.round(statistics.territories.interest_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                    )
+                                })}
+                            </Grid.Column>
+
                     </Grid>
                 </Container>
             );
@@ -72,10 +152,10 @@ export default AdminConsultSummaryContainer = createContainer(({match}) => {
     const consult = Consults.findOne({url_shorten: shorten_url})
     if(consult){
         const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.by_consult_url_shorten', shorten_url)
-        const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.by_ids', consult.territories)
+        const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.all')
         const configurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
         const loading = Meteor.isClient && (!configurationPublication.ready() || !territoriesPublication.ready() || !consultPublication.ready() || !consultPartsPublication.ready())
-        const territories = Territories.find({_id: {$in: consult.territories}}).fetch()
+        const territories = Territories.find({}).fetch()
         const consult_parts = ConsultParts.find({consult_url_shorten: shorten_url, active: true}).fetch()
         const configuration = Configuration.findOne()
         return {
