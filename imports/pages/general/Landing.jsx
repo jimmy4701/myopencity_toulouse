@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import { Grid, Header, Container, Loader, Image, Button } from 'semantic-ui-react'
+import { Grid, Header, Container, Loader, Image, Button, Card } from 'semantic-ui-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Consults } from '/imports/api/consults/consults'
 import { Projects } from '/imports/api/projects/projects'
@@ -70,31 +70,31 @@ export class Landing extends Component {
             {consults.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_consults_background_color}}>
                 <Header as="h2">Les {consult_term}s du moment</Header>
-                {consults.length > 0 ?
-                <Grid stackable centered>
-                  {consults.map((consult, index) => {
-                    return (
-                      <Grid.Column width={5} className="center-align wow fadeInUp" key={consult._id}>
-                        <ConsultPartial consult={consult} />
-                      </Grid.Column>
-                    )
-                  })}
-                </Grid>
-                  : ''}
+                {consults.length > 0 &&
+                  <Container>
+                    <Card.Group itemsPerRow={4} className="centered" stackable>
+                      {consults.map((consult, index) => {
+                        return (
+                            <ConsultPartial consult={consult} key={consult._id} />
+                        )
+                      })}
+                    </Card.Group>
+                  </Container>
+                }
               </Grid.Column>
               : ''}
             {projects.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_projects_background_color}}>
                 <Header as="h2">Les {project_term}s proposés du moment</Header>
-                <Grid stackable centered>
+                <Container stackable centered>
+                  <Card.Group itemsPerRow={4} className="centered" stackable>
                     {projects.map((project, index) => {
                       return (
-                        <Grid.Column width={5} className="center-align wow fadeInUp" key={project._id}>
                           <ProjectPartial project={project}/>
-                        </Grid.Column>
                       )
                     })}
-                </Grid>
+                  </Card.Group>
+                </Container>
               </Grid.Column>
               : ''}
               <Grid.Column width={16} className="not-padded">
