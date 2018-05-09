@@ -33,14 +33,16 @@ export class AdminConsultsPage extends TrackerReact(Component){
           </Grid.Column>
           <Grid.Column width={16}>
             <Container>
-              <Link to="/admin/consults/new">
-                <Button positive>Créer une nouvelle consultation</Button>
-              </Link>
-              {consults.length > 0 &&
-                <Link to="/admin/consults_summary" target="_blank">
-                  <Button><Icon name="print"/> Compte rendu imprimable</Button>
+              <div style={{marginBottom: "1em"}}>
+                <Link to="/admin/consults/new">
+                  <Button positive>Créer une nouvelle consultation</Button>
                 </Link>
-              }
+                {consults.length > 0 &&
+                  <Link to="/admin/consults_summary" target="_blank">
+                    <Button><Icon name="print"/> Compte rendu imprimable</Button>
+                  </Link>
+                }
+              </div>
               <Grid stackable>
                 {consults.map((consult, index) => {
                   return (
