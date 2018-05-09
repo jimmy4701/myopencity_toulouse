@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Grid, Button, Loader, Header, Modal} from 'semantic-ui-react'
+import {Grid, Button, Loader, Header, Modal, Label} from 'semantic-ui-react'
 import ConsultPartVoteButton from '/imports/components/consult_parts/ConsultPartVoteButton'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
@@ -183,6 +183,11 @@ export class ConsultPart extends Component{
               </div>
               : ''}
           </Grid.Column>
+          {Meteor.isClient && !Meteor.userId() && (consult_part.votes_activated || consult_part.alternatives_activated) &&
+              <Grid.Column width={16} className="center-align">
+                <Label size="tiny">Vous devez vous connecter pour participer</Label>
+              </Grid.Column>
+          }
           <Modal open={display_alternative_form} className="animated fadeInDown">
             <Modal.Header>{consult_alternative_button_term}</Modal.Header>
             <Modal.Content>
