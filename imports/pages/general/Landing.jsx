@@ -132,8 +132,8 @@ export default LandingContainer = createContainer(() => {
   const territories = Territories.find({active: true}).fetch()
   const global_configuration = Configuration.findOne()
   return {
-            loading,
-          consults,
+    loading,
+    consults,
     projects,
     territories,
     geolocated_consults,

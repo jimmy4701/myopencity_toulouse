@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Image, Segment, Grid, Button} from 'semantic-ui-react'
+import {Icon, Image, Segment, Grid, Button, Dropdown} from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import {Link, withRouter} from 'react-router-dom'
@@ -96,6 +96,27 @@ export class AlternativePartial extends Component{
     })
   }
 
+  signal = () => {
+    Meteor.call('alternatives_alerts.insert', this.props.alternative._id, (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+        Bert.alert({
+              title: 'Erreur lors du signalement',
+              message: error.message,
+              style: 'growl-bottom-left',
+              type: 'danger'
+            })
+      }else{
+        Bert.alert({
+              title: "Votre signalement a bien été pris en compte",
+              message: "Nous le traiterons dans les plus brefs délais",
+              style: 'growl-bottom-left',
+              type: 'success'
+            })
+      }
+    })
+  }
+
   remove = () => {
     Meteor.call('alternatives.remove', this.props.alternative._id, (error, result) => {
       if(error){
@@ -113,7 +134,7 @@ export class AlternativePartial extends Component{
 
   render(){
     const {user, loading, alternative, display_consult, removable} = this.props
-    const {actived_alternative, consult, removing} = this.state 
+    const {actived_alternative, consult, removing, open_dropdown} = this.state 
     moment.locale('fr')
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
@@ -122,6 +143,13 @@ export class AlternativePartial extends Component{
       return(
         <Grid.Column width={actived_alternative ? 16 :8} className="wow fadeInUp">
           <Segment>
+          <div onClick={this.toggleState} name="open_dropdown" className="alternative-partial-dropdown">
+            <Dropdown open={open_dropdown}>
+              <Dropdown.Menu>
+                <Dropdown.Item text='Signaler' onClick={this.signal} />
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
             <Grid stackable>
               <Grid.Column width={16} style={{paddingBottom: "0"}}>
                 <span className="alternative-partial-title">{alternative.title}<br/></span>

@@ -9,3 +9,11 @@
 .alternative-partial-title{
   font-size: 1.4em;
 }
+
+.alternative-partial-dropdown{
+  position: absolute !important;
+  right: 10px;
+  top: 0;
+  cursor: pointer;
+  z-index: 999;
+}
