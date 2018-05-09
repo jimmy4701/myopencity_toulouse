@@ -30,8 +30,9 @@ export class SignupForm extends Component{
   create_account = (e) => {
     e.preventDefault()
     const {cgu_acceptance} = this.props
-    const {user, accept_conditions} = this.state
-    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true)
+    const {legal_notice_acceptance} = this.props.global_configuration
+    const {user, accept_conditions, accept_legal_notice} = this.state
+    const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true) && (legal_notice_acceptance ? accept_legal_notice : true)
 
     if(isValid){
         Meteor.call('user.signup', user, (error, result) => {
@@ -130,9 +131,10 @@ export class SignupForm extends Component{
           {cgu_acceptance &&
             <Form.Field>
               <Checkbox
+                required
                 checked={accept_conditions}
                 onClick={() => this.toggleState('accept_conditions')}
-                label={<label for="accept_conditions"  >J'accepte les conditions de la <a href="/conditions" target="_blank">charte d'utilisation</a></label>}
+                label={<label for="accept_conditions"  >J'accepte les conditions de la <a href="/conditions" target="_blank">charte d'utilisation</a><span className="required-char"> *</span></label>}
               />
             </Form.Field>
           }
@@ -140,9 +142,10 @@ export class SignupForm extends Component{
           {legal_notice_acceptance &&
             <Form.Field>
               <Checkbox
+                required
                 checked={accept_legal_notice}
                 onClick={() => this.toggleState('accept_legal_notice')}
-                label={<label for="accept_legal_notice"  >J'accepte les <a href="/mentions_legales" target="_blank">mentions légales</a></label>}
+                label={<label for="accept_legal_notice"  >J'accepte les <a href="/mentions_legales" target="_blank">mentions légales</a><span className="required-char"> *</span></label>}
               />
             </Form.Field>
           }

@@ -124,6 +124,7 @@ export class AlternativePartial extends Component{
           <Segment>
             <Grid stackable>
               <Grid.Column width={16} style={{paddingBottom: "0"}}>
+                <span className="alternative-partial-title">{alternative.title}<br/></span>
                 {!alternative.anonymous ?
                   <Image avatar src={user.profile.avatar_url} />
                 : ''}
@@ -133,11 +134,13 @@ export class AlternativePartial extends Component{
                 <Link to={"/profile/" + user._id}>
                   <span>{user.username} </span>
                 </Link>}
-                <span> a proposé {alternative_descriptive_term}</span> <a onClick={(e) => {this.onTitleClick(e)}}>{alternative.title}</a>
+                <span style={{paddingTop: "0", color: "#b7b7b7"}} className="alternative-partial-date">le {moment(alternative.created_at).format('DD.MM.YYYY à HH:mm')}</span>
               </Grid.Column>
-              <Grid.Column width={16} style={{paddingTop: "0", color: "#b7b7b7"}}>
-              {moment().to(moment(alternative.created_at))} {display_consult && <Link to={"/consults/" + consult.urlShorten}>{consult.title}</Link>}
-              </Grid.Column>
+              {display_consult && 
+                <Grid.Column width={16}>
+                  <Link to={"/consults/" + consult.urlShorten}>{consult.title}</Link>
+                </Grid.Column>
+              }
               <Grid.Column width={16}>
               {actived_alternative ? 
                 <div dangerouslySetInnerHTML={{__html: alternative.content }} />

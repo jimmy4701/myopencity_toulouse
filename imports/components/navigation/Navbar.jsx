@@ -45,7 +45,7 @@ export default class Navbar extends TrackerReact(Component){
             <Container>
               <Link className="item" to='/'>
                 <div className="navbar-item" header>
-                  <Image inline src={global_image_url} size="mini" />
+                  <Image inline src={global_image_url} size="mini" spaced="right" />
                   {navbar_home_term}
                 </div>
               </Link>

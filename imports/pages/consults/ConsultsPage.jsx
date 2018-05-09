@@ -33,7 +33,7 @@ export class ConsultsPage extends TrackerReact(Component) {
     if (!loading) {
       return (
         <Grid className="wow fadeInUp" stackable>
-          <Grid.Column width={16} className="territory-consults-header">
+          <Grid.Column width={16} className="territory-consults-header mobile-padding">
             <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{consults_all_territories}</Header>
             <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{!show_ended_consults ? consults_title : ended_consults_title}</Header>
             {ended_consults.length > 0 ?
@@ -44,7 +44,7 @@ export class ConsultsPage extends TrackerReact(Component) {
             }
           </Grid.Column>
           {!show_ended_consults ?
-            <Grid.Column width={16}>
+            <Grid.Column width={16} className="mobile-padding">
               {consults.length == 0 ?
                 <Header className="center-align" as="h3">{consults_no_consults}</Header>
                 :

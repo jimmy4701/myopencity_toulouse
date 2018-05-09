@@ -80,9 +80,9 @@ export class MyProfile extends Component {
     const { removing } = this.state
     if (!loading) {
       return (
-        <Container>
-          <Grid stackable className="main-container" verticalAlign="middle">
-            <Grid.Column width={16} className="wow fadeIn profile-form-container">
+        <Grid stackable className="main-container" verticalAlign="middle">
+          <Grid.Column width={16} className="wow fadeIn profile-form-container mobile-padding">
+            <Container>
               <EditProfileForm />
               <Header as='h3'>Suppression de compte</Header>
               <p>Vous pouvez supprimer votre compte à tout moment. La suppression de votre compte entraine la suppression intégrale
@@ -97,12 +97,9 @@ export class MyProfile extends Component {
                 <Button onClick={this.toggleState} name="removing" color="red">Supprimer mon compte</Button>
             
               }
-            </Grid.Column>
-            <Grid.Column width={16}>
-              
-            </Grid.Column>
-          </Grid>
-        </Container>
+            </Container>
+          </Grid.Column>
+        </Grid>
       )
     } else {
       return <div></div>

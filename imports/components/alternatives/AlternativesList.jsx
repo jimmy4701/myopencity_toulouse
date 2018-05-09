@@ -45,7 +45,7 @@ export class AlternativesList extends TrackerReact(Component){
         <Grid stackable centered>
             <Grid.Column width={16}>
               <Grid stackable stretched>
-                    {_.sortBy(alternatives, function(al){return -al.likes}).map((alternative, index) => {
+                    {_.sortBy(alternatives, function(al){return -al.created_at}).map((alternative, index) => {
                       return <AlternativePartial alternative={alternative} key={index} />
                     })}
               </Grid>
@@ -57,7 +57,7 @@ export class AlternativesList extends TrackerReact(Component){
 
 export default AlternativesListContainer = createContainer(({ consult_part, page, results_size, search_term }) => {
   const skip_entities = page * results_size
-  const alternatives = Alternatives.find({validated: true, consult_part: consult_part._id, content: {$regex: search_term}}, {limit: results_size, skip: skip_entities, sort: {likes: -1}}).fetch()
+  const alternatives = Alternatives.find({validated: true, consult_part: consult_part._id, content: {$regex: search_term}}, {limit: results_size, skip: skip_entities, sort: {created_at: -1}}).fetch()
   return {
     alternatives
   }

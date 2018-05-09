@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import { Grid, Header, Container, Loader, Image, Button } from 'semantic-ui-react'
+import { Grid, Header, Container, Loader, Image, Button, Card } from 'semantic-ui-react'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Consults } from '/imports/api/consults/consults'
 import { Projects } from '/imports/api/projects/projects'
@@ -49,11 +49,11 @@ export class Landing extends Component {
             <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")", height: landing_header_height, minHeight: landing_header_min_height }} verticalAlign="middle">
               <Grid.Column width={16}>
                 <Header className="wow fadeInUp main-title" style={{ color: landing_main_title_color }} as="h1">{landing_main_title}</Header>
-                <Header className="wow fadeInUp" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header>
+                <Header className="wow fadeInUp main-subtitle" style={{ color: landing_header_description_color }} data-wow-delay="1s" as="h2">{landing_header_description}</Header>
               </Grid.Column>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={16} className="center-align landing-explain-part" verticalAlign="middle">
+          <Grid.Column width={16} className="center-align landing-explain-part mobile-padding" verticalAlign="middle">
               <Grid verticalAlign="middle" stackable>
                 {landing_explain_title &&
                   <Grid.Column width={16} className="center-align landing-title-container">
@@ -68,33 +68,33 @@ export class Landing extends Component {
               </Grid>
             </Grid.Column>  
             {consults.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_consults_background_color}}>
+              <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_consults_background_color}}>
                 <Header as="h2">Les {consult_term}s du moment</Header>
-                {consults.length > 0 ?
-                <Grid stackable centered>
-                  {consults.map((consult, index) => {
-                    return (
-                      <Grid.Column width={5} className="center-align wow fadeInUp" key={consult._id}>
-                        <ConsultPartial consult={consult} />
-                      </Grid.Column>
-                    )
-                  })}
-                </Grid>
-                  : ''}
+                {consults.length > 0 &&
+                  <Container>
+                    <Card.Group itemsPerRow={4} className="centered" stackable>
+                      {consults.map((consult, index) => {
+                        return (
+                            <ConsultPartial consult={consult} key={consult._id} />
+                        )
+                      })}
+                    </Card.Group>
+                  </Container>
+                }
               </Grid.Column>
               : ''}
             {projects.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_projects_background_color}}>
+              <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_projects_background_color}}>
                 <Header as="h2">Les {project_term}s proposés du moment</Header>
-                <Grid stackable centered>
+                <Container stackable centered>
+                  <Card.Group itemsPerRow={4} className="centered" stackable>
                     {projects.map((project, index) => {
                       return (
-                        <Grid.Column width={5} className="center-align wow fadeInUp" key={project._id}>
                           <ProjectPartial project={project}/>
-                        </Grid.Column>
                       )
                     })}
-                </Grid>
+                  </Card.Group>
+                </Container>
               </Grid.Column>
               : ''}
               <Grid.Column width={16} className="not-padded">
@@ -103,7 +103,7 @@ export class Landing extends Component {
                     <TerritoriesMap 
                       territories={territories}
                       consults={geolocated_consults}
-                      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
+                      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"
                       loadingElement={<div style={{ height: `100%` }} />}
                       containerElement={<div style={{ height: `100vh` }} />}
                       mapElement={<div style={{ height: `100%` }} />}

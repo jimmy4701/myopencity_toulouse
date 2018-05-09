@@ -118,9 +118,10 @@ export default class AdminUserRow extends TrackerReact(Component){
     const moderator = Roles.userIsInRole(user._id, 'moderator')
     const alternative_moderator = Roles.userIsInRole(user._id, 'alternative_moderator')
     const admin = Roles.userIsInRole(user._id, 'admin')
-    const user_territories = user.roles.map(role => {
+    const user_territories = []
+    user.roles && user.roles.map(role => {
       if(role != "admin" && role != "moderator"){
-        return role
+        user_territories.push(role)
       }
     })
     const territories_options = territories.map(territory => {

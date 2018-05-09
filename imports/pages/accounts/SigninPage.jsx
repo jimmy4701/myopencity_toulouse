@@ -21,14 +21,12 @@ class SigninPage extends TrackerReact(Component){
   render(){
     return(
        <Grid stackable centered className="wow fadeInUp">
-         <Container>
-           <Grid.Column width={16} className="center-align">
-             <Header as="h1">Connexion</Header>
+           <Grid.Column width={16} className="center-align mobile-padding">
+              <Container>
+                  <Header as="h1">Connexion</Header>
+                  <SigninForm onSignin={this.signed_in.bind(this)}/>
+              </Container>
            </Grid.Column>
-           <Grid.Column width={16}>
-             <SigninForm onSignin={this.signed_in.bind(this)}/>
-           </Grid.Column>
-         </Container>
        </Grid>
     )
   }

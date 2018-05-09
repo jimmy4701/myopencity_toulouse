@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Grid, Button, Loader, Header, Input, Feed} from 'semantic-ui-react'
+import {Grid, Button, Loader, Header, Modal, Label} from 'semantic-ui-react'
 import ConsultPartVoteButton from '/imports/components/consult_parts/ConsultPartVoteButton'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
@@ -47,9 +47,8 @@ export class ConsultPart extends Component{
     this.setState(state)
   }
 
-  create_alternative(alternative){
-    const that = this
-    Meteor.call('alternatives.insert', {consult_part_id: this.props.consult_part._id, alternative: alternative} , (error, result) => {
+  create_alternative = (alternative) => {
+    Meteor.call('alternatives.insert', {consult_part_id: this.props.consult_part._id, alternative} , (error, result) => {
       if(error){
         console.log(error)
         Bert.alert({
@@ -64,7 +63,7 @@ export class ConsultPart extends Component{
           type: 'success',
           style: 'growl-bottom-left',
         })
-        that.setState({display_alternative_form: false})
+        this.setState({display_alternative_form: false})
       }
     });
   }
@@ -121,19 +120,9 @@ export class ConsultPart extends Component{
 
       return(
         <Grid stackable className={"consult-part " + consult_part_hover_class}>
-          <Grid.Column width={(display_alternative_form) ? 5 : 16}>
+          <Grid.Column width={16}>
             <div className="consult-part-content" dangerouslySetInnerHTML={{__html: consult_part.content }}></div>
           </Grid.Column>
-          {display_alternative_form ?
-            <Grid.Column width={11} className="animated fadeInLeft">
-              <div className="center-align marged">
-                <Button onClick={this.toggleAlternativeForm}>
-                  Annuler
-                </Button>
-              </div>
-              <AlternativeForm onCreate={this.create_alternative.bind(this)}/>
-            </Grid.Column>
-          : ''}
           {display_alternatives ?
             <Grid.Column width={16}>
               <Grid stackable>
@@ -194,6 +183,22 @@ export class ConsultPart extends Component{
               </div>
               : ''}
           </Grid.Column>
+          {Meteor.isClient && !Meteor.userId() && (consult_part.votes_activated || consult_part.alternatives_activated) &&
+              <Grid.Column width={16} className="center-align">
+                <Label size="tiny">Vous devez vous connecter pour participer</Label>
+              </Grid.Column>
+          }
+          <Modal open={display_alternative_form} className="animated fadeInDown">
+            <Modal.Header>{consult_alternative_button_term}</Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+                <AlternativeForm onCreate={this.create_alternative}/>
+              </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={this.toggleAlternativeForm}>Annuler</Button>
+            </Modal.Actions>
+          </Modal>
         </Grid>
       )
     }else{
