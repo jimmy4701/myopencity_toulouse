@@ -53,7 +53,7 @@ export class Landing extends Component {
               </Grid.Column>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={16} className="center-align landing-explain-part" verticalAlign="middle">
+          <Grid.Column width={16} className="center-align landing-explain-part mobile-padding" verticalAlign="middle">
               <Grid verticalAlign="middle" stackable>
                 {landing_explain_title &&
                   <Grid.Column width={16} className="center-align landing-title-container">
@@ -68,7 +68,7 @@ export class Landing extends Component {
               </Grid>
             </Grid.Column>  
             {consults.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_consults_background_color}}>
+              <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_consults_background_color}}>
                 <Header as="h2">Les {consult_term}s du moment</Header>
                 {consults.length > 0 &&
                   <Container>
@@ -84,7 +84,7 @@ export class Landing extends Component {
               </Grid.Column>
               : ''}
             {projects.length > 0 ?
-              <Grid.Column width={16} className="center-align landing-title-container" style={{backgroundColor: landing_projects_background_color}}>
+              <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_projects_background_color}}>
                 <Header as="h2">Les {project_term}s proposés du moment</Header>
                 <Container stackable centered>
                   <Card.Group itemsPerRow={4} className="centered" stackable>

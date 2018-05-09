@@ -74,14 +74,14 @@ export class ConsultPage extends TrackerReact(Component){
             </Grid>
           </Grid.Column>
           {consult.description ?
-            <Grid.Column width={16} style={{fontSize: consult_description_font_size, backgroundColor: consult_description_background_color, color: consult_description_color, marginBottom: consult.attached_files.length > 0 ? '0' : 'initial'}} className="consult-description-container center-align">
+            <Grid.Column width={16} style={{fontSize: consult_description_font_size, backgroundColor: consult_description_background_color, color: consult_description_color, marginBottom: consult.attached_files.length > 0 ? '0' : 'initial'}} className="consult-description-container center-align mobile-padding">
               <Container>
                 <p>{consult.description}</p>
               </Container>
             </Grid.Column>
           : ''}
           {consult.attached_files.length > 0 ?
-            <Grid.Column width={16} className="center-align" style={{fontSize: consult_description_font_size, backgroundColor: consult_description_background_color, color: consult_description_color}}>
+            <Grid.Column width={16} className="center-align mobile-padding" style={{fontSize: consult_description_font_size, backgroundColor: consult_description_background_color, color: consult_description_color}}>
               <Container>
                 {!show_files ?
                   <span>
@@ -112,7 +112,7 @@ export class ConsultPage extends TrackerReact(Component){
             </Grid.Column>
           : ''}
           {territories.length > 0 ?
-            <Grid.Column width={16} className="consult-territory-container center-align wow fadeInDown" data-wow-delay="0.5s">
+            <Grid.Column width={16} className="consult-territory-container center-align wow fadeInDown mobile-padding" data-wow-delay="0.5s">
               <Container>
               <p>
                 {consult_territory_prefix}
@@ -126,7 +126,7 @@ export class ConsultPage extends TrackerReact(Component){
               </Container>
             </Grid.Column>
           : ''}
-          <Grid.Column width={16}>
+          <Grid.Column width={16} className="mobile-padding">
             {Meteor.isClient && [
               <Link to={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
                 <Icon size="big" name="facebook"/>
@@ -136,7 +136,7 @@ export class ConsultPage extends TrackerReact(Component){
               </Link>
             ]}
           </Grid.Column>
-          <Grid.Column width={16} className="parts-container">
+          <Grid.Column width={16} className="parts-container mobile-padding">
             <Container>
               {consult_parts.map((part, index) => {
                 return <ConsultPart hide_vote_button={!consult.votable} consult_part={part} />

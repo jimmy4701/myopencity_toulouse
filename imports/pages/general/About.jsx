@@ -18,10 +18,10 @@ export class About extends Component {
             return (
                 <Grid stackable>
                     <Container>
-                        <Grid.Column width={16} className="cgu_header">
+                        <Grid.Column width={16} className="cgu_header mobile-padding">
                             <Header as='h2' className="wow fadeInUp">{about_term}</Header>
                         </Grid.Column>
-                        <Grid.Column width={16} className="wow fadeInUp cgu_container">
+                        <Grid.Column width={16} className="wow fadeInUp cgu_container mobile-padding">
                             <div dangerouslySetInnerHTML={{ __html: about }}></div>
                         </Grid.Column>
 

@@ -150,6 +150,12 @@ body{
   color: #c94d4d;
 }
 
+@media screen and (max-width: 768px) {
+  .ui.stackable.grid .column.wide.mobile-padding, .ui.grid .column.wide.mobile-padding{
+    padding: 2em !important;
+  }
+}
+
 // GOOGLE MAPS CLASSES
 .territory-label{
   font-size: 15px !important;
