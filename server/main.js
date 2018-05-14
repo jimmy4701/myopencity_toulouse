@@ -38,8 +38,6 @@ Meteor.startup(() => {
   // Migrations
   Migrations.migrateTo('latest')
 
-  console.log("MAIN JS");
-
 
   // Initialization of global configuration singleton
   const configuration = Configuration.findOne({})

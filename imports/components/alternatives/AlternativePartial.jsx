@@ -131,9 +131,23 @@ export class AlternativePartial extends Component{
     })
   }
 
+  cancel_signalement = () => {
+    Meteor.call('alternatives.cancel_signalement', this.props.alternative._id , (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+      }else{
+        Bert.alert({
+          title: 'Signalement annulé',
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
 
   render(){
-    const {user, loading, alternative, display_consult, removable} = this.props
+    const {user, loading, alternative, display_consult, removable, signaled} = this.props
     const {actived_alternative, consult, removing, open_dropdown} = this.state 
     moment.locale('fr')
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
@@ -166,7 +180,7 @@ export class AlternativePartial extends Component{
               </Grid.Column>
               {display_consult && 
                 <Grid.Column width={16}>
-                  <Link to={"/consults/" + consult.urlShorten}>{consult.title}</Link>
+                  <Link to={"/consults/" + consult.url_shorten}>{consult.title}</Link>
                 </Grid.Column>
               }
               <Grid.Column width={16}>
@@ -202,6 +216,9 @@ export class AlternativePartial extends Component{
                 }
                 {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && !alternative.verified &&
                   <Button onClick={(e) => {this.toggle_verified(e)}}>Déclarer comme vérifié</Button>
+                }
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && signaled &&
+                  <Button onClick={this.cancel_signalement}>Annuler le signalement</Button>
                 }
               </Grid.Column>
             </Grid>

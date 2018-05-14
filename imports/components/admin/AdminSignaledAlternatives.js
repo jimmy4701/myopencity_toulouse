@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Grid, Header, Loader } from 'semantic-ui-react'
+import { Grid, Header, Loader, Divider } from 'semantic-ui-react'
 import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
 import { withTracker } from 'meteor/react-meteor-data'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
@@ -11,8 +11,31 @@ export class AdminSignaledAlternatives extends Component {
         total_pages: 0
     }
 
+    componentDidMount(){
+        Meteor.call('alternatives.get_signaled', {page: 0}, (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+            }else{
+                console.log('RESULT ALTERNATIVES', result)
+                this.setState({...result})
+            }
+        })
+    }
+
+    reload = () => {
+        Meteor.call('alternatives.get_signaled', {page: this.state.page}, (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+            }else{
+                console.log('RESULT ALTERNATIVES', result)
+                this.setState({...result})
+            }
+        })
+    }
+
     render(){
-        const {loading, alternatives, alerts} = this.props
+        const {total_pages, page} = this.state
+        const {alternatives, loading} = this.props
 
         if(!loading){
             return(
@@ -21,9 +44,14 @@ export class AdminSignaledAlternatives extends Component {
                         <Header as='h3'>Alternatives signalées</Header>
                     </Grid.Column>
                     <Grid.Column width={16}>
-                        {alert.map(alert => {
-                            const alternative = _.find(alternatives, o => o._id == alert.alternative)
-                            return <AlternativePartial key={alternative._id} alternative={alternative} display_consult removable/>
+                        {alternatives.map(alternative => {
+                            return <AlternativePartial 
+                                key={alternative._id} 
+                                onCancelSignalement={this.reload}
+                                alternative={alternative} 
+                                display_consult 
+                                removable 
+                                signaled/>
                         })}
                         {alternatives.length == 0 &&
                             <p>Aucune alternative pour le moment</p>
@@ -32,25 +60,25 @@ export class AdminSignaledAlternatives extends Component {
                 </Grid>
             )
         }else{
-            return <Loader inline>Chargement des alternatives</Loader>
+            return <div>Chargement des alternatives</div>
         }
     }
 }
 
 export default AdminSignaledAlternativesContainer = withTracker(() => {
-    const alertsPublication = Meteor.isClient && Meteor.subscribe('alternatives_alerts.not_treated')
+    const alertsPublication = Meteor.subscribe('alternatives_alerts.to_treat')
     const alerts = AlternativesAlerts.find({treated: false}).fetch()
     if(alerts){
-        const alternativesPublication = Meteor.isClient && Meteor.subscribe('alternatives.unverified')
-        const loading = Meteor.isClient && (!alternativesPublication.ready() && !alertsPublication.ready())
         const alternatives_ids = alerts.map(alert => alert.alternative)
+        const alternativesPublication = Meteor.subscribe('alternatives.by_ids', alternatives_ids)
         const alternatives = Alternatives.find({_id: {$in: alternatives_ids}}).fetch()
+        const loading = !alertsPublication.ready() || !alternativesPublication.ready()
         return {
             loading,
-            alternatives,
-            alerts
+            alternatives
         }
-    }else{
-        return {loading: true}
+    }
+    return {
+        loading: true
     }
 })(AdminSignaledAlternatives)

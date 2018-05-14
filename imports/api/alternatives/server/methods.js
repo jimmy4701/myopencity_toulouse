@@ -47,6 +47,7 @@ Meteor.methods({
     }else{
       const alternative = Alternatives.findOne(alternative_id)
       if(alternative.user == this.userId || Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+        AlternativesAlerts.remove({alternative: alternative_id})
         Alternatives.remove({_id: alternative_id})
       }else{
         throw new Meteor.Error('403', "Vous n'êtes pas le propriétaire de cette alternative")
@@ -93,13 +94,26 @@ Meteor.methods({
       AlternativesAlerts.remove({alternative: alternative._id})
     }
   },
-  'alternatives.signaled'({page}){
+  'alternatives.get_signaled'({page}){
     if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
       throw new Meteor.Error('403', "Vous devez être administrateur")
     }
     let user_alerts = AlternativesAlerts.find({treated: false}, {sort: {created_at: -1}, limit: 10, skip: 10 * page}).fetch()
     const alternatives_ids = user_alerts.map(alert => alert.alternative)
     const alternatives = Alternatives.find({_id: {$in: alternatives_ids}}).fetch()
-    return alternatives
+    const nb_results = alternatives.length
+    const total_pages = nb_results / 10
+    return {
+      alternatives,
+      total_pages,
+      nb_results
+    }
+  },
+  'alternatives.cancel_signalement'(alternative_id){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }
+    console.log('cancel signalement', alternative_id)
+    AlternativesAlerts.update({alternative: alternative_id}, {$set: {treated: true}})
   }
 })
