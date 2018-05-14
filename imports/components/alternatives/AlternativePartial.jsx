@@ -145,7 +145,7 @@ export class AlternativePartial extends Component{
           <Segment>
           <div onClick={this.toggleState} name="open_dropdown" className="alternative-partial-dropdown">
             <Dropdown open={open_dropdown}>
-              <Dropdown.Menu>
+              <Dropdown.Menu className="alternative-partial-menu">
                 <Dropdown.Item text='Signaler' onClick={this.signal} />
               </Dropdown.Menu>
             </Dropdown>

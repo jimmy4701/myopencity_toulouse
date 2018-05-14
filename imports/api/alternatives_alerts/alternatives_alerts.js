@@ -14,6 +14,10 @@ const AlternativesAlertsSchema = new SimpleSchema({
     },
     created_at: {
         type: Date
+    },
+    treated: {
+        type: Boolean,
+        defaultValue: false
     }
 })
 

@@ -5,6 +5,7 @@ import {Grid, Header, Menu, Container, Icon} from 'semantic-ui-react'
 import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
 import AdminUnverifiedAlternatives from '/imports/components/admin/AdminUnverifiedAlternatives'
 import AdminUnvalidatedAlternatives from '/imports/components/admin/AdminUnvalidatedAlternatives'
+import AdminSignaledAlternatives from '/imports/components/admin/AdminSignaledAlternatives'
 
 export default class AdminAlternativesValidationPage extends TrackerReact(Component){
 
@@ -35,6 +36,10 @@ export default class AdminAlternativesValidationPage extends TrackerReact(Compon
                     <Icon name="ban" />
                     Invalidées
                   </Menu.Item>
+                  <Menu.Item active={part === 'signaled'} onClick={() => this.changePart('signaled')} >
+                    <Icon name="ban" />
+                    Signalées
+                  </Menu.Item>
               </Menu>
             </Grid.Column>
             {part == "unverified" &&
@@ -42,6 +47,9 @@ export default class AdminAlternativesValidationPage extends TrackerReact(Compon
             }
             {part == 'unvalidated' &&
               <AdminUnvalidatedAlternatives />
+            }
+            {part == 'signaled' && 
+              <AdminSignaledAlternatives />
             }
           </Grid>
         </Container>

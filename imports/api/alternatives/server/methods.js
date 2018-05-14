@@ -4,6 +4,7 @@ import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {AlternativeLikes} from '/imports/api/alternative_likes/alternative_likes'
 import {Consults} from '/imports/api/consults/consults'
 import {Configuration} from '/imports/api/configuration/configuration'
+import {AlternativesAlerts} from '/imports/api/alternatives_alerts/alternatives_alerts'
 
 Meteor.methods({
   'alternatives.insert'({alternative, consult_part_id}){
@@ -79,6 +80,7 @@ Meteor.methods({
       let alternative = Alternatives.findOne({_id: alternative_id})
       alternative.validated = !alternative.validated
       Alternatives.update({_id: alternative_id}, {$set: alternative})
+      AlternativesAlerts.remove({alternative: alternative._id})
     }
   },
   'alternatives.toggle_verified'(alternative_id){
@@ -88,6 +90,16 @@ Meteor.methods({
       let alternative = Alternatives.findOne({_id: alternative_id})
       alternative.verified = !alternative.verified
       Alternatives.update({_id: alternative_id}, {$set: alternative})
+      AlternativesAlerts.remove({alternative: alternative._id})
     }
+  },
+  'alternatives.signaled'({page}){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }
+    let user_alerts = AlternativesAlerts.find({treated: false}, {sort: {created_at: -1}, limit: 10, skip: 10 * page}).fetch()
+    const alternatives_ids = user_alerts.map(alert => alert.alternative)
+    const alternatives = Alternatives.find({_id: {$in: alternatives_ids}}).fetch()
+    return alternatives
   }
 })
