@@ -1,5 +1,6 @@
 import {Meteor} from 'meteor/meteor'
-import {Alternatives} from '../alternatives'
+import {Alternatives} from '/imports/api/alternatives/alternatives'
+import {AlternativesAlerts} from '/imports/api/alternatives_alerts/alternatives_alerts'
 
 Meteor.publish('alternatives.all', function(){
   if(Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
@@ -54,3 +55,11 @@ Meteor.publish('alternatives.unverified', function(){
     return Alternatives.find({verified: false})
   }
 });
+
+Meteor.publish('alternatives.by_ids', function(alternatives_ids){
+  if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+    throw new Meteor.Error('403', "Vous devez être administrateur")
+  }else{
+    return Alternatives.find({_id: {$in: alternatives_ids}})
+  }
+})

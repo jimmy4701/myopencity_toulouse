@@ -20,9 +20,6 @@ onPageLoad(sink => {
 
   const path = sink.request.url.path
 
-  console.log("MAIN LAYOUT SERVER");
-
-
     let htmlString = renderToString(
       sheet.collectStyles(
         <Router

@@ -4,6 +4,7 @@ import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {AlternativeLikes} from '/imports/api/alternative_likes/alternative_likes'
 import {Consults} from '/imports/api/consults/consults'
 import {Configuration} from '/imports/api/configuration/configuration'
+import {AlternativesAlerts} from '/imports/api/alternatives_alerts/alternatives_alerts'
 
 Meteor.methods({
   'alternatives.insert'({alternative, consult_part_id}){
@@ -46,6 +47,7 @@ Meteor.methods({
     }else{
       const alternative = Alternatives.findOne(alternative_id)
       if(alternative.user == this.userId || Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+        AlternativesAlerts.remove({alternative: alternative_id})
         Alternatives.remove({_id: alternative_id})
       }else{
         throw new Meteor.Error('403', "Vous n'êtes pas le propriétaire de cette alternative")
@@ -79,6 +81,7 @@ Meteor.methods({
       let alternative = Alternatives.findOne({_id: alternative_id})
       alternative.validated = !alternative.validated
       Alternatives.update({_id: alternative_id}, {$set: alternative})
+      AlternativesAlerts.remove({alternative: alternative._id})
     }
   },
   'alternatives.toggle_verified'(alternative_id){
@@ -88,6 +91,29 @@ Meteor.methods({
       let alternative = Alternatives.findOne({_id: alternative_id})
       alternative.verified = !alternative.verified
       Alternatives.update({_id: alternative_id}, {$set: alternative})
+      AlternativesAlerts.remove({alternative: alternative._id})
     }
+  },
+  'alternatives.get_signaled'({page}){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }
+    let user_alerts = AlternativesAlerts.find({treated: false}, {sort: {created_at: -1}, limit: 10, skip: 10 * page}).fetch()
+    const alternatives_ids = user_alerts.map(alert => alert.alternative)
+    const alternatives = Alternatives.find({_id: {$in: alternatives_ids}}).fetch()
+    const nb_results = alternatives.length
+    const total_pages = nb_results / 10
+    return {
+      alternatives,
+      total_pages,
+      nb_results
+    }
+  },
+  'alternatives.cancel_signalement'(alternative_id){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous devez être administrateur")
+    }
+    console.log('cancel signalement', alternative_id)
+    AlternativesAlerts.update({alternative: alternative_id}, {$set: {treated: true}})
   }
 })

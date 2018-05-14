@@ -77,8 +77,6 @@ export class MainLayout extends TrackerReact(Component) {
   render() {
     const { global_configuration, loading } = this.props
 
-    console.log("CLIENT: MAIN LAYOUT");
-
 
     if (!loading) {
       Session.set('global_configuration', global_configuration)
