@@ -6,6 +6,7 @@ import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
 import htmlToText from 'html-to-text'
+import {Territories} from '/imports/api/territories/territories'
 
 const generate_url_shorten = (title) => {
   return _.random(100,9999) + '-' + _.kebabCase(title)
@@ -152,6 +153,49 @@ Meteor.methods({
       throw new Meteor.Error('403', "Not authorized")
     }else{
       const alternatives_cursor = Alternatives.find({consult: consult_id})
+      const ages_options = [
+        {
+          key: "18",
+          value: "18",
+          text: "Moins de 18 ans"
+        },
+        {
+          key: "24",
+          value: "24",
+          text: "Entre 18 et 24 ans"
+        },
+        {
+          key: "39",
+          value: "39",
+          text: "Entre 25 et 39 ans"
+        },
+        {
+          key: "65",
+          value: "65",
+          text: "Entre 40 et 65 ans"
+        },
+        {
+          key: "80",
+          value: "80",
+          text: "Plus de 65 ans"
+        }
+      ]
+
+      const genders_options = [
+        {
+          key: "man",
+          text: "Homme"
+        },
+        {
+          key: "woman",
+          text: "Femme"
+        },
+        {
+          key: "other",
+          text: "Autre"
+        }
+      ]
+
       let lines = []
       if(alternatives_cursor.count()){
         const alternatives = alternatives_cursor.fetch()
@@ -161,7 +205,22 @@ Meteor.methods({
           const content = htmlToText.fromString(alternative.content, {
             wordwrap: null
           });
-          return {alternative: alternative.title, author: author ? author.username : '', email: author.emails[0].address ? author.emails[0].address : '', content, consult_part: consult_part.title}
+          const date = moment(alternative.created_at).format('DD.MM.YYY à HH:mm')
+          const home_territory = Territories.findOne({_id: author.profile.home_territories})
+          const work_territory = Territories.findOne({_id: author.profile.work_territories})
+          return {
+            avis: alternative.title,
+            date_publication: date,
+            soutiens: alternative.likes,
+            auteur: author ? author.username : '', 
+            email: author.emails[0].address ? author.emails[0].address : '', 
+            contenu: content, 
+            partie_consultation: consult_part.title,
+            profile_age: (author && author.profile.age) ? _.find(ages_options, o => o.key == author.profile.age).text : "Non renseigné",
+            profile_genre: (author && author.profile.gender) ? _.find(genders_options, o => o.key == author.profile.gender).text : "Non renseigné",
+            profile_quartier_habitation: home_territory ? home_territory.name : "Non renseigné",
+            profile_quartier_travail: work_territory ? work_territory.name : "Non renseigné"
+          }
         })
         return lines
       }else{
