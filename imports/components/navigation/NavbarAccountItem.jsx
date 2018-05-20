@@ -12,11 +12,8 @@ class NavbarAccountItem extends TrackerReact(Component){
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      screen_size: window.innerWith
-    }
+  state = {
+    screen_size: window.innerWith
   }
 
   onSignin(user_id){
@@ -62,7 +59,7 @@ class NavbarAccountItem extends TrackerReact(Component){
     if(current_user){
       const trigger = (
         <div className="navbar-item" style={{display: 'flex', alignItems: 'center'}}>
-          <Image floated="left" avatar src={current_user.profile.avatar_url} /> {current_user.username}
+          <Image floated="left" avatar src="/images/avatar-logo.png" /> {current_user.username}
         </div>
       )
       return(

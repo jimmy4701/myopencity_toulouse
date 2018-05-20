@@ -108,7 +108,7 @@ export class ProjectPartial extends Component{
             {territory && <Link to={"/territory/" + territory.shorten_url + "/projects"}><div className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</div></Link>}
               {!project.anonymous ?
                 <Link to={"/profile/" + author._id}>
-                  <span className="author-container" style={{cursor: "pointer"}}><Image src={author.profile.avatar_url} avatar /> {author.username}<br/></span>
+                  <span className="author-container" style={{cursor: "pointer"}}><Image src="/images/avatar-logo.png" avatar /> {author.username}<br/></span>
                 </Link>
                 : ''}
               {project.title}
