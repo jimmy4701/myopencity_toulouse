@@ -53,6 +53,9 @@ class SigninForm extends Component{
         })
         if(this.props.onSignin){
           this.props.onSignin(result)
+          if(Session.get('return_route')){
+            this.props.history.push(Session.get('return_route'))
+          }
         }
       }
     })
