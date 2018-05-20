@@ -102,7 +102,9 @@ export class ProjectPartial extends Component{
     if(!loading){
       return(
         <Card className="inline-block project-partial">
-          <Image src={project.image_url} />
+          <Link to={"/projects/" + project.shorten_url}>
+            <Image src={project.image_url} />
+          </Link>
           <Card.Content>
             <Card.Header>
             {territory && <Link to={"/territory/" + territory.shorten_url + "/projects"}><div className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</div></Link>}
