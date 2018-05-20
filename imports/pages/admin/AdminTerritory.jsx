@@ -102,7 +102,7 @@ export class AdminTerritory extends Component {
                 {users.map((user) => {
                   return (
                     <Item key={user._id}>
-                      <Item.Image size='tiny' src={user.profile.avatar_url} />
+                      <Item.Image size='tiny' src="/images/avatar-logo.png" />
 
                       <Item.Content>
                         <Link to={"/profile/" + user._id}>

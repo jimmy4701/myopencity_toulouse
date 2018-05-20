@@ -168,7 +168,7 @@ export class AlternativePartial extends Component{
               <Grid.Column width={16} style={{paddingBottom: "0"}}>
                 <span className="alternative-partial-title">{alternative.title}<br/></span>
                 {!alternative.anonymous ?
-                  <Image avatar src={user.profile.avatar_url} />
+                  <Image avatar src="/images/avatar-logo.png" />
                 : ''}
                 {alternative.anonymous ?
                   <span>{alternatives_anonymous_profile_term} </span>

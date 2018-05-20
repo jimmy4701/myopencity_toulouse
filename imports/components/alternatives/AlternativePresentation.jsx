@@ -81,7 +81,7 @@ export class AlternativePresentation extends TrackerReact(Component){
                   "une personne anonyme"
                 :
                   <span>
-                    <Image avatar src={user.profile.avatar_url} />
+                    <Image avatar src="/images/avatar-logo.png" />
                     {user.username}
                   </span>
               }</Header>
