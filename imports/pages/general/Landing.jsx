@@ -98,15 +98,15 @@ export class Landing extends Component {
               </Grid.Column>
               : ''}
               <Grid.Column width={16} className="not-padded">
-                <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")" }} verticalAlign="middle">
-                  <Grid.Column width={16} className="not-padded">
+                <Grid className="landing-header" verticalAlign="middle">
+                  <Grid.Column width={16}>
                     <TerritoriesMap 
                       territories={territories}
                       consults={geolocated_consults}
                       googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"
                       loadingElement={<div style={{ height: `100%` }} />}
-                      containerElement={<div style={{ height: `100vh` }} />}
-                      mapElement={<div style={{ height: `100%` }} />}
+                      containerElement={<div style={{ height: `100vh`, width: '100vw', paddingLeft: '1em' }} />}
+                      mapElement={<div style={{ height: `100%`, width: '100%' }} />}
                     
                     />
                   </Grid.Column>
