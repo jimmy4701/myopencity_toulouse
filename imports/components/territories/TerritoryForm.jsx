@@ -3,6 +3,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import TinyMCE from 'react-tinymce'
 import { Grid, Header, Form, Input, Button, Icon } from 'semantic-ui-react'
 import { SketchPicker } from 'react-color'
+import ImageCropper from '/imports/components/general/ImageCropper'
 
 export default class TerritoryForm extends TrackerReact(Component) {
 
@@ -46,12 +47,11 @@ export default class TerritoryForm extends TrackerReact(Component) {
         this.setState({ territory })
     }
 
-    uploadImage = (e) => {
-        e.preventDefault()
+    uploadImage = (cropped_image) => {
         this.setState({ loading_image: true })
         var metaContext = {}
         var uploader = new Slingshot.Upload("ConsultImage", metaContext)
-        uploader.send(e.target.files[0], (error, downloadUrl) => {
+        uploader.send(cropped_image, (error, downloadUrl) => {
           if (error) {
             // Log service detailed response
             console.error('Error uploading', error)
@@ -208,7 +208,7 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     name="image_url"
                 />
                 <Form.Field>
-                    <Input loading={loading_image} onChange={(e) => { this.uploadImage(e) }} type="file" />
+                    <ImageCropper onCrop={this.uploadImage} />
                   </Form.Field>
                 <Form.Input
                     label="Coordonnées (format JSON)"
