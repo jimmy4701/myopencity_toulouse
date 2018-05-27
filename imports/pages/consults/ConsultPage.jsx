@@ -9,6 +9,7 @@ import ConsultPart from '/imports/components/consult_parts/ConsultPart'
 import { Link } from 'react-router-dom'
 import {Helmet} from 'react-helmet'
 
+
 export class ConsultPage extends TrackerReact(Component){
 
   /*
@@ -29,6 +30,8 @@ export class ConsultPage extends TrackerReact(Component){
     state[attr] = !state[attr]
     this.setState(state)
   }
+
+  
 
   render(){
     const {consult, consult_parts, territories, loading} = this.props
@@ -138,6 +141,7 @@ export class ConsultPage extends TrackerReact(Component){
           </Grid.Column>
           <Grid.Column width={16} className="parts-container mobile-padding">
             <Container>
+            
               {consult_parts.map((part, index) => {
                 return <ConsultPart hide_vote_button={!consult.votable} consult_part={part} />
               })}
