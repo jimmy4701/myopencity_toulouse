@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data'
 import { Grid, Form, Input, Checkbox, Divider, Button, Card, Image, Header, Item } from 'semantic-ui-react'
 import TinyMCE from 'react-tinymce'
 import { SketchPicker } from 'react-color'
+import ImageCropper from '/imports/components/general/ImageCropper'
 
 export default class ConfigurationLandingForm extends Component {
 
@@ -79,6 +80,29 @@ export default class ConfigurationLandingForm extends Component {
             this.setState({configuration})
           }
         })
+      }
+
+      handleBackgroundUrl = (cropped_image) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        console.log('CROPPED IMAGE', cropped_image)
+        uploader.send(cropped_image, (error, downloadUrl) => {
+            if (error) {
+              // Log service detailed response
+              console.error('Error uploading', error)
+              Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+              })
+            }
+            else {
+                let {configuration} = this.state
+                configuration.landing_header_background_url = downloadUrl
+                this.setState({configuration})
+            }
+          })
       }
 
       handleUploadImage = (blobInfo, success, failure) => {
@@ -180,7 +204,7 @@ export default class ConfigurationLandingForm extends Component {
                                         value={configuration.landing_header_background_url}
                                         onChange={this.handleConfigurationChange}
                                     />
-                                    {amazon_connected && <Input onChange={(e) => { this.handleFileImport('landing_header_background_url', e) }} type="file" />}
+                                    {amazon_connected && <ImageCropper onCrop={this.handleBackgroundUrl} />}
                                 </Item.Content>
                             </Item>
                         </Item.Group>

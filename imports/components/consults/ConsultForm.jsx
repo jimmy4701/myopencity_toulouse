@@ -6,8 +6,9 @@ import ConsultPartForm from '/imports/components/consult_parts/ConsultPartForm'
 import Geocomplete from '/imports/components/territories/Geocomplete'
 import StandardMap from '/imports/components/territories/StandardMap'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css';
+import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
+import ImageCropper from '/imports/components/general/ImageCropper'
 
 
 export default class ConsultForm extends TrackerReact(Component) {
@@ -205,12 +206,11 @@ export default class ConsultForm extends TrackerReact(Component) {
     this.setState({ consult })
   }
 
-  handlePictureImport(e) {
-    e.preventDefault()
+  handlePictureImport = (cropped_image) => {
     this.setState({ loading_consult_image: true })
     var metaContext = {}
     var uploader = new Slingshot.Upload("ConsultImage", metaContext)
-    uploader.send(e.target.files[0], (error, downloadUrl) => {
+    uploader.send(cropped_image, (error, downloadUrl) => {
       if (error) {
         // Log service detailed response
         console.error('Error uploading', error)
@@ -391,7 +391,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                   {amazon_connected ?
                     <Form.Field>
                       <label>Envoyer une image depuis votre ordinateur</label>
-                      <Input loading={loading_consult_image} onChange={(e) => { this.handlePictureImport(e) }} type="file" />
+                      <ImageCropper onCrop={this.handlePictureImport} />
                     </Form.Field>
                     :
                     <p>Envie d'envoyer des images depuis votre ordinateur ? Vous devez <a href="/admin/external_apis">configurer Amazon S3</a></p>
