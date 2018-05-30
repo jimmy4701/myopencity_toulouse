@@ -333,11 +333,11 @@ class TerritoriesMap extends Component {
                               labelAnchor={new google.maps.Point(0, 0)}
                               icon={{
                                 url: "/images/myopencity-logo",
-                                scale: {height: "10px", width: "10px"}
+                                scale: {height: "5px", width: "5px"}
                               }}
                               labelStyle={{color: "#111111", fontSize: "20px"}}
                               labelClass="territory-label"
-                            ><div>{territory.reference}</div>
+                            ><div style={{fontSize: "10px"}}>{territory.reference}</div>
                             </MarkerWithLabel>
                               
                           )
