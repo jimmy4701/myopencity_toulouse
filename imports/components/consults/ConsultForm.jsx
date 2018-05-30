@@ -24,7 +24,8 @@ export default class ConsultForm extends TrackerReact(Component) {
       api_recoverable: true,
       alternatives_validation: false,
       attached_files: [],
-      territories: []
+      territories: [],
+      image_url: Session.get('global_configuration').consults_default_image_url
     },
     step: 'global', // 'global' / 'design' / 'parts' / 'documents' / 'settings'
     editing_part: null,

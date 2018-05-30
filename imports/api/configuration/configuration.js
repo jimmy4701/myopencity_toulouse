@@ -398,6 +398,10 @@ const ConfigurationSchema = new SimpleSchema({
   territories_display_explain: {
     type: Boolean,
     defaultValue: false
+  },
+  consults_default_image_url: {
+    type: String,
+    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg"
   }
 })
 

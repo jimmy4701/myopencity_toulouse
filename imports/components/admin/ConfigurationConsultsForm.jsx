@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data'
 import { Grid, Form, Input, Checkbox, Divider, Button, Card, Image, Header, Item } from 'semantic-ui-react'
 import TinyMCE from 'react-tinymce'
 import { SketchPicker } from 'react-color'
+import ImageCropper from '/imports/components/general/ImageCropper'
 
 export default class ConfigurationConsultsForm extends Component {
 
@@ -89,11 +90,34 @@ export default class ConfigurationConsultsForm extends Component {
             success(downloadUrl)
         }
         })
-        
     }
+
+    handleDefaultImage = (cropped_image) => {
+        var metaContext = {}
+        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        console.log('CROPPED IMAGE', cropped_image)
+        uploader.send(cropped_image, (error, downloadUrl) => {
+            if (error) {
+              // Log service detailed response
+              console.error('Error uploading', error)
+              Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+              })
+            }
+            else {
+                let {configuration} = this.state
+                configuration.consults_default_image_url = downloadUrl
+                this.setState({configuration})
+            }
+          })
+      }
 
     render() {
         const { configuration } = this.state
+        const { amazon_connected } = Session.get('global_configuration')
 
         return (
             <Grid stackable {...this.props} >
@@ -115,6 +139,22 @@ export default class ConfigurationConsultsForm extends Component {
                                 value={configuration.consults_term}
                                 onChange={this.handleConfigurationChange}
                             />
+                        <Item.Group divided>
+                            <Item>
+                                <Item.Image size='tiny' src={configuration.consults_default_image_url} />
+                                <Item.Content verticalAlign='middle'>
+                                    <Header as='h3'>Image par défaut</Header>
+                                    <Form.Input
+                                        label="URL de l'image par défaut des consultations"
+                                        placeholder="https://..."
+                                        name="consults_default_image_url"
+                                        value={configuration.consults_default_image_url}
+                                        onChange={this.handleConfigurationChange}
+                                    />
+                                    {amazon_connected && <ImageCropper onCrop={this.handleDefaultImage} />}
+                                </Item.Content>
+                            </Item>
+                        </Item.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Termes et hauteurs</Divider>
                         <Form.Group>
                             <Form.Input
