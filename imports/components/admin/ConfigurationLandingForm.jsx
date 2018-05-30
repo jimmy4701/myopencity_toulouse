@@ -175,6 +175,13 @@ export default class ConfigurationLandingForm extends Component {
                                 value={configuration.landing_explain_backtext}
                                 name='landing_explain_backtext'
                             />
+                            <Form.Input
+                                label="Titre de la carte"
+                                onChange={this.handleConfigurationChange}
+                                placeholder="Carte interractive de la Métropole"
+                                value={configuration.landing_map_title}
+                                name='landing_map_title'
+                            />
                         </Form.Group>
                         <Form.Group widths="16">
                             <Form.Field width={16}>

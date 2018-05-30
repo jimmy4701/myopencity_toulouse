@@ -39,7 +39,8 @@ export class Landing extends Component {
       landing_explain_title,
       landing_explain_backtext,
       project_term,
-      consult_term
+      consult_term,
+      landing_map_title
     } = global_configuration
 
     if (!loading) {
@@ -97,6 +98,11 @@ export class Landing extends Component {
                 </Container>
               </Grid.Column>
               : ''}
+              {landing_map_title &&
+                <Grid.Column width={16} textAlign="center">
+                  <Header as='h1'>{landing_map_title}</Header>
+                </Grid.Column>
+              }
               <Grid.Column width={16} className="not-padded">
                 <Grid className="landing-header" verticalAlign="middle">
                   <Grid.Column width={16}>

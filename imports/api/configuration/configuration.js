@@ -402,6 +402,10 @@ const ConfigurationSchema = new SimpleSchema({
   consults_default_image_url: {
     type: String,
     defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg"
+  },
+  landing_map_title: {
+    type: String,
+    optional: true
   }
 })
 
