@@ -328,7 +328,7 @@ export default class ConfigurationConsultsForm extends Component {
                                 <SketchPicker color={configuration.consult_description_color} onChangeComplete={(e) => { this.handleColorChange('consult_description_color', e) }} />
                             </Form.Field>
                             <Form.Field>
-                                <label>Couleur de l'icone de soutien alternative</label>
+                                <label>Couleur de l'icone de soutien avis</label>
                                 <SketchPicker color={configuration.alternative_like_icon_color} onChangeComplete={(e) => { this.handleColorChange('alternative_like_icon_color', e) }} />
                             </Form.Field>
                         </Form.Group>
@@ -337,12 +337,12 @@ export default class ConfigurationConsultsForm extends Component {
                             <Form.Checkbox
                                 checked={configuration.alternatives_anonymous_choice}
                                 onClick={() => this.toggleConfiguration('alternatives_anonymous_choice')}
-                                label={"Les citoyens peuvent choisir l'anonymat des alternatives"}
+                                label={"Les citoyens peuvent choisir l'anonymat des avis"}
                             />
                             <Form.Checkbox
                                 checked={configuration.alternatives_anonymous_default}
                                 onClick={() => this.toggleConfiguration('alternatives_anonymous_default')}
-                                label={"Alternatives anonymes par défaut"}
+                                label={"Avis anonymes par défaut"}
                             />
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Explication de la page consultations</Divider>

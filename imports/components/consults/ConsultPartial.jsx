@@ -33,7 +33,7 @@ export class ConsultPartial extends Component {
       if(error){
         console.log(error)
         Bert.alert({
-          title: "Erreur lors de l'export des alternatives",
+          title: "Erreur lors de l'export des avis",
           message: error.reason,
           type: 'danger',
           style: 'growl-bottom-left',

@@ -11,7 +11,7 @@ export class EmailResetPassword extends Component {
             return (
                 <html>
                     <head>
-                        <title>Nouvelle alternative</title>
+                        <title>Nouvel avis</title>
                     </head>
                     <body style={{fontFamily: 'Arial'}}>
                         <table width="100%" cellpadding="0" cellspacing="0" align="center">
@@ -23,11 +23,11 @@ export class EmailResetPassword extends Component {
                             </tr>
                             <tr style={{padding: "5em 0"}}>
                                 <td width="600" height="300" style={{textAlign: "center"}}>
-                                    <h2>Une nouvelle alternative a été créée sur une consultation</h2>
+                                    <h2>Un nouvel avis a été créé sur une consultation</h2>
                                     <p>Voici, ci-dessous, son contenu :</p><br/><br/>
                                     <div dangerouslySetInnerHTML={{__html: alternative.content }} />
-                                    <p>Pour valider ou invalider cette alternative, merci de cliquer sur le lien ci-dessous.</p>
-                                    <a href={url} style={{borderRadius: "5px", padding: "1em", color: "white", backgroundColor: "#345fff"}} target="_blank">Modérer les alternatives</a>
+                                    <p>Pour valider ou invalider cet avis, merci de cliquer sur le lien ci-dessous.</p>
+                                    <a href={url} style={{borderRadius: "5px", padding: "1em", color: "white", backgroundColor: "#345fff"}} target="_blank">Modérer les avis</a>
                                 </td>
                             </tr>
                         </table>
