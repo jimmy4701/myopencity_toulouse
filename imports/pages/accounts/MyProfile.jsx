@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Grid, Image, Form, Input, Button, Header, Container, Divider } from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import EditProfileForm from '/imports/components/accounts/EditProfileForm'
-import EditProfileDetailsForm from '/imports/components/accounts/EditProfileDetailsForm'
 import AvatarImage from '/imports/components/accounts/AvatarImage'
 import { Link, withRouter } from 'react-router-dom'
 

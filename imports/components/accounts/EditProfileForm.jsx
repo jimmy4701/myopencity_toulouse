@@ -123,15 +123,6 @@ export class EditProfileForm extends Component {
               <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
               <Form>
                 <Form.Group widths="equal">
-                  <Form.Checkbox
-                    label={{
-                    children: "J'autorise les autres citoyens à voir mes données"
-                  }}
-                    vertical
-                    onClick={() => this.toggleProfile('public_profile')}
-                    checked={user_profile.public_profile}/>
-                </Form.Group>
-                <Form.Group widths="equal">
                   <Form.Field>
                     <label>Votre âge</label>
                     <Select
