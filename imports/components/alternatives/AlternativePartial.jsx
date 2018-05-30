@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Image, Segment, Grid, Button, Dropdown} from 'semantic-ui-react'
+import {Icon, Image, Segment, Grid, Button, Popup} from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import {Link, withRouter} from 'react-router-dom'
@@ -148,7 +148,7 @@ export class AlternativePartial extends Component{
 
   render(){
     const {user, loading, alternative, display_consult, removable, signaled} = this.props
-    const {actived_alternative, consult, removing, open_dropdown} = this.state 
+    const {actived_alternative, consult, removing} = this.state 
     moment.locale('fr')
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
@@ -157,15 +157,16 @@ export class AlternativePartial extends Component{
       return(
         <Grid.Column width={actived_alternative ? 16 :8} className="wow fadeInUp">
           <Segment>
-          <div onClick={this.toggleState} name="open_dropdown" className="alternative-partial-dropdown">
-            <Dropdown open={open_dropdown}>
-              <Dropdown.Menu className="alternative-partial-menu">
-                <Dropdown.Item text='Signaler' onClick={this.signal} />
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
             <Grid stackable>
               <Grid.Column width={16} style={{paddingBottom: "0"}}>
+              <Popup
+                trigger={<Icon onClick={this.signal} name="flag" size="small" style={{
+                    position: "absolute",
+                    right: "10px",
+                    cursor: "pointer"
+                }}/>}
+                content='Signaler cet avis'
+              />
                 <span className="alternative-partial-title">{alternative.title}<br/></span>
                 {!alternative.anonymous ?
                   <Image avatar src="/images/avatar-logo.png" />
