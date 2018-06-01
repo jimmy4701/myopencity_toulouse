@@ -206,7 +206,7 @@ export class AlternativePartial extends Component{
                 </Button>
                 {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
                   [
-                    <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider " : "Valider "} {alternative_descriptive_term}</Button>
+                    <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Refuser " : "Accepter "} {alternative_descriptive_term}</Button>
                   ]
                 }
                 {removing &&
