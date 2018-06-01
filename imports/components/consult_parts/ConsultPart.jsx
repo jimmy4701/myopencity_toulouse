@@ -12,6 +12,7 @@ import AlternativesList from '/imports/components/alternatives/AlternativesList'
 import ReactPaginate from 'react-paginate'
 import {withRouter} from 'react-router-dom'
 import _ from 'lodash'
+import { Link } from 'react-router-dom'
 
 export class ConsultPart extends Component{
 
@@ -66,6 +67,11 @@ export class ConsultPart extends Component{
         this.setState({display_alternative_form: false})
       }
     });
+  }
+
+  goSignIn = () => {
+    Session.set('return_route', this.props.history.location.pathname)
+      this.props.history.push('/sign_in')
   }
 
   handleChange(attr, e){
@@ -185,7 +191,7 @@ export class ConsultPart extends Component{
           </Grid.Column>
           {Meteor.isClient && !Meteor.userId() && (consult_part.votes_activated || consult_part.alternatives_activated) &&
               <Grid.Column width={16} className="center-align">
-                <Label size="tiny">Vous devez vous connecter pour participer</Label>
+                  <Button onClick={this.goSignIn} icon="user" content="Se connecter pour participer"/>
               </Grid.Column>
           }
           <Modal open={display_alternative_form} className="animated fadeInDown">
