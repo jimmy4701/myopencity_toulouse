@@ -76,7 +76,6 @@ export default class ConsultForm extends TrackerReact(Component) {
     const { consult, consult_parts, removing_consult_parts } = this.state
 
     if (this.props.consult) {
-      console.log("EDIT CONSULT", consult_parts);
       Meteor.call('consults.update', { consult, consult_parts }, (error, result) => {
         if (error) {
           console.log(error)
@@ -337,6 +336,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                   <Select value={consult.territories} multiple options={territories_options} onChange={this.handleTerritoriesChange} />
                 </Form.Field>
               }
+              <Form.Checkbox
+                checked={consult.metropole}
+                onClick={(e) => this.toggleConsult('metropole', e)}
+                label="Afficher le logo de la Métropole sur l'aperçu"
+              />
               <Form.Field>
                 <label>Titre de la consultation</label>
                 <Input type="text" placeholder="ex: Choisissons ensemble les rues à piétoniser dans le centre ville" value={consult.title} onChange={(e) => { this.handleConsultChange('title', e) }} />

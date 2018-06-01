@@ -113,6 +113,10 @@ const ConsultsSchema = new SimpleSchema({
   end_date: {
     type: Date,
     optional: true
+  },
+  metropole: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 
