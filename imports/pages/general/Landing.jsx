@@ -158,5 +158,12 @@ export default LandingContainer = withTracker(() => {
       width: 100%;
       height: 100%;
     }
+
+    > div h1, div h2 {
+
+      @media screen and (max-width: 768px) {
+        font-size: 3em !important;
+      }
+    }
   }
 `)
