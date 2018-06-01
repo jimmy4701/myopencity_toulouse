@@ -115,6 +115,14 @@ export default class ConfigurationGeneralForm extends Component {
                                 label={"Référencement sur les réseaux sociaux"}
                             />
                         </Form.Group>
+                        <Form.Group widths="equal">
+                            <Form.Input
+                                label="Texte de formulaire de connexion"
+                                value={configuration.connect_explain}
+                                onChange={this.handleConfigurationChange}
+                                name="connect_explain"
+                            />
+                        </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Images et icônes</Divider>
                         <Item.Group divided>
                             <Item>

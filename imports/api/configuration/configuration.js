@@ -406,6 +406,10 @@ const ConfigurationSchema = new SimpleSchema({
   landing_map_explain: {
     type: String,
     optional: true
+  },
+  connect_explain: {
+    type: String,
+    optional: true
   }
 })
 
