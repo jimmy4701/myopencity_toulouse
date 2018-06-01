@@ -211,7 +211,7 @@ export class AlternativePartial extends Component{
                 {removing &&
                   <Button onClick={this.remove} color="red">Supprimer définitivement</Button>
                 }
-                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && removable &&
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin']) && removable &&
                   <Button color={!removing && "red"} onClick={this.toggleState} name="removing">{removing ? "Annuler" : "Supprimer"}</Button>
                 }
                 {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && !alternative.verified &&
