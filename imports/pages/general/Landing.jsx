@@ -64,7 +64,7 @@ export class Landing extends Component {
                 }
                 <Grid.Column width={16}>
                   <Container>
-                    <div dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
+                    <div className="dangerous" dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
                   </Container>
                 </Grid.Column>
               </Grid>
@@ -101,7 +101,7 @@ export class Landing extends Component {
               : ''}
               {landing_map_explain &&
                 <Grid.Column width={16} textAlign="center" style={{padding: "4em"}}>
-                  <div dangerouslySetInnerHTML={{__html: landing_map_explain }} />
+                  <div className="dangerous" dangerouslySetInnerHTML={{__html: landing_map_explain }} />
                 </Grid.Column>
               }
               <Grid.Column width={16} className="not-padded">

@@ -185,7 +185,7 @@ export class AlternativePartial extends Component{
               }
               <Grid.Column width={16}>
               {actived_alternative ? 
-                <div dangerouslySetInnerHTML={{__html: alternative.content }} />
+                <div className="dangerous" dangerouslySetInnerHTML={{__html: alternative.content }} />
               :
               <Truncate
                 lines={3}

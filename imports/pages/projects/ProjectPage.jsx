@@ -106,7 +106,7 @@ export class ProjectPage extends TrackerReact(Component){
             </Grid.Column>
               <Grid.Column width={16} className="project-content-container marged">
                 <Container>
-                  <div dangerouslySetInnerHTML={{__html: project.content }} style={{fontFamily: 'Roboto'}} className="project-content"></div>
+                  <div dangerouslySetInnerHTML={{__html: project.content }} style={{fontFamily: 'Roboto'}} className="project-content dangerous"></div>
                 </Container>
               </Grid.Column>
           </Grid>

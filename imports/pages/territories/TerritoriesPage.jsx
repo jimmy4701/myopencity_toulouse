@@ -50,7 +50,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                             color: navbar_color
                         }}>{territories_title}</Header>
                         {territories_display_explain &&
-                            <div dangerouslySetInnerHTML={{__html: territories_explain }} />
+                            <div className="dangerous" dangerouslySetInnerHTML={{__html: territories_explain }} />
                         }
                     </Grid.Column>
                     <Grid.Column width={16}>

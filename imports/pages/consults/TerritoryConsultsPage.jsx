@@ -41,7 +41,7 @@ export class TerritoryConsultsPage extends TrackerReact(Component) {
                         {ended_consults.length > 0 ?
                             <Button size="mini" onClick={(e) => { this.toggleState('show_ended_consults', e) }}>Voir les consultations {!show_ended_consults ? "terminées" : "en cours"}</Button>
                             : ''}
-                        <div dangerouslySetInnerHTML={{__html: territory.description }} />
+                        <div className="dangerous" dangerouslySetInnerHTML={{__html: territory.description }} />
                     </Grid.Column>
                     {!show_ended_consults ?
                         <Grid.Column width={16} className="mobile-padding">

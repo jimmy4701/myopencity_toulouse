@@ -121,7 +121,7 @@ export class ConsultPart extends Component{
       return(
         <Grid stackable className={"consult-part " + consult_part_hover_class}>
           <Grid.Column width={16}>
-            <div className="consult-part-content" dangerouslySetInnerHTML={{__html: consult_part.content }}></div>
+            <div className="consult-part-content dangerous" dangerouslySetInnerHTML={{__html: consult_part.content }}></div>
           </Grid.Column>
           {display_alternatives ?
             <Grid.Column width={16}>

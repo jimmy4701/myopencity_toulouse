@@ -20,7 +20,7 @@ class Participation extends Component {
                 <Grid stackable>
                     <Grid.Column width={16} className="wow fadeInUp">
                         <Container>
-                            <div dangerouslySetInnerHTML={{__html: participation_page_content }} />
+                            <div className="dangerous" dangerouslySetInnerHTML={{__html: participation_page_content }} />
                         </Container>
                     </Grid.Column>
                 </Grid>

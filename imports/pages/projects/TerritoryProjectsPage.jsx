@@ -43,7 +43,7 @@ export class TerritoryProjectsPage extends Component {
                     <Grid.Column width={16} className="territory-consults-header">
                         <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em" }}>{territory.name}</Header>
                         <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{projects_page_header_title}</Header>
-                        <div dangerouslySetInnerHTML={{__html: territory.description }} />
+                        <div className="dangerous" dangerouslySetInnerHTML={{__html: territory.description }} />
                         <Button onClick={this.newProject} positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big">{project_create_button_text}</Button>
                     </Grid.Column>
                     {projects.length == 0 && <Header as="h3">{no_projects}</Header>}

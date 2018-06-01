@@ -166,7 +166,7 @@ export class EditProfileForm extends Component {
                     this.edit_profile(e)
                   }}>Enregistrer vos modifications</Button>
                 </Form.Field>
-                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+                <div className="cnil-signup-text dangerous" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
               </Form>
             </Grid.Column>
           <Grid.Column width={8}>
