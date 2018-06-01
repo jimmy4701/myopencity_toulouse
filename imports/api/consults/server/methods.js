@@ -19,6 +19,9 @@ Meteor.methods({
     }else{
       consult.author = this.userId
       consult.url_shorten = generate_url_shorten(consult.title)
+      if(consult.territories.length == 0){
+        throw new Meteor.Error("Une consultation doit être rattachée à au moins un quartier")
+      }
       const new_consult_id = Consults.insert(consult)
       _.each(consult_parts, function(part){
         Meteor.call('consult_parts.insert', {consult_part: part, consult_id: new_consult_id })
@@ -31,6 +34,9 @@ Meteor.methods({
     }else{
       consult.updated_at = new Date()
       const consult_id = consult._id
+      if(consult.territories.length == 0){
+        throw new Meteor.Error("Une consultation doit être rattachée à au moins un quartier")
+      }
       Consults.update({_id: consult._id}, {$set: consult})
       _.each(consult_parts, (consult_part) => {
         if(consult_part._id){
