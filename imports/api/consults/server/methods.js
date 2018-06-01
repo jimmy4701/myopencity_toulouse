@@ -215,6 +215,8 @@ Meteor.methods({
             auteur: author ? author.username : '', 
             email: author.emails[0].address ? author.emails[0].address : '', 
             contenu: content, 
+            valide: alternative.validated ? "ACCEPTÉ" : "REFUSÉ",
+            verified: alternative.verified ? "VÉRIFIÉ" : "NON VÉRIFIÉ",
             partie_consultation: consult_part.title,
             profile_age: (author && author.profile.age) ? _.find(ages_options, o => o.key == author.profile.age).text : "Non renseigné",
             profile_genre: (author && author.profile.gender) ? _.find(genders_options, o => o.key == author.profile.gender).text : "Non renseigné",
