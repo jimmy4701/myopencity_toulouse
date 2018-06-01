@@ -129,19 +129,20 @@ export class ConsultPage extends TrackerReact(Component){
               </Container>
             </Grid.Column>
           : ''}
-          <Grid.Column width={16} className="mobile-padding">
-            {Meteor.isClient && [
-              <Link to={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
-                <Icon size="big" name="facebook"/>
-              </Link>,
-              <Link to={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse " +  consult.title + " " +  window.location.href) } target="_blank">
-                <Icon size="big" name="twitter"/>
-              </Link>
-            ]}
-          </Grid.Column>
+          
           <Grid.Column width={16} className="parts-container mobile-padding">
             <Container>
-            
+                <div className="social-share" style={{marginBottom: "2em"}}>
+                  <p style={{marginBottom: 0}}><strong>Partagez sur les réseaux sociaux</strong></p>
+                  {Meteor.isClient && [
+                    <Link to={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
+                      <Button icon="facebook" color="blue" size="tiny" content="Facebook"/>
+                    </Link>,
+                    <Link to={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse " +  consult.title + " " +  window.location.href) } target="_blank">
+                      <Button icon="twitter" color="blue" size="tiny" content="Twitter"/>
+                    </Link>
+                  ]}
+                </div>
               {consult_parts.map((part, index) => {
                 return <ConsultPart hide_vote_button={!consult.votable} consult_part={part} />
               })}

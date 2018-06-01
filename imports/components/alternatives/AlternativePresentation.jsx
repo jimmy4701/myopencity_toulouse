@@ -87,7 +87,7 @@ export class AlternativePresentation extends TrackerReact(Component){
               }</Header>
           </Grid.Column>
           <Grid.Column width={16}>
-            <div dangerouslySetInnerHTML={{__html: load_alternative.content }}></div>
+            <div className="dangerous" dangerouslySetInnerHTML={{__html: load_alternative.content }}></div>
           </Grid.Column>
           <Grid.Column width={16} className="center-align">
             <Header as="h3" onClick={(e) => {this.toggle_like(e)}} style={{cursor: 'pointer'}}>

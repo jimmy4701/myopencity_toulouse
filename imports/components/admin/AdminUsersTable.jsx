@@ -55,7 +55,7 @@ export default AdminUsersTableContainer = createContainer(({ page, filter_text, 
   const territoriesPublication = Meteor.subscribe('territories.authorized_for_me')
   const loading = !usersPublication.ready() && !territoriesPublication.ready()
   const users = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch()
-  const territories = Territories.find({}).fetch()
+  const territories = Territories.find({},{sort: {reference: 1}}).fetch()
   return {
     loading,
     users,

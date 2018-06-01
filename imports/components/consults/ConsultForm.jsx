@@ -24,7 +24,8 @@ export default class ConsultForm extends TrackerReact(Component) {
       api_recoverable: true,
       alternatives_validation: false,
       attached_files: [],
-      territories: []
+      territories: [],
+      image_url: Session.get('global_configuration').consults_default_image_url
     },
     step: 'global', // 'global' / 'design' / 'parts' / 'documents' / 'settings'
     editing_part: null,
@@ -75,13 +76,12 @@ export default class ConsultForm extends TrackerReact(Component) {
     const { consult, consult_parts, removing_consult_parts } = this.state
 
     if (this.props.consult) {
-      console.log("EDIT CONSULT", consult_parts);
       Meteor.call('consults.update', { consult, consult_parts }, (error, result) => {
         if (error) {
           console.log(error)
           Bert.alert({
             title: "Erreur lors de la modification de la consultation",
-            message: error.reason,
+            message: error.error,
             type: 'danger',
             style: 'growl-bottom-left',
           })
@@ -91,7 +91,7 @@ export default class ConsultForm extends TrackerReact(Component) {
               console.log(error)
               Bert.alert({
                 title: "Erreur lors de la suppression des parties",
-                message: error.reason,
+                message: error.error,
                 type: 'danger',
                 style: 'growl-bottom-left',
               })
@@ -113,7 +113,7 @@ export default class ConsultForm extends TrackerReact(Component) {
           console.log(error)
           Bert.alert({
             title: "Erreur lors de la création de la consultation",
-            message: error.reason,
+            message: error.error,
             type: 'danger',
             style: 'growl-bottom-left',
           })
@@ -336,6 +336,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                   <Select value={consult.territories} multiple options={territories_options} onChange={this.handleTerritoriesChange} />
                 </Form.Field>
               }
+              <Form.Checkbox
+                checked={consult.metropole}
+                onClick={(e) => this.toggleConsult('metropole', e)}
+                label="Afficher le logo de la Métropole sur l'aperçu"
+              />
               <Form.Field>
                 <label>Titre de la consultation</label>
                 <Input type="text" placeholder="ex: Choisissons ensemble les rues à piétoniser dans le centre ville" value={consult.title} onChange={(e) => { this.handleConsultChange('title', e) }} />
@@ -498,10 +503,10 @@ export default class ConsultForm extends TrackerReact(Component) {
                   <Checkbox checked={consult.api_votable} onClick={(e) => { this.toggleConsult('api_votable', e) }} toggle />
                 </Form.Field>
                 <Form.Field>
-                  <label>Validation manuelle des alternatives ({consult.alternatives_validation ? "Validation manuelle activée" : "Validation automatique"})
+                  <label>Validation manuelle des avis ({consult.alternatives_validation ? "Validation manuelle activée" : "Validation automatique"})
                       <Popup
                       trigger={<Icon size="small" name="help" circular inverted />}
-                      content="En activant la validation manuelle des alternatives, chaque alternative devra être validée par vos soins avant d'être visible sur la consultation"
+                      content="En activant la validation manuelle des avis, chaque avis devra être validé par vos soins avant d'être visible sur la consultation"
                     />
                   </label>
                   <Checkbox checked={consult.alternatives_validation} onClick={(e) => { this.toggleConsult('alternatives_validation', e) }} toggle />

@@ -12,6 +12,7 @@ import AlternativesList from '/imports/components/alternatives/AlternativesList'
 import ReactPaginate from 'react-paginate'
 import {withRouter} from 'react-router-dom'
 import _ from 'lodash'
+import { Link } from 'react-router-dom'
 
 export class ConsultPart extends Component{
 
@@ -68,6 +69,11 @@ export class ConsultPart extends Component{
     });
   }
 
+  goSignIn = () => {
+    Session.set('return_route', this.props.history.location.pathname)
+      this.props.history.push('/sign_in')
+  }
+
   handleChange(attr, e){
     let state = this.state
     state[attr] = e.target.value
@@ -121,7 +127,7 @@ export class ConsultPart extends Component{
       return(
         <Grid stackable className={"consult-part " + consult_part_hover_class}>
           <Grid.Column width={16}>
-            <div className="consult-part-content" dangerouslySetInnerHTML={{__html: consult_part.content }}></div>
+            <div className="consult-part-content dangerous" dangerouslySetInnerHTML={{__html: consult_part.content }}></div>
           </Grid.Column>
           {display_alternatives ?
             <Grid.Column width={16}>
@@ -185,7 +191,7 @@ export class ConsultPart extends Component{
           </Grid.Column>
           {Meteor.isClient && !Meteor.userId() && (consult_part.votes_activated || consult_part.alternatives_activated) &&
               <Grid.Column width={16} className="center-align">
-                <Label size="tiny">Vous devez vous connecter pour participer</Label>
+                  <Button onClick={this.goSignIn} icon="user" content="Se connecter pour participer"/>
               </Grid.Column>
           }
           <Modal open={display_alternative_form} className="animated fadeInDown">

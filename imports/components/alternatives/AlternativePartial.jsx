@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Image, Segment, Grid, Button, Dropdown} from 'semantic-ui-react'
+import {Icon, Image, Segment, Grid, Button, Popup} from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import {Link, withRouter} from 'react-router-dom'
@@ -148,7 +148,7 @@ export class AlternativePartial extends Component{
 
   render(){
     const {user, loading, alternative, display_consult, removable, signaled} = this.props
-    const {actived_alternative, consult, removing, open_dropdown} = this.state 
+    const {actived_alternative, consult, removing} = this.state 
     moment.locale('fr')
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
@@ -157,15 +157,16 @@ export class AlternativePartial extends Component{
       return(
         <Grid.Column width={actived_alternative ? 16 :8} className="wow fadeInUp">
           <Segment>
-          <div onClick={this.toggleState} name="open_dropdown" className="alternative-partial-dropdown">
-            <Dropdown open={open_dropdown}>
-              <Dropdown.Menu className="alternative-partial-menu">
-                <Dropdown.Item text='Signaler' onClick={this.signal} />
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
             <Grid stackable>
               <Grid.Column width={16} style={{paddingBottom: "0"}}>
+              <Popup
+                trigger={<Icon onClick={this.signal} name="flag" size="small" style={{
+                    position: "absolute",
+                    right: "10px",
+                    cursor: "pointer"
+                }}/>}
+                content='Signaler cet avis'
+              />
                 <span className="alternative-partial-title">{alternative.title}<br/></span>
                 {!alternative.anonymous ?
                   <Image avatar src="/images/avatar-logo.png" />
@@ -173,9 +174,8 @@ export class AlternativePartial extends Component{
                 {alternative.anonymous ?
                   <span>{alternatives_anonymous_profile_term} </span>
                 :
-                <Link to={"/profile/" + user._id}>
                   <span>{user.username} </span>
-                </Link>}
+                }
                 <span style={{paddingTop: "0", color: "#b7b7b7"}} className="alternative-partial-date">le {moment(alternative.created_at).format('DD.MM.YYYY à HH:mm')}</span>
               </Grid.Column>
               {display_consult && 
@@ -185,7 +185,7 @@ export class AlternativePartial extends Component{
               }
               <Grid.Column width={16}>
               {actived_alternative ? 
-                <div dangerouslySetInnerHTML={{__html: alternative.content }} />
+                <div className="dangerous" dangerouslySetInnerHTML={{__html: alternative.content }} />
               :
               <Truncate
                 lines={3}
@@ -205,13 +205,13 @@ export class AlternativePartial extends Component{
                 </Button>
                 {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
                   [
-                    <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Invalider " : "Valider "} {alternative_descriptive_term}</Button>
+                    <Button onClick={(e) => {this.toggle_validated(e)}}>{alternative.validated ? "Refuser " : "Accepter "} {alternative_descriptive_term}</Button>
                   ]
                 }
                 {removing &&
                   <Button onClick={this.remove} color="red">Supprimer définitivement</Button>
                 }
-                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && removable &&
+                {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin']) && removable &&
                   <Button color={!removing && "red"} onClick={this.toggleState} name="removing">{removing ? "Annuler" : "Supprimer"}</Button>
                 }
                 {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) && !alternative.verified &&

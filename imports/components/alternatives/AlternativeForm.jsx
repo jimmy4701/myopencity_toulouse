@@ -14,12 +14,9 @@ export default class AlternativeForm extends Component{
       - onEdit: Function
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      alternative: {
-        anonymous: Session.get('global_configuration').alternatives_anonymous_default
-      }
+  state = {
+    alternative: {
+      anonymous: Session.get('global_configuration').alternatives_anonymous_default
     }
   }
 
@@ -78,11 +75,11 @@ export default class AlternativeForm extends Component{
        <Grid stackable>
          <Grid.Column width={16}>
            <Form>
-             <Form.Field>
+             <Form.Field required>
                <label>Titre</label>
                <Input value={alternative.title} type="text" onChange={(e) => {this.handleAlternativeChange('title', e)}} />
              </Form.Field>
-             <Form.Field>
+             <Form.Field required>
                <label>Votre {alternative_term}</label>
                <TinyMCE
                  content={alternative.content}

@@ -24,13 +24,13 @@ export class AdminUnverifiedAlternatives extends Component {
                             return <AlternativePartial key={alternative._id} alternative={alternative} display_consult removable/>
                         })}
                         {alternatives.length == 0 &&
-                            <p>Aucune alternative pour le moment</p>
+                            <p>Aucun avis pour le moment</p>
                         }
                     </Grid.Column>
                 </Grid>
             )
         }else{
-            return <Loader inline>Chargement des alternatives</Loader>
+            return <Loader inline>Chargement des avis</Loader>
         }
     }
 }

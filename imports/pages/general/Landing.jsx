@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import { Grid, Header, Container, Loader, Image, Button, Card } from 'semantic-ui-react'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import { Consults } from '/imports/api/consults/consults'
 import { Projects } from '/imports/api/projects/projects'
 import { Configuration } from '/imports/api/configuration/configuration'
@@ -11,6 +11,7 @@ import TerritoriesMap from '/imports/components/territories/TerritoriesMap'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
 import _ from 'lodash'
+import styled from 'styled-components'
 
 export class Landing extends Component {
 
@@ -23,7 +24,7 @@ export class Landing extends Component {
 
   render() {
 
-    const { consults, geolocated_consults, projects, global_configuration, territories, loading } = this.props
+    const { consults, geolocated_consults, projects, global_configuration, territories, loading, className } = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -39,12 +40,13 @@ export class Landing extends Component {
       landing_explain_title,
       landing_explain_backtext,
       project_term,
-      consult_term
+      consult_term,
+      landing_map_explain
     } = global_configuration
 
     if (!loading) {
       return (
-        <Grid stackable centered className="landing-page">
+        <Grid stackable centered className={className + " landing-page"}>
           <Grid.Column width={16}>
             <Grid className="landing-header" style={{ backgroundImage: "url(" + landing_header_background_url + ")", height: landing_header_height, minHeight: landing_header_min_height }} verticalAlign="middle">
               <Grid.Column width={16}>
@@ -62,7 +64,7 @@ export class Landing extends Component {
                 }
                 <Grid.Column width={16}>
                   <Container>
-                    <div dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
+                    <div className="dangerous" dangerouslySetInnerHTML={{ __html: landing_explain_text }}></div>
                   </Container>
                 </Grid.Column>
               </Grid>
@@ -97,6 +99,11 @@ export class Landing extends Component {
                 </Container>
               </Grid.Column>
               : ''}
+              {landing_map_explain &&
+                <Grid.Column width={16} textAlign="center" style={{padding: "4em"}}>
+                  <div className="dangerous" dangerouslySetInnerHTML={{__html: landing_map_explain }} />
+                </Grid.Column>
+              }
               <Grid.Column width={16} className="not-padded">
                 <Grid className="landing-header" verticalAlign="middle">
                   <Grid.Column width={16}>
@@ -120,7 +127,7 @@ export class Landing extends Component {
   }
 }
 
-export default LandingContainer = createContainer(() => {
+export default LandingContainer = withTracker(() => {
   const landingConsultsPublication = Meteor.isClient && Meteor.subscribe('consults.landing')
   const landingProjectsPublication = Meteor.isClient && Meteor.subscribe('projects.landing')
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
@@ -139,4 +146,24 @@ export default LandingContainer = createContainer(() => {
     geolocated_consults,
     global_configuration
   }
-},Landing)
+})(styled(Landing)`
+  > div .landing-header{
+    ::after{
+      content: "";
+      position: absolute;
+      background: -moz-linear-gradient(top, rgba(30,87,153,0) 0%, rgba(196,203,211,0) 88%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(top, rgba(30,87,153,0) 0%,rgba(196,203,211,0) 88%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom, rgba(30,87,153,0) 0%,rgba(196,203,211,0) 88%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#001e5799', endColorstr='#dbdbdb',GradientType=0 ); /* IE6-9 */
+      width: 100%;
+      height: 100%;
+    }
+
+    > div h1, div h2 {
+
+      @media screen and (max-width: 768px) {
+        font-size: 3em !important;
+      }
+    }
+  }
+`)

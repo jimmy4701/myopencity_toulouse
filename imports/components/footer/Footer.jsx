@@ -15,10 +15,10 @@ export default class Footer extends Component {
                             <Image src="/images/logo_smartcity.png" className="footer-logo"/>
                         </Grid.Column>
                             <Grid.Column width={8} className="center-align">
-                                <Link to="http://toulouse.fr" target="_blank">
+                                <Link to="https://toulouse.fr" target="_blank">
                                     <Image className="inline-block footer-image" src="/images/mairie-toulouse.png" inline fluid size="small"/>
                                 </Link>
-                                <Link to="//toulouse-metropole.fr" target="_blank">
+                                <Link to="https://toulouse-metropole.fr" target="_blank">
                                     <Image className="inline-block footer-image" src="/images/toulouse-metropole.png" inline fluid size="small"/>
                                 </Link>
                                 <br/>

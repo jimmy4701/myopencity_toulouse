@@ -50,7 +50,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                             color: navbar_color
                         }}>{territories_title}</Header>
                         {territories_display_explain &&
-                            <div dangerouslySetInnerHTML={{__html: territories_explain }} />
+                            <div className="dangerous" dangerouslySetInnerHTML={{__html: territories_explain }} />
                         }
                     </Grid.Column>
                     <Grid.Column width={16}>
@@ -62,7 +62,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                                 <Image src={territory.image_url}/>
                                                 <Card.Content>
                                                     <Card.Header>{territory.name}</Card.Header>
-                                                    <Card.Meta>Maire de quartier: {territory.official_user_name}</Card.Meta>
+                                                    <Card.Meta>Maire de quartier : {territory.official_user_name}</Card.Meta>
                                                 </Card.Content>
                                                 <Card.Content extra>
                                                     <Link to={"/territory/" + territory.shorten_url + "/consults"}>

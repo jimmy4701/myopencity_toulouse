@@ -173,7 +173,7 @@ export class SignupForm extends Component{
           {cnil_signup_text &&
             <div>
               <Divider />
-              <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+              <div className="cnil-signup-text dangerous" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
             </div>
           }
           

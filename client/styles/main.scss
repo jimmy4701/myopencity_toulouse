@@ -142,6 +142,23 @@ body{
   font-family: "Panton" !important;
 }
 
+.ui.header, .ui.button, h1, h2, h3, h4 {
+  font-family: "Panton" !important;
+}
+
+.dangerous {
+
+  p {
+    font-size: 19.35px;
+    font-family: inherit;
+  }
+  
+  h1, h2, h3, h4 {
+    color: rgb(194, 0, 18);
+    font-family: "Panton" !important;
+  }
+}
+
 .ui.button {
   border-radius: 3px !important;
 }

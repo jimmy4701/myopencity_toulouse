@@ -191,6 +191,21 @@ export default class ConfigurationLandingForm extends Component {
                                 />
                             </Form.Field>
                         </Form.Group>
+                        <Form.Group widths="16">
+                            <Form.Field width={16}>
+                                <label>Texte d'explication de la Google Map</label>
+                                <TinyMCE
+                                    content={configuration.landing_map_explain}
+                                    config={{
+                                        plugins: 'image autoresize media code link',
+                                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                        images_upload_handler: this.handleUploadImage
+                                    }}
+                                    onChange={(e) => this.handleRichContent(e, 'landing_map_explain')}
+                                    name="landing_map_explain"
+                                />
+                            </Form.Field>
+                        </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Images et icônes</Divider>
                         <Item.Group divided>
                             <Item>

@@ -81,7 +81,7 @@ export class ProjectPage extends TrackerReact(Component){
               {project.anonymous ?
                 <p>Ce projet est proposé par <Icon name="spy" size="big"/> un citoyen anonyme</p>
                 :
-                <p>Ce projet est proposé par <Link to={"/profile/" + author._id} style={{cursor: "pointer"}}><Image src="/images/avatar-logo.png" avatar /> {author.username}</Link></p>
+                <p>Ce projet est proposé par <Image src="/images/avatar-logo.png" avatar /> {author.username}</p>
               }
             </Grid.Column>
             {parent_project ?
@@ -106,7 +106,7 @@ export class ProjectPage extends TrackerReact(Component){
             </Grid.Column>
               <Grid.Column width={16} className="project-content-container marged">
                 <Container>
-                  <div dangerouslySetInnerHTML={{__html: project.content }} style={{fontFamily: 'Roboto'}} className="project-content"></div>
+                  <div dangerouslySetInnerHTML={{__html: project.content }} style={{fontFamily: 'Roboto'}} className="project-content dangerous"></div>
                 </Container>
               </Grid.Column>
           </Grid>

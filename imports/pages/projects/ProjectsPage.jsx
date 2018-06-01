@@ -43,7 +43,7 @@ export class ProjectsPage extends Component{
       return(
         <Grid stackable>
         <Grid.Column width={16} className="territory-projects-header mobile-padding">
-            <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color }}>{projects_page_header_title}</Header>
+            <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em !important" }}>{projects_page_header_title}</Header>
             <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} size="big" onClick={this.new_project}>{project_create_button_text}</Button>
           </Grid.Column>
           {projects.map((project, index) => {

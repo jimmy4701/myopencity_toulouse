@@ -33,7 +33,7 @@ export class ConsultPartial extends Component {
       if(error){
         console.log(error)
         Bert.alert({
-          title: "Erreur lors de l'export des alternatives",
+          title: "Erreur lors de l'export des avis",
           message: error.reason,
           type: 'danger',
           style: 'growl-bottom-left',
@@ -111,6 +111,14 @@ export class ConsultPartial extends Component {
         <Card className={"inline-block " + className}>
           <Link to={"/consults/" + consult.url_shorten}>
             <Image src={consult.image_url} />
+            {consult.metropole &&
+              <Image src="/images/toulouse-metropole-little.png" style={{
+                position: "absolute",
+                top: "115px",
+                left: "5px",
+                width: "73px"
+              }} />
+            }
           </Link>
           <Card.Content>
             <Card.Header>
@@ -154,9 +162,6 @@ export class ConsultPartial extends Component {
                       <Button onClick={(e) => { this.toggleEditConsult('votable', e) }} fluid>{consult.votable ? "Stopper les votes" : "Lancer les votes"}</Button>
                       <Button onClick={(e) => { this.toggleEditConsult('ended', e) }} fluid>{consult.ended ? "Lancer la consultation" : "Stopper la consultation"}</Button>
                       <Button loading={exporting} onClick={this.export_alternatives} fluid>Excel avis</Button>
-                      <Link to={"/admin/consults/" + consult.url_shorten + "/stats"}>
-                        <Button fluid>Statistiques</Button>
-                      </Link>
                       <Link to={"/admin/consult_summary/" + consult.url_shorten}>
                         <Button fluid>Compte rendu</Button>
                       </Link>

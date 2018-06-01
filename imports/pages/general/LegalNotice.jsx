@@ -22,7 +22,7 @@ export class LegalNotice extends Component {
                             <Header as='h2' className="wow fadeInUp">{legal_notice_term}</Header>
                         </Grid.Column>
                         <Grid.Column width={16} className="wow fadeInUp cgu_container">
-                            <div dangerouslySetInnerHTML={{ __html: legal_notice }}></div>
+                            <div className="dangerous" dangerouslySetInnerHTML={{ __html: legal_notice }}></div>
                         </Grid.Column>
 
                     </Container>

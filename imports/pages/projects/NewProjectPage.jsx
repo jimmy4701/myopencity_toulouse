@@ -73,9 +73,9 @@ export class NewProjectPage extends TrackerReact(Component){
     this.setState({new_project})
   }
 
-  toggleProject(attr, e){
+  toggleProject = (e, {name}) => {
     let {new_project} = this.state
-    new_project[attr] = !new_project[attr]
+    new_project[name] = !new_project[name]
     this.setState({new_project})
   }
 
@@ -274,22 +274,17 @@ export class NewProjectPage extends TrackerReact(Component){
                               <Grid.Column width={16} className="">
                                 <Container>
                                   <Header as="h1" className="wow fadeInUp">Choisissez si votre {project_term} est anonyme ou non</Header>
-                                  <p>En laissant anonyme, les autres utilisateurs ne pourront pas vous contacter</p>
                                   <Grid stackable className="marged">
                                     <Grid.Column width={16} className="center-align">
-                                      <Button active={new_project.anonymous} size="huge"  onClick={(e) => {this.toggleProject('anonymous',e)}}>
-                                        <Icon name="spy" size="big"/>
-                                        Anonyme
-                                      </Button>
-                                      <Button active={!new_project.anonymous} size="huge"  onClick={(e) => {this.toggleProject('anonymous',e)}}>
-                                        <Icon name="user" size="big"/>
-                                        Publique
-                                      </Button>
-                                      {new_project.anonymous ?
-                                        <p><strong>Votre {project_term} est actuellement anonyme</strong> : votre profil ne sera pas affiché</p>
-                                        :
-                                        <p><strong>Votre {project_term} est actuellement publique</strong> : vos lecteurs pourront consulter votre profil</p>
-                                      }
+                                      <Form>
+                                        <Form.Checkbox
+                                          checked={new_project.anonymous}
+                                          label="Je souhaite rester anonyme"
+                                          onClick={this.toggleProject}
+                                          name="anonymous"
+                                          size="huge"
+                                        />
+                                      </Form>
                                     </Grid.Column>
                                   </Grid>
                                   <Button size="tiny" onClick={(e) => {this.changeStep('image', e)}}>Précédent</Button>

@@ -46,7 +46,7 @@ Meteor.methods({
       throw new Meteor.Error('403', "Vous devez vous connecter")
     }else{
       const alternative = Alternatives.findOne(alternative_id)
-      if(alternative.user == this.userId || Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      if(alternative.user == this.userId || Roles.userIsInRole(this.userId, ['admin'])){
         AlternativesAlerts.remove({alternative: alternative_id})
         Alternatives.remove({_id: alternative_id})
       }else{

@@ -62,9 +62,9 @@ export class ConsultPartAdminStats extends TrackerReact(Component){
               <Label>Votes désactivés</Label>
             }
             {consult_part.alternatives_activated ?
-              <Label color='blue'>Alternatives activées</Label>
+              <Label color='blue'>Avis activés</Label>
             :
-              <Label>Alternatives désactivées</Label>
+              <Label>Avis désactivés</Label>
             }
           </Grid.Column>
           {consult_part.votes_activated ?

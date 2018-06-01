@@ -54,13 +54,13 @@ export class AdminSignaledAlternatives extends Component {
                                 signaled/>
                         })}
                         {alternatives.length == 0 &&
-                            <p>Aucune alternative pour le moment</p>
+                            <p>Aucun avis pour le moment</p>
                         }
                     </Grid.Column>
                 </Grid>
             )
         }else{
-            return <div>Chargement des alternatives</div>
+            return <div>Chargement des avis</div>
         }
     }
 }

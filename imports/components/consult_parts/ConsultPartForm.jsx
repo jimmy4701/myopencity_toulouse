@@ -175,7 +175,8 @@ export default class ConsultPartForm extends TrackerReact(Component){
                  <TinyMCE
                    content={consult_part.content}
                    config={{
-                    plugins: 'image autoresize media code link',
+                    plugins: 'image autoresize media code link paste',
+                    paste_as_text: true,
                     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
                     images_upload_handler: this.handleUploadImage
                    }}

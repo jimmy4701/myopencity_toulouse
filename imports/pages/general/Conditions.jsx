@@ -22,7 +22,7 @@ export class Conditions extends Component {
                             <Header as='h2' className="wow fadeInUp">{cgu_term}</Header>
                         </Grid.Column>
                         <Grid.Column width={16} className="wow fadeInUp cgu_container">
-                            <div dangerouslySetInnerHTML={{ __html: cgu }}></div>
+                            <div className="dangerous" dangerouslySetInnerHTML={{ __html: cgu }}></div>
                         </Grid.Column>
 
                     </Container>
