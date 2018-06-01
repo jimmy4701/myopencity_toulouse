@@ -81,7 +81,7 @@ export class ProjectPage extends TrackerReact(Component){
               {project.anonymous ?
                 <p>Ce projet est proposé par <Icon name="spy" size="big"/> un citoyen anonyme</p>
                 :
-                <p>Ce projet est proposé par <Link to={"/profile/" + author._id} style={{cursor: "pointer"}}><Image src="/images/avatar-logo.png" avatar /> {author.username}</Link></p>
+                <p>Ce projet est proposé par <Image src="/images/avatar-logo.png" avatar /> {author.username}</p>
               }
             </Grid.Column>
             {parent_project ?

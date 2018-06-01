@@ -174,9 +174,8 @@ export class AlternativePartial extends Component{
                 {alternative.anonymous ?
                   <span>{alternatives_anonymous_profile_term} </span>
                 :
-                <Link to={"/profile/" + user._id}>
                   <span>{user.username} </span>
-                </Link>}
+                }
                 <span style={{paddingTop: "0", color: "#b7b7b7"}} className="alternative-partial-date">le {moment(alternative.created_at).format('DD.MM.YYYY à HH:mm')}</span>
               </Grid.Column>
               {display_consult && 

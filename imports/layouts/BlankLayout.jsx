@@ -17,6 +17,7 @@ import {Configuration} from '/imports/api/configuration/configuration'
 import InitialPresentationPage from '/imports/pages/initial_pages/InitialPresentationPage'
 import InitialConfigPage from '/imports/pages/initial_pages/InitialConfigPage'
 import AdminConsultsSummaryPage from '/imports/pages/admin/AdminConsultsSummaryPage'
+import AdminConsultSummary from '/imports/pages/admin/AdminConsultSummary'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class BlankLayout extends Component {
@@ -48,6 +49,7 @@ export class BlankLayout extends Component {
           <main>
             <Switch>
               <Admin component={ AdminConsultsSummaryPage }  exact path="/admin/consults_summary" { ...this.props } />
+              <Admin component={ AdminConsultSummary }  path="/admin/consult_summary/:shorten_url" { ...this.props } />
               <Public component={ InitialPresentationPage }  exact path="/initial/presentation" { ...this.props } />
               <Public component={ InitialConfigPage }  exact path="/initial/config" { ...this.props } />
               <Public component={ NotFound } path="*"  { ...this.props } />
