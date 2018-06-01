@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data'
 import {Grid, Header, Loader, Table, Button, Label, Modal, Form, Divider} from 'semantic-ui-react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export default class AdminUserRow extends TrackerReact(Component){
 
@@ -124,7 +125,7 @@ export default class AdminUserRow extends TrackerReact(Component){
         user_territories.push(role)
       }
     })
-    const territories_options = territories.map(territory => {
+    const territories_options = _.orderBy(territories, 'reference').map(territory => {
       return {
         key: territory._id,
         value: territory._id,
