@@ -154,9 +154,6 @@ export class ConsultPartial extends Component {
                       <Button onClick={(e) => { this.toggleEditConsult('votable', e) }} fluid>{consult.votable ? "Stopper les votes" : "Lancer les votes"}</Button>
                       <Button onClick={(e) => { this.toggleEditConsult('ended', e) }} fluid>{consult.ended ? "Lancer la consultation" : "Stopper la consultation"}</Button>
                       <Button loading={exporting} onClick={this.export_alternatives} fluid>Excel avis</Button>
-                      <Link to={"/admin/consults/" + consult.url_shorten + "/stats"}>
-                        <Button fluid>Statistiques</Button>
-                      </Link>
                       <Link to={"/admin/consult_summary/" + consult.url_shorten}>
                         <Button fluid>Compte rendu</Button>
                       </Link>
