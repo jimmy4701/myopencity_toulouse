@@ -403,7 +403,7 @@ const ConfigurationSchema = new SimpleSchema({
     type: String,
     defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg"
   },
-  landing_map_title: {
+  landing_map_explain: {
     type: String,
     optional: true
   }

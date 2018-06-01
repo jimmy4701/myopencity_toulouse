@@ -41,7 +41,7 @@ export class Landing extends Component {
       landing_explain_backtext,
       project_term,
       consult_term,
-      landing_map_title
+      landing_map_explain
     } = global_configuration
 
     if (!loading) {
@@ -99,9 +99,9 @@ export class Landing extends Component {
                 </Container>
               </Grid.Column>
               : ''}
-              {landing_map_title &&
-                <Grid.Column width={16} textAlign="center">
-                  <Header as='h1'>{landing_map_title}</Header>
+              {landing_map_explain &&
+                <Grid.Column width={16} textAlign="center" style={{padding: "4em"}}>
+                  <div dangerouslySetInnerHTML={{__html: landing_map_explain }} />
                 </Grid.Column>
               }
               <Grid.Column width={16} className="not-padded">

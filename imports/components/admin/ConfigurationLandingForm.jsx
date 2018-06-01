@@ -175,13 +175,6 @@ export default class ConfigurationLandingForm extends Component {
                                 value={configuration.landing_explain_backtext}
                                 name='landing_explain_backtext'
                             />
-                            <Form.Input
-                                label="Titre de la carte"
-                                onChange={this.handleConfigurationChange}
-                                placeholder="Carte interractive de la Métropole"
-                                value={configuration.landing_map_title}
-                                name='landing_map_title'
-                            />
                         </Form.Group>
                         <Form.Group widths="16">
                             <Form.Field width={16}>
@@ -195,6 +188,21 @@ export default class ConfigurationLandingForm extends Component {
                                     }}
                                     onChange={(e) => this.handleRichContent(e, 'landing_explain_text')}
                                     name="landing_explain_text"
+                                />
+                            </Form.Field>
+                        </Form.Group>
+                        <Form.Group widths="16">
+                            <Form.Field width={16}>
+                                <label>Texte d'explication de la Google Map</label>
+                                <TinyMCE
+                                    content={configuration.landing_map_explain}
+                                    config={{
+                                        plugins: 'image autoresize media code link',
+                                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                        images_upload_handler: this.handleUploadImage
+                                    }}
+                                    onChange={(e) => this.handleRichContent(e, 'landing_map_explain')}
+                                    name="landing_map_explain"
                                 />
                             </Form.Field>
                         </Form.Group>
