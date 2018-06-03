@@ -33,8 +33,7 @@ export class SignupForm extends Component{
 
   create_account = (e) => {
     e.preventDefault()
-    const {cgu_acceptance} = this.props
-    const {legal_notice_acceptance} = this.props.global_configuration
+    const {legal_notice_acceptance, cgu_acceptance} = this.props.global_configuration
     const {user, accept_conditions, accept_legal_notice} = this.state
     const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true) && (legal_notice_acceptance ? accept_legal_notice : true)
 
