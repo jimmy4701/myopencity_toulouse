@@ -63,3 +63,11 @@ Meteor.publish('alternatives.by_ids', function(alternatives_ids){
     return Alternatives.find({_id: {$in: alternatives_ids}})
   }
 })
+
+Meteor.publish('alternatives.search', function(search_text){
+  if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+    throw new Meteor.Error('403', "Vous devez être administrateur")
+  }else{
+    return Alternatives.find({$or: [{content: {$regex: search_text, $options: 'i'}}, {title: {$regex: search_text, $options: 'i'}}]}, {sort: {}, limit: 10000})
+  }
+})
