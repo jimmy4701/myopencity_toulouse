@@ -96,7 +96,7 @@ export class AdminLayout extends TrackerReact(Component) {
               </Menu.Item>
               <Menu.Item onClick={() => {this.go('/admin/projects')}} name='projects'>
                 <Icon name='lightbulb' />
-                Projets
+                Boîte à idées
               </Menu.Item>
               <Menu.Item onClick={() => {this.go('/admin/alternatives')}} name='projects'>
                 <Icon name='check circle' />
