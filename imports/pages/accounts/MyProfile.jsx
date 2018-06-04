@@ -86,7 +86,7 @@ export class MyProfile extends Component {
               <Divider />
               <Header as='h3'>Suppression de compte</Header>
               <p>Vous pouvez supprimer votre compte à tout moment. La suppression de votre compte entraine la suppression intégrale
-                immédiate et non réversible de tous les contenus que vous avez créés sur jeparticipe.toulouse.fr (soutiens, idées proposées, alternatives...).
+                immédiate et non réversible de tous les contenus que vous avez créés sur jeparticipe.toulouse.fr (soutiens, idées proposées, avis...).
               </p>
               {removing ?
                 <div>
