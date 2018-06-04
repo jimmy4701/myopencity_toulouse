@@ -14,7 +14,8 @@ const VoteValuesSchema = new SimpleSchema({
 
 const ConsultPartsSchema = new SimpleSchema({
     title: {
-      type: String
+      type: String,
+      label: "Le titre de partie"
     },
     consult: {
       type: String
@@ -27,7 +28,8 @@ const ConsultPartsSchema = new SimpleSchema({
     },
     content: {
       type: String,
-      defaultValue: ""
+      defaultValue: "",
+      label: "Le contenu de partie"
     },
     question: {
       type: String,
@@ -47,7 +49,8 @@ const ConsultPartsSchema = new SimpleSchema({
     },
     vote_label: {
       type: String,
-      defaultValue: "Voter"
+      defaultValue: "Voter",
+      label: "Le terme pour le bouton de vote"
     },
     created_at: {
       type: Date,

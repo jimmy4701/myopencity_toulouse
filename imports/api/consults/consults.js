@@ -13,10 +13,12 @@ const FilesSchema = new SimpleSchema({
 
 const ConsultsSchema = new SimpleSchema({
   title: {
-    type: String
+    type: String,
+    label: "Le titre"
   },
   description: {
-    type: String
+    type: String,
+    label: "La description"
   },
   author: {
     type: String
@@ -43,11 +45,13 @@ const ConsultsSchema = new SimpleSchema({
   },
   image_url: {
     type: String,
-    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg"
+    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg",
+    label: "L'url de l'image"
   },
   url_shorten: {
     type: String,
-    unique: true
+    unique: true,
+    label: "L'identifiant d'url"
   },
   created_at: {
     type: Date,

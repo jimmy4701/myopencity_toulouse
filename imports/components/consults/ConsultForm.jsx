@@ -81,7 +81,7 @@ export default class ConsultForm extends TrackerReact(Component) {
           console.log(error)
           Bert.alert({
             title: "Erreur lors de la modification de la consultation",
-            message: error.error,
+            message: error.reason,
             type: 'danger',
             style: 'growl-bottom-left',
           })
@@ -91,7 +91,7 @@ export default class ConsultForm extends TrackerReact(Component) {
               console.log(error)
               Bert.alert({
                 title: "Erreur lors de la suppression des parties",
-                message: error.error,
+                message: error.reason,
                 type: 'danger',
                 style: 'growl-bottom-left',
               })
@@ -113,7 +113,7 @@ export default class ConsultForm extends TrackerReact(Component) {
           console.log(error)
           Bert.alert({
             title: "Erreur lors de la création de la consultation",
-            message: error.error,
+            message: error.reason,
             type: 'danger',
             style: 'growl-bottom-left',
           })
