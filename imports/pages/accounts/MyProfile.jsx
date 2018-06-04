@@ -83,9 +83,10 @@ export class MyProfile extends Component {
           <Grid.Column width={16} className="wow fadeIn profile-form-container mobile-padding">
             <Container>
               <EditProfileForm />
+              <Divider />
               <Header as='h3'>Suppression de compte</Header>
               <p>Vous pouvez supprimer votre compte à tout moment. La suppression de votre compte entraine la suppression intégrale
-                immédiate et non réversible de tous les contenus que vous avez créé sur jeparticipe.toulouse.fr (soutiens, idées proposées, alternatives...).
+                immédiate et non réversible de tous les contenus que vous avez créés sur jeparticipe.toulouse.fr (soutiens, idées proposées, alternatives...).
               </p>
               {removing ?
                 <div>
@@ -93,7 +94,7 @@ export class MyProfile extends Component {
                   <Button onClick={this.toggleState} name="removing">Annuler</Button>
                 </div>
               :
-                <Button onClick={this.toggleState} name="removing" color="red">Supprimer mon compte</Button>
+                <Button onClick={this.toggleState} name="removing">Supprimer mon compte</Button>
             
               }
             </Container>

@@ -111,18 +111,15 @@ export class EditProfileForm extends Component {
       return {key: territory._id, value: territory._id, text: territory.name}
     })
 
-    const {cnil_signup_text} = Meteor.isClient && Session.get('global_configuration')
+    const {cnil_signup_text, navbar_color} = Meteor.isClient && Session.get('global_configuration')
 
     return (
       <Container>
         <Grid stackable>
           <Grid.Column width={16}>
-            <Message color="blue" icon="info circle"content="En remplissant votre profil, vous nous aidez à mieux comprendre vos attentes."/>
-          </Grid.Column>
-          <Grid.Column width={8}>
-              <Header as="h1">Dîtes-nous en un peu plus sur vous</Header>
+              <Header style={{color: navbar_color}} as="h1">Aidez-nous à mieux vous connaître</Header>
               <Form>
-                <Form.Group widths="equal">
+                <Form.Group>
                   <Form.Field>
                     <label>Votre âge</label>
                     <Select
@@ -157,62 +154,67 @@ export class EditProfileForm extends Component {
                 <Form.Group widths="equal">
                   
                 </Form.Group>
-                <Form.Field className="padded-bottom center-align">
-                  <Button
-                    size="big"
-                    positive
-                    style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}}
-                    onClick={(e) => {
-                    this.edit_profile(e)
-                  }}>Enregistrer vos modifications</Button>
-                </Form.Field>
-                <div className="cnil-signup-text dangerous" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
               </Form>
             </Grid.Column>
-          <Grid.Column width={8}>
-          <Header as='h1'>Vos quartiers</Header>
-          <p>Choix multiples possibles dans chaque rubrique</p>
-            <Form>
-                <Form.Field>
-                  <label>J'y habite</label>
-                    <Select
-                      options={territories_options}
-                      value={user_profile.home_territories}
-                      onChange={this.handleSelect}
-                      name="home_territories"
-                      />
-                </Form.Field>
-                <Form.Field>
-                  <label>J'y travaille</label>
-                    <Select
-                      options={territories_options}
-                      value={user_profile.work_territories}
-                      onChange={this.handleSelect}
-                      name="work_territories"
-                      />
-                </Form.Field>
-
-                <Form.Field>
-                  <label>Ils m'intéressent</label>
-                  <Select
-                        options={territories_options}
-                        value={user_profile.interest_territories}
-                        onChange={this.handleSelect}
-                        name="interest_territories"
-                        multiple
-                  />
-                </Form.Field>
-                <Form.Field>
-                    <label>J'y passe régulièrement</label>
-                      <Select
-                        options={territories_options}
-                        value={user_profile.travel_territories}
-                        onChange={this.handleSelect}
-                        name="travel_territories"
-                        multiple
-                        />
+          <Grid.Column width={16}>
+            <Header as='h1' style={{color: navbar_color}}>Vous et Toulouse</Header>
+              <Form>
+                  <Form.Group widths='equal'>
+                    <Form.Field>
+                      <label>J'y habite</label>
+                        <Select
+                          options={territories_options}
+                          value={user_profile.home_territories}
+                          onChange={this.handleSelect}
+                          name="home_territories"
+                          />
                     </Form.Field>
-              </Form>
+                    <Form.Field>
+                      <label>Ils m'intéressent (choix multiples possibles)</label>
+                      <Select
+                            options={territories_options}
+                            value={user_profile.interest_territories}
+                            onChange={this.handleSelect}
+                            name="interest_territories"
+                            multiple
+                      />
+                    </Form.Field>
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                    <Form.Field>
+                      <label>J'y travaille</label>
+                        <Select
+                          options={territories_options}
+                          value={user_profile.work_territories}
+                          onChange={this.handleSelect}
+                          name="work_territories"
+                          />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>J'y passe régulièrement (choix multiples possibles)</label>
+                          <Select
+                            options={territories_options}
+                            value={user_profile.travel_territories}
+                            onChange={this.handleSelect}
+                            name="travel_territories"
+                            multiple
+                            />
+                        </Form.Field>
+                  </Form.Group>
+                  <Form.Field className="padded-bottom center-align">
+                    <Button
+                      size="big"
+                      positive
+                      style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color, margin: "2em 0"}}
+                      onClick={(e) => {
+                      this.edit_profile(e)
+                    }}>Enregistrer vos modifications</Button>
+                  </Form.Field>
+                </Form>
+            </Grid.Column>
+            <Grid.Column width={16}>
+              <Header as='h3'>Mentions légales</Header>
+              <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
             </Grid.Column>
         </Grid>
       </Container>
