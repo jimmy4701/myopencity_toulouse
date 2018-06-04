@@ -4,14 +4,16 @@ export const Projects = new Mongo.Collection('projects')
 
 const ProjectSchema = new SimpleSchema({
   title: {
-    type: String
+    type: String,
+    label: "Le titre"
   },
   description: {
     type: String,
     optional: true
   },
   content: {
-    type: String
+    type: String,
+    label: "Le contenu"
   },
   author: {
     type: String
@@ -34,7 +36,8 @@ const ProjectSchema = new SimpleSchema({
   },
   image_url: {
     type: String,
-    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg"
+    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg",
+    label: "L'url de l'image"
   },
   shorten_url: {
     type: String,
