@@ -41,7 +41,7 @@ class SigninForm extends Component{
         console.log("Signin error", error)
         Bert.alert({
           title: "Erreur lors de la connexion",
-          message: error.reason,
+          message: "Les identifiants sont incorrects",
           type: 'danger',
           style: 'growl-bottom-left',
         })
