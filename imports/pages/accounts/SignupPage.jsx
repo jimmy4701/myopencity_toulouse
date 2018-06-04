@@ -37,7 +37,9 @@ class SignupPage extends Component {
 
 export default styled(SignupPage)`
   > div div .main-container {
-    padding: 0 14em !important;
+    @media screen and (min-width: 990px) {
+      padding: 0 14em !important;
+    }
   }
 
   > div div div div .image {
