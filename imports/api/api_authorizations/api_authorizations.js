@@ -5,13 +5,16 @@ export const ApiAuthorizations = new Mongo.Collection('apiauthorizations')
 const ApiAuthorizationsSchema = new SimpleSchema({
   name: {
     type: String,
-    unique: true
+    unique: true,
+    label: "Le nom"
   },
   private_key: {
-    type: String
+    type: String,
+    label: "La clé privée"
   },
   url: {
-    type: String
+    type: String,
+    label: "L'url"
   },
   can_get_consults: {
     type: Boolean,

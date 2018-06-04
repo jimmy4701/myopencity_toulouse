@@ -9,7 +9,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   fill_profile_explain: {
     type: String,
-    defaultValue: "<p>En remplissant votre profil, vous permettez à votre ville de prendre de meilleures décisions.</p>"
+    defaultValue: "<p>En remplissant votre profil, vous permettez à votre ville de prendre de meilleures décisions.</p>",
+    label: "Le texte d'explication pour remplir le profil"
   },
   seo_active: {
     type: Boolean,
@@ -17,7 +18,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   navbar_color: {
     type: String,
-    defaultValue: "#1abc9c"
+    defaultValue: "#1abc9c",
+    label: "La couleur de navbar"
   },
   navbar_consults: {
     type: Boolean,
@@ -37,15 +39,18 @@ const ConfigurationSchema = new SimpleSchema({
   },
   navbar_consults_term: {
     type: String,
-    defaultValue: "Consultations"
+    defaultValue: "Consultations",
+    label: "Le terme pour les consultations dans la navbar"
   },
   navbar_projects_term: {
     type: String,
-    defaultValue: "Propositions"
+    defaultValue: "Propositions",
+    label: "Le terme pour les propositions dans la navbar"
   },
   navbar_territories_term: {
     type: String,
-    defaultValue: "Quartiers"
+    defaultValue: "Quartiers",
+    label: "Le terme pour les quartiers dans la navbar"
   },
   main_title: {
     type: String,
@@ -64,11 +69,13 @@ const ConfigurationSchema = new SimpleSchema({
   },
   landing_main_title_color: {
     type: String,
-    defaultValue: "#FFFFFF"
+    defaultValue: "#FFFFFF",
+    label: "La couleur pour le titre principal"
   },
   landing_header_background_url: {
     type: String,
-    defaultValue: "http://4vector.com/i/free-vector-modern-city_093317_bluecity.jpg"
+    defaultValue: "http://4vector.com/i/free-vector-modern-city_093317_bluecity.jpg",
+    label: "L'url de l'image principale de la page d'accueil"
   },
   landing_header_description: {
     type: String,
@@ -77,27 +84,33 @@ const ConfigurationSchema = new SimpleSchema({
   },
   landing_header_description_color: {
     type: String,
-    defaultValue: "#FFFFFF"
+    defaultValue: "#FFFFFF",
+    label: "La couleur de la description de la page d'accueil"
   },
   landing_header_height: {
     type: String,
-    defaultValue: "100%"
+    defaultValue: "100%",
+    label: "La hauteur pour le titre de la page d'accueil"
   },
   landing_header_min_height: {
     type: String,
-    defaultValue: "100vh"
+    defaultValue: "100vh",
+    label: "La hauteur minimale pour le titre de la page d'accueil"
   },
   landing_consults_background_color: {
     type: String,
-    defaultValue: '#FFFFFF'
+    defaultValue: '#FFFFFF',
+    label: "La couleur de fond pour les consultations de la page d'accueil"
   },
   landing_projects_background_color: {
     type: String,
-    defaultValue: '#FFFFFF'
+    defaultValue: '#FFFFFF',
+    label: "La couleur de fond pour les projets de la page d'accueil"
   },
   landing_explain_text: {
     type: String,
-    defaultValue: "<h1>Myopencity est une plateforme de démocratie en ligne</h1><p>Sur Myopencity, les administrations (mairies / quartiers / départements...) peuvent consulter rapidement les citoyens, et chaque citoyen peut participer aux projets locaux du territoire, et proposer ses propres idées.</p>"
+    defaultValue: "<h1>Myopencity est une plateforme de démocratie en ligne</h1><p>Sur Myopencity, les administrations (mairies / quartiers / départements...) peuvent consulter rapidement les citoyens, et chaque citoyen peut participer aux projets locaux du territoire, et proposer ses propres idées.</p>",
+    label: "La description de la page d'accueil"
   },
   landing_explain_title: {
     type: String,
@@ -111,43 +124,53 @@ const ConfigurationSchema = new SimpleSchema({
   },
   consult_term: {
     type: String,
-    defaultValue: "consultation"
+    defaultValue: "consultation",
+    label: "Le terme pour consultation"
   },
   consults_term: {
     type: String,
-    defaultValue: "consultations"
+    defaultValue: "consultations",
+    label: "Le terme pour consultations"
   },
   consult_header_height: {
     type: String,
-    defaultValue: '20em'
+    defaultValue: '20em',
+    label: "La hauteur pour le titre de consultation"
   },
   consult_header_color: {
     type: String,
-    defaultValue: "#FFFFFF"
+    defaultValue: "#FFFFFF",
+    label: "La couleur pour le titre de consultation"
   },
   consult_description_background_color: {
     type: String,
-    defaultValue: "#ecf0f1"
+    defaultValue: "#ecf0f1",
+    label: "La couleur de fond pour la description de consultation"
   },
   consult_description_color: {
     type: String,
-    defaultValue: "#000000"
+    defaultValue: "#000000",
+    label: "La couleur pour le texte de description de consultation"
   },
   consult_description_font_size: {
     type: String,
-    defaultValue: "1.2em"
+    defaultValue: "1.2em",
+    label: "La taille de texte pour la description de consultation"
   },
   consult_territory_icon: {
     type: String,
-    defaultValue: "marker"
+    defaultValue: "marker",
+    label: "Le type de marker pour une consultation sur la Google Map"
   },
   consult_territory_prefix: {
     type: String,
-    defaultValue: "Consultation lancée sur"
+    defaultValue: "Consultation lancée sur",
+    label: "Le préfixe pour les quartiers d'une consultation"
   },
   consults_all_territories: {
     type: String,
-    defaultValue: "Tous les quartiers"
+    defaultValue: "Tous les quartiers",
+    label: "Le terme pour Tous les quartiers"
   },
   consults_title: {
     type: String,
@@ -156,75 +179,93 @@ const ConfigurationSchema = new SimpleSchema({
   },
   ended_consults_title: {
     type: String,
-    defaultValue: "Consultations terminées"
+    defaultValue: "Consultations terminées",
+    label: "Le terme pour les Consultations terminées"
   },
   consults_no_consults: {
     type: String,
-    defaultValue: "Aucune consultation en cours"
+    defaultValue: "Aucune consultation en cours",
+    label: "Le terme pour Aucune consultation"
   },
   consult_yet_voted_term: {
     type: String,
-    defaultValue: "Vous avez déjà voté"
+    defaultValue: "Vous avez déjà voté",
+    label: "Le terme pour Vous avez déjà voté"
   },
   consult_vote_button_term: {
     type: String,
-    defaultValue: "Voter"
+    defaultValue: "Voter",
+    label: "Le terme pour le bouton Voter d'une consultation"
   },
   consult_alternative_button_term: {
     type: String,
-    defaultValue: "Proposer une alternative"
+    defaultValue: "Proposer une alternative",
+    label: "Le terme pour Proposer une alternative"
   },
   consult_alternative_validation_term: {
     type: String,
-    defaultValue: "Créer l'alternative"
+    defaultValue: "Créer l'alternative",
+    label: "Le terme pour Créer une alternative"
   },
   alternative_like_icon_color: {
     type: String,
-    defaultValue: "#3498db"
+    defaultValue: "#3498db",
+    label: "La couleur du bouton de soutien d'alternative"
   },
   alternative_likes_term: {
     type: String,
-    defaultValue: "soutiens"
+    defaultValue: "soutiens",
+    label: "Le terme pour Soutiens d'alternative"
   },
   alternative_term: {
     type: String,
-    defaultValue: "alternative"
+    defaultValue: "alternative",
+    label: "Le terme pour Alternative"
   },
   alternatives_term: {
     type: String,
-    defaultValue: "alternatives"
+    defaultValue: "alternatives",
+    label: "Le terme pour Alternatives"
   },
   alternative_descriptive_term: {
     type: String,
-    defaultValue: "l'alternative"
+    defaultValue: "l'alternative",
+    label: "Le terme description pour Alternative"
   },
   project_territory_prefix: {
     type: String,
-    defaultValue: "Projet proposé sur le quartier"
+    defaultValue: "Projet proposé sur le quartier",
+    label: "Le préfixe pour Projet proposé sur le quartier"
   },
   projects_page_header_title: {
     type: String,
-    defaultValue: "Projets proposés"
+    defaultValue: "Projets proposés",
+    label: "Le terme pour Projets proposés"
   },
   project_header_height: {
     type: String,
-    defaultValue: '20em'
+    defaultValue: '20em',
+    label: "La taille du titre de projet"
   },
   project_header_color: {
     type: String,
-    defaultValue: "#FFFFFF"
+    defaultValue: "#FFFFFF",
+    label: "La couleur pour le titre de projet"
   },
   project_description_background_color: {
     type: String,
-    defaultValue: "#ecf0f1"
+    defaultValue: "#ecf0f1",
+    label: "La couleur de fond pour une description de projet"
   },
   project_description_color: {
     type: String,
-    defaultValue: "#000000"
+    defaultValue: "#000000",
+    label: "La couleur de texte pour une description de projet"
   },
   project_description_font_size: {
     type: String,
-    defaultValue: "1.2em"
+    defaultValue: "1.2em",
+    label: "La taille de police pour une description de projet"
   },
   project_create_button_color: {
     type: String,
@@ -232,19 +273,23 @@ const ConfigurationSchema = new SimpleSchema({
   },
   project_create_button_text: {
     type: String,
-    defaultValue: "Proposer un projet"
+    defaultValue: "Proposer un projet",
+    label: "Le terme pour Proposer un projet"
   },
   no_projects: {
     type: String,
-    defaultValue: "Aucun projet proposé pour l'instant"
+    defaultValue: "Aucun projet proposé pour l'instant",
+    label: "Le terme pour Aucun projet"
   },
   project_term: {
     type: String,
-    defaultValue: "proposition"
+    defaultValue: "proposition",
+    label: "Le terme pour Proposition"
   },
   project_descriptive_term: {
     type: String,
-    defaultValue: "une proposition"
+    defaultValue: "une proposition",
+    label: "Le terme pour Une proposition"
   },
   amazon_connected: {
     type: Boolean,
@@ -280,15 +325,18 @@ const ConfigurationSchema = new SimpleSchema({
   },
   alternatives_anonymous_profile_term: {
     type: String,
-    defaultValue: "Quelqu'un"
+    defaultValue: "Quelqu'un",
+    label: "Le terme pour un auteur d'alternative anonyme"
   },
   global_image_url: {
     type: String,
-    defaultValue: "/images/myopencity-logo.png"
+    defaultValue: "/images/myopencity-logo.png",
+    label: "L'url d'image globale"
   },
   global_logo_url: {
     type: String,
-    defaultValue: "/images/myopencity-favicon.png"
+    defaultValue: "/images/myopencity-favicon.png",
+    label: "L'url pour le logo général"
   },
   footer_display: {
     type: Boolean,
@@ -296,15 +344,18 @@ const ConfigurationSchema = new SimpleSchema({
   },
   footer_height: {
     type: String,
-    defaultValue: "10em"
+    defaultValue: "10em",
+    label: "La taille du footer"
   },
   footer_color: {
     type: String,
-    defaultValue: 'white'
+    defaultValue: 'white',
+    label: "La couleur de texte du footer"
   },
   footer_background_color: {
     type: String,
-    defaultValue: '#1abc9c'
+    defaultValue: '#1abc9c',
+    label: "La couleur de fond du footer"
   },
   footer_cgu_display: {
     type: Boolean,
@@ -320,23 +371,28 @@ const ConfigurationSchema = new SimpleSchema({
   },
   footer_content: {
     type: String,
-    defaultValue: "Développé avec Myopencity, plateforme de Démocratie Open-Source"
+    defaultValue: "Développé avec Myopencity, plateforme de Démocratie Open-Source",
+    label: "Le texte du footer"
   },
   cgu_term: {
     type: String,
-    defaultValue: "Conditions d'utilisation"
+    defaultValue: "Conditions d'utilisation",
+    label: "Le terme pour les Conditions générales d'utilisation"
   },
   about_term: {
     type: String,
-    defaultValue: "Conditions d'utilisation"
+    defaultValue: "Conditions d'utilisation",
+    label: "Le terme pour la page à propos"
   },
   about: {
     type: String,
-    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>"
+    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>",
+    label: "Le contenu de la page à propos"
   },
   cgu: {
     type: String,
-    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>"
+    defaultValue: "<p>Cet Opencity a été développé et publié grâce à Myopencity, plateforme de démocratie Opensource, disponible sur myopencity.io</p>",
+    label: "Le contenu pour la page de CGU"
   },
   cgu_acceptance: {
     type: Boolean,
@@ -344,7 +400,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   legal_notice_term: {
     type: String,
-    defaultValue: "Mentions légales"
+    defaultValue: "Mentions légales",
+    label: "Le terme pour Mentions légales"
   },
   legal_notice: {
     type: String,
@@ -361,35 +418,43 @@ const ConfigurationSchema = new SimpleSchema({
   },
   participation_page_content: {
     type: String,
-    defaultValue: "<p>Remplissez ici le contenu de la page de participation</p>"
+    defaultValue: "<p>Remplissez ici le contenu de la page de participation</p>",
+    label: "Le contenu de page Participation citoyenne"
   },
   navbar_home_term: {
     type: String,
-    defaultValue: "Accueil"
+    defaultValue: "Accueil",
+    label: "Le terme pour Accueil dans la barre de navigation"
   },
   navbar_participation_term: {
     type: String,
-    defaultValue: "Participation"
+    defaultValue: "Participation",
+    label: "Le terme pour Participation dans la barre de navigation"
   },
   territories_title: {
     type: String,
-    defaultValue: "Quartiers"
+    defaultValue: "Quartiers",
+    label: "Le terme pour Quartiers"
   },
   buttons_validation_background_color: {
     type: String,
-    defaultValue: "green"
+    defaultValue: "green",
+    label: "La couleur des boutons de validation"
   },
   buttons_validation_text_color: {
     type: String,
-    defaultValue: "white"
+    defaultValue: "white",
+    label: "La couleur de texte pour les boutons de validation"
   },
   consults_explain: {
     type: String,
-    defaultValue: "<p>Les consultations vous sont proposées afin de connaitre votre avis de citoyen</p>"
+    defaultValue: "<p>Les consultations vous sont proposées afin de connaitre votre avis de citoyen</p>",
+    label: "Le texte d'explication pour la page de consultations"
   },
   territories_explain: {
     type: String,
-    defaultValue: "<p>Choisissez un quartier pour voir ses consultations en cours</p>"
+    defaultValue: "<p>Choisissez un quartier pour voir ses consultations en cours</p>",
+    label: "Le texte d'explication pour la page de quartiers"
   },
   consults_display_explain: {
     type: Boolean,
@@ -401,7 +466,8 @@ const ConfigurationSchema = new SimpleSchema({
   },
   consults_default_image_url: {
     type: String,
-    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg"
+    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg",
+    label: "L'url par défaut de l'image de consultation"
   },
   landing_map_explain: {
     type: String,
