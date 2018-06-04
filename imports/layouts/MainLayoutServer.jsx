@@ -70,7 +70,7 @@ export class MainLayoutServer extends Component {
         </Helmet>
         <main>
           <Dimmer active style={{ opacity: '1 !important' }}>
-            <Image src={configuration.global_logo_url} inline size="small" /><br />
+            <Image src="/images/logo_loading.gif" inline /><br />
             <Loader color="blue"></Loader>
           </Dimmer>
           <Switch style={{ display: 'none' }}>
