@@ -111,13 +111,16 @@ export class EditProfileForm extends Component {
       return {key: territory._id, value: territory._id, text: territory.name}
     })
 
-    const {cnil_signup_text, navbar_color} = Meteor.isClient && Session.get('global_configuration')
+    const {cnil_signup_text, navbar_color, fill_profile_explain} = Meteor.isClient && Session.get('global_configuration')
 
     return (
       <Container>
         <Grid stackable>
           <Grid.Column width={16}>
               <Header style={{color: navbar_color}} as="h1">Aidez-nous à mieux vous connaître</Header>
+              {fill_profile_explain && 
+                <div style={{marginBottom: "1em"}} dangerouslySetInnerHTML={{__html: fill_profile_explain }} />
+              }
               <Form>
                 <Form.Group>
                   <Form.Field>

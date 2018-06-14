@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { createContainer } from 'meteor/react-meteor-data'
-import { Grid, Header, Loader, Button } from 'semantic-ui-react'
+import { Grid, Header, Loader, Button, Container } from 'semantic-ui-react'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
 import { Projects } from '/imports/api/projects/projects'
 import { Territories } from '/imports/api/territories/territories'
@@ -39,22 +39,24 @@ export class TerritoryProjectsPage extends Component {
 
         if (!loading) {
             return (
-                <Grid className="wow fadeInUp territory-projects-page" stackable>
-                    <Grid.Column width={16} className="territory-consults-header">
-                        <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em" }}>{territory.name}</Header>
-                        <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{projects_page_header_title}</Header>
-                        <div className="dangerous" dangerouslySetInnerHTML={{__html: territory.description }} />
-                        <Button onClick={this.newProject} positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big">{project_create_button_text}</Button>
-                    </Grid.Column>
-                    {projects.length == 0 && <Header as="h3">{no_projects}</Header>}
-                    {projects.map((project, index) => {
-                        return (
-                            <Grid.Column width={4} key={index} className="center-align wow fadeInUp">
-                                <ProjectPartial project={project} />
-                            </Grid.Column>
-                        )
-                    })}
-                </Grid>
+                <Container>
+                    <Grid className="wow fadeInUp territory-projects-page" stackable>
+                        <Grid.Column width={16} className="territory-consults-header">
+                            <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em" }}>{territory.name}</Header>
+                            <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{projects_page_header_title}</Header>
+                            <div className="dangerous" dangerouslySetInnerHTML={{__html: territory.description }} />
+                            <Button onClick={this.newProject} positive={!project_create_button_color} style={{backgroundColor: project_create_button_color}} size="big">{project_create_button_text}</Button>
+                        </Grid.Column>
+                        {projects.length == 0 && <Header as="h3">{no_projects}</Header>}
+                        {projects.map((project, index) => {
+                            return (
+                                <Grid.Column width={4} key={index} className="center-align wow fadeInUp">
+                                    <ProjectPartial project={project} />
+                                </Grid.Column>
+                            )
+                        })}
+                    </Grid>
+                </Container>
             )
         } else {
             return <Loader classNaeme="inline-block">Chargement des {project_term}s</Loader>

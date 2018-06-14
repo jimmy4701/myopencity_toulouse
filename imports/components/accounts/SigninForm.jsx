@@ -98,16 +98,17 @@ class SigninForm extends Component{
     const {fluidButtons} = this.props
     return(
        <Form onSubmit={(e) => {this.signin(e)}} className="center-align">
-         <Form.Field>
+         <Form.Field required>
            <label>Email</label>
            <Input type="email" onChange={(e) => {this.handleChange('email', e)}} />
          </Form.Field>
-         <Form.Field>
+         <Form.Field required>
            <label>Mot de passe</label>
            <Input type="password" onChange={(e) => {this.handleChange('password', e)}} />
          </Form.Field>
          <Button fluid={fluidButtons} style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.signin(e)}}>Se connecter</Button>
          <Button fluid={fluidButtons} onClick={(e) => {this.go('/sign_up', e)}}>Je n'ai pas encore de compte</Button>
+         <p><span style={{color: "red", textAlign: "left"}}>*</span> Champs obligatoires</p>
          {facebook_connected || google_connected ?
            <Divider horizontal>OU</Divider>
          : ''}

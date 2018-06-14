@@ -87,9 +87,7 @@ class NavbarAccountItem extends TrackerReact(Component){
         <div>
           <Menu.Item className="navbar-item" onClick={(e) => {this.toggleState('open_modal', e)}}><Icon name="user" /> Connexion</Menu.Item>
           <Modal size="mini" className="wow fadeInUp" open={this.state.open_modal} onClose={(e) => {this.toggleState('open_modal', e)}}>
-            <Modal.Header className="center-align">
-              <Image src="/images/toulouse-metropole-dark.png" inline/>
-            </Modal.Header>
+            <Icon name="close" color="white" onClick={(e) => {this.toggleState('open_modal', e)}}/>
             <Modal.Header className="center-align" as="h1" style={{backgroundColor: navbar_color, color: "white"}}>
               Connexion
             </Modal.Header>
