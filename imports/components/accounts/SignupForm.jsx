@@ -90,23 +90,31 @@ export class SignupForm extends Component{
   editProfile = (e) => {
     e.preventDefault()
     const {profile} = this.state
-    Meteor.call('user.edit_profile', profile , (error, result) => {
-      if(error){
-        console.log('Erreur', error.message)
-      }else{
-        const return_route = Session.get('return_route')
-        if(return_route){
-          this.props.history.push(return_route)
+    if(!profile.home_territories || profile.home_territories.length <= 0){
+      Bert.alert({
+            title: "Vous devez renseigner un quartier d'habitation",
+            style: 'growl-bottom-left',
+            type: 'danger'
+          })
+    }else{
+      Meteor.call('user.edit_profile', profile , (error, result) => {
+        if(error){
+          console.log('Erreur', error.message)
         }else{
-          this.props.history.push('/consults')
+          const return_route = Session.get('return_route')
+          if(return_route){
+            this.props.history.push(return_route)
+          }else{
+            this.props.history.push('/consults')
+          }
+          Bert.alert({
+            title: 'Vous êtes maintenant inscrit',
+            style: 'growl-bottom-left',
+            type: 'success'
+          })
         }
-        Bert.alert({
-          title: 'Vous êtes maintenant inscrit',
-          style: 'growl-bottom-left',
-          type: 'success'
-        })
-      }
-    })
+      })
+    }
   } 
 
   handleCaptcha = (captcha) => this.setState({captcha})
@@ -295,6 +303,7 @@ export class SignupForm extends Component{
                         name="gender"/>
                   </Form.Group>
                   <Form.Select
+                    required
                     label='Dans quel quartier habitez-vous ?'
                     onChange={this.handleHomeChange}
                     value={profile.home_territories}
@@ -318,6 +327,7 @@ export class SignupForm extends Component{
                   />
                   <div style={{textAlign: "center"}}>
                     <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.editProfile}>Finaliser mon inscription</Button>
+                    <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                   </div>
                 </div>
             }
