@@ -159,7 +159,12 @@ export class ConsultPage extends TrackerReact(Component){
 export default ConsultPageContainer = createContainer(({ match }) => {
   const {urlShorten} = match.params
   const consultPublication = Meteor.isClient && Meteor.subscribe('consult', urlShorten)
-  const consult = Consults.findOne({url_shorten: urlShorten, visible: true})
+  let consult = null
+  if(Roles.userIsInRole(Meteor.isClient ? Meteor.userId() : this.userId, ['admin', 'moderator'])){
+    consult = Consults.findOne({url_shorten: urlShorten})
+  }else{
+    consult = Consults.findOne({url_shorten: urlShorten, visible: true})
+  }
   if(consult){
     const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.by_consult_url_shorten', urlShorten)
     const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.by_ids', consult.territories)
