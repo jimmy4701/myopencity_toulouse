@@ -256,7 +256,7 @@ export class SignupForm extends Component{
             }
             {step == "profile" &&
                 <div>
-                  <Header as='h3'>Vous et Toulouse</Header>
+                  <Header as='h3'>Toulouse et Vous</Header>
                   <Header as='h4'>Aidez nous à mieux vous connaître</Header>
                   <Form.Group widths="equal">
                       <Form.Select

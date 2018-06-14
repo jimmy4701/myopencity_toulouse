@@ -160,7 +160,7 @@ export class EditProfileForm extends Component {
               </Form>
             </Grid.Column>
           <Grid.Column width={16}>
-            <Header as='h1' style={{color: navbar_color}}>Vous et Toulouse</Header>
+            <Header as='h1' style={{color: navbar_color}}>Toulouse et Vous</Header>
               <Form>
                   <Form.Group widths='equal'>
                     <Form.Field>
