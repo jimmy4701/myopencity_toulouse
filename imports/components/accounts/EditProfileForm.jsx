@@ -208,7 +208,7 @@ export class EditProfileForm extends Component {
                       style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color, margin: "2em 0"}}
                       onClick={(e) => {
                       this.edit_profile(e)
-                    }}>Enregistrer vos modifications</Button>
+                    }}>Enregistrer</Button>
                   </Form.Field>
                 </Form>
             </Grid.Column>
