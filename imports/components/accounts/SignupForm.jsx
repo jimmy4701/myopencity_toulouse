@@ -203,7 +203,7 @@ export class SignupForm extends Component{
           <Form className={className}>
             {step == "account" &&
               <div>
-                <Header as="h1"><Image className="image" src={global_configuration.global_image_url} size="small" /> Inscription <span style={{float: "right"}}>Étape 1/2</span></Header>
+                <Header as="h1">Inscription <span style={{float: "right"}}>Étape 1/2</span></Header>
                 <Form.Field required>
                   <label>Nom ou pseudo</label>
                   <Input fluid type="text" onChange={(e) => {this.handleChange('username', e)}} />
@@ -271,9 +271,32 @@ export class SignupForm extends Component{
             }
             {step == "profile" &&
                 <div>
-                  <Header as="h1"><Image className="image" src={global_configuration.global_image_url} size="small" /> Inscription <span style={{float: "right"}}>Étape 2/2</span></Header>
+                  <Header as="h1">Inscription <span style={{float: "right"}}>Étape 2/2</span></Header>
                   <Header as='h3'>Toulouse et Vous</Header>
                   <Header as='h4'>Aidez nous à mieux vous connaître</Header>
+                  <Form.Select
+                    required
+                    label='Dans quel quartier habitez-vous ?'
+                    onChange={this.handleHomeChange}
+                    value={profile.home_territories}
+                    name='home_territories'
+                    options={territories_options}
+                  />
+                  <Form.Select
+                    label='Dans quel quartier travaillez-vous ?'
+                    onChange={this.handleWorkChange}
+                    value={profile.work_territories}
+                    name='work_territories'
+                    options={territories_options}
+                  />
+                  <Form.Select
+                    label='Quels quartiers vous intéressent ?'
+                    onChange={this.handleInterestChange}
+                    value={profile.interest_territories}
+                    name='interest_territories'
+                    options={territories_options}
+                    multiple
+                  />
                   <Form.Group widths="equal">
                       <Form.Select
                         label="Votre âge"
@@ -302,29 +325,6 @@ export class SignupForm extends Component{
                         onChange={this.handleGender}
                         name="gender"/>
                   </Form.Group>
-                  <Form.Select
-                    required
-                    label='Dans quel quartier habitez-vous ?'
-                    onChange={this.handleHomeChange}
-                    value={profile.home_territories}
-                    name='home_territories'
-                    options={territories_options}
-                  />
-                  <Form.Select
-                    label='Dans quel quartier travaillez-vous ?'
-                    onChange={this.handleWorkChange}
-                    value={profile.work_territories}
-                    name='work_territories'
-                    options={territories_options}
-                  />
-                  <Form.Select
-                    label='Quels quartiers vous intéressent ?'
-                    onChange={this.handleInterestChange}
-                    value={profile.interest_territories}
-                    name='interest_territories'
-                    options={territories_options}
-                    multiple
-                  />
                   <div style={{textAlign: "center"}}>
                     <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.editProfile}>Finaliser mon inscription</Button>
                     <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
