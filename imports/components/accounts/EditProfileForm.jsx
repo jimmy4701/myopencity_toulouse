@@ -183,8 +183,8 @@ export class EditProfileForm extends Component {
                       />
                     </Form.Field>
                   </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Field>
+                  <Form.Group>
+                    <Form.Field width={8}>
                       <label>J'y travaille</label>
                         <Select
                           options={territories_options}
@@ -193,16 +193,6 @@ export class EditProfileForm extends Component {
                           name="work_territories"
                           />
                     </Form.Field>
-                    <Form.Field>
-                        <label>J'y passe régulièrement (choix multiples possibles)</label>
-                          <Select
-                            options={territories_options}
-                            value={user_profile.travel_territories}
-                            onChange={this.handleSelect}
-                            name="travel_territories"
-                            multiple
-                            />
-                        </Form.Field>
                   </Form.Group>
                   <Form.Field className="padded-bottom center-align">
                     <Button
