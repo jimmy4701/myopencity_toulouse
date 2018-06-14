@@ -337,6 +337,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                 </Form.Field>
               }
               <Form.Checkbox
+                checked={consult.hide_territories}
+                onClick={(e) => this.toggleConsult('hide_territories', e)}
+                label="Cacher les territoires sur l'aperçu de consultation"
+              />
+              <Form.Checkbox
                 checked={consult.metropole}
                 onClick={(e) => this.toggleConsult('metropole', e)}
                 label="Afficher le logo de la Métropole sur l'aperçu"

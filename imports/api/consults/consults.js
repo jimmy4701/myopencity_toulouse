@@ -121,6 +121,10 @@ const ConsultsSchema = new SimpleSchema({
   metropole: {
     type: Boolean,
     defaultValue: false
+  },
+  hide_territories: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 

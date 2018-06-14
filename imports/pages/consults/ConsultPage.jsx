@@ -114,7 +114,7 @@ export class ConsultPage extends TrackerReact(Component){
               </Container>
             </Grid.Column>
           : ''}
-          {territories.length > 0 ?
+          {!consult.hide_territories && territories.length > 0 ?
             <Grid.Column width={16} className="consult-territory-container center-align wow fadeInDown mobile-padding" data-wow-delay="0.5s">
               <Container>
               <p>

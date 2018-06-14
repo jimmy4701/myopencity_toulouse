@@ -122,7 +122,7 @@ export class ConsultPartial extends Component {
           </Link>
           <Card.Content>
             <Card.Header>
-              {territories && territories.map(territory => {
+              {!consult.hide_territories && territories && territories.map(territory => {
                 return <Link to={"/territory/" + territory.shorten_url + "/consults"}><span className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</span></Link>
               })}
               {territories && <br/>}
