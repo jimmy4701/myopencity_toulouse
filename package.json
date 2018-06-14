@@ -11,6 +11,7 @@
     "chartjs": "^0.3.24",
     "core-js": "^2.5.3",
     "html-to-text": "^4.0.0",
+    "html-truncate": "^1.2.2",
     "lodash": "^4.17.4",
     "mailer": "^0.6.7",
     "meteor-node-stubs": "~0.2.4",

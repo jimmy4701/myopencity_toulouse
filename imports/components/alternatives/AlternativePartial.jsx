@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import {Link, withRouter} from 'react-router-dom'
 import 'moment/locale/fr'
-import Truncate from 'react-truncate-html'
+import truncate from 'html-truncate'
 
 export class AlternativePartial extends Component{
 
@@ -187,16 +187,11 @@ export class AlternativePartial extends Component{
               {actived_alternative ? 
                 <div className="dangerous" dangerouslySetInnerHTML={{__html: alternative.content }} />
               :
-              <Truncate
-                lines={3}
-                dangerouslySetInnerHTML={{
-                __html: alternative.content
-                }}
-              />
+                <div className="dangerous" dangerouslySetInnerHTML={{__html: truncate(alternative.content, 200) }} />
               }
               </Grid.Column>
               <Grid.Column width={16}>
-              {alternative.content.length > 300 &&
+              {alternative.content.length > 200 &&
                 <Button onClick={this.toggleState} name="actived_alternative" icon="eye" size="tiny">{actived_alternative ? "Cacher le contenu" : "Voir tout"}</Button>
               }
                 <Button onClick={this.toggle_like} icon="thumbs up" size="tiny">

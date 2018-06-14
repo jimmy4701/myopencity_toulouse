@@ -349,6 +349,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                 <label>Description courte de la consultation</label>
                 <TextArea required placeholder="Ex: Dans le cadre de la réforme régionale, nous invitons les citoyens à donner leur avis sur..." value={consult.description} onChange={(e) => { this.handleConsultChange('description', e) }} />
               </Form.Field>
+              <p><span style={{color: "red"}}>*</span> Champs obligatoires</p>
               <Form.Field>
                 <Button size="big">Passer à l'apparence</Button>
               </Form.Field>

@@ -98,6 +98,7 @@ export default class AlternativeForm extends Component{
                <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} positive onClick={this.submit_form}>{consult_alternative_validation_term}</Button>
              </Form.Field>
            </Form>
+           <p style={{marginTop: "1em"}}><span style={{color: "red"}}>*</span> Champs obligatoires</p>
          </Grid.Column>
        </Grid>
     )
