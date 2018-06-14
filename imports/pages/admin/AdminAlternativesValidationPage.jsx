@@ -7,6 +7,7 @@ import AdminUnverifiedAlternatives from '/imports/components/admin/AdminUnverifi
 import AdminUnvalidatedAlternatives from '/imports/components/admin/AdminUnvalidatedAlternatives'
 import AdminSignaledAlternatives from '/imports/components/admin/AdminSignaledAlternatives'
 import AdminSearchAlternatives from '/imports/components/admin/AdminSearchAlternatives'
+import AdminVerifiedAlternatives from '/imports/components/admin/AdminVerifiedAlternatives'
 
 export default class AdminAlternativesValidationPage extends TrackerReact(Component){
 
@@ -70,6 +71,10 @@ export default class AdminAlternativesValidationPage extends TrackerReact(Compon
                     <Icon name="ban" />
                     Signalés
                   </Menu.Item>
+                  <Menu.Item active={part === 'verified'} onClick={() => this.changePart('verified')} >
+                    <Icon name="check" />
+                    Vérifiés
+                  </Menu.Item>
               </Menu>
             </Grid.Column>
           }
@@ -81,6 +86,9 @@ export default class AdminAlternativesValidationPage extends TrackerReact(Compon
             }
             {(part == 'signaled' && !search_text) && 
               <AdminSignaledAlternatives/>
+            }
+            {(part == 'verified' && !search_text) && 
+              <AdminVerifiedAlternatives/>
             }
           {search_text &&
             <AdminSearchAlternatives search_text={search_text} />

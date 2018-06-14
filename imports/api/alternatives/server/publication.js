@@ -56,6 +56,14 @@ Meteor.publish('alternatives.unverified', function(){
   }
 });
 
+Meteor.publish('alternatives.verified', function(){
+  if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+    throw new Meteor.Error('403', "Vous devez être administrateur")
+  }else{
+    return Alternatives.find({verified: true})
+  }
+});
+
 Meteor.publish('alternatives.by_ids', function(alternatives_ids){
   if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
     throw new Meteor.Error('403', "Vous devez être administrateur")
