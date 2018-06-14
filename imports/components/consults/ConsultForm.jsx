@@ -341,11 +341,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                 onClick={(e) => this.toggleConsult('metropole', e)}
                 label="Afficher le logo de la Métropole sur l'aperçu"
               />
-              <Form.Field>
+              <Form.Field required>
                 <label>Titre de la consultation</label>
                 <Input type="text" placeholder="ex: Choisissons ensemble les rues à piétoniser dans le centre ville" value={consult.title} onChange={(e) => { this.handleConsultChange('title', e) }} />
               </Form.Field>
-              <Form.Field>
+              <Form.Field required>
                 <label>Description courte de la consultation</label>
                 <TextArea required placeholder="Ex: Dans le cadre de la réforme régionale, nous invitons les citoyens à donner leur avis sur..." value={consult.description} onChange={(e) => { this.handleConsultChange('description', e) }} />
               </Form.Field>

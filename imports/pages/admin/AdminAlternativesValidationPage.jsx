@@ -60,15 +60,15 @@ export default class AdminAlternativesValidationPage extends TrackerReact(Compon
               <Menu pointing secondary stackable>
                   <Menu.Item active={part === 'unverified'} onClick={() => this.changePart('unverified')} >
                       <Icon name="find" />
-                      Non vérifiées
+                      Non vérifiés
                   </Menu.Item>
                   <Menu.Item active={part === 'unvalidated'} onClick={() => this.changePart('unvalidated')} >
                     <Icon name="ban" />
-                    Invalidées
+                    Invalidés
                   </Menu.Item>
                   <Menu.Item active={part === 'signaled'} onClick={() => this.changePart('signaled')} >
                     <Icon name="ban" />
-                    Signalées
+                    Signalés
                   </Menu.Item>
               </Menu>
             </Grid.Column>
