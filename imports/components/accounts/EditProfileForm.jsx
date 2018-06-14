@@ -111,6 +111,12 @@ export class EditProfileForm extends Component {
       return {key: territory._id, value: territory._id, text: territory.name}
     })
 
+    territories_options.push({
+      key: "outside",
+      value: "outside",
+      text: "Hors Toulouse"
+    })
+
     const {cnil_signup_text, navbar_color, fill_profile_explain} = Meteor.isClient && Session.get('global_configuration')
 
     return (

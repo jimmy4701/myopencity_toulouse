@@ -220,8 +220,8 @@ Meteor.methods({
             partie_consultation: consult_part.title,
             profile_age: (author && author.profile.age) ? _.find(ages_options, o => o.key == author.profile.age).text : "Non renseigné",
             profile_genre: (author && author.profile.gender) ? _.find(genders_options, o => o.key == author.profile.gender).text : "Non renseigné",
-            profile_quartier_habitation: home_territory ? home_territory.name : "Non renseigné",
-            profile_quartier_travail: work_territory ? work_territory.name : "Non renseigné"
+            profile_quartier_habitation: home_territory ? home_territory.name : author.profile.home_territories == "outside" ? "Hors Toulouse" : "Non renseigné",
+            profile_quartier_travail: work_territory ? work_territory.name : author.profile.home_territories == "outside" ? "Hors Toulouse" : "Non renseigné"
           }
         })
         return lines

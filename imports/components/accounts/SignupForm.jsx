@@ -158,6 +158,12 @@ export class SignupForm extends Component{
         }
       })
 
+      territories_options.push({
+        key: "outside",
+        value: "outside",
+        text: "Hors Toulouse"
+      })
+
       const age_options = [
         {
           key: "18",
