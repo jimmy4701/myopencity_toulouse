@@ -24,7 +24,6 @@ class SignupPage extends Component {
           <Container>
             <Grid stackable centered className="wow fadeInUp main-container" verticalAlign="middle">
               <Grid.Column width={16} className="mobile-padding">
-                
                 <SignupForm />
               </Grid.Column>
             </Grid>

@@ -390,7 +390,7 @@ export default class ConsultForm extends TrackerReact(Component) {
             <Grid stackable className="wow fadeInUp">
               <Grid.Column width={16}>
                 <Form onSubmit={(e) => { this.changeStep('parts', e) }}>
-                  <Form.Field>
+                  <Form.Field required>
                     <label>URL de l'image de votre consultation</label>
                     <Input type="text" placeholder="http://...." value={consult.image_url} onChange={(e) => { this.handleConsultChange('image_url', e) }} />
                   </Form.Field>
@@ -405,6 +405,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                   <Form.Field>
                     <Button size="big">Passer au contenu</Button>
                   </Form.Field>
+                  <p><span style={{color: "red"}}>*</span> Champs obligatoires</p>
                 </Form>
               </Grid.Column>
               <Grid.Column width={16} className="center-align">

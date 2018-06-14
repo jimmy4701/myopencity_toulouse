@@ -168,23 +168,27 @@ export default class ConsultPartForm extends TrackerReact(Component){
                    </Grid.Column>
                  : ''}
                </Grid>
-                 <Form.Field inline={true} as="div">
+                 <Form.Field required as="div">
                    <label>Titre</label>
                    <Input value={consult_part.title} onChange={this.handleConsultPartChange} name="title"/>
                  </Form.Field>
-                 <TinyMCE
-                   content={consult_part.content}
-                   config={{
-                    plugins: 'image autoresize media code link paste',
-                    paste_as_text: true,
-                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
-                    images_upload_handler: this.handleUploadImage
-                   }}
-                   onChange={this.handleContentChange.bind(this)}
-                   />
+                 <Form.Field required>
+                  <label>Contenu</label>
+                  <TinyMCE
+                    content={consult_part.content}
+                    config={{
+                      plugins: 'image autoresize media code link paste',
+                      paste_as_text: true,
+                      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                      images_upload_handler: this.handleUploadImage
+                    }}
+                    onChange={this.handleContentChange.bind(this)}
+                    />
+                 </Form.Field>
                <Form.Field>
                  <Button positive onClick={(e) => {this.submit_form(e)}}>{this.props.consult_part ? 'Modifier' : 'Créer'}</Button>
                </Form.Field>
+               <p><span style={{color: "red"}}>*</span> Champs obligatoires</p>
              </Form>
 
          </Grid.Column>
