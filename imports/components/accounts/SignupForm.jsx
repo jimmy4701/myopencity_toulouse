@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Input, Button, Divider, Checkbox, Header} from 'semantic-ui-react'
+import {Form, Input, Button, Divider, Checkbox, Header, Image} from 'semantic-ui-react'
 import {Meteor} from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import {Configuration} from '/imports/api/configuration/configuration'
@@ -195,6 +195,7 @@ export class SignupForm extends Component{
           <Form className={className}>
             {step == "account" &&
               <div>
+                <Header as="h1"><Image className="image" src={global_configuration.global_image_url} size="small" /> Inscription <span style={{float: "right"}}>Étape 1/2</span></Header>
                 <Form.Field required>
                   <label>Nom ou pseudo</label>
                   <Input fluid type="text" onChange={(e) => {this.handleChange('username', e)}} />
@@ -262,6 +263,7 @@ export class SignupForm extends Component{
             }
             {step == "profile" &&
                 <div>
+                  <Header as="h1"><Image className="image" src={global_configuration.global_image_url} size="small" /> Inscription <span style={{float: "right"}}>Étape 2/2</span></Header>
                   <Header as='h3'>Toulouse et Vous</Header>
                   <Header as='h4'>Aidez nous à mieux vous connaître</Header>
                   <Form.Group widths="equal">

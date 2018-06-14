@@ -24,7 +24,7 @@ class SignupPage extends Component {
           <Container>
             <Grid stackable centered className="wow fadeInUp main-container" verticalAlign="middle">
               <Grid.Column width={16} className="mobile-padding">
-                <Header as="h1"><Image className="image" src={global_image_url} size="small" /> Inscription</Header>
+                
                 <SignupForm />
               </Grid.Column>
             </Grid>
