@@ -14,13 +14,14 @@ Meteor.methods({
       const consult_part = ConsultParts.findOne({_id: consult_part_id})
       const consult = Consults.findOne({_id: consult_part.consult})
       const configuration = Configuration.findOne({})
-      if(!configuration.alternatives_anonymous_choice){
-        alternative.anonymous = configuration.alternatives_anonymous_default
-      } 
+      // if(!configuration.alternatives_anonymous_choice){
+      //   alternative.anonymous = configuration.alternatives_anonymous_default
+      // } 
       if(consult_part.alternatives_activated){
         alternative.user = this.userId
         alternative.consult_part = consult_part_id
         alternative.consult = consult_part.consult
+        alternative.anonymous = false
         alternative.created_at = new Date()
         if(consult.alternatives_validation){
           alternative.validated = false

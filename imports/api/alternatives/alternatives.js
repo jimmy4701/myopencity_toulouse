@@ -13,7 +13,7 @@ const AlternativeSchema = new SimpleSchema({
     },
     anonymous: {
       type: Boolean,
-      defaultValue: true
+      defaultValue: false
     },
     user: {
       type: String
