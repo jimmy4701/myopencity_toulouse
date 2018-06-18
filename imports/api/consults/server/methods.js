@@ -19,9 +19,6 @@ Meteor.methods({
     }else{
       consult.author = this.userId
       consult.url_shorten = generate_url_shorten(consult.title)
-      if(consult.territories.length == 0){
-        throw new Meteor.Error("Une consultation doit être rattachée à au moins un quartier")
-      }
       const new_consult_id = Consults.insert(consult)
       _.each(consult_parts, function(part){
         Meteor.call('consult_parts.insert', {consult_part: part, consult_id: new_consult_id })
@@ -34,9 +31,6 @@ Meteor.methods({
     }else{
       consult.updated_at = new Date()
       const consult_id = consult._id
-      if(consult.territories.length == 0){
-        throw new Meteor.Error("Une consultation doit être rattachée à au moins un quartier")
-      }
       Consults.update({_id: consult._id}, {$set: consult})
       _.each(consult_parts, (consult_part) => {
         if(consult_part._id){
@@ -218,16 +212,16 @@ Meteor.methods({
             avis: alternative.title,
             date_publication: date,
             soutiens: alternative.likes,
-            auteur: author ? author.username : '', 
-            email: author.emails[0].address ? author.emails[0].address : '', 
+            auteur: author.username,
+            email: author.emails[0].address,
             contenu: content, 
             valide: alternative.validated ? "ACCEPTÉ" : "REFUSÉ",
             verified: alternative.verified ? "VÉRIFIÉ" : "NON VÉRIFIÉ",
             partie_consultation: consult_part.title,
             profile_age: (author && author.profile.age) ? _.find(ages_options, o => o.key == author.profile.age).text : "Non renseigné",
             profile_genre: (author && author.profile.gender) ? _.find(genders_options, o => o.key == author.profile.gender).text : "Non renseigné",
-            profile_quartier_habitation: home_territory ? home_territory.name : "Non renseigné",
-            profile_quartier_travail: work_territory ? work_territory.name : "Non renseigné"
+            profile_quartier_habitation: home_territory ? home_territory.name : author.profile.home_territories == "outside" ? "Hors Toulouse" : "Non renseigné",
+            profile_quartier_travail: work_territory ? work_territory.name : author.profile.home_territories == "outside" ? "Hors Toulouse" : "Non renseigné"
           }
         })
         return lines

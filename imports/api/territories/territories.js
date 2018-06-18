@@ -12,14 +12,17 @@ const TerritoryCoordinates = new SimpleSchema({
 })
 const TerritoriesSchema = new SimpleSchema({
     name: {
-        type: String
+        type: String,
+        label: "Le nom"
     },
     reference: {
         type: String,
-        optional: true
+        optional: true,
+        label: "La référence"
     },
     shorten_url: {
-        type: String
+        type: String,
+        label: "L'url courte"
     },
     coordinates: {
         type: String,

@@ -89,4 +89,25 @@ Meteor.startup(() => {
         return user
       }
   })
+
+  // SimpleSchema configuration
+  SimpleSchema.messages({
+    required: "[label] est requis",
+    minString: "[label] doit comporter ai moins [min] caractères",
+    maxString: "[label] ne peut pas dépasser [max] caractères",
+    minNumber: "[label] doit être au moins [min]",
+    maxNumber: "[label] ne peut pas dépasser [max]",
+    minDate: "[label] doit être au moins [min]",
+    maxDate: "[label] doit être après [max]",
+    badDate: "[label] n'est pas une date valide",
+    noDecimal: "[label] n'est pas un chiffre",
+    notAllowed: "[value] n'est pas une valeur autorisée",
+    expectedString: "[label] doit être une phrase",
+    expectedNumber: "[label] doit être un nombre",
+    expectedBoolean: "[label] doit être un booleen",
+    expectedArray: "[label] doit être un tableau",
+    expectedObject: "[label] doit être un objet",
+    expectedConstructor: "[label] doit être un [type]",
+    keyNotInSchema: "[key] n'est pas autorisé dans le schema"
+  });
 })

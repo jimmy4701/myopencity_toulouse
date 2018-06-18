@@ -360,7 +360,7 @@ class TerritoriesMap extends Component {
                                 {info_windows[consult._id] &&
                                   <InfoWindow onCloseClick={() => this.toggleInfoWindow(consult._id)}>
                                     <div>
-                                        <Image size="medium" src={consult.image_url} />
+                                        <Image size="medium" inline src={consult.image_url} />
                                         <Header as='h4'>{consult.title}</Header>
                                         <p>{consult.description}</p>
                                         <Link to={"/consults/" + consult.url_shorten}>

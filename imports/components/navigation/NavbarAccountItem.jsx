@@ -54,7 +54,7 @@ class NavbarAccountItem extends TrackerReact(Component){
 
   render(){
     const current_user = Meteor.user()
-    const {project_term, navbar_projects, connect_explain} = Meteor.isClient && Session.get('global_configuration')
+    const {project_term, navbar_projects, connect_explain, navbar_color} = Meteor.isClient && Session.get('global_configuration')
     
     if(current_user){
       const trigger = (
@@ -87,7 +87,10 @@ class NavbarAccountItem extends TrackerReact(Component){
         <div>
           <Menu.Item className="navbar-item" onClick={(e) => {this.toggleState('open_modal', e)}}><Icon name="user" /> Connexion</Menu.Item>
           <Modal size="mini" className="wow fadeInUp" open={this.state.open_modal} onClose={(e) => {this.toggleState('open_modal', e)}}>
-            <Modal.Header className="center-align" as="h1">Connexion</Modal.Header>
+            <Icon name="close" color="white" onClick={(e) => {this.toggleState('open_modal', e)}}/>
+            <Modal.Header className="center-align" as="h1" style={{backgroundColor: navbar_color, color: "white"}}>
+              Connexion
+            </Modal.Header>
             {connect_explain &&
               <p className="center-align">{connect_explain}</p>
             }

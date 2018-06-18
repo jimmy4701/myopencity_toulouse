@@ -132,6 +132,7 @@ export default class AdminUserRow extends TrackerReact(Component){
         text: territory.name
       }
     })
+    
     return(
       <Table.Row>
         <Table.Cell>{user.username}{admin && <span>  <Label>ADMIN</Label></span>}{moderator && <span>  <Label>MODERATEUR</Label></span>}</Table.Cell>

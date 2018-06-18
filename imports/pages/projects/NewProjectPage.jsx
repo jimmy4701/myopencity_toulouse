@@ -20,9 +20,7 @@ export class NewProjectPage extends TrackerReact(Component){
 
   state = {
     step: "presentation", // presentation / anonymous / title / content / description / image
-    new_project: {
-      anonymous: Meteor.isClient && Session.get('global_configuration').projects_anonymous_default
-    }
+    new_project: {}
   }
 
   submit_form(e){
@@ -62,20 +60,11 @@ export class NewProjectPage extends TrackerReact(Component){
     })
   }
 
-  changeStep(step, e){
-    e.preventDefault()
-    this.setState({step})
-  }
+  changeStep = (step) => this.setState({step})
 
   handleProjectChange(attr, e){
     let {new_project} = this.state
     new_project[attr] = e.target.value
-    this.setState({new_project})
-  }
-
-  toggleProject = (e, {name}) => {
-    let {new_project} = this.state
-    new_project[name] = !new_project[name]
     this.setState({new_project})
   }
 
@@ -95,7 +84,7 @@ export class NewProjectPage extends TrackerReact(Component){
   render(){
     const {step, new_project} = this.state
     const {loading, parent_project, territory} = this.props
-    const {projects_anonymous_choice, project_descriptive_term, project_term, buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
+    const {project_descriptive_term, project_term, buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
       return(
@@ -110,12 +99,6 @@ export class NewProjectPage extends TrackerReact(Component){
                 <Breadcrumb.Section link active={step == 'content'} onClick={(e) => {this.changeStep('content', e)}}>Contenu</Breadcrumb.Section>
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section link active={step == 'image'} onClick={(e) => {this.changeStep('image', e)}}>Image du projet</Breadcrumb.Section>
-                  {projects_anonymous_choice ?
-                    <span>
-                      <Breadcrumb.Divider icon='right angle' />
-                      <Breadcrumb.Section link active={step == 'anonymous'} onClick={(e) => {this.changeStep('anonymous', e)}}>Anonymat</Breadcrumb.Section>
-                    </span>
-                  : ''}
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section link active={step == 'validation'} onClick={(e) => {this.changeStep('validation', e)}}>Validation</Breadcrumb.Section>
               </Breadcrumb>
@@ -171,16 +154,18 @@ export class NewProjectPage extends TrackerReact(Component){
                       <Grid.Column width={16} className="">
                         <Container>
                           <Header as="h1" className="wow fadeInUp">Premièrement, donnez un titre à votre {project_term}</Header>
-                          <Input
-                            fluid
-                            autoFocus
-                            size="huge"
-                            placeholder="ex: Refaire la place du centre-ville"
-                            onBlur={(e) => {this.handleProjectChange('title', e)}}
-                            defaultValue={new_project.title}
-                            className="marged"
-                            />
-                          <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('description', e)}}>Passer à la description</Button>
+                          <Form onSubmit={(e) => this.changeStep('description')}>
+                            <Form.Input
+                              fluid
+                              autoFocus
+                              size="huge"
+                              placeholder="ex: Refaire la place du centre-ville"
+                              onChange={(e) => {this.handleProjectChange('title', e)}}
+                              value={new_project.title}
+                              className="marged"
+                              />
+                            <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('description', e)}}>Passer à la description</Button>
+                          </Form>
                         </Container>
                       </Grid.Column>
                     </Grid>
@@ -192,17 +177,19 @@ export class NewProjectPage extends TrackerReact(Component){
                         <Grid.Column width={16} className="">
                           <Container>
                             <Header as="h1" className="wow fadeInUp">Rédigez une brève description de votre {project_term} (comme un tweet <Icon name="twitter" />)</Header>
-                            <Input
-                              fluid
-                              size="huge"
-                              autoFocus
-                              placeholder="ex: Proposition d'aménagements culturels et sportifs pour le nouveau quartier qui sera construit dans le centre en 2020"
-                              onBlur={(e) => {this.handleProjectChange('description', e)}}
-                              defaultValue={new_project.description}
-                              className="marged"
-                              />
-                            <Button size="tiny" onClick={(e) => {this.changeStep('title', e)}}>Précédent</Button>
-                            <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('content', e)}}>Passer au contenu</Button>
+                            <Form onSubmit={(e) => this.changeStep('content', e)}>
+                              <Form.Input
+                                fluid
+                                size="huge"
+                                autoFocus
+                                placeholder="ex: Proposition d'aménagements culturels et sportifs pour le nouveau quartier qui sera construit dans le centre en 2020"
+                                onChange={(e) => {this.handleProjectChange('description', e)}}
+                                value={new_project.description}
+                                className="marged"
+                                />
+                              <Button type="submit" floated="right" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('content', e)}}>Passer au contenu</Button>
+                              <Button size="tiny" floated="left" onClick={(e) => {this.changeStep('title', e)}}>Précédent</Button>
+                            </Form>
                           </Container>
                         </Grid.Column>
                       </Grid>
@@ -230,8 +217,8 @@ export class NewProjectPage extends TrackerReact(Component){
                                 }}
                                 onChange={this.handleContentChange.bind(this)}
                                 />
-                              <Button size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
-                              <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('image', e)}}>Passer à l'image</Button>
+                              <Button floated="left" size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
+                              <Button floated="right" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('image', e)}}>Passer à l'image</Button>
                             </Container>
                           </Grid.Column>
                         </Grid>
@@ -244,21 +231,19 @@ export class NewProjectPage extends TrackerReact(Component){
                               <Container>
                                 <Header as="h1" className="wow fadeInUp">Ajoutez une image d'illustration à votre {project_term}</Header>
                                 <p>Entrez l'URL d'une image pour illustrer votre projet et le rendre unique et visible</p>
-                                <Input
-                                  fluid
-                                  autoFocus
-                                  size="huge"
-                                  placeholder="http://"
-                                  onChange={(e) => {this.handleProjectChange('image_url', e)}}
-                                  defaultValue={new_project.image_url}
-                                  className="marged"
-                                  />
-                                <Button size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
-                                  {projects_anonymous_choice ?
-                                    <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('anonymous', e)}}>Passer à l'anonymat</Button>
-                                  :
-                                    <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
-                                  }
+                                <Form onSubmit={(e) => this.changeStep('validation', e)}>
+                                  <Input
+                                    fluid
+                                    autoFocus
+                                    size="huge"
+                                    placeholder="http://"
+                                    onChange={(e) => {this.handleProjectChange('image_url', e)}}
+                                    value={new_project.image_url}
+                                    className="marged"
+                                    />
+                                  <Button floated="right" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
+                                  <Button floated="left" size="tiny" onClick={(e) => {this.changeStep('content', e)}}>Précédent</Button>
+                                </Form>
                               </Container>
                             </Grid.Column>
                             <Grid.Column width={16} className="center-align">
@@ -268,39 +253,13 @@ export class NewProjectPage extends TrackerReact(Component){
                           </Grid>
                         </Grid.Column>
                         : ''}
-                        {step == 'anonymous' ?
-                          <Grid.Column width={16} className="center-align new-project-presentation-container">
-                            <Grid stackable style={{height: 'inherit'}}>
-                              <Grid.Column width={16} className="">
-                                <Container>
-                                  <Header as="h1" className="wow fadeInUp">Choisissez si votre {project_term} est anonyme ou non</Header>
-                                  <Grid stackable className="marged">
-                                    <Grid.Column width={16} className="center-align">
-                                      <Form>
-                                        <Form.Checkbox
-                                          checked={new_project.anonymous}
-                                          label="Je souhaite rester anonyme"
-                                          onClick={this.toggleProject}
-                                          name="anonymous"
-                                          size="huge"
-                                        />
-                                      </Form>
-                                    </Grid.Column>
-                                  </Grid>
-                                  <Button size="tiny" onClick={(e) => {this.changeStep('image', e)}}>Précédent</Button>
-                                  <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.changeStep('validation', e)}}>Passer à la validation</Button>
-                                </Container>
-                              </Grid.Column>
-                            </Grid>
-                          </Grid.Column>
-                          : ''}
                           {step == 'validation' ?
                             <Grid.Column width={16} className="center-align new-project-presentation-container">
                               <Grid stackable style={{height: 'inherit'}}>
                                 <Grid.Column width={16} className="">
                                   <Container>
                                     <Header as="h1" className="wow fadeInUp">Lancez la validation de votre projet</Header>
-                                    <Button size="tiny" onClick={(e) => {this.changeStep('anonymous', e)}}>Précédent</Button>
+                                    <Button size="tiny" onClick={(e) => {this.changeStep('image', e)}}>Précédent</Button>
                                     <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.submit_form(e)}}>Créer le projet</Button>
                                   </Container>
                                 </Grid.Column>

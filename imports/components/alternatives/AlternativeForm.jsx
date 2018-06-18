@@ -15,9 +15,7 @@ export default class AlternativeForm extends Component{
   */
 
   state = {
-    alternative: {
-      anonymous: Session.get('global_configuration').alternatives_anonymous_default
-    }
+    alternative: {}
   }
 
   componentWillMount(){
@@ -47,13 +45,6 @@ export default class AlternativeForm extends Component{
   isValid(){
     const {title, content} = this.state.alternative
     return title && content
-  }
-
-  toggleAlternative(attr, e){
-    e.preventDefault()
-    let {alternative} = this.state
-    alternative[attr] = !alternative[attr]
-    this.setState({alternative})
   }
 
   submit_form = (e) => {
@@ -94,10 +85,10 @@ export default class AlternativeForm extends Component{
                 />
              </Form.Field>
              <Form.Field>
-                <Checkbox style={{margin: "1em 0"}} checked={alternative.anonymous} onClick={(e) => {this.toggleAlternative('anonymous', e)}} label="Je souhaite rester anonyme"/> <br/>
                <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} positive onClick={this.submit_form}>{consult_alternative_validation_term}</Button>
              </Form.Field>
            </Form>
+           <p style={{marginTop: "1em"}}><span style={{color: "red"}}>*</span> Champs obligatoires</p>
          </Grid.Column>
        </Grid>
     )

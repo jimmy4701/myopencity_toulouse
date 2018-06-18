@@ -53,14 +53,14 @@ export class ConsultPart extends Component{
       if(error){
         console.log(error)
         Bert.alert({
-          title: "Erreur lors de la création de l'alternative",
+          title: "Erreur lors de la création de l'avis",
           message: error.reason,
           type: 'danger',
           style: 'growl-bottom-left',
         })
       }else{
         Bert.alert({
-          title: "Votre alternative a été proposée",
+          title: "Votre avis a été proposé",
           type: 'success',
           style: 'growl-bottom-left',
         })

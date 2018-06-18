@@ -15,7 +15,11 @@ Meteor.publish('consults.visible', function(){
 })
 
 Meteor.publish('consult', function(urlShorten){
-  return Consults.find({url_shorten: urlShorten, visible: true}, {limit: 1, sort: {}})
+  if(Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+    return Consults.find({url_shorten: urlShorten}, {limit: 1, sort: {}})
+  }else{
+    return Consults.find({url_shorten: urlShorten, visible: true}, {limit: 1, sort: {}})
+  }
 })
 
 Meteor.publish('consult.admin_by_shorten_url', function(urlShorten){

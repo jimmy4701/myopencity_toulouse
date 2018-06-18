@@ -96,11 +96,11 @@ export class AdminLayout extends TrackerReact(Component) {
               </Menu.Item>
               <Menu.Item onClick={() => {this.go('/admin/projects')}} name='projects'>
                 <Icon name='lightbulb' />
-                Projets
+                Boîte à idées
               </Menu.Item>
               <Menu.Item onClick={() => {this.go('/admin/alternatives')}} name='projects'>
                 <Icon name='check circle' />
-                Alternatives
+                Avis
               </Menu.Item>
               {Roles.userIsInRole(Meteor.userId(), 'admin') ?
                 <Menu.Item onClick={() => {this.go('/admin/api_authorizations')}} name='api_authorizations'>

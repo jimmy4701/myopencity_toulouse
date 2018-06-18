@@ -19,7 +19,9 @@
 
 .footer-link{
     padding-bottom: 5px;
-    text-decoration: none !important;
+    &:hover{
+        border-bottom: 1px solid white !important;
+    }
 }
 
 .footer-links{

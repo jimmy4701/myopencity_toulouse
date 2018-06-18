@@ -4,14 +4,16 @@ export const Alternatives = new Mongo.Collection('alternatives')
 
 const AlternativeSchema = new SimpleSchema({
     title: {
-      type: String
+      type: String,
+      label: "Le titre"
     },
     content: {
-      type: String
+      type: String,
+      label: "Un contenu"
     },
     anonymous: {
       type: Boolean,
-      defaultValue: true
+      defaultValue: false
     },
     user: {
       type: String

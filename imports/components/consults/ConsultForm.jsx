@@ -81,7 +81,7 @@ export default class ConsultForm extends TrackerReact(Component) {
           console.log(error)
           Bert.alert({
             title: "Erreur lors de la modification de la consultation",
-            message: error.error,
+            message: error.reason,
             type: 'danger',
             style: 'growl-bottom-left',
           })
@@ -91,7 +91,7 @@ export default class ConsultForm extends TrackerReact(Component) {
               console.log(error)
               Bert.alert({
                 title: "Erreur lors de la suppression des parties",
-                message: error.error,
+                message: error.reason,
                 type: 'danger',
                 style: 'growl-bottom-left',
               })
@@ -113,7 +113,7 @@ export default class ConsultForm extends TrackerReact(Component) {
           console.log(error)
           Bert.alert({
             title: "Erreur lors de la création de la consultation",
-            message: error.error,
+            message: error.reason,
             type: 'danger',
             style: 'growl-bottom-left',
           })
@@ -337,18 +337,24 @@ export default class ConsultForm extends TrackerReact(Component) {
                 </Form.Field>
               }
               <Form.Checkbox
+                checked={consult.hide_territories}
+                onClick={(e) => this.toggleConsult('hide_territories', e)}
+                label="Cacher les territoires sur l'aperçu de consultation"
+              />
+              <Form.Checkbox
                 checked={consult.metropole}
                 onClick={(e) => this.toggleConsult('metropole', e)}
                 label="Afficher le logo de la Métropole sur l'aperçu"
               />
-              <Form.Field>
+              <Form.Field required>
                 <label>Titre de la consultation</label>
                 <Input type="text" placeholder="ex: Choisissons ensemble les rues à piétoniser dans le centre ville" value={consult.title} onChange={(e) => { this.handleConsultChange('title', e) }} />
               </Form.Field>
-              <Form.Field>
+              <Form.Field required>
                 <label>Description courte de la consultation</label>
                 <TextArea required placeholder="Ex: Dans le cadre de la réforme régionale, nous invitons les citoyens à donner leur avis sur..." value={consult.description} onChange={(e) => { this.handleConsultChange('description', e) }} />
               </Form.Field>
+              <p><span style={{color: "red"}}>*</span> Champs obligatoires</p>
               <Form.Field>
                 <Button size="big">Passer à l'apparence</Button>
               </Form.Field>
@@ -389,7 +395,7 @@ export default class ConsultForm extends TrackerReact(Component) {
             <Grid stackable className="wow fadeInUp">
               <Grid.Column width={16}>
                 <Form onSubmit={(e) => { this.changeStep('parts', e) }}>
-                  <Form.Field>
+                  <Form.Field required>
                     <label>URL de l'image de votre consultation</label>
                     <Input type="text" placeholder="http://...." value={consult.image_url} onChange={(e) => { this.handleConsultChange('image_url', e) }} />
                   </Form.Field>
@@ -404,6 +410,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                   <Form.Field>
                     <Button size="big">Passer au contenu</Button>
                   </Form.Field>
+                  <p><span style={{color: "red"}}>*</span> Champs obligatoires</p>
                 </Form>
               </Grid.Column>
               <Grid.Column width={16} className="center-align">
