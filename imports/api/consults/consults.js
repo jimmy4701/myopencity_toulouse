@@ -48,6 +48,11 @@ const ConsultsSchema = new SimpleSchema({
     defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg",
     label: "L'url de l'image"
   },
+  image_url_mini: {
+    type: String,
+    defaultValue: "https://image.freepik.com/free-vector/business-people-with-speech-bubbles_1325-25.jpg",
+    label: "L'url de l'image réduite"
+  },
   url_shorten: {
     type: String,
     unique: true,

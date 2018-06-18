@@ -7,6 +7,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "bcrypt": "^1.0.2",
+    "browser-image-resizer": "^1.1.4",
     "chart.js": "^2.6.0",
     "chartjs": "^0.3.24",
     "core-js": "^2.5.3",

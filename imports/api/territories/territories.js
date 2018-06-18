@@ -48,6 +48,10 @@ const TerritoriesSchema = new SimpleSchema({
         type: String,
         optional: true
     },
+    image_url_mini: {
+        type: String,
+        optional: true
+    },
     created_at: {
         type: Date
     },

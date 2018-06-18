@@ -110,7 +110,7 @@ export class ConsultPartial extends Component {
       return (
         <Card className={"inline-block " + className}>
           <Link to={"/consults/" + consult.url_shorten}>
-            <Image src={consult.image_url} />
+            <Image src={consult.image_url_mini ? consult.image_url_mini : consult.image_url} />
             {consult.metropole &&
               <Image src="/images/toulouse-metropole-little.png" style={{
                 position: "absolute",
