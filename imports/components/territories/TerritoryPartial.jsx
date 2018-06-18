@@ -40,7 +40,7 @@ export default class TerritoryPartial extends Component {
 
         return (
             <Card>
-                <Image src={territory.image_url ? territory.image_url : "https://image.flaticon.com/icons/svg/235/235861.svg"} />
+                <Image src={territory.image_url_mini ? territory.image_url_mini : territory.image_url ? territory.image_url : "https://image.flaticon.com/icons/svg/235/235861.svg"} />
                 <Card.Content>
                     <Card.Header>
                         {territory.name}

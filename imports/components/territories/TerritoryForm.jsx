@@ -4,6 +4,7 @@ import TinyMCE from 'react-tinymce'
 import { Grid, Header, Form, Input, Button, Icon } from 'semantic-ui-react'
 import { SketchPicker } from 'react-color'
 import ImageCropper from '/imports/components/general/ImageCropper'
+import readAndCompressImage from 'browser-image-resizer'
 
 export default class TerritoryForm extends TrackerReact(Component) {
 
@@ -47,11 +48,44 @@ export default class TerritoryForm extends TrackerReact(Component) {
         this.setState({ territory })
     }
 
-    uploadImage = (cropped_image) => {
+    uploadImage = async (cropped_image) => {
         this.setState({ loading_image: true })
         var metaContext = {}
         var uploader = new Slingshot.Upload("ConsultImage", metaContext)
-        uploader.send(cropped_image, (error, downloadUrl) => {
+        var uploader_mini = new Slingshot.Upload("ConsultImageMini", metaContext)
+
+        const config = {
+            quality: 0.5,
+            maxWidth: 500,
+            maxHeight: 500,
+            autoRotate: true,
+            debug: true
+          };
+
+        let minified_image = await readAndCompressImage(cropped_image, config);
+        console.log('resized', minified_image)
+
+        await uploader_mini.send(minified_image, (error, downloadUrl) => {
+            if (error) {
+              // Log service detailed response
+              console.error('Error uploading', error)
+              this.setState({ loading_image: false })
+              Bert.alert({
+                title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+                message: error.reason,
+                type: 'danger',
+                style: 'growl-bottom-left',
+              })
+            }
+            else {
+              let { territory } = this.state
+              territory.image_url_mini = downloadUrl
+              this.setState({ territory, loading_image: false })
+            }
+            // you will need this in the event the user hit the update button because it will remove the avatar url
+        })
+
+        await uploader.send(cropped_image, (error, downloadUrl) => {
           if (error) {
             // Log service detailed response
             console.error('Error uploading', error)
@@ -206,6 +240,13 @@ export default class TerritoryForm extends TrackerReact(Component) {
                     label="URL d'image"
                     value={territory.image_url}
                     name="image_url"
+                />
+                <Form.Input
+                    onChange={this.handleTerritoryChange}
+                    type='text'
+                    label="URL d'image réduite"
+                    value={territory.image_url_mini}
+                    name="image_url_mini"
                 />
                 <Form.Field>
                     <ImageCropper onCrop={this.uploadImage} />
