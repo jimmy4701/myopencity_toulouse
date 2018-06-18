@@ -108,7 +108,7 @@ export class ProjectPartial extends Component{
           <Card.Content>
             <Card.Header>
             {territory && <Link to={"/territory/" + territory.shorten_url + "/projects"}><div className="territory-label"><Icon name={consult_territory_icon}/>{territory.name}</div></Link>}
-              {!project.anonymous &&
+              {!project.anonymous && author &&
                   <span className="author-container" style={{cursor: "pointer"}}><Image src="/images/avatar-logo.png" avatar /> {author.username}<br/></span>
               }
               {project.title}

@@ -20,7 +20,7 @@ const ProjectSchema = new SimpleSchema({
   },
   anonymous: {
     type: Boolean,
-    defaultValue: true
+    defaultValue: false
   },
   likes: {
     type: Number,

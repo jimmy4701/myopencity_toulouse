@@ -12,12 +12,9 @@ export class ProjectForm extends TrackerReact(Component){
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      editing_project: {
-        anonymous: true
-      }
+  state = {
+    editing_project: {
+      anonymous: false
     }
   }
 
@@ -36,13 +33,6 @@ export class ProjectForm extends TrackerReact(Component){
   handleContentChange(e){
     let {editing_project} = this.state
     editing_project.content = e.target.getContent()
-    this.setState({editing_project})
-  }
-
-  toggleProject(attr, e){
-    e.preventDefault()
-    let {editing_project} = this.state
-    editing_project[attr] = !editing_project[attr]
     this.setState({editing_project})
   }
 
@@ -120,28 +110,6 @@ export class ProjectForm extends TrackerReact(Component){
               onChange={this.handleContentChange}
               />
           </Form.Field>
-          {projects_anonymous_choice &&
-            <Form.Field>
-              <label>Configurez l'anonymat de votre projet</label>
-              <Grid stackable>
-                <Grid.Column width={16} className="center-align">
-                  <Button active={editing_project.anonymous} size="huge" positive={editing_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
-                    <Icon name="spy" size="big"/>
-                    Anonyme
-                  </Button>
-                  <Button active={!editing_project.anonymous} size="huge" positive={!editing_project.anonymous} onClick={(e) => {this.toggleProject('anonymous',e)}}>
-                    <Icon name="user" size="big"/>
-                    Publique
-                  </Button>
-                  {editing_project.anonymous ?
-                    <p><strong>Votre projet est actuellement anonyme</strong> : votre nom ne sera pas lié à ce projet</p>
-                  :
-                    <p><strong>Votre projet est actuellement publique</strong> : vos lecteurs pourront consulter votre profil</p>
-                  }
-                </Grid.Column>
-              </Grid>
-            </Form.Field>
-          }
           <Form.Field>
             <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.submit_form(e)}}>{project ? "Modifier" : "Créer"}</Button>
           </Form.Field>

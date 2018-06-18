@@ -14,9 +14,10 @@ Meteor.methods({
       throw new Meteor.Error('403', "Vous devez vous connecter")
     }else{
       const configuration = Configuration.findOne({})
-      if(!configuration.projects_anonymous_choice){
-        project.anonymous = configuration.projects_anonymous_default
-      }
+      // if(!configuration.projects_anonymous_choice){
+      //   project.anonymous = configuration.projects_anonymous_default
+      // }
+      project.anonymous = false
       project.author = this.userId
       project.shorten_url = generate_shorten_url(project.title)
       Projects.insert(project)
