@@ -9,7 +9,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 import ImageCropper from '/imports/components/general/ImageCropper'
-
+import readAndCompressImage from 'browser-image-resizer'
 
 export default class ConsultForm extends TrackerReact(Component) {
 
@@ -206,11 +206,43 @@ export default class ConsultForm extends TrackerReact(Component) {
     this.setState({ consult })
   }
 
-  handlePictureImport = (cropped_image) => {
+  handlePictureImport = async (cropped_image) => {
     this.setState({ loading_consult_image: true })
     var metaContext = {}
     var uploader = new Slingshot.Upload("ConsultImage", metaContext)
-    uploader.send(cropped_image, (error, downloadUrl) => {
+    var uploader_mini = new Slingshot.Upload("ConsultImageMini", metaContext)
+
+    const config = {
+      quality: 0.5,
+      maxWidth: 500,
+      maxHeight: 500,
+      autoRotate: true,
+      debug: true
+    };
+
+    let minified_image = await readAndCompressImage(cropped_image, config);
+
+    await uploader_mini.send(minified_image, (error, downloadUrl) => {
+      if (error) {
+        // Log service detailed response
+        console.error('Error uploading', error)
+        this.setState({ loading_image: false })
+        Bert.alert({
+          title: "Une erreur est survenue durant l'envoi de l'image à Amazon",
+          message: error.reason,
+          type: 'danger',
+          style: 'growl-bottom-left',
+        })
+      }
+      else {
+        let { consult } = this.state
+        consult.image_url_mini = downloadUrl
+        this.setState({ consult, loading_image: false })
+      }
+      // you will need this in the event the user hit the update button because it will remove the avatar url
+    })
+
+    await uploader.send(cropped_image, (error, downloadUrl) => {
       if (error) {
         // Log service detailed response
         console.error('Error uploading', error)
@@ -398,6 +430,10 @@ export default class ConsultForm extends TrackerReact(Component) {
                   <Form.Field required>
                     <label>URL de l'image de votre consultation</label>
                     <Input type="text" placeholder="http://...." value={consult.image_url} onChange={(e) => { this.handleConsultChange('image_url', e) }} />
+                  </Form.Field>
+                  <Form.Field required>
+                    <label>URL de l'image de votre consultation réduite (pour l'aperçu)</label>
+                    <Input type="text" placeholder="http://...." value={consult.image_url_mini} onChange={(e) => { this.handleConsultChange('image_url_mini', e) }} />
                   </Form.Field>
                   {amazon_connected ?
                     <Form.Field>
