@@ -273,7 +273,7 @@ export class SignupForm extends Component{
                 <div>
                   <Header as="h1">Inscription <span style={{float: "right"}}>Étape 2/2</span></Header>
                   <Header as='h3'>Toulouse et Vous</Header>
-                  <Header as='h4'>Aidez nous à mieux vous connaître</Header>
+                  <Header as='h4'>Aidez-nous à mieux vous connaître</Header>
                   <Form.Select
                     required
                     label='Dans quel quartier habitez-vous ?'
