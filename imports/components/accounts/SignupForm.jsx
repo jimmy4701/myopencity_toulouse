@@ -275,7 +275,6 @@ export class SignupForm extends Component{
                   <Header as='h3'>Toulouse et Vous</Header>
                   <Header as='h4'>Aidez-nous à mieux vous connaître</Header>
                   <Form.Select
-                    required
                     label='Dans quel quartier habitez-vous ?'
                     onChange={this.handleHomeChange}
                     value={profile.home_territories}

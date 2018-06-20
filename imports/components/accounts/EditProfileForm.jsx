@@ -169,7 +169,7 @@ export class EditProfileForm extends Component {
             <Header as='h1' style={{color: navbar_color}}>Toulouse et Vous</Header>
               <Form>
                   <Form.Group widths='equal'>
-                    <Form.Field required>
+                    <Form.Field>
                       <label>J'y habite</label>
                         <Select
                           options={territories_options}
@@ -208,7 +208,6 @@ export class EditProfileForm extends Component {
                       onClick={(e) => {
                       this.edit_profile(e)
                     }}>Enregistrer</Button>
-                    <p><span style={{color: "red", textAlign: "left"}}>*</span> Champs obligatoires</p>
                   </Form.Field>
                 </Form>
             </Grid.Column>
