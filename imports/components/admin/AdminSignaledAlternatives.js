@@ -41,7 +41,7 @@ export class AdminSignaledAlternatives extends Component {
             return(
                 <Grid stackable>
                     <Grid.Column width={16}>
-                        <Header as='h3'>Alternatives signalées</Header>
+                        <Header as='h3'>Avis signalés</Header>
                     </Grid.Column>
                     <Grid.Column width={16}>
                         {alternatives.map(alternative => {
