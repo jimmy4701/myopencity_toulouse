@@ -17,7 +17,7 @@ export class AdminVerifiedAlternatives extends Component {
             return(
                 <Grid stackable>
                     <Grid.Column width={16}>
-                        <Header as='h3'>Avis non vérifiés</Header>
+                        <Header as='h3'>Avis vérifiés</Header>
                     </Grid.Column>
                     <Grid.Column width={16}>
                         {alternatives.map(alternative => {
