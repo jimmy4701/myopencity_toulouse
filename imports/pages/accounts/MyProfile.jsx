@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Grid, Image, Form, Input, Button, Header, Container, Divider } from 'semantic-ui-react'
 import { withTracker } from 'meteor/react-meteor-data'
 import EditProfileForm from '/imports/components/accounts/EditProfileForm'
-import AvatarImage from '/imports/components/accounts/AvatarImage'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
 
 export class MyProfile extends Component {
 
@@ -75,11 +75,11 @@ export class MyProfile extends Component {
   }
 
   render() {
-    const { user, loading } = this.props
+    const { user, loading, className } = this.props
     const { removing } = this.state
     if (!loading) {
       return (
-        <Grid stackable className="main-container" verticalAlign="middle">
+        <Grid stackable className={"main-container " + className} verticalAlign="middle">
           <Grid.Column width={16} className="wow fadeIn profile-form-container mobile-padding">
             <Container>
               <EditProfileForm />
@@ -118,4 +118,6 @@ export default MyProfileContainer = withTracker(() => {
     loading,
     user
   }
-})(withRouter(MyProfile))
+})(withRouter(styled(MyProfile)`
+  margin-top: 3em !important;
+`))
