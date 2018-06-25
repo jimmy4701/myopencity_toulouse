@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
 import _ from 'lodash'
 const mailer = require('mailer')
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
@@ -6,7 +7,6 @@ import EmailResetPassword from '/imports/components/emails/EmailResetPassword'
 import React from "react"
 import { renderToString } from "react-dom/server"
 import { ServerStyleSheet } from "styled-components"
-import { Random } from 'meteor/random'
 import { Accounts } from 'meteor/accounts-base'
 import { Projects } from '/imports/api/projects/projects'
 import { Alternatives } from '/imports/api/alternatives/alternatives'
@@ -16,16 +16,20 @@ import { AlternativeLikes } from '/imports/api/alternative_likes/alternative_lik
 
 Meteor.methods({
   'user.signup'({ email, password, username }) {
-    // Accounts.createUser({
-    //   username: username,
-    //   email: email,
-    //   password: password,
-    //   profile: {
-    //     avatar_url: '/images/avatar-logo.png',
-    //     display_fill_message: true,
-    //     public_profile: true
-    //   }
-    // })
+    const user_id = Accounts.createUser({
+      username: username,
+      email: email,
+      password: password,
+      profile: {
+        avatar_url: '/images/avatar-logo.png',
+        display_fill_message: true,
+        public_profile: true
+      }
+    })
+    const token = Random.id()
+    console.log('Token validation generation', token)
+    Meteor.users.update({_id: user_id}, {$set: {validation_token: token}})
+    Meteor.call('mailing_service.validation_email', user_id)
   },
   'user.init_creation'({ email, password, username }) {
     const users = Meteor.users.find().fetch()
