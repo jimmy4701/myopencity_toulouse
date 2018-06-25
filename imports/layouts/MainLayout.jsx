@@ -58,15 +58,8 @@ export class MainLayout extends TrackerReact(Component) {
     }
   }
 
-  toggleSidebar(e) {
-    e.preventDefault()
+  toggleSideBar = () => {
     Session.set('open_sidebar', !Session.get('open_sidebar'))
-  }
-
-  go(route, e) {
-    e.preventDefault()
-    this.props.history.push(route)
-    Session.set('open_sidebar', false)
   }
 
   logout = () => {
@@ -80,6 +73,17 @@ export class MainLayout extends TrackerReact(Component) {
 
     if (!loading) {
       Session.set('global_configuration', global_configuration)
+      const {
+        navbar_consults, 
+        navbar_consults_term,
+        navbar_home_term,
+        navbar_participation,
+        navbar_participation_term,
+        navbar_projects,
+        navbar_projects_term,
+        navbar_territories,
+        navbar_territories_term
+      } = global_configuration
       this.check_initial_config()
       return (
         <div className="main-container">
@@ -98,33 +102,49 @@ export class MainLayout extends TrackerReact(Component) {
           </Helmet>
           <Sidebar.Pushable>
             <Sidebar as={Menu} animation='push' width='thin' visible={Session.get('open_sidebar')} className="main-sidebar" icon='labeled' vertical inverted>
-              <Menu.Item name='consultations' onClick={(e) => { this.go('/', e) }}>
-                Accueil
-              </Menu.Item>
-              <Menu.Item name='consultations' onClick={(e) => { this.go('/consults', e) }}>
-                Consultations
-              </Menu.Item>
-              <Menu.Item name='propositions' onClick={(e) => { this.go('/projects', e) }}>
-                Propositions
-              </Menu.Item>
+              <Link onClick={this.toggleSideBar} to="/">
+                <Menu.Item name='consultations'>
+                  {navbar_home_term}
+                </Menu.Item>
+              </Link>
+              {navbar_territories && 
+                <Link className="item" onClick={this.toggleSideBar} to="/territories">
+                  <div className="navbar-item">{navbar_territories_term}</div>
+                </Link>
+              }
+              {navbar_consults &&
+                <Link className="item" onClick={this.toggleSideBar} to="/consults">
+                  <div className="navbar-item">{navbar_consults_term}</div>
+                </Link>
+              }
+              {navbar_projects && 
+                <Link className="item" onClick={this.toggleSideBar} to="/projects">
+                  <div className="navbar-item">{navbar_projects_term}</div>
+                </Link>
+              }
+              {navbar_participation && 
+                <Link className="item" onClick={this.toggleSideBar} to="/participation">
+                  <div className="navbar-item">{navbar_participation_term}</div>
+                </Link>
+              }
               {Meteor.userId() ?
                 <span>
-                  {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) ?
-                    <Menu.Item floated="bottom" name='admin' onClick={(e) => { this.go('/admin/consults', e) }}>
-                      Admin
-                    </Menu.Item>
-                    : ''}
-                  <Menu.Item floated="bottom" name='profile' onClick={(e) => { this.go('/me/profile', e) }}>
-                    Profil
-                  </Menu.Item>
+                  {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
+                    <Link className="item" onClick={this.toggleSideBar} to="/admin/consults">
+                      <div className="navbar-item">Admin</div>
+                    </Link>
+                  }
+                  <Link className="item" onClick={this.toggleSideBar} to="/me/profile">
+                    <div className="navbar-item">Profil</div>
+                  </Link>
                   <Menu.Item floated="bottom" name='profile' onClick={this.logout}>
                     Déconnexion
                   </Menu.Item>
                 </span>
                 :
-                <Menu.Item name='sign_in' onClick={(e) => { this.go('/sign_in', e) }}>
-                  Connexion
-                </Menu.Item>
+                <Link className="item" onClick={this.toggleSideBar} to="/sign_in">
+                  <div className="navbar-item">Connexion</div>
+                </Link>
               }
             </Sidebar>
             <Sidebar.Pusher>
