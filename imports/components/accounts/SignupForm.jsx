@@ -65,27 +65,27 @@ export class SignupForm extends Component{
     }
   }
 
-  connect_facebook(e){
-    e.preventDefault()
-    Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
-      if(error){
-        console.log("Error during facebook login", error)
-      }else{
-        this.setState({step: "profile"})
-      }
-    })
-  }
+  // connect_facebook(e){
+  //   e.preventDefault()
+  //   Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
+  //     if(error){
+  //       console.log("Error during facebook login", error)
+  //     }else{
+  //       this.setState({step: "profile"})
+  //     }
+  //   })
+  // }
 
-  connect_google(e){
-    e.preventDefault()
-    Meteor.loginWithGoogle({}, (error) => {
-      if(error){
-        console.log("Error during google login", error)
-      }else{
-        this.setState({step: "profile"})
-      }
-    })
-  }
+  // connect_google(e){
+  //   e.preventDefault()
+  //   Meteor.loginWithGoogle({}, (error) => {
+  //     if(error){
+  //       console.log("Error during google login", error)
+  //     }else{
+  //       this.setState({step: "profile"})
+  //     }
+  //   })
+  // }
 
   editProfile = (e) => {
     e.preventDefault()
@@ -254,17 +254,17 @@ export class SignupForm extends Component{
                   />
                   </Form.Field>
                   <div className="submit-buttons">
-                    <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.create_account}>Suivant ></Button>
+                    <Button disabled className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.create_account}>Suivant ></Button>
                     {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
                     <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                     {facebook_connected || google_connected ?
                       <Divider horizontal>OU</Divider>
                     : ''}
                     {facebook_connected ?
-                      <Button color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
+                      <Button disabled color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
                     : ''}
                     {google_connected ?
-                      <Button color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
+                      <Button disabled color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
                     : ''}
                   </div>
               </div>
@@ -273,7 +273,7 @@ export class SignupForm extends Component{
                 <div>
                   <Header as="h1">Inscription <span style={{float: "right"}}>Étape 2/2</span></Header>
                   <Header as='h3'>Toulouse et Vous</Header>
-                  <Header as='h4'>Aidez nous à mieux vous connaître</Header>
+                  <Header as='h4'>Aidez-nous à mieux vous connaître</Header>
                   <Form.Select
                     required
                     label='Dans quel quartier habitez-vous ?'

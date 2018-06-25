@@ -61,7 +61,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                         return (
                                             <Grid.Column key={territory._id} className="center-align" width={4}>
                                                 <Card className="inline-block">
-                                                    <Image src={territory.image_url}/>
+                                                    <Image src={territory.image_url_mini ? territory.image_url_mini : territory.image_url}/>
                                                     <Card.Content>
                                                         <Card.Header>{territory.name}</Card.Header>
                                                         <Card.Meta>Maire de quartier : {territory.official_user_name}</Card.Meta>

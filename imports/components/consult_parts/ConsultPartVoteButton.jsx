@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Button, Modal} from 'semantic-ui-react'
+import {Button, Modal, Icon} from 'semantic-ui-react'
 import {withRouter} from 'react-router-dom'
 
 class ConsultPartVoteButton extends TrackerReact(Component){
@@ -77,6 +77,7 @@ class ConsultPartVoteButton extends TrackerReact(Component){
       <div>
         <Button onMouseOver={(e) => {this.on_mouse_over(e)}} onMouseOut={(e) => {this.on_mouse_out(e)}} size="huge" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={(e) => {this.toggleVoteModal(e)}}>{consult_part.vote_label}</Button>
           <Modal open={open_modal} onClose={(e) => {this.toggleState('open_modal', e)}}>
+            <Icon name="close" onClick={(e) => {this.toggleState('open_modal', e)}}/>
             <Modal.Header>{consult_part.question}</Modal.Header>
             <Modal.Content>
               <Modal.Description>

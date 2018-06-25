@@ -10,7 +10,8 @@ const ConfigurationSchema = new SimpleSchema({
   fill_profile_explain: {
     type: String,
     defaultValue: "<p>En remplissant votre profil, vous permettez à votre ville de prendre de meilleures décisions.</p>",
-    label: "Le texte d'explication pour remplir le profil"
+    label: "Le texte d'explication pour remplir le profil",
+    optional: true
   },
   seo_active: {
     type: Boolean,

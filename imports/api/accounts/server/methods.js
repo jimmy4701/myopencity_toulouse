@@ -16,16 +16,16 @@ import { AlternativeLikes } from '/imports/api/alternative_likes/alternative_lik
 
 Meteor.methods({
   'user.signup'({ email, password, username }) {
-    Accounts.createUser({
-      username: username,
-      email: email,
-      password: password,
-      profile: {
-        avatar_url: '/images/avatar-logo.png',
-        display_fill_message: true,
-        public_profile: true
-      }
-    })
+    // Accounts.createUser({
+    //   username: username,
+    //   email: email,
+    //   password: password,
+    //   profile: {
+    //     avatar_url: '/images/avatar-logo.png',
+    //     display_fill_message: true,
+    //     public_profile: true
+    //   }
+    // })
   },
   'user.init_creation'({ email, password, username }) {
     const users = Meteor.users.find().fetch()

@@ -184,7 +184,7 @@ export class ConsultPartial extends Component {
         </Card>
       )
     } else {
-      return <div>ezfezf</div>
+      return <div></div>
     }
   }
 }

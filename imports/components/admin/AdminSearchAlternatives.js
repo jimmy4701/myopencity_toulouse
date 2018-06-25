@@ -17,7 +17,7 @@ export class AdminSearchAlternatives extends Component {
             return(
                 <Grid stackable>
                     <Grid.Column width={16}>
-                        <Header as='h3'>Recherche d'alternatives</Header>
+                        <Header as='h3'>Recherche d'avis</Header>
                     </Grid.Column>
                     <Grid.Column width={16}>
                         {alternatives.map(alternative => {
