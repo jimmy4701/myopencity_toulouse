@@ -4,6 +4,7 @@ import {Grid, Header, Button, Loader, Container} from 'semantic-ui-react'
 import {Projects} from '/imports/api/projects/projects'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
 import {withRouter} from 'react-router-dom'
+import AccountValidationModal from '/imports/components/accounts/AccountValidationModal'
 
 export class ProjectsPage extends Component{
 
@@ -12,11 +13,8 @@ export class ProjectsPage extends Component{
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
 
-    }
   }
 
   new_project = () => {
@@ -24,12 +22,17 @@ export class ProjectsPage extends Component{
       Session.set('return_route', "/projects/new")
       this.props.history.push('/sign_in')
     }else{
-      this.props.history.push('/projects/new')
+      if(!Roles.userIsInRole(Meteor.userId(), 'verified')){
+        this.setState({open_validation_modal: true})
+      }else{
+        this.props.history.push('/projects/new')
+      }
     }
   }
 
   render(){
     const {loading, projects} = this.props
+    const {open_validation_modal} = this.state
     const {projects_page_header_title,
       navbar_color, 
       project_create_button_color,
@@ -55,6 +58,7 @@ export class ProjectsPage extends Component{
               )
             })}
           </Grid>
+          <AccountValidationModal open={open_validation_modal} onClose={() => this.setState({open_validation_modal: false})} />
         </Container>
       )
     }else{
