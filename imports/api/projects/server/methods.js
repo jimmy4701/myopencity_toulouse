@@ -12,6 +12,8 @@ Meteor.methods({
   'projects.insert'(project){
     if(!this.userId){
       throw new Meteor.Error('403', "Vous devez vous connecter")
+    }else if(!Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error('403', "Vous devez d'abord valider votre adresse email")
     }else{
       const configuration = Configuration.findOne({})
       // if(!configuration.projects_anonymous_choice){
