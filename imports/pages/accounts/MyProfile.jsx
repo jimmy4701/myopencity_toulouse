@@ -74,6 +74,27 @@ export class MyProfile extends Component {
     });
   }
 
+  send_validation_email = () => {
+    Meteor.call('accounts.send_validation_email',(error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+        Bert.alert({
+          title: "L'email n'a pas été envoyé",
+          message: error.message,
+          style: 'growl-bottom-left',
+          type: 'danger'
+        })
+      }else{
+        Bert.alert({
+          title: "Un email de validation vous a été renvoyé",
+          message: "Merci de cliquer sur le lien qu'il contient pour valider votre compte",
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+      }
+    })
+  }
+
   render() {
     const { user, loading, className } = this.props
     const { removing } = this.state
@@ -83,6 +104,15 @@ export class MyProfile extends Component {
           <Grid.Column width={16} className="wow fadeIn profile-form-container mobile-padding">
             <Container>
               <EditProfileForm />
+              {Meteor.isClient && !Roles.userIsInRole(Meteor.userId(), 'verified') && [
+                <Divider />,
+                <Header as='h3'>Vérification de votre compte</Header>,
+                <p>Votre adresse email n'a pas encore été vérifiée. Vous devez cliquer sur le lien dans l'email qui vous a été envoyé à votre inscription.<br/>
+                Vous n'avez pas reçu cet email ? Nous pouvons vous le renvoyer.
+                </p>,
+                <Button onClick={this.send_validation_email}>Renvoyer l'email de validation</Button>
+              ]
+              }
               <Divider />
               <Header as='h3'>Suppression de compte</Header>
               <p>Vous pouvez supprimer votre compte à tout moment. La suppression de votre compte entraine la suppression intégrale

@@ -27,8 +27,7 @@ Meteor.methods({
       }
     })
     const token = Random.id()
-    console.log('Token validation generation', token)
-    Meteor.users.update({_id: user_id}, {$set: {validation_token: token}})
+    Meteor.users.update({_id: user_id}, {$set: {validation_token: token, token_generated_at: new Date()}})
     Meteor.call('mailing_service.validation_email', user_id)
   },
   'user.init_creation'({ email, password, username }) {
@@ -237,5 +236,20 @@ Meteor.methods({
     }
     Roles.addUsersToRoles(user._id, 'verified')
     Meteor.users.update({_id: user._id}, {$set: {validation_token: null, 'emails.0.verified': true }})
+  },
+  'accounts.send_validation_email'(){
+    if(!this.userId){
+      throw new Meteor.Error("Vous devez vous connecter")
+    }
+    if(Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error("Votre compte a déjà été vérifié")
+    }
+    const user = Meteor.users.findOne({_id: this.userId})
+    const validation_token = Random.id()
+    let roles = user.roles
+    const verified_index = roles.indexOf('verified')
+    roles.splice(verified_index, 1)
+    Meteor.users.update({_id: this.userId}, {$set: {roles, validation_token, token_generated_at: new Date()}})
+    Meteor.call('mailing_service.validation_email', this.userId)
   }
 })
