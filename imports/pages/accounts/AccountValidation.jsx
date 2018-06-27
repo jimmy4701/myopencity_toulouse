@@ -53,6 +53,7 @@ class AccountValidation extends Component {
     render(){
         const {account_validated, error, email_sent} = this.state
         const {className} = this.props
+        const {buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
 
         return(
             <Grid className={className} stackable verticalAlign="middle">
@@ -64,14 +65,14 @@ class AccountValidation extends Component {
                         :
                             <div style={{textAlign: "center"}}>
                                 <Header as='h3' className="animated fadeInUp">Nous n'avons pas pu vérifier votre compte</Header>
-                                <Button onClick={this.send_validation_email} icon="envelope" content="Renvoyer l'email de validation"/>
+                                <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onClick={this.send_validation_email} icon="envelope" content="Renvoyer l'email de validation"/>
                             </div>
                     :
                         <div style={{textAlign: "center"}}>
                             <Icon name="check" color="green" size="huge" className="animated fadeInUp"/>
                             <Header as='h2'>Votre compte a bien été validé</Header>
                             <Link className="animated fadeInDown" to="/consults">
-                                <Button >Revenir aux consultations</Button>
+                                <Button style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} >Revenir aux consultations</Button>
                             </Link>
                         </div>
                 :

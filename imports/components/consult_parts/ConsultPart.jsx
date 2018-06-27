@@ -9,6 +9,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import AlternativeForm from '/imports/components/alternatives/AlternativeForm'
 import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
 import AlternativesList from '/imports/components/alternatives/AlternativesList'
+import AccountValidationModal from '/imports/components/accounts/AccountValidationModal'
 import ReactPaginate from 'react-paginate'
 import {withRouter} from 'react-router-dom'
 import _ from 'lodash'
@@ -99,7 +100,11 @@ export class ConsultPart extends Component{
       Session.set('return_route', this.props.history.location.pathname)
       this.props.history.push('/sign_in')
     }else{
-      this.setState({display_alternative_form: !this.state.display_alternative_form})
+      if(!Roles.userIsInRole(Meteor.userId(), 'verified')){
+        this.setState({open_validation_modal: true})
+      }else{
+        this.setState({display_alternative_form: !this.state.display_alternative_form})
+      }
     }
   }
 
@@ -110,7 +115,8 @@ export class ConsultPart extends Component{
       display_alternative_form,
       search_alternatives_terms,
       alternatives_page,
-      displaying_alternative
+      displaying_alternative,
+      open_validation_modal
     } = this.state
     const { 
       consult_alternative_button_term,
@@ -205,6 +211,7 @@ export class ConsultPart extends Component{
               <Button onClick={this.toggleAlternativeForm}>Annuler</Button>
             </Modal.Actions>
           </Modal>
+          <AccountValidationModal open={open_validation_modal} onClose={() => this.setState({open_validation_modal: false})} />
         </Grid>
       )
     }else{
