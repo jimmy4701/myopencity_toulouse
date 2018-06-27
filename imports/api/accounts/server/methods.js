@@ -229,5 +229,13 @@ Meteor.methods({
     ProjectLikes.remove({user: user_id})
     ConsultPartVotes.remove({user: user_id})
     Meteor.users.remove({_id: user_id})
+  },
+  'accounts.validate_token'(validation_token){
+    const user = Meteor.users.findOne({validation_token})
+    if(!user){
+      throw new Meteor.Error("Le token de validation n'est pas valide. Aucun utilisateur correspondant")
+    }
+    Roles.addUsersToRoles(user._id, 'verified')
+    Meteor.users.update({_id: user._id}, {$set: {validation_token: null, 'emails.0.verified': true }})
   }
 })

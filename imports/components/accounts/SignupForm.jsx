@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Input, Button, Divider, Checkbox, Header, Image} from 'semantic-ui-react'
+import {Form, Input, Button, Divider, Checkbox, Header, Image, Icon} from 'semantic-ui-react'
 import {Meteor} from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import {Configuration} from '/imports/api/configuration/configuration'
@@ -65,27 +65,27 @@ export class SignupForm extends Component{
     }
   }
 
-  // connect_facebook(e){
-  //   e.preventDefault()
-  //   Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
-  //     if(error){
-  //       console.log("Error during facebook login", error)
-  //     }else{
-  //       this.setState({step: "profile"})
-  //     }
-  //   })
-  // }
+  connect_facebook(e){
+    e.preventDefault()
+    Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
+      if(error){
+        console.log("Error during facebook login", error)
+      }else{
+        this.setState({step: "profile"})
+      }
+    })
+  }
 
-  // connect_google(e){
-  //   e.preventDefault()
-  //   Meteor.loginWithGoogle({}, (error) => {
-  //     if(error){
-  //       console.log("Error during google login", error)
-  //     }else{
-  //       this.setState({step: "profile"})
-  //     }
-  //   })
-  // }
+  connect_google(e){
+    e.preventDefault()
+    Meteor.loginWithGoogle({}, (error) => {
+      if(error){
+        console.log("Error during google login", error)
+      }else{
+        this.setState({step: "profile"})
+      }
+    })
+  }
 
   editProfile = (e) => {
     e.preventDefault()
@@ -102,16 +102,17 @@ export class SignupForm extends Component{
           console.log('Erreur', error.message)
         }else{
           const return_route = Session.get('return_route')
-          if(return_route){
-            this.props.history.push(return_route)
-          }else{
-            this.props.history.push('/consults')
-          }
-          Bert.alert({
-            title: 'Vous êtes maintenant inscrit',
-            style: 'growl-bottom-left',
-            type: 'success'
-          })
+          // if(return_route){
+          //   this.props.history.push(return_route)
+          // }else{
+          //   this.props.history.push('/consults')
+          // }
+          // Bert.alert({
+          //   title: 'Vous êtes maintenant inscrit',
+          //   style: 'growl-bottom-left',
+          //   type: 'success'
+          // })
+          this.setState({step: "validation"})
         }
       })
     }
@@ -331,12 +332,19 @@ export class SignupForm extends Component{
                   </div>
                 </div>
             }
-              {cnil_signup_text &&
-                <div>
-                  <Divider />
-                  <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
-                </div>
-              }
+            {cnil_signup_text && step != "validation" &&
+              <div>
+                <Divider />
+                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+              </div>
+            }
+            {step == "validation" &&
+              <div width={16} className="validation-container" >
+                <Icon name="email" size="big" />
+                <Header as='h2'>Votre compte a bien été validé</Header>
+              </div>
+            }
+
             
           </Form>
         )
@@ -370,5 +378,12 @@ export default SignupFormContainer = withTracker(() => {
   > div .submit-button {
     padding: 1em 4em;
     color: white;
+  }
+  > .validation-container{
+    height: 80vh;
+    display: flex !important;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
   }
 `))
