@@ -340,8 +340,9 @@ export class SignupForm extends Component{
             }
             {step == "validation" &&
               <div width={16} className="validation-container" >
-                <Icon name="email" size="big" />
-                <Header as='h2'>Votre compte a bien été validé</Header>
+                <Icon name="envelope" className="animated fadeInUp" size="huge" />
+                <Header className="animated fadeInDown" as='h2'>Un email de validation vous a été envoyé</Header>
+                <Header className="animated fadeInDown" as='h3'>Cliquez sur le lien qu'il contient afin de pouvoir participer sur la plateforme</Header>
               </div>
             }
 
@@ -380,10 +381,6 @@ export default SignupFormContainer = withTracker(() => {
     color: white;
   }
   > .validation-container{
-    height: 80vh;
-    display: flex !important;
-    align-items: center;
-    justify-items: center;
     text-align: center;
   }
 `))
