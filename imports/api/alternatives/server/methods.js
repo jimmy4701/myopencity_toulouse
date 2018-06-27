@@ -10,6 +10,8 @@ Meteor.methods({
   'alternatives.insert'({alternative, consult_part_id}){
     if(!this.userId){
       throw new Meteor.Error('403', "Vous devez vous connecter")
+    }else if(!Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error('403', "Vous devez d'abord valider votre adresse email")
     }else{
       const consult_part = ConsultParts.findOne({_id: consult_part_id})
       const consult = Consults.findOne({_id: consult_part.consult})
@@ -58,6 +60,8 @@ Meteor.methods({
   'alternatives.toggle_like'(alternative_id){
     if(!this.userId){
       throw new Meteor.Error('403', "Vous devez vous connecter pour soutenir une alternative")
+    }else if(!Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error('403', "Vous devez d'abord valider votre adresse email")
     }else{
       const alternative = Alternatives.findOne({_id: alternative_id})
       const alternative_like = AlternativeLikes.findOne({user: this.userId, alternative: alternative_id})

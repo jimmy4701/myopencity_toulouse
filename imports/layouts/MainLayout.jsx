@@ -40,7 +40,8 @@ import LegalNotice from '/imports/pages/general/LegalNotice'
 import About from '/imports/pages/general/About'
 import Participation from '/imports/pages/general/Participation'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import CookieConsent from "react-cookie-consent";
+import CookieConsent from "react-cookie-consent"
+import AccountValidation from '/imports/pages/accounts/AccountValidation'
 
 export class MainLayout extends TrackerReact(Component) {
   
@@ -69,7 +70,6 @@ export class MainLayout extends TrackerReact(Component) {
 
   render() {
     const { global_configuration, loading } = this.props
-
 
     if (!loading) {
       Session.set('global_configuration', global_configuration)
@@ -178,6 +178,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={LegalNotice} exact path="/mentions_legales" { ...this.props } />
                       <Public component={About} exact path="/a_propos" { ...this.props } />
                       <Public component={Participation} exact path="/participation" { ...this.props } />
+                      <Public component={AccountValidation} exact path="/account_validation/:token" { ...this.props } />
                       <Public component={NotFound} path="*"  { ...this.props } />
                     </Switch>
                   </main>

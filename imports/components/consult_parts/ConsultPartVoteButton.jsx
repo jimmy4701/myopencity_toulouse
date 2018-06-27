@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Button, Modal, Icon} from 'semantic-ui-react'
 import {withRouter} from 'react-router-dom'
+import AccountValidationModal from '/imports/components/accounts/AccountValidationModal'
 
 class ConsultPartVoteButton extends TrackerReact(Component){
 
@@ -11,11 +12,9 @@ class ConsultPartVoteButton extends TrackerReact(Component){
       - onNonConnected: Function (called if no user)
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      open_modal: false
-    }
+  state = {
+    open_modal: false,
+    open_validation_modal: false
   }
 
   toggleState(attr, e){
@@ -51,7 +50,7 @@ class ConsultPartVoteButton extends TrackerReact(Component){
       Session.set('return_route', this.props.history.location.pathname)
       this.props.history.push('/sign_in')
     }else{
-      this.toggleState('open_modal', e)
+      this.toggleState(Roles.userIsInRole(Meteor.userId(), 'verified') ? 'open_modal' : 'open_validation_modal', e)
     }
   }
 
@@ -70,7 +69,7 @@ class ConsultPartVoteButton extends TrackerReact(Component){
   }
 
   render(){
-    const {open_modal} = this.state
+    const {open_modal, open_validation_modal} = this.state
     const {consult_part} = this.props
     const {buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
     return(
@@ -91,6 +90,7 @@ class ConsultPartVoteButton extends TrackerReact(Component){
               </Modal.Description>
             </Modal.Content>
           </Modal>
+          <AccountValidationModal open={open_validation_modal} onClose={() => this.setState({open_validation_modal: false})} />
       </div>
     )
   }

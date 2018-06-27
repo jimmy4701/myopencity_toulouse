@@ -35,6 +35,7 @@ import LegalNotice from '/imports/pages/general/LegalNotice'
 import About from '/imports/pages/general/About'
 import Participation from '/imports/pages/general/Participation'
 import NotFound from '/imports/pages/general/NotFound'
+import AccountValidation from '/imports/pages/accounts/AccountValidation'
 
 export class MainLayoutServer extends Component {
   constructor(props) {
@@ -97,6 +98,7 @@ export class MainLayoutServer extends Component {
             <Public component={Participation} exact path="/participation" { ...this.props } />
             <Public component={About} exact path="/a_propos" { ...this.props } />
             <Public component={LegalNotice} exact path="/mentions_legales" { ...this.props } />
+            <Public component={AccountValidation} exact path="/account_validation/:token" { ...this.props } />
             <Public component={NotFound} path="*"  { ...this.props } />
           </Switch>
         </main>

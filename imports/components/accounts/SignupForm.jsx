@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Input, Button, Divider, Checkbox, Header, Image} from 'semantic-ui-react'
+import {Form, Input, Button, Divider, Checkbox, Header, Image, Icon} from 'semantic-ui-react'
 import {Meteor} from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import {Configuration} from '/imports/api/configuration/configuration'
@@ -65,27 +65,27 @@ export class SignupForm extends Component{
     }
   }
 
-  // connect_facebook(e){
-  //   e.preventDefault()
-  //   Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
-  //     if(error){
-  //       console.log("Error during facebook login", error)
-  //     }else{
-  //       this.setState({step: "profile"})
-  //     }
-  //   })
-  // }
+  connect_facebook(e){
+    e.preventDefault()
+    Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
+      if(error){
+        console.log("Error during facebook login", error)
+      }else{
+        this.setState({step: "profile"})
+      }
+    })
+  }
 
-  // connect_google(e){
-  //   e.preventDefault()
-  //   Meteor.loginWithGoogle({}, (error) => {
-  //     if(error){
-  //       console.log("Error during google login", error)
-  //     }else{
-  //       this.setState({step: "profile"})
-  //     }
-  //   })
-  // }
+  connect_google(e){
+    e.preventDefault()
+    Meteor.loginWithGoogle({}, (error) => {
+      if(error){
+        console.log("Error during google login", error)
+      }else{
+        this.setState({step: "profile"})
+      }
+    })
+  }
 
   editProfile = (e) => {
     e.preventDefault()
@@ -102,16 +102,17 @@ export class SignupForm extends Component{
           console.log('Erreur', error.message)
         }else{
           const return_route = Session.get('return_route')
-          if(return_route){
-            this.props.history.push(return_route)
-          }else{
-            this.props.history.push('/consults')
-          }
-          Bert.alert({
-            title: 'Vous êtes maintenant inscrit',
-            style: 'growl-bottom-left',
-            type: 'success'
-          })
+          // if(return_route){
+          //   this.props.history.push(return_route)
+          // }else{
+          //   this.props.history.push('/consults')
+          // }
+          // Bert.alert({
+          //   title: 'Vous êtes maintenant inscrit',
+          //   style: 'growl-bottom-left',
+          //   type: 'success'
+          // })
+          this.setState({step: "validation"})
         }
       })
     }
@@ -254,7 +255,7 @@ export class SignupForm extends Component{
                   />
                   </Form.Field>
                   <div className="submit-buttons">
-                    <Button disabled className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.create_account}>Suivant ></Button>
+                    <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.create_account}>Suivant ></Button>
                     {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
                     <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                     {facebook_connected || google_connected ?
@@ -331,12 +332,20 @@ export class SignupForm extends Component{
                   </div>
                 </div>
             }
-              {cnil_signup_text &&
-                <div>
-                  <Divider />
-                  <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
-                </div>
-              }
+            {cnil_signup_text && step != "validation" &&
+              <div>
+                <Divider />
+                <div className="cnil-signup-text" dangerouslySetInnerHTML={{__html: cnil_signup_text }} />
+              </div>
+            }
+            {step == "validation" &&
+              <div width={16} className="validation-container" >
+                <Icon name="envelope" className="animated fadeInUp" size="huge" />
+                <Header className="animated fadeInDown" as='h2'>Un email de validation vous a été envoyé</Header>
+                <Header className="animated fadeInDown" as='h3'>Cliquez sur le lien qu'il contient afin de pouvoir participer sur la plateforme</Header>
+              </div>
+            }
+
             
           </Form>
         )
@@ -370,5 +379,8 @@ export default SignupFormContainer = withTracker(() => {
   > div .submit-button {
     padding: 1em 4em;
     color: white;
+  }
+  > .validation-container{
+    text-align: center;
   }
 `))

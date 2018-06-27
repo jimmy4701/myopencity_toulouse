@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
 import _ from 'lodash'
 const mailer = require('mailer')
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
@@ -6,7 +7,6 @@ import EmailResetPassword from '/imports/components/emails/EmailResetPassword'
 import React from "react"
 import { renderToString } from "react-dom/server"
 import { ServerStyleSheet } from "styled-components"
-import { Random } from 'meteor/random'
 import { Accounts } from 'meteor/accounts-base'
 import { Projects } from '/imports/api/projects/projects'
 import { Alternatives } from '/imports/api/alternatives/alternatives'
@@ -16,16 +16,19 @@ import { AlternativeLikes } from '/imports/api/alternative_likes/alternative_lik
 
 Meteor.methods({
   'user.signup'({ email, password, username }) {
-    // Accounts.createUser({
-    //   username: username,
-    //   email: email,
-    //   password: password,
-    //   profile: {
-    //     avatar_url: '/images/avatar-logo.png',
-    //     display_fill_message: true,
-    //     public_profile: true
-    //   }
-    // })
+    const user_id = Accounts.createUser({
+      username: username,
+      email: email,
+      password: password,
+      profile: {
+        avatar_url: '/images/avatar-logo.png',
+        display_fill_message: true,
+        public_profile: true
+      }
+    })
+    const token = Random.id()
+    Meteor.users.update({_id: user_id}, {$set: {validation_token: token, token_generated_at: new Date()}})
+    Meteor.call('mailing_service.validation_email', user_id)
   },
   'user.init_creation'({ email, password, username }) {
     const users = Meteor.users.find().fetch()
@@ -225,5 +228,28 @@ Meteor.methods({
     ProjectLikes.remove({user: user_id})
     ConsultPartVotes.remove({user: user_id})
     Meteor.users.remove({_id: user_id})
+  },
+  'accounts.validate_token'(validation_token){
+    const user = Meteor.users.findOne({validation_token})
+    if(!user){
+      throw new Meteor.Error("Le token de validation n'est pas valide. Aucun utilisateur correspondant")
+    }
+    Roles.addUsersToRoles(user._id, 'verified')
+    Meteor.users.update({_id: user._id}, {$set: {validation_token: null, 'emails.0.verified': true }})
+  },
+  'accounts.send_validation_email'(){
+    if(!this.userId){
+      throw new Meteor.Error("Vous devez vous connecter")
+    }
+    if(Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error("Votre compte a déjà été vérifié")
+    }
+    const user = Meteor.users.findOne({_id: this.userId})
+    const validation_token = Random.id()
+    let roles = user.roles
+    const verified_index = roles.indexOf('verified')
+    roles.splice(verified_index, 1)
+    Meteor.users.update({_id: this.userId}, {$set: {roles, validation_token, token_generated_at: new Date()}})
+    Meteor.call('mailing_service.validation_email', this.userId)
   }
 })
