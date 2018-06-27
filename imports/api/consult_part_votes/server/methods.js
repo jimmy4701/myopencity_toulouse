@@ -5,6 +5,8 @@ Meteor.methods({
   'consult_part_votes.insert'({consult_part_id, consult_id}){
     if(!this.userId){
       throw new Meteor.Error('403', "Vous devez vous connecter")
+    }else if(!Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error('403', "Vous devez d'abord valider votre adresse email")
     }else{
       const vote = ConsultPartVotes.findOne({user: this.userId, consult_part: consult_part_id, consult: consult_id})
       if(vote){
@@ -13,20 +15,6 @@ Meteor.methods({
         const new_vote = {user: this.userId, consult_part: consult_part_id, consult: consult_id}
         ConsultPartVotes.insert(new_vote)
       }
-    }
-  },
-  'consult_part_votes.update'(consult_part_vote){
-    if(!this.userId){
-      throw new Meteor.Error('403', "Vous devez vous connecter")
-    }else{
-      ConsultPartVotes.update({_id: consult_part_vote._id}, {$set: consult_part_vote})
-    }
-  },
-  'consult_part_votes.remove'(consult_part_vote_id){
-    if(!this.userId){
-      throw new Meteor.Error('403', "Vous devez vous connecter")
-    }else{
-      ConsultPartVotes.remove({_id: consult_part_vote_id})
     }
   }
 })
