@@ -62,6 +62,8 @@ Meteor.methods({
   'project.toggle_like'(project_id){
     if(!this.userId){
       throw new Meteor.Error('403', "Vous devez vous connecter")
+    }else if(!Roles.userIsInRole(this.userId, 'verified')){
+      throw new Meteor.Error('403', "Vous devez d'abord valider votre adresse email")
     }else{
       let project = Projects.findOne({_id: project_id})
       const project_like = ProjectLikes.findOne({project: project_id, user: this.userId})
