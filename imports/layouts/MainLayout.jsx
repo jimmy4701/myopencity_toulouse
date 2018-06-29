@@ -135,7 +135,7 @@ export class MainLayout extends TrackerReact(Component) {
                     </Link>
                   }
                   <Link className="item" onClick={this.toggleSideBar} to="/me/profile">
-                    <div className="navbar-item">Profil</div>
+                    <div className="navbar-item">Mon profil</div>
                   </Link>
                   <Menu.Item floated="bottom" name='profile' onClick={this.logout}>
                     Déconnexion
