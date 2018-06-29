@@ -66,7 +66,7 @@ class NavbarAccountItem extends TrackerReact(Component){
         <Dropdown trigger={trigger} icon={null}>
           <Dropdown.Menu>
             <Link to="/me/profile">
-              <Dropdown.Item>Profil</Dropdown.Item>
+              <Dropdown.Item>Mon profil</Dropdown.Item>
             </Link>
             {navbar_projects &&
               <Link to="/me/projects">

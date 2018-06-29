@@ -39,7 +39,7 @@ export default AdminSearchAlternativesContainer = withTracker((props) => {
     const {search_text} = props
     const alternativesPublication = Meteor.isClient && Meteor.subscribe('alternatives.search', search_text)
     const loading = Meteor.isClient && !alternativesPublication.ready()
-    const alternatives = Alternatives.find({$or: [{content: {$regex: search_text, $options: 'i'}}, {title: {$regex: search_text, $options: 'i'}}]}).fetch()
+    const alternatives = Alternatives.find({}).fetch()
     return {
         loading,
         alternatives

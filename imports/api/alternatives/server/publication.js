@@ -76,6 +76,8 @@ Meteor.publish('alternatives.search', function(search_text){
   if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
     throw new Meteor.Error('403', "Vous devez être administrateur")
   }else{
-    return Alternatives.find({$or: [{content: {$regex: search_text, $options: 'i'}}, {title: {$regex: search_text, $options: 'i'}}]}, {sort: {}, limit: 10000})
+    const users = Meteor.users.find({$or: [{'emails.address': {$regex: search_text, $options: 'i'}}, {username: {$regex: search_text, $options: 'i'}}]})
+    const users_ids = users.map(user => user._id)
+    return Alternatives.find({$or: [{content: {$regex: search_text, $options: 'i'}}, {title: {$regex: search_text, $options: 'i'}}, {user: {$in: users_ids}}]}, {sort: {}, limit: 10000})
   }
 })

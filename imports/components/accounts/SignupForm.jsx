@@ -41,9 +41,12 @@ export class SignupForm extends Component{
         Meteor.call('user.signup', user, (error, result) => {
           if(error){
             console.log("signup error", error)
+            const error_message = error.reason == "Username already exists." ? 
+              "Le pseudonyme est déjà utilisé" 
+              : error.reason == "Email already exists." ? "L'email est déjà utilisé" : ""
             Bert.alert({
               title: "Erreur lors de l'inscription",
-              message: error.reason,
+              message: error_message,
               type: 'danger',
               style: 'growl-bottom-left',
             })
@@ -72,6 +75,18 @@ export class SignupForm extends Component{
         console.log("Error during facebook login", error)
       }else{
         this.setState({step: "profile"})
+        Meteor.call('accounts.send_validation_email', (error, result) => {
+          if(error){
+            console.log('Erreur', error.message)
+          }else{
+            Bert.alert({
+              title: "Un email de vérification a été envoyé à votre adresse email",
+              message: "Merci de cliquer sur le lien qu'il contient pour activer votre compte",
+              style: 'growl-bottom-left',
+              type: 'success'
+            })
+          }
+        })
       }
     })
   }
@@ -83,6 +98,18 @@ export class SignupForm extends Component{
         console.log("Error during google login", error)
       }else{
         this.setState({step: "profile"})
+        Meteor.call('accounts.send_validation_email', (error, result) => {
+          if(error){
+            console.log('Erreur', error.message)
+          }else{
+            Bert.alert({
+              title: "Un email de vérification a été envoyé à votre adresse email",
+              message: "Merci de cliquer sur le lien qu'il contient pour activer votre compte",
+              style: 'growl-bottom-left',
+              type: 'success'
+            })
+          }
+        })
       }
     })
   }
@@ -257,7 +284,7 @@ export class SignupForm extends Component{
                   <div className="submit-buttons">
                     <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.create_account}>Suivant ></Button>
                     {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
-                    <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
+                    <p style={{textAlign: "left"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                     {facebook_connected || google_connected ?
                       <Divider horizontal>OU</Divider>
                     : ''}
@@ -328,7 +355,7 @@ export class SignupForm extends Component{
                   </Form.Group>
                   <div style={{textAlign: "center"}}>
                     <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.editProfile}>Finaliser mon inscription</Button>
-                    <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
+                    <p style={{textAlign: "left"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                   </div>
                 </div>
             }
