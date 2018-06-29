@@ -41,9 +41,12 @@ export class SignupForm extends Component{
         Meteor.call('user.signup', user, (error, result) => {
           if(error){
             console.log("signup error", error)
+            const error_message = error.reason == "Username already exists." ? 
+              "Le pseudonyme est déjà utilisé" 
+              : error.reason == "Email already exists." ? "L'email est déjà utilisé" : ""
             Bert.alert({
               title: "Erreur lors de l'inscription",
-              message: error.reason,
+              message: error_message,
               type: 'danger',
               style: 'growl-bottom-left',
             })
