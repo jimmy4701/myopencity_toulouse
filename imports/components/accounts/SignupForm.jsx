@@ -72,6 +72,18 @@ export class SignupForm extends Component{
         console.log("Error during facebook login", error)
       }else{
         this.setState({step: "profile"})
+        Meteor.call('accounts.send_validation_email', (error, result) => {
+          if(error){
+            console.log('Erreur', error.message)
+          }else{
+            Bert.alert({
+              title: "Un email de vérification a été envoyé à votre adresse email",
+              message: "Merci de cliquer sur le lien qu'il contient pour activer votre compte",
+              style: 'growl-bottom-left',
+              type: 'success'
+            })
+          }
+        })
       }
     })
   }
@@ -83,6 +95,18 @@ export class SignupForm extends Component{
         console.log("Error during google login", error)
       }else{
         this.setState({step: "profile"})
+        Meteor.call('accounts.send_validation_email', (error, result) => {
+          if(error){
+            console.log('Erreur', error.message)
+          }else{
+            Bert.alert({
+              title: "Un email de vérification a été envoyé à votre adresse email",
+              message: "Merci de cliquer sur le lien qu'il contient pour activer votre compte",
+              style: 'growl-bottom-left',
+              type: 'success'
+            })
+          }
+        })
       }
     })
   }
