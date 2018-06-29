@@ -281,7 +281,7 @@ export class SignupForm extends Component{
                   <div className="submit-buttons">
                     <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.create_account}>Suivant ></Button>
                     {(error_message && !isValid) && <div><label>Les données du formulaire ne sont pas valides</label></div> }
-                    <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
+                    <p style={{textAlign: "left"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                     {facebook_connected || google_connected ?
                       <Divider horizontal>OU</Divider>
                     : ''}
@@ -352,7 +352,7 @@ export class SignupForm extends Component{
                   </Form.Group>
                   <div style={{textAlign: "center"}}>
                     <Button className="submit-button" style={{backgroundColor: navbar_color}} onClick={this.editProfile}>Finaliser mon inscription</Button>
-                    <p style={{fontSize: "0.7em"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
+                    <p style={{textAlign: "left"}}><span style={{color: "red"}}>*</span>Champs obligatoires</p>
                   </div>
                 </div>
             }
