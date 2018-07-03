@@ -177,6 +177,15 @@ export class SignupForm extends Component{
     this.setState({profile})
   }
 
+  validate = () => {
+    const return_route = Session.get('return_route')
+    if(return_route){
+      this.props.history.push(return_route)
+    }else{
+      this.props.history.push('/consults')
+    }
+  }
+
 
   render(){
     const {user, accept_conditions, accept_legal_notice, error_message, step, profile} = this.state
@@ -289,10 +298,10 @@ export class SignupForm extends Component{
                       <Divider horizontal>OU</Divider>
                     : ''}
                     {facebook_connected ?
-                      <Button disabled color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
+                      <Button color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
                     : ''}
                     {google_connected ?
-                      <Button disabled color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
+                      <Button color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
                     : ''}
                   </div>
               </div>
@@ -370,6 +379,7 @@ export class SignupForm extends Component{
                 <Icon name="envelope" className="animated fadeInUp" size="huge" />
                 <Header className="animated fadeInDown" as='h2'>Un email de validation vous a été envoyé</Header>
                 <Header className="animated fadeInDown" as='h3'>Cliquez sur le lien qu'il contient afin de pouvoir participer sur la plateforme</Header>
+                <Button onClick={this.validate}>Revenir au site</Button>
               </div>
             }
 

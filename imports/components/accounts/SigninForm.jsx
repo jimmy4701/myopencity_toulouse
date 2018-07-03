@@ -113,10 +113,10 @@ class SigninForm extends Component{
            <Divider horizontal>OU</Divider>
          : ''}
          {facebook_connected ?
-            <Button disabled fluid={fluidButtons} color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
+            <Button fluid={fluidButtons} color="blue" icon="facebook" content="Se connecter avec Facebook" onClick={(e) => {this.connect_facebook(e)}}/>
          : ''}
          {google_connected ?
-            <Button disabled fluid={fluidButtons} color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
+            <Button fluid={fluidButtons} color="red" icon="google" content="Se connecter avec Google" onClick={(e) => {this.connect_google(e)}}/>
          : ''}
          {email_smtp_connected &&
           [
