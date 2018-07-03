@@ -61,37 +61,37 @@ class SigninForm extends Component{
     })
   }
 
-  // connect_facebook(e){
-  //   e.preventDefault()
-  //   Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
-  //     if(error){
-  //       console.log("Error during facebook login", error)
-  //     }else{
-  //       const return_route = Session.get('return_route')
-  //       if(return_route){
-  //         this.props.history.push(return_route)
-  //       }else{
-  //         this.props.history.push('/consults')
-  //       }
-  //     }
-  //   })
-  // }
+  connect_facebook(e){
+    e.preventDefault()
+    Meteor.loginWithFacebook({requestPermissions: ['public_profile', 'email']}, (error) => {
+      if(error){
+        console.log("Error during facebook login", error)
+      }else{
+        const return_route = Session.get('return_route')
+        if(return_route){
+          this.props.history.push(return_route)
+        }else{
+          this.props.history.push('/consults')
+        }
+      }
+    })
+  }
 
-  // connect_google(e){
-  //   e.preventDefault()
-  //   Meteor.loginWithGoogle({}, (error) => {
-  //     if(error){
-  //       console.log("Error during google login", error)
-  //     }else{
-  //       const return_route = Session.get('return_route')
-  //       if(return_route){
-  //         this.props.history.push(return_route)
-  //       }else{
-  //         this.props.history.push('/consults')
-  //       }
-  //     }
-  //   })
-  // }
+  connect_google(e){
+    e.preventDefault()
+    Meteor.loginWithGoogle({}, (error) => {
+      if(error){
+        console.log("Error during google login", error)
+      }else{
+        const return_route = Session.get('return_route')
+        if(return_route){
+          this.props.history.push(return_route)
+        }else{
+          this.props.history.push('/consults')
+        }
+      }
+    })
+  }
 
   render(){
     const {facebook_connected, google_connected, email_smtp_connected, buttons_validation_background_color, buttons_validation_text_color} = Meteor.isClient && Session.get('global_configuration')
