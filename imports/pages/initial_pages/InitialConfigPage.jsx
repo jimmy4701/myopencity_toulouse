@@ -46,7 +46,6 @@ class InitialConfigPage extends TrackerReact(Component){
   toggleExternalService(service){
     let {external_services} = this.state
     const index = _.indexOf(external_services, service)
-    console.log("INDEX SERVICE", index);
 
     if(index == -1){
       external_services.push(service)
@@ -58,7 +57,6 @@ class InitialConfigPage extends TrackerReact(Component){
 
   create_user(e){
     e.preventDefault()
-    console.log("user creation");
     const that = this
 
     Meteor.call('user.init_creation', this.state.user, (error, result) => {

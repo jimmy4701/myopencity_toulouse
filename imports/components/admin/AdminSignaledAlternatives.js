@@ -16,7 +16,6 @@ export class AdminSignaledAlternatives extends Component {
             if(error){
                 console.log('Erreur', error.message)
             }else{
-                console.log('RESULT ALTERNATIVES', result)
                 this.setState({...result})
             }
         })
@@ -27,7 +26,6 @@ export class AdminSignaledAlternatives extends Component {
             if(error){
                 console.log('Erreur', error.message)
             }else{
-                console.log('RESULT ALTERNATIVES', result)
                 this.setState({...result})
             }
         })

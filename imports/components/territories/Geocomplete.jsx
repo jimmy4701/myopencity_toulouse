@@ -7,7 +7,6 @@ export default class Geocomplete extends Component {
     }
 
     handleAddressSelect = (address) => {
-        console.log('address', address)
         if(this.props.onSelect){
             this.props.onSelect({
                 address: address.description,

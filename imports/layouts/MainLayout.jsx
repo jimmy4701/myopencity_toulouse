@@ -53,7 +53,6 @@ export class MainLayout extends TrackerReact(Component) {
 
   check_initial_config = () => {
     const {global_configuration} = this.props
-    console.log('this.props', global_configuration)
     if (global_configuration.initial_configuration) {
       this.props.history.push('/initial/presentation')
     }
@@ -211,7 +210,6 @@ export default MainLayoutContainer = createContainer(() => {
   const globalConfigurationPublication = Meteor.subscribe('global_configuration')
   const loading = !globalConfigurationPublication.ready()
   const global_configuration = Configuration.findOne({})
-  console.log('global conf', global_configuration)
   return {
     loading,
     global_configuration

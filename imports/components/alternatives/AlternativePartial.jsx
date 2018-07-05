@@ -153,7 +153,6 @@ export class AlternativePartial extends Component{
     const {alternative_descriptive_term, alternatives_anonymous_profile_term} = Meteor.isClient && Session.get('global_configuration')
 
     if(!loading){
-      console.log("user", user);
       return(
         <Grid.Column width={actived_alternative ? 16 :8} className="wow fadeInUp">
           <Segment>
