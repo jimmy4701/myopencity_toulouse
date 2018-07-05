@@ -247,8 +247,10 @@ Meteor.methods({
     const user = Meteor.users.findOne({_id: this.userId})
     const validation_token = Random.id()
     let roles = user.roles
-    const verified_index = roles.indexOf('verified')
-    roles.splice(verified_index, 1)
+    if(roles){
+      const verified_index = roles.indexOf('verified')
+      roles.splice(verified_index, 1)
+    }
     Meteor.users.update({_id: this.userId}, {$set: {roles, validation_token, token_generated_at: new Date()}})
     Meteor.call('mailing_service.validation_email', this.userId)
   }

@@ -34,4 +34,9 @@ onPageLoad(sink => {
 
     sink.renderIntoElementById("root", htmlString)
     sink.appendToHead(sheet.getStyleTags());
+    const helmet = Helmet.renderStatic();
+    const title = helmet.title.toString()
+    const meta = helmet.meta.toString()
+    sink.appendToHead(title)
+    sink.appendToHead(meta)
 })
