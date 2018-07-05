@@ -24,12 +24,8 @@ export default class AlternativeLikeButton extends TrackerReact(Component){
   componentWillReceiveProps(new_props){
     const {likes_counter} = this.state
     if(new_props.likes > likes_counter){
-      console.log("UP");
-
       this.setState({animation_class: 'animated bounceInUp', likes_counter: new_props.likes})
     }else{
-      console.log("DOWN");
-
       this.setState({animation_class: 'animated bounceInDown', likes_counter: new_props.likes})
     }
   }

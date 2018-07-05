@@ -159,6 +159,10 @@ export default LandingContainer = withTracker(() => {
       height: 100%;
     }
 
+    @media screen and (max-width: 425px) {
+      padding-top: 4em !important;
+    }
+
     > div h1, div h2 {
 
       @media screen and (max-width: 768px) {

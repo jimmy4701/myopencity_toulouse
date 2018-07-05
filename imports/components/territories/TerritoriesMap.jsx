@@ -302,10 +302,8 @@ class TerritoriesMap extends Component {
             >
                 {this.props.isMarkerShown && <Marker position={{ lat: 43.6007584, lng: 1.4329006 }} />}
                 {territories && territories.map(territory => {
-                    console.log('territory', territory)
                     if(territory.coordinates){
                         const coordinates = JSON.parse(territory.coordinates).map((coord) => { return {lng: coord[0], lat: coord[1]}} )
-                        console.log('coordinates', territory.name, coordinates)
                         return (
                             <Polygon 
                                 className="wow fadeIn"

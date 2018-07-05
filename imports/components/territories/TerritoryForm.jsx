@@ -63,7 +63,6 @@ export default class TerritoryForm extends TrackerReact(Component) {
           };
 
         let minified_image = await readAndCompressImage(cropped_image, config);
-        console.log('resized', minified_image)
 
         await uploader_mini.send(minified_image, (error, downloadUrl) => {
             if (error) {

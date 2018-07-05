@@ -50,7 +50,6 @@ export default class AdminUsersPage extends TrackerReact(Component){
   render(){
     const {results_per_page, users_count, page, filter_text} = this.state
     const nb_pages = _.floor(users_count / results_per_page)
-    console.log("nb_pages", nb_pages);
 
     return(
       <Grid stackable>

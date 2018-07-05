@@ -29,7 +29,6 @@ export class MyProfile extends Component {
               type: 'error'
             })
       }else{
-        console.log('ACCOUNT REMOVED')
         Bert.alert({
           title: "Votre compte a bien été supprimé",
           style: 'growl-bottom-left',

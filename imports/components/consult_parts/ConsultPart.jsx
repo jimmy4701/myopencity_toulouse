@@ -128,8 +128,6 @@ export class ConsultPart extends Component{
     const consult_part_hover_class = this.state.hover_vote ? "hover" : ""
 
     if(!loading){
-      console.log("alternatives_count", alternatives_count);
-
       return(
         <Grid stackable className={"consult-part " + consult_part_hover_class}>
           <Grid.Column width={16}>
@@ -222,7 +220,6 @@ export class ConsultPart extends Component{
 
 export default ConsultPartContainer = withTracker(({ consult_part }) => {
   const user_id = Meteor.isClient ? Meteor.userId() : this.userId
-  console.log("user_id", user_id);
 
   const consultPartVotePublication = Meteor.isClient && Meteor.subscribe('consult_part_votes.my_vote_by_part', consult_part._id)
   const alternativesPublication = Meteor.isClient && Meteor.subscribe('alternatives.by_consult_part', consult_part._id)
