@@ -61,12 +61,17 @@ export class MainLayoutServer extends Component {
           <meta property="og:title" content={configuration.main_title} />
           <meta property="og:description" content={configuration.main_description} />
           <meta property="og:url"        content="https://jeparticipe.toulouse.fr" />
+          <meta property="og:image"        content={configuration.landing_header_background_url} />
+          <meta property="og:type" content="website" />
+          <meta name="author" content="Toulouse Métropole" />
           <meta name="description" content={configuration.main_description} />
+
+
           <link rel="icon" href={configuration.global_logo_url} />
           {!configuration.seo_active ?
             <meta name="robots" content="noindex, nofollow" />
             : 
-            <meta name="robots" content="all" />
+            <meta name="robots" content="index, follow" />
           }
         </Helmet>
         <main>

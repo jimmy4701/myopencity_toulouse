@@ -84,19 +84,24 @@ export class MainLayout extends TrackerReact(Component) {
         navbar_territories_term
       } = global_configuration
       this.check_initial_config()
+      console.log('Global configuration', global_configuration)
       return (
         <div className="main-container">
           <Helmet>
             <title>{global_configuration.main_title}</title>
             <meta property="og:title" content={global_configuration.main_title} />
             <meta property="og:description" content={global_configuration.main_description} />
-            <meta property="og:url"        content="https://jeparticipe.toulouse.fr" />
+            <meta property="og:url" content="https://jeparticipe.toulouse.fr" />
             <meta name="description" content={global_configuration.main_description} />
             <link rel="icon" href={global_configuration.global_logo_url} />
+            <meta property="og:image" content={global_configuration.landing_header_background_url} />
+            <meta property="og:type" content="website" />
+            <meta name="author" content="Toulouse Métropole" />
+
             {!global_configuration.seo_active ?
               <meta name="robots" content="noindex, nofollow" />
               : 
-              <meta name="robots" content="all" />
+              <meta name="robots" content="index, follow" />
             }
           </Helmet>
           <Sidebar.Pushable>
