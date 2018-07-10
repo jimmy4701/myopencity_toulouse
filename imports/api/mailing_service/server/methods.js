@@ -8,6 +8,8 @@ import EmailAccountValidation from '/imports/components/emails/EmailAccountValid
 const mailer = require('mailer')
 import { Alternatives } from '/imports/api/alternatives/alternatives'
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
+import { Consults } from '/imports/api/consults/consults'
+import { Territories } from '/imports/api/territories/territories'
 
 Meteor.methods({
 'mailing_service.alternative_notification'(alternative_id){
@@ -17,8 +19,12 @@ Meteor.methods({
         const external_configuration = ExternalApisConfiguration.findOne()
         const alternative = Alternatives.findOne({_id: alternative_id})
         console.log('MAIL SERVICE ALTERNATIVE', alternative)
-        const users = Meteor.users.find({roles: 'alternative_moderator'}).fetch()
-
+        const consult = Consults.findOne({_id: alternative.consult})
+        const territories = Territories.find({_id: {$in: consult.territories }})
+        territories_ids = territories.map(territory => territory._id)
+        console.log('territories ids', territories_ids)
+        const users = Meteor.users.find({$and: [{roles: 'alternative_moderator'}, {roles: {$in: territories_ids}}]}).fetch()
+        console.log('users', users)
         // Send alternative notification
         const sheet = new ServerStyleSheet()
 
