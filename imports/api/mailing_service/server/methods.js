@@ -18,13 +18,10 @@ Meteor.methods({
     }else{
         const external_configuration = ExternalApisConfiguration.findOne()
         const alternative = Alternatives.findOne({_id: alternative_id})
-        console.log('MAIL SERVICE ALTERNATIVE', alternative)
         const consult = Consults.findOne({_id: alternative.consult})
         const territories = Territories.find({_id: {$in: consult.territories }})
         territories_ids = territories.map(territory => territory._id)
-        console.log('territories ids', territories_ids)
         const users = Meteor.users.find({$and: [{roles: 'alternative_moderator'}, {roles: {$in: territories_ids}}]}).fetch()
-        console.log('users', users)
         // Send alternative notification
         const sheet = new ServerStyleSheet()
 
@@ -59,8 +56,6 @@ Meteor.methods({
 'mailing_service.validation_email'(user_id){
     const user = Meteor.users.findOne({_id: user_id})
     const external_configuration = ExternalApisConfiguration.findOne()
-
-    console.log('FOUND USER MAILING', user_id, user)
 
     // Send validation email
     const sheet = new ServerStyleSheet()

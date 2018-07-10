@@ -56,12 +56,7 @@ Api.addRoute('consult_part_votes/new', {authRequired: false}, {
               message: "cannot vote multiple times on same consult part"
             }
           }else{
-            console.log("vote_value", vote_value)
-            console.log("CONSULT VOTE VALUES", consult_part.vote_values);
-
-
             const vote_value_index = _.findIndex(consult_part.vote_values, (o) => {return o.vote_value == vote_value})
-            console.log("vote_value_index", vote_value_index);
 
             if(vote_value_index > -1){
               consult_part.vote_values[vote_value_index].counter++

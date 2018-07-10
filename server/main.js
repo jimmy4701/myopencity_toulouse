@@ -81,7 +81,6 @@ Meteor.startup(() => {
           }
           return user
       }else{
-        console.log("USER", user);
 
         user.profile = {
           avatar_url: '/images/avatar-logo.png'

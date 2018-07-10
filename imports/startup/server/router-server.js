@@ -39,5 +39,4 @@ onPageLoad(sink => {
     const meta = helmet.meta.toString()
     sink.appendToHead(title)
     sink.appendToHead(meta)
-    console.log('HELMET', title, meta, helmet)
 })

@@ -61,7 +61,6 @@ Meteor.methods({
       const filtered_votes = _.uniqBy(votes, function(vote){ return vote.user })
       const voters_ids = filtered_votes.map(vote => vote.user)
       const voters = Meteor.users.find({_id: {$in: voters_ids}}).fetch()
-      console.log('voters', voters)
 
       const statistics = {
         total_voters: voters_ids.length,
@@ -137,8 +136,6 @@ Meteor.methods({
           }
         )
       })
-
-      console.log('STATISTICS', statistics)
 
       return statistics
     }
