@@ -234,8 +234,16 @@ Meteor.methods({
     if(!user){
       throw new Meteor.Error("Le token de validation n'est pas valide. Aucun utilisateur correspondant")
     }
-    Roles.addUsersToRoles(user._id, 'verified')
-    Meteor.users.update({_id: user._id}, {$set: {validation_token: null, 'emails.0.verified': true }})
+    let roles = user.roles
+    if(!user.roles){
+      roles = ['verified']
+    }else if(Roles.userIsInRole(user._id, 'verified')){
+      throw new Meteor.Error("Ce compte a déjà été validé")
+    }else{
+      roles.push('verified')
+    }
+    console.log('Account verification for ' + user.emails[0].address + ' : ' + roles)
+    Meteor.users.update({_id: user._id}, {$set: {validation_token: null, 'emails.0.verified': true, roles }})
   },
   'accounts.send_validation_email'(){
     if(!this.userId){
@@ -250,6 +258,8 @@ Meteor.methods({
     if(roles){
       const verified_index = roles.indexOf('verified')
       roles.splice(verified_index, 1)
+    }else{
+      roles = []
     }
     Meteor.users.update({_id: this.userId}, {$set: {roles, validation_token, token_generated_at: new Date()}})
     Meteor.call('mailing_service.validation_email', this.userId)
