@@ -133,7 +133,7 @@ const ConsultsSchema = new SimpleSchema({
   },
   moderators: {
     type: [String],
-    optional: true
+    defaultValue: []
   }
 })
 

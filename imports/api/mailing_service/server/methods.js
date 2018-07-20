@@ -22,7 +22,12 @@ Meteor.methods({
         const consult = Consults.findOne({_id: alternative.consult})
         const territories = Territories.find({_id: {$in: consult.territories }})
         territories_ids = territories.map(territory => territory._id)
-        const users = Meteor.users.find({$and: [{roles: 'alternative_moderator'}, {roles: {$in: territories_ids}}]}).fetch()
+        let users = []
+        if(consult.moderators.length > 0){
+          users = Meteor.users.find({_id: {$in: consult.moderators}}).fetch()
+        }else{
+          users = Meteor.users.find({$and: [{roles: 'alternative_moderator'}, {roles: {$in: territories_ids}}]}).fetch()
+        }
         // Send alternative notification
         const sheet = new ServerStyleSheet()
 
@@ -33,7 +38,7 @@ Meteor.methods({
         )
 
         users.map(user => {
-            console.log('ENVOI ALTERNATIVE NOTIF', user.emails[0].address)
+            
             try {
               mailer.send({
                 host: external_configuration.email_smtp_server,
@@ -46,6 +51,13 @@ Meteor.methods({
                 from: external_configuration.email_smtp_from,
                 subject: "Nouvelle alternative citoyenne",
                 html: html
+              }, (error, result) => {
+                if(error){
+                  console.log('--- MAIL SERVICE ERROR ---')
+                  console.log(error)
+                }else{
+                  console.log('MAIL SERVICE : Alternative notification email sent to ', user.emails[0].address)
+                }
               })
             } catch (error) {
               console.log("Error during send of email", error)
