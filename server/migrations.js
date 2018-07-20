@@ -3,6 +3,13 @@ import { Consults } from '/imports/api/consults/consults'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 
+Migrations.add({
+  version: 9,
+  name: "MIGRATION 9 : Add moderators attribute to consults",
+  up() {
+    Consults.update({}, {$set: {moderators: []}}, {multi: true})
+  } 
+}) 
 
 Migrations.add({
   version: 8,

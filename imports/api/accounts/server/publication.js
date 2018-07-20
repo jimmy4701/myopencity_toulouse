@@ -23,3 +23,9 @@ Meteor.publish('users.moderators_by_territory', function (territory_id) {
     return Meteor.users.find({roles: territory_id})
   }
 })
+
+Meteor.publish('admin.moderators', function() {
+  if(Roles.userIsInRole(this.userId, ['moderator', 'admin'])){
+    return Meteor.users.find({roles: {$in: ['admin', 'moderator']}})
+  }
+})

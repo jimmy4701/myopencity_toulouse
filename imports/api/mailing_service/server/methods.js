@@ -5,6 +5,7 @@ import { renderToString } from "react-dom/server"
 import { ServerStyleSheet } from "styled-components"
 import EmailNewAlternative from '/imports/components/emails/EmailNewAlternative'
 import EmailAccountValidation from '/imports/components/emails/EmailAccountValidation'
+import EmailContact from '/imports/components/emails/EmailContact'
 const mailer = require('mailer')
 import { Alternatives } from '/imports/api/alternatives/alternatives'
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
@@ -82,5 +83,34 @@ Meteor.methods({
     } catch (error) {
       console.log("Error during send of email", error)
     }
+},
+'mailing_service.contact_email'({subject, sender_email, message}){
+  const external_configuration = ExternalApisConfiguration.findOne()
+
+  // Send validation email
+  const sheet = new ServerStyleSheet()
+
+  const html = renderToString(
+    sheet.collectStyles(
+      <EmailContact message={message} subject={subject} sender_email={sender_email} />
+    )
+  )
+
+  try {
+    mailer.send({
+      host: external_configuration.email_smtp_server,
+      port: external_configuration.email_smtp_port,
+      domain: external_configuration.email_smtp_from_domain,
+      authentication: "login",
+      username: external_configuration.email_smtp_username,
+      password: external_configuration.email_smtp_password,
+      to: "jeparticipe@mairie-toulouse.fr",
+      from: external_configuration.email_smtp_from,
+      subject: "Message d'un citoyen - " + subject,
+      html: html
+    })
+  } catch (error) {
+    console.log("Error during send of email", error)
+  }
 },
 })

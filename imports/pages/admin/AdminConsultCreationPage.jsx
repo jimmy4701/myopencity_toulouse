@@ -24,7 +24,7 @@ class AdminConsultCreationPage extends Component{
   }
 
   render(){
-    const {loading, territories} = this.props
+    const {loading, territories, moderators} = this.props
 
     if(!loading){
       return(
@@ -34,7 +34,7 @@ class AdminConsultCreationPage extends Component{
            </Grid.Column>
            <Grid.Column width={16}>
              <Container>
-               <ConsultForm territories={territories} onFormSubmit={this.go_consults_page} />
+               <ConsultForm territories={territories} onFormSubmit={this.go_consults_page} moderators={moderators} />
              </Container>
            </Grid.Column>
          </Grid>
@@ -47,10 +47,13 @@ class AdminConsultCreationPage extends Component{
 
 export default AdminConsultCreationPageContainer = createContainer(() => {
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.authorized_for_me')
-  const loading = Meteor.isClient && !territoriesPublication.ready()
+  const moderatorsPublication = Meteor.isClient && Meteor.subscribe('admin.moderators')
+  const loading = Meteor.isClient && (!territoriesPublication.ready() || !moderatorsPublication.ready())
+  const moderators = Meteor.users.find({roles: {$in: ['moderator', 'admin']}}).fetch()
   const territories = Territories.find({}).fetch()
   return {
     loading,
-    territories
+    territories,
+    moderators
   }
 }, withRouter(AdminConsultCreationPage))

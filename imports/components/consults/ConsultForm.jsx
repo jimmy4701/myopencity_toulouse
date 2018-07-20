@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import { Grid, Header, Form, Button, Input, TextArea, Menu, Segment, Checkbox, Popup, Icon, Select } from 'semantic-ui-react'
+import { Grid, Header, Form, Button, Input, TextArea, Menu, Segment, Checkbox, Popup, Icon, Select, Message } from 'semantic-ui-react'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ConsultPartForm from '/imports/components/consult_parts/ConsultPartForm'
 import Geocomplete from '/imports/components/territories/Geocomplete'
@@ -25,7 +25,8 @@ export default class ConsultForm extends TrackerReact(Component) {
       alternatives_validation: false,
       attached_files: [],
       territories: [],
-      image_url: Session.get('global_configuration').consults_default_image_url
+      image_url: Session.get('global_configuration').consults_default_image_url,
+      moderators: []
     },
     step: 'global', // 'global' / 'design' / 'parts' / 'documents' / 'settings'
     editing_part: null,
@@ -315,13 +316,23 @@ export default class ConsultForm extends TrackerReact(Component) {
     this.setState({consult})
   }
 
+  handleModeratorsSelect = (event, data) => {
+    let {consult} = this.state
+    consult.moderators = data.value
+    this.setState({consult})
+  }
+
   render() {
     const { consult, editing_part, consult_parts, display_part_form, step, loading_consult_image, loading_consult_file, adding_file_name } = this.state
-    const { territories } = this.props
+    const { territories, moderators } = this.props
     const { amazon_connected } = Session.get('global_configuration')
 
     const territories_options = territories.map(territory => {
       return {key: territory._id, value: territory._id, text: territory.name}
+    })
+
+    const moderators_options = moderators.map(moderator => {
+      return {key: moderator._id, value: moderator._id, text: moderator.username}
     })
 
     return (
@@ -554,6 +565,17 @@ export default class ConsultForm extends TrackerReact(Component) {
                   </label>
                   <Checkbox checked={consult.alternatives_validation} onClick={(e) => { this.toggleConsult('alternatives_validation', e) }} toggle />
                 </Form.Field>
+                <Header as="h3">Modération</Header>
+                <Form.Select
+                  options={moderators_options}
+                  label="Sélectionnez les modérateurs de cette consultation"
+                  onChange={this.handleModeratorsSelect}
+                  multiple
+                  value={consult.moderators}
+                />
+                <Message info>
+                  <p>Attention, en sélectionnant des modérateurs pour cette consultation, les notifications d'alternatives ne seront envoyées qu'à ces personnes, et non plus à tous les modérateurs des quartiers attachés</p>
+                </Message>
               </Form>
             </Grid.Column>
             : ''}

@@ -130,6 +130,10 @@ const ConsultsSchema = new SimpleSchema({
   hide_territories: {
     type: Boolean,
     defaultValue: false
+  },
+  moderators: {
+    type: [String],
+    optional: true
   }
 })
 

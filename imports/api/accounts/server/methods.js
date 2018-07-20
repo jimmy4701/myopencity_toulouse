@@ -263,5 +263,22 @@ Meteor.methods({
     }
     Meteor.users.update({_id: this.userId}, {$set: {roles, validation_token, token_generated_at: new Date()}})
     Meteor.call('mailing_service.validation_email', this.userId)
+  },
+  'accounts.send_contact_message'({message, subject, email}){
+    if(!message || !subject){
+      throw new Meteor.Error('403', "Votre message ne comporte pas toutes les données nécessaires")
+    }else{
+      let sender_email = ""
+      if(!this.userId){
+        if(!email){
+          throw new Meteor.Error('403', "Il manque une adresse email")
+        }
+        sender_email = email
+      }else{
+        const user = Meteor.users.findOne({_id: this.userId})
+        sender_email = user.emails[0].address
+      }
+      Meteor.call('mailing_service.contact_email', {message, subject, sender_email})
+    }
   }
 })
