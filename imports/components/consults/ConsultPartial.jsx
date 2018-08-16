@@ -110,14 +110,22 @@ export class ConsultPartial extends Component {
     if (!loading) {
       return (
         <Card className={"inline-block " + className} style={{height: "100%"}}>
-          <Link to={"/consults/" + consult.url_shorten}>
+          <Link style={{display: "flex", flexDirection: "column", position: "relative"}} to={"/consults/" + consult.url_shorten}>
             <Image src={consult.image_url_mini ? consult.image_url_mini : consult.image_url} />
             {consult.metropole &&
               <Image src="/images/toulouse-metropole-little.png" style={{
                 position: "absolute",
-                top: "115px",
-                left: "5px",
+                bottom: "12px",
+                left: "7px",
                 width: "73px"
+              }} />
+            }
+            {consult.dmt &&
+              <Image src="/images/dmt_logo.png" style={{
+                position: "absolute",
+                bottom: "7px",
+                left: "8px",
+                width: "29px"
               }} />
             }
           </Link>

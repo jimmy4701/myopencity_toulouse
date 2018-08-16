@@ -395,6 +395,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                 onClick={(e) => this.toggleConsult('metropole', e)}
                 label="Afficher le logo de la Métropole sur l'aperçu"
               />
+              <Form.Checkbox
+                checked={consult.dmt}
+                onClick={(e) => this.toggleConsult('dmt', e)}
+                label="Afficher le logo de Dessine moi Toulouse"
+              />
               <Form.Field required>
                 <label>Titre de la consultation</label>
                 <Input type="text" placeholder="ex: Choisissons ensemble les rues à piétoniser dans le centre ville" value={consult.title} onChange={(e) => { this.handleConsultChange('title', e) }} />
