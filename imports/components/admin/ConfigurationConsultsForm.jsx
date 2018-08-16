@@ -176,6 +176,14 @@ export default class ConfigurationConsultsForm extends Component {
                             <Form.Input
                                 width={5}
                                 label="Titre de la page de consultations terminées"
+                                placeholder="ex: Consultations terminées"
+                                name="consults_all_territories_ended"
+                                value={configuration.consults_all_territories_ended}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Explication de la page de consultations terminées"
                                 placeholder="ex: Consultations en cours"
                                 name="ended_consults_title"
                                 value={configuration.ended_consults_title}

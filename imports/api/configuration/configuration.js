@@ -173,6 +173,11 @@ const ConfigurationSchema = new SimpleSchema({
     defaultValue: "Tous les quartiers",
     label: "Le terme pour Tous les quartiers"
   },
+  consults_all_territories_ended: {
+    type: String,
+    defaultValue: "Consultations terminées",
+    label: "Le terme pour Consultations terminées"
+  },
   consults_title: {
     type: String,
     defaultValue: "Consultations en cours",
@@ -181,7 +186,8 @@ const ConfigurationSchema = new SimpleSchema({
   ended_consults_title: {
     type: String,
     defaultValue: "Consultations terminées",
-    label: "Le terme pour les Consultations terminées"
+    label: "Le terme pour les Consultations terminées",
+    optional: true
   },
   consults_no_consults: {
     type: String,
