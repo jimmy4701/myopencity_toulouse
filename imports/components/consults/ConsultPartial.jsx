@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Link } from 'react-router-dom'
 import { Territories } from '/imports/api/territories/territories'
+import styled from 'styled-components'
 
 export class ConsultPartial extends Component {
 
@@ -108,7 +109,7 @@ export class ConsultPartial extends Component {
 
     if (!loading) {
       return (
-        <Card className={"inline-block " + className}>
+        <Card className={"inline-block " + className} style={{height: "100%"}}>
           <Link to={"/consults/" + consult.url_shorten}>
             <Image src={consult.image_url_mini ? consult.image_url_mini : consult.image_url} />
             {consult.metropole &&
@@ -200,4 +201,6 @@ export default ConsultPartialContainer = withTracker((props) => {
     territories,
     loading
   }
-})(ConsultPartial)
+})(styled(ConsultPartial)`
+  display: flex !important;
+`)

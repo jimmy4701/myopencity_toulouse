@@ -52,7 +52,7 @@ export class ConsultsPage extends TrackerReact(Component) {
                 {consults.length == 0 ?
                   <Header className="center-align" as="h3">{consults_no_consults}</Header>
                   :
-                  <Grid stackable>
+                  <Grid stackable style={{display: "flex", flexWrap: "wrap"}}>
                     {consults.map((consult, index) => {
                       return (
                         <Grid.Column width={4} className="center-align" key={consult._id}>
