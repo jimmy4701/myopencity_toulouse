@@ -170,7 +170,7 @@ export default ConsultPageContainer = createContainer(({ match }) => {
     const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.by_ids', consult.territories)
     const loading = Meteor.isClient && (!territoriesPublication.ready() || !consultPublication.ready() || !consultPartsPublication.ready())
     const territories = Territories.find({_id: {$in: consult.territories}}).fetch()
-    const consult_parts = ConsultParts.find({consult_url_shorten: urlShorten, active: true}).fetch()
+    const consult_parts = ConsultParts.find({consult_url_shorten: urlShorten, active: true}, {sort: {priority: 1}}).fetch()
     return {
       loading,
       consult,

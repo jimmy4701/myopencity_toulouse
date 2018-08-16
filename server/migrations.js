@@ -1,8 +1,16 @@
 import { Meteor } from 'meteor/meteor'
 import { Consults } from '/imports/api/consults/consults'
+import { ConsultParts } from '/imports/api/consult_parts/consult_parts'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 
+Migrations.add({
+  version: 11,
+  name: "MIGRATION 11 : Add priority attribute to consult parts",
+  up() {
+    ConsultParts.update({}, {$set: {priority: 0}}, {multi: true})
+  } 
+}) 
 
 Migrations.add({
   version: 10,

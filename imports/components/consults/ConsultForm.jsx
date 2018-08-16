@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 import ImageCropper from '/imports/components/general/ImageCropper'
 import readAndCompressImage from 'browser-image-resizer'
+import _ from 'lodash'
 
 export default class ConsultForm extends TrackerReact(Component) {
 
@@ -328,6 +329,8 @@ export default class ConsultForm extends TrackerReact(Component) {
     const { territories, moderators } = this.props
     const { amazon_connected } = Session.get('global_configuration')
 
+    const sorted_consult_parts = _.orderBy(consult_parts, 'priority')
+
     const territories_options = territories.map(territory => {
       return {key: territory._id, value: territory._id, text: territory.name}
     })
@@ -489,7 +492,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                 </Button>
               </Grid.Column>
               <Grid.Column width={4}>
-                {consult_parts.map((part, index) => {
+                {sorted_consult_parts.map((part, index) => {
                   return (
                     <Segment clearing key={index}>
                       <Header as="h4" floated='left'>{part.title}</Header>

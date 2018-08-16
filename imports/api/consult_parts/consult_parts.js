@@ -76,6 +76,10 @@ const ConsultPartsSchema = new SimpleSchema({
     external_url: {
       type: String,
       optional: true
+    },
+    priority: {
+      type: Number,
+      defaultValue: 0
     }
 })
 
