@@ -107,7 +107,7 @@ export default class AdminConfigurationPage extends TrackerReact(Component) {
           </Menu.Item>
           <Menu.Item active={part === 'participation'} onClick={() => this.changePart('participation')} >
                 <Icon name="quote left" />
-                Participation
+                Explications
           </Menu.Item>
             </Menu>
             {part == 'general' &&

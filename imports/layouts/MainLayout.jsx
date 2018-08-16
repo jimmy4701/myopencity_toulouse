@@ -42,6 +42,7 @@ import Participation from '/imports/pages/general/Participation'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import CookieConsent from "react-cookie-consent"
 import AccountValidation from '/imports/pages/accounts/AccountValidation'
+import Lexical from '/imports/pages/general/Lexical'
 
 export class MainLayout extends TrackerReact(Component) {
   
@@ -182,6 +183,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={LegalNotice} exact path="/mentions_legales" { ...this.props } />
                       <Public component={About} exact path="/a_propos" { ...this.props } />
                       <Public component={Participation} exact path="/participation" { ...this.props } />
+                      <Public component={Lexical} exact path="/lexical" { ...this.props } />
                       <Public component={AccountValidation} exact path="/account_validation/:token" { ...this.props } />
                       <Public component={NotFound} path="*"  { ...this.props } />
                     </Switch>

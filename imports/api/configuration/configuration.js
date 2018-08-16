@@ -477,6 +477,20 @@ const ConfigurationSchema = new SimpleSchema({
   connect_explain: {
     type: String,
     optional: true
+  },
+  lexical_page_content: {
+    type: String,
+    defaultValue: "<p>Remplissez ici le contenu de la page de lexique</p>",
+    label: "Le contenu de page Lexique"
+  },
+  navbar_lexical_term: {
+    type: String,
+    defaultValue: "Lexique",
+    label: "Le terme pour Lexique dans la barre de navigation"
+  },
+  navbar_lexical: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 

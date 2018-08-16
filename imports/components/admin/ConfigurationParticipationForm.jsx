@@ -124,6 +124,33 @@ export default class ConfigurationParticipationForm extends Component {
                                 name="participation_page_content"
                             />
                         </Form.Field>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Page Lexique</Divider>
+                        <Form.Checkbox
+                            checked={configuration.navbar_lexical}
+                            onClick={() => this.toggleConfiguration('navbar_lexical')}
+                            label="Afficher lexique dans la barre de navigation"
+                        />
+                        <Form.Input
+                                label="Terme pour Lexique dans la barre de navigation"
+                                placeholder="Lexique"
+                                name="navbar_lexical_term"
+                                value={configuration.navbar_lexical_term}
+                                onChange={this.handleConfigurationChange}
+                            />
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Contenu de la page Participation</Divider>
+                        <Form.Field width={16}>
+                            <label>Contenu</label>
+                            <TinyMCE
+                                content={configuration.lexical_page_content}
+                                config={{
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'lexical_page_content')}
+                                name="lexical_page_content"
+                            />
+                        </Form.Field>
                         <Button color="green" content="Valider les modifications" />
                     </Form>
                 </Grid.Column>
