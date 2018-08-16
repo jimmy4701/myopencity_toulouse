@@ -134,6 +134,10 @@ const ConsultsSchema = new SimpleSchema({
   moderators: {
     type: [String],
     defaultValue: []
+  },
+  scheduler_off: {
+    type: Boolean,
+    defaultValue: false
   }
 })
 

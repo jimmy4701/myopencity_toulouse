@@ -3,6 +3,15 @@ import { Consults } from '/imports/api/consults/consults'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 
+
+Migrations.add({
+  version: 10,
+  name: "MIGRATION 10 : Add scheduler off attribute to consults",
+  up() {
+    Consults.update({}, {$set: {scheduler_off: false}}, {multi: true})
+  } 
+}) 
+
 Migrations.add({
   version: 9,
   name: "MIGRATION 9 : Add moderators attribute to consults",

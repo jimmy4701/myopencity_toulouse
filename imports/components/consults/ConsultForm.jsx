@@ -23,6 +23,7 @@ export default class ConsultForm extends TrackerReact(Component) {
       api_votable: true,
       api_recoverable: true,
       alternatives_validation: false,
+      scheduler_off: false,
       attached_files: [],
       territories: [],
       image_url: Session.get('global_configuration').consults_default_image_url,
@@ -372,6 +373,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                       onChange={this.handleEndDate}
                   />
                 </Form.Field>
+                <Form.Checkbox
+                  checked={consult.scheduler_off}
+                  label="Ne pas gérer automatiquement en fonction des dates"
+                  onClick={(e) => this.toggleConsult('scheduler_off', e)}
+                />
               </Form.Group>
               {territories.length > 0 &&
                 <Form.Field>
