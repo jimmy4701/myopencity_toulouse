@@ -75,7 +75,8 @@ export default class AlternativeForm extends Component{
                <TinyMCE
                  content={alternative.content}
                  config={{
-                   plugins: 'image',
+                   plugins: 'image paste',
+                   paste_as_text: true,
                    toolbar: false,
                    menubar: false,
                    branding: false,
