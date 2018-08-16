@@ -82,7 +82,9 @@ export class MainLayout extends TrackerReact(Component) {
         navbar_projects,
         navbar_projects_term,
         navbar_territories,
-        navbar_territories_term
+        navbar_territories_term,
+        navbar_lexical_term,
+        navbar_lexical
       } = global_configuration
       this.check_initial_config()
       console.log('Global configuration', global_configuration)
@@ -130,6 +132,11 @@ export class MainLayout extends TrackerReact(Component) {
               {navbar_participation && 
                 <Link className="item" onClick={this.toggleSideBar} to="/participation">
                   <div className="navbar-item">{navbar_participation_term}</div>
+                </Link>
+              }
+              {navbar_lexical && 
+                <Link className="item" onClick={this.toggleSideBar} to="/lexical">
+                  <div className="navbar-item">{navbar_lexical_term}</div>
                 </Link>
               }
               {Meteor.userId() ?
