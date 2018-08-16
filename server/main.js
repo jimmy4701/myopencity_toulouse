@@ -130,9 +130,9 @@ Meteor.startup(() => {
         Consults.update({_id: consult._id}, {$set: {visible: true, votable: true}})
       })
       // Stop consults which the stop date is past
-      const end_consults = Consults.find({end_date: {$lte: new Date(today)}, visible: true}).fetch() 
+      const end_consults = Consults.find({end_date: {$lte: new Date(today)}, visible: true, scheduler_off: false}).fetch() 
       end_consults.forEach(consult => {
-        Consults.update({_id: consult._id}, {$set: {visible: false, votable: false, ended: true, results_visible: true, scheduler_off: false}})
+        Consults.update({_id: consult._id}, {$set: {visible: false, votable: false, ended: true, results_visible: true}})
       })
     }
   })
