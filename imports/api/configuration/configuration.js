@@ -497,6 +497,14 @@ const ConfigurationSchema = new SimpleSchema({
   navbar_lexical: {
     type: Boolean,
     defaultValue: false
+  },
+  ended_consults_display_explain: {
+    type: Boolean,
+    defaultValue: false
+  },
+  ended_consults_explain: {
+    type: String,
+    defaultValue: "<p>Explication pour la page de consultations terminées</p>"
   }
 })
 
