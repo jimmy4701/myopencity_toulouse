@@ -38,7 +38,7 @@ export class ConsultsPage extends TrackerReact(Component) {
               <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em" }}>{consults_all_territories}</Header>
               <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{!show_ended_consults ? consults_title : ended_consults_title}</Header>
               {ended_consults.length > 0 ?
-                <Button size="mini" onClick={(e) => { this.toggleState('show_ended_consults', e) }}>Voir les consultations {!show_ended_consults ? "terminées" : "en cours"}</Button>
+                <Button onClick={(e) => { this.toggleState('show_ended_consults', e) }}>Voir les consultations {!show_ended_consults ? "terminées" : "en cours"}</Button>
                 : ''}
               {consults_display_explain &&
                 <div className="dangerous" dangerouslySetInnerHTML={{__html: consults_explain }} />
