@@ -336,7 +336,7 @@ export default class ConsultForm extends TrackerReact(Component) {
     })
 
     const moderators_options = moderators.map(moderator => {
-      return {key: moderator._id, value: moderator._id, text: moderator.username}
+      return {key: moderator._id, value: moderator._id, text: moderator.emails[0].address + " (" + moderator.username + ")"}
     })
 
     return (
