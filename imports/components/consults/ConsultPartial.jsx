@@ -60,6 +60,39 @@ export class ConsultPartial extends Component {
     })
   }
 
+  export_voters = () => {
+    this.setState({exporting: true})
+    const { consult } = this.props
+    Meteor.call('consults.export_voters', consult._id , (error, result) => {
+      if(error){
+        console.log("Erreur lors de l'export", error.message)
+        Bert.alert({
+          title: "Erreur lors de l'export",
+          message: error.message,
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+        this.setState({exporting: false})
+      }else{
+        const csv = Papa.unparse(result, {delimiter: ";", header: true})
+        const blob = new Blob([csv])
+        if (window.navigator.msSaveOrOpenBlob)  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx
+          window.navigator.msSaveBlob(blob, "voteurs - " + consult.title + ".csv")
+        else
+        {
+          const a = window.document.createElement("a")
+          a.href = window.URL.createObjectURL(blob, {type: "text/plain;charset=UTF-8"})
+          a.download = "voteurs - " + consult.title + ".csv"
+          document.body.appendChild(a)
+          a.click()  // IE: "Access is denied" see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
+          document.body.removeChild(a)
+        }
+
+        this.setState({exporting: false})
+      }
+    })
+  }
+
   toggleEditConsult(attr, e) {
     let consult = this.props.consult
     consult[attr] = !consult[attr]
@@ -171,6 +204,7 @@ export class ConsultPartial extends Component {
                       <Button onClick={(e) => { this.toggleEditConsult('votable', e) }} fluid>{consult.votable ? "Stopper les votes" : "Lancer les votes"}</Button>
                       <Button onClick={(e) => { this.toggleEditConsult('ended', e) }} fluid>{consult.ended ? "Lancer la consultation" : "Stopper la consultation"}</Button>
                       <Button loading={exporting} onClick={this.export_alternatives} fluid>Excel avis</Button>
+                      <Button loading={exporting} onClick={this.export_voters} fluid>Excel voteurs</Button>
                       <Link to={"/admin/consult_summary/" + consult.url_shorten}>
                         <Button fluid>Compte rendu</Button>
                       </Link>

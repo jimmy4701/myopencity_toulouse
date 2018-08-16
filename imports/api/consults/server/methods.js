@@ -235,4 +235,18 @@ Meteor.methods({
       }
     }
   },
+  'consults.export_voters'(consult_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+      const votes = ConsultPartVotes.find({consult: consult_id}).fetch()
+      const voters_ids = votes.map(vote => vote.user)
+      const sorted_voters_ids = _.uniq(voters_ids)
+      const users = Meteor.users.find({_id: {$in: sorted_voters_ids}}, {fields: {'emails': 1, username: 1}}).fetch()
+      const response = users.map(user => {
+        return { username: user.username, email: user.emails[0].address }
+      });
+      return response
+    }
+  }
 })
