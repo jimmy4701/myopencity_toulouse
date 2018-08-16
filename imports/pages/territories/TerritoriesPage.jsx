@@ -16,6 +16,7 @@ import {Territories} from '/imports/api/territories/territories'
 import {Configuration} from '/imports/api/configuration/configuration'
 import {Link} from 'react-router-dom'
 import _ from 'lodash'
+import styled from 'styled-components'
 
 export class TerritoriesPage extends TrackerReact(Component) {
 
@@ -60,7 +61,7 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                     {territories.map((territory, index) => {
                                         return (
                                             <Grid.Column key={territory._id} className="center-align" width={4}>
-                                                <Card className="inline-block">
+                                                <TerritoryCard className="inline-block">
                                                     <Image src={territory.image_url_mini ? territory.image_url_mini : territory.image_url}/>
                                                     <Card.Content>
                                                         <Card.Header>{territory.name}</Card.Header>
@@ -68,15 +69,15 @@ export class TerritoriesPage extends TrackerReact(Component) {
                                                     </Card.Content>
                                                     <Card.Content extra>
                                                         <Link to={"/territory/" + territory.shorten_url + "/consults"}>
-                                                            <Button content={_.capitalize(consults_term)}/>
+                                                            <Button fluid content={_.capitalize(consults_term)}/>
                                                         </Link>
                                                         {territory.projects_active && navbar_projects &&
                                                             <Link to={"/territory/" + territory.shorten_url + "/projects"}>
-                                                                <Button content={_.capitalize(project_term) + "s"}/>
+                                                                <Button fluid content={_.capitalize(project_term) + "s"}/>
                                                             </Link>
                                                         }
                                                     </Card.Content>
-                                                </Card>
+                                                </TerritoryCard>
                                             </Grid.Column>
                                         )
                                     })}
@@ -107,3 +108,8 @@ export default TerritoriesPageContainer = createContainer(({match}) => {
     return {loading, territories, global_configuration}
 
 }, TerritoriesPage)
+
+const TerritoryCard = styled(Card)`
+    display: flex !important;
+    height: 100%;
+`
