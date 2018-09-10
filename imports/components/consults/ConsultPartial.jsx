@@ -161,6 +161,14 @@ export class ConsultPartial extends Component {
                 width: "29px"
               }} />
             }
+            {consult.smart_city &&
+              <Image src="/images/logo_smartcity.png" style={{
+                position: "absolute",
+                bottom: "7px",
+                left: "8px",
+                width: "39px"
+              }} />
+            }
           </Link>
           <Card.Content>
             <Card.Header>
