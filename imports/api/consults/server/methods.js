@@ -4,6 +4,7 @@ import _ from 'lodash'
 import {Random} from 'meteor/random'
 import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
+import { Configuration } from '/imports/api/configuration/configuration'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
 import htmlToText from 'html-to-text'
 import {Territories} from '/imports/api/territories/territories'
@@ -17,8 +18,15 @@ Meteor.methods({
     if(!this.userId || !Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
       throw new Meteor.Error('403', "Vous devez être administrateur")
     }else{
+      const configuration = Configuration.findOne()
       consult.author = this.userId
       consult.url_shorten = generate_url_shorten(consult.title)
+      if(!consult.image_url){
+        consult.image_url = configuration.consults_default_image_url
+        consult.image_url_mini = configuration.consults_default_image_url
+      }else if(!consult.image_url_mini){
+        consult.image_url_mini = configuration.consults_default_image_url
+      }
       const new_consult_id = Consults.insert(consult)
       _.each(consult_parts, function(part){
         Meteor.call('consult_parts.insert', {consult_part: part, consult_id: new_consult_id })
@@ -61,7 +69,6 @@ Meteor.methods({
       const filtered_votes = _.uniqBy(votes, function(vote){ return vote.user })
       const voters_ids = filtered_votes.map(vote => vote.user)
       const voters = Meteor.users.find({_id: {$in: voters_ids}}).fetch()
-      console.log('voters', voters)
 
       const statistics = {
         total_voters: voters_ids.length,
@@ -137,8 +144,6 @@ Meteor.methods({
           }
         )
       })
-
-      console.log('STATISTICS', statistics)
 
       return statistics
     }
@@ -230,4 +235,18 @@ Meteor.methods({
       }
     }
   },
+  'consults.export_voters'(consult_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+      throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+      const votes = ConsultPartVotes.find({consult: consult_id}).fetch()
+      const voters_ids = votes.map(vote => vote.user)
+      const sorted_voters_ids = _.uniq(voters_ids)
+      const users = Meteor.users.find({_id: {$in: sorted_voters_ids}}, {fields: {'emails': 1, username: 1}}).fetch()
+      const response = users.map(user => {
+        return { username: user.username, email: user.emails[0].address }
+      });
+      return response
+    }
+  }
 })

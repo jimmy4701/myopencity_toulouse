@@ -34,6 +34,7 @@ import Conditions from '/imports/pages/general/Conditions'
 import LegalNotice from '/imports/pages/general/LegalNotice'
 import About from '/imports/pages/general/About'
 import Participation from '/imports/pages/general/Participation'
+import Lexical from '/imports/pages/general/Lexical'
 import NotFound from '/imports/pages/general/NotFound'
 import AccountValidation from '/imports/pages/accounts/AccountValidation'
 
@@ -61,12 +62,17 @@ export class MainLayoutServer extends Component {
           <meta property="og:title" content={configuration.main_title} />
           <meta property="og:description" content={configuration.main_description} />
           <meta property="og:url"        content="https://jeparticipe.toulouse.fr" />
+          <meta property="og:image"        content={configuration.landing_header_background_url} />
+          <meta property="og:type" content="website" />
+          <meta name="author" content="Toulouse Métropole" />
           <meta name="description" content={configuration.main_description} />
+
+
           <link rel="icon" href={configuration.global_logo_url} />
           {!configuration.seo_active ?
             <meta name="robots" content="noindex, nofollow" />
             : 
-            <meta name="robots" content="all" />
+            <meta name="robots" content="index, follow" />
           }
         </Helmet>
         <main>
@@ -96,6 +102,7 @@ export class MainLayoutServer extends Component {
             <Public component={SendPasswordEmail} exact path="/forgot_password" { ...this.props } />
             <Public component={ResetPassword} exact path="/reset-password/:token" { ...this.props } />
             <Public component={Participation} exact path="/participation" { ...this.props } />
+            <Public component={Lexical} exact path="/lexical" { ...this.props } />
             <Public component={About} exact path="/a_propos" { ...this.props } />
             <Public component={LegalNotice} exact path="/mentions_legales" { ...this.props } />
             <Public component={AccountValidation} exact path="/account_validation/:token" { ...this.props } />

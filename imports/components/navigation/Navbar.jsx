@@ -35,7 +35,9 @@ export default class Navbar extends TrackerReact(Component){
       navbar_territories_term,
       navbar_participation,
       navbar_participation_term,
-      navbar_home_term
+      navbar_home_term,
+      navbar_lexical,
+      navbar_lexical_term
     } = Session.get('global_configuration')
 
     return(
@@ -67,6 +69,11 @@ export default class Navbar extends TrackerReact(Component){
               {navbar_participation && 
                 <Link className="item" to="/participation">
                   <div className="navbar-item">{navbar_participation_term}</div>
+                </Link>
+              }
+              {navbar_lexical && 
+                <Link className="item" to="/lexical">
+                  <div className="navbar-item">{navbar_lexical_term}</div>
                 </Link>
               }
               <Menu.Menu position='right' className="item">

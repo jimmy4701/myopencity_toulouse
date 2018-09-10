@@ -14,13 +14,11 @@ export default class ConsultPartForm extends TrackerReact(Component){
       - onEditSubmit: Function (called when form is submitted)
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
       consult_part: {
-        vote_values: []
+        vote_values: [],
+        priority: 0
       }
-    }
   }
 
   componentWillMount(){
@@ -168,6 +166,10 @@ export default class ConsultPartForm extends TrackerReact(Component){
                    </Grid.Column>
                  : ''}
                </Grid>
+                <Form.Field required as="div">
+                   <label>Position</label>
+                   <Input value={consult_part.priority} type="number" min={0} onChange={this.handleConsultPartChange} name="priority"/>
+                 </Form.Field>
                  <Form.Field required as="div">
                    <label>Titre</label>
                    <Input value={consult_part.title} onChange={this.handleConsultPartChange} name="title"/>

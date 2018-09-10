@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Card, Image, Icon, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
-export default class TerritoryPartial extends Component {
+class TerritoryPartial extends Component {
 
     state = {
         removing: false
@@ -35,11 +36,11 @@ export default class TerritoryPartial extends Component {
     toggleRemove = () => this.setState({removing: !this.state.removing})
 
     render() {
-        const { territory } = this.props
+        const { territory, className } = this.props
         const { removing } = this.state
 
         return (
-            <Card>
+            <Card className={className}>
                 <Image src={territory.image_url_mini ? territory.image_url_mini : territory.image_url ? territory.image_url : "https://image.flaticon.com/icons/svg/235/235861.svg"} />
                 <Card.Content>
                     <Card.Header>
@@ -66,3 +67,8 @@ export default class TerritoryPartial extends Component {
 
     }
 }
+
+export default styled(TerritoryPartial)`
+    display: flex !important;
+    height: 100% !important;
+`

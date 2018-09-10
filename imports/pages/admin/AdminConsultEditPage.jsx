@@ -34,7 +34,7 @@ export class AdminConsultEditPage extends TrackerReact(Component){
   }
 
   render(){
-    const {loading, consult, consult_parts, territories} = this.props
+    const {loading, consult, consult_parts, territories, moderators} = this.props
 
     if(!loading){
       return(
@@ -44,7 +44,7 @@ export class AdminConsultEditPage extends TrackerReact(Component){
           </Grid.Column>
           <Grid.Column width={16}>
             <Container>
-              <ConsultForm consult={consult} territories={territories} consult_parts={consult_parts} onFormSubmit={this.go_consults_page.bind(this)}/>
+              <ConsultForm consult={consult} moderators={moderators} territories={territories} consult_parts={consult_parts} onFormSubmit={this.go_consults_page.bind(this)}/>
             </Container>
           </Grid.Column>
         </Grid>
@@ -59,15 +59,18 @@ export default AdminConsultEditPageContainer = createContainer(({ match }) => {
   const {consult_shorten_url} = match.params
   const consultPublication = Meteor.isClient && Meteor.subscribe('consult.admin_by_shorten_url', consult_shorten_url)
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.authorized_for_me')
+  const moderatorsPublication = Meteor.isClient && Meteor.subscribe('admin.moderators')
   const consultPartsPublication = Meteor.isClient && Meteor.subscribe('consult_parts.admin_by_consult_url_shorten', consult_shorten_url)
-  const loading = Meteor.isClient && (!consultPublication.ready() || !consultPartsPublication.ready() || !territoriesPublication.ready())
+  const loading = Meteor.isClient && (!consultPublication.ready() || !consultPartsPublication.ready() || !territoriesPublication.ready() || !moderatorsPublication.ready())
   const consult = Consults.findOne({url_shorten: consult_shorten_url})
+  const moderators = Meteor.users.find({roles: {$in: ['moderator', 'admin']}}).fetch()
   const consult_parts = ConsultParts.find({}).fetch()
   const territories = Territories.find({}).fetch()
   return {
     loading,
     consult,
     consult_parts,
-    territories
+    territories,
+    moderators
   }
 }, withRouter(AdminConsultEditPage))

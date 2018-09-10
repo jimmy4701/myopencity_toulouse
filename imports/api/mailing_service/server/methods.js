@@ -5,9 +5,12 @@ import { renderToString } from "react-dom/server"
 import { ServerStyleSheet } from "styled-components"
 import EmailNewAlternative from '/imports/components/emails/EmailNewAlternative'
 import EmailAccountValidation from '/imports/components/emails/EmailAccountValidation'
+import EmailContact from '/imports/components/emails/EmailContact'
 const mailer = require('mailer')
 import { Alternatives } from '/imports/api/alternatives/alternatives'
 import { ExternalApisConfiguration } from '/imports/api/external_apis_configuration/external_apis_configuration'
+import { Consults } from '/imports/api/consults/consults'
+import { Territories } from '/imports/api/territories/territories'
 
 Meteor.methods({
 'mailing_service.alternative_notification'(alternative_id){
@@ -16,9 +19,15 @@ Meteor.methods({
     }else{
         const external_configuration = ExternalApisConfiguration.findOne()
         const alternative = Alternatives.findOne({_id: alternative_id})
-        console.log('MAIL SERVICE ALTERNATIVE', alternative)
-        const users = Meteor.users.find({roles: 'alternative_moderator'}).fetch()
-
+        const consult = Consults.findOne({_id: alternative.consult})
+        const territories = Territories.find({_id: {$in: consult.territories }})
+        territories_ids = territories.map(territory => territory._id)
+        let users = []
+        if(consult.moderators.length > 0){
+          users = Meteor.users.find({_id: {$in: consult.moderators}}).fetch()
+        }else{
+          users = Meteor.users.find({$and: [{roles: 'alternative_moderator'}, {roles: {$in: territories_ids}}]}).fetch()
+        }
         // Send alternative notification
         const sheet = new ServerStyleSheet()
 
@@ -29,7 +38,7 @@ Meteor.methods({
         )
 
         users.map(user => {
-            console.log('ENVOI ALTERNATIVE NOTIF', user.emails[0].address)
+            
             try {
               mailer.send({
                 host: external_configuration.email_smtp_server,
@@ -42,6 +51,13 @@ Meteor.methods({
                 from: external_configuration.email_smtp_from,
                 subject: "Nouvelle alternative citoyenne",
                 html: html
+              }, (error, result) => {
+                if(error){
+                  console.log('--- MAIL SERVICE ERROR ---')
+                  console.log(error)
+                }else{
+                  console.log('MAIL SERVICE : Alternative notification email sent to ', user.emails[0].address)
+                }
               })
             } catch (error) {
               console.log("Error during send of email", error)
@@ -53,8 +69,6 @@ Meteor.methods({
 'mailing_service.validation_email'(user_id){
     const user = Meteor.users.findOne({_id: user_id})
     const external_configuration = ExternalApisConfiguration.findOne()
-
-    console.log('FOUND USER MAILING', user_id, user)
 
     // Send validation email
     const sheet = new ServerStyleSheet()
@@ -81,5 +95,34 @@ Meteor.methods({
     } catch (error) {
       console.log("Error during send of email", error)
     }
+},
+'mailing_service.contact_email'({subject, sender_email, message}){
+  const external_configuration = ExternalApisConfiguration.findOne()
+
+  // Send validation email
+  const sheet = new ServerStyleSheet()
+
+  const html = renderToString(
+    sheet.collectStyles(
+      <EmailContact message={message} subject={subject} sender_email={sender_email} />
+    )
+  )
+
+  try {
+    mailer.send({
+      host: external_configuration.email_smtp_server,
+      port: external_configuration.email_smtp_port,
+      domain: external_configuration.email_smtp_from_domain,
+      authentication: "login",
+      username: external_configuration.email_smtp_username,
+      password: external_configuration.email_smtp_password,
+      to: "jeparticipe@mairie-toulouse.fr",
+      from: external_configuration.email_smtp_from,
+      subject: "Message d'un citoyen - " + subject,
+      html: html
+    })
+  } catch (error) {
+    console.log("Error during send of email", error)
+  }
 },
 })

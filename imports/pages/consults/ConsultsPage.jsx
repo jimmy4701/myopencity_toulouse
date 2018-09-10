@@ -28,20 +28,23 @@ export class ConsultsPage extends TrackerReact(Component) {
   render() {
     const { consults, ended_consults, loading } = this.props
     const { show_ended_consults } = this.state
-    const { ended_consults_title, consults_title, consults_no_consults, navbar_color, consults_all_territories, consults_display_explain, consults_explain } = Meteor.isClient && Session.get('global_configuration')
+    const { ended_consults_title, consults_title, consults_no_consults, navbar_color, consults_all_territories, consults_display_explain, consults_explain, consults_all_territories_ended, ended_consults_explain, ended_consults_display_explain } = Meteor.isClient && Session.get('global_configuration')
 
     if (!loading) {
       return (
         <Container>
           <Grid className="wow fadeInUp" stackable>
             <Grid.Column width={16} className="territory-consults-header mobile-padding">
-              <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em" }}>{consults_all_territories}</Header>
+              <Header as="h1" className="wow fadeInUp territory-name" style={{ color: navbar_color, fontSize: "2.5em" }}>{!show_ended_consults ? consults_all_territories : consults_all_territories_ended}</Header>
               <Header as="h3" className="wow fadeInDown territory-label" data-wow-delay="0.5s">{!show_ended_consults ? consults_title : ended_consults_title}</Header>
               {ended_consults.length > 0 ?
-                <Button size="mini" onClick={(e) => { this.toggleState('show_ended_consults', e) }}>Voir les consultations {!show_ended_consults ? "terminées" : "en cours"}</Button>
+                <Button onClick={(e) => { this.toggleState('show_ended_consults', e) }}>Voir les consultations {!show_ended_consults ? "terminées" : "en cours"}</Button>
                 : ''}
-              {consults_display_explain &&
+              {!show_ended_consults && consults_display_explain &&
                 <div className="dangerous" dangerouslySetInnerHTML={{__html: consults_explain }} />
+              }
+              {show_ended_consults && ended_consults_display_explain &&
+                <div className="dangerous" dangerouslySetInnerHTML={{__html: ended_consults_explain }} />
               }
             </Grid.Column>
             {!show_ended_consults ?
@@ -49,7 +52,7 @@ export class ConsultsPage extends TrackerReact(Component) {
                 {consults.length == 0 ?
                   <Header className="center-align" as="h3">{consults_no_consults}</Header>
                   :
-                  <Grid stackable>
+                  <Grid stackable style={{display: "flex", flexWrap: "wrap"}}>
                     {consults.map((consult, index) => {
                       return (
                         <Grid.Column width={4} className="center-align" key={consult._id}>

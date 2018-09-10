@@ -173,6 +173,11 @@ const ConfigurationSchema = new SimpleSchema({
     defaultValue: "Tous les quartiers",
     label: "Le terme pour Tous les quartiers"
   },
+  consults_all_territories_ended: {
+    type: String,
+    defaultValue: "Consultations terminées",
+    label: "Le terme pour Consultations terminées"
+  },
   consults_title: {
     type: String,
     defaultValue: "Consultations en cours",
@@ -181,7 +186,8 @@ const ConfigurationSchema = new SimpleSchema({
   ended_consults_title: {
     type: String,
     defaultValue: "Consultations terminées",
-    label: "Le terme pour les Consultations terminées"
+    label: "Le terme pour les Consultations terminées",
+    optional: true
   },
   consults_no_consults: {
     type: String,
@@ -477,6 +483,28 @@ const ConfigurationSchema = new SimpleSchema({
   connect_explain: {
     type: String,
     optional: true
+  },
+  lexical_page_content: {
+    type: String,
+    defaultValue: "<p>Remplissez ici le contenu de la page de lexique</p>",
+    label: "Le contenu de page Lexique"
+  },
+  navbar_lexical_term: {
+    type: String,
+    defaultValue: "Lexique",
+    label: "Le terme pour Lexique dans la barre de navigation"
+  },
+  navbar_lexical: {
+    type: Boolean,
+    defaultValue: false
+  },
+  ended_consults_display_explain: {
+    type: Boolean,
+    defaultValue: false
+  },
+  ended_consults_explain: {
+    type: String,
+    defaultValue: "<p>Explication pour la page de consultations terminées</p>"
   }
 })
 

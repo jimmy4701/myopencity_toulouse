@@ -42,6 +42,7 @@ import Participation from '/imports/pages/general/Participation'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import CookieConsent from "react-cookie-consent"
 import AccountValidation from '/imports/pages/accounts/AccountValidation'
+import Lexical from '/imports/pages/general/Lexical'
 
 export class MainLayout extends TrackerReact(Component) {
   
@@ -81,22 +82,29 @@ export class MainLayout extends TrackerReact(Component) {
         navbar_projects,
         navbar_projects_term,
         navbar_territories,
-        navbar_territories_term
+        navbar_territories_term,
+        navbar_lexical_term,
+        navbar_lexical
       } = global_configuration
       this.check_initial_config()
+      console.log('Global configuration', global_configuration)
       return (
         <div className="main-container">
           <Helmet>
             <title>{global_configuration.main_title}</title>
             <meta property="og:title" content={global_configuration.main_title} />
             <meta property="og:description" content={global_configuration.main_description} />
-            <meta property="og:url"        content="https://jeparticipe.toulouse.fr" />
+            <meta property="og:url" content="https://jeparticipe.toulouse.fr" />
             <meta name="description" content={global_configuration.main_description} />
             <link rel="icon" href={global_configuration.global_logo_url} />
+            <meta property="og:image" content={global_configuration.landing_header_background_url} />
+            <meta property="og:type" content="website" />
+            <meta name="author" content="Toulouse Métropole" />
+
             {!global_configuration.seo_active ?
               <meta name="robots" content="noindex, nofollow" />
               : 
-              <meta name="robots" content="all" />
+              <meta name="robots" content="index, follow" />
             }
           </Helmet>
           <Sidebar.Pushable>
@@ -124,6 +132,11 @@ export class MainLayout extends TrackerReact(Component) {
               {navbar_participation && 
                 <Link className="item" onClick={this.toggleSideBar} to="/participation">
                   <div className="navbar-item">{navbar_participation_term}</div>
+                </Link>
+              }
+              {navbar_lexical && 
+                <Link className="item" onClick={this.toggleSideBar} to="/lexical">
+                  <div className="navbar-item">{navbar_lexical_term}</div>
                 </Link>
               }
               {Meteor.userId() ?
@@ -177,6 +190,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={LegalNotice} exact path="/mentions_legales" { ...this.props } />
                       <Public component={About} exact path="/a_propos" { ...this.props } />
                       <Public component={Participation} exact path="/participation" { ...this.props } />
+                      <Public component={Lexical} exact path="/lexical" { ...this.props } />
                       <Public component={AccountValidation} exact path="/account_validation/:token" { ...this.props } />
                       <Public component={NotFound} path="*"  { ...this.props } />
                     </Switch>

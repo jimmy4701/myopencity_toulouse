@@ -119,6 +119,6 @@ Meteor.methods({
       throw new Meteor.Error('403', "Vous devez être administrateur")
     }
     console.log('cancel signalement', alternative_id)
-    AlternativesAlerts.update({alternative: alternative_id}, {$set: {treated: true}})
+    AlternativesAlerts.update({alternative: alternative_id}, {$set: {treated: true}}, {multi: true})
   }
 })

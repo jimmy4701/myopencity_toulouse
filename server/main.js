@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import {Configuration} from '/imports/api/configuration/configuration'
+import {Consults} from '/imports/api/consults/consults'
+import moment from 'moment'
 import {ExternalApisConfiguration} from '/imports/api/external_apis_configuration/external_apis_configuration'
 import "/imports/startup/server"
 import '/imports/api/configuration/server/methods'
@@ -81,7 +83,6 @@ Meteor.startup(() => {
           }
           return user
       }else{
-        console.log("USER", user);
 
         user.profile = {
           avatar_url: '/images/avatar-logo.png'
@@ -110,4 +111,33 @@ Meteor.startup(() => {
     expectedConstructor: "[label] doit être un [type]",
     keyNotInSchema: "[key] n'est pas autorisé dans le schema"
   });
+
+  // Launch synced cron for bots
+  SyncedCron.config({
+    log: false 
+  })
+
+  SyncedCron.add({
+    name: "Consults automated launch",
+    schedule: function(parser){
+      return parser.text('at 12:01 am')
+    },
+    job: function(){
+      // Launch consults which the launch date is past
+      const today = moment().toISOString()
+      const launch_consults = Consults.find({start_date: {$lte: new Date(today)}, visible: false, scheduler_off: false}).fetch()
+      launch_consults.forEach(consult => {
+        Consults.update({_id: consult._id}, {$set: {visible: true, votable: true}})
+      })
+      // Stop consults which the stop date is past
+      const end_consults = Consults.find({end_date: {$lte: new Date(today)}, visible: true, scheduler_off: false}).fetch() 
+      end_consults.forEach(consult => {
+        Consults.update({_id: consult._id}, {$set: {visible: false, votable: false, ended: true, results_visible: true}})
+      })
+    }
+  })
+
+  SyncedCron.start();
+
+
 })

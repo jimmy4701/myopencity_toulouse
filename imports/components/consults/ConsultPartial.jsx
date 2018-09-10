@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Link } from 'react-router-dom'
 import { Territories } from '/imports/api/territories/territories'
+import styled from 'styled-components'
 
 export class ConsultPartial extends Component {
 
@@ -49,6 +50,39 @@ export class ConsultPartial extends Component {
           const a = window.document.createElement("a")
           a.href = window.URL.createObjectURL(blob, {type: "text/plain;charset=UTF-8"})
           a.download = consult.title + ".csv"
+          document.body.appendChild(a)
+          a.click()  // IE: "Access is denied" see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
+          document.body.removeChild(a)
+        }
+
+        this.setState({exporting: false})
+      }
+    })
+  }
+
+  export_voters = () => {
+    this.setState({exporting: true})
+    const { consult } = this.props
+    Meteor.call('consults.export_voters', consult._id , (error, result) => {
+      if(error){
+        console.log("Erreur lors de l'export", error.message)
+        Bert.alert({
+          title: "Erreur lors de l'export",
+          message: error.message,
+          style: 'growl-bottom-left',
+          type: 'success'
+        })
+        this.setState({exporting: false})
+      }else{
+        const csv = Papa.unparse(result, {delimiter: ";", header: true})
+        const blob = new Blob([csv])
+        if (window.navigator.msSaveOrOpenBlob)  // IE hack see http://msdn.microsoft.com/en-us/library/ie/hh779016.aspx
+          window.navigator.msSaveBlob(blob, "voteurs - " + consult.title + ".csv")
+        else
+        {
+          const a = window.document.createElement("a")
+          a.href = window.URL.createObjectURL(blob, {type: "text/plain;charset=UTF-8"})
+          a.download = "voteurs - " + consult.title + ".csv"
           document.body.appendChild(a)
           a.click()  // IE: "Access is denied" see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
           document.body.removeChild(a)
@@ -108,15 +142,23 @@ export class ConsultPartial extends Component {
 
     if (!loading) {
       return (
-        <Card className={"inline-block " + className}>
-          <Link to={"/consults/" + consult.url_shorten}>
+        <Card className={"inline-block " + className} style={{height: "100%"}}>
+          <Link style={{display: "flex", flexDirection: "column", position: "relative"}} to={"/consults/" + consult.url_shorten}>
             <Image src={consult.image_url_mini ? consult.image_url_mini : consult.image_url} />
             {consult.metropole &&
               <Image src="/images/toulouse-metropole-little.png" style={{
                 position: "absolute",
-                top: "115px",
-                left: "5px",
+                bottom: "12px",
+                left: "7px",
                 width: "73px"
+              }} />
+            }
+            {consult.dmt &&
+              <Image src="/images/dmt_logo.png" style={{
+                position: "absolute",
+                bottom: "7px",
+                left: "8px",
+                width: "29px"
               }} />
             }
           </Link>
@@ -162,6 +204,7 @@ export class ConsultPartial extends Component {
                       <Button onClick={(e) => { this.toggleEditConsult('votable', e) }} fluid>{consult.votable ? "Stopper les votes" : "Lancer les votes"}</Button>
                       <Button onClick={(e) => { this.toggleEditConsult('ended', e) }} fluid>{consult.ended ? "Lancer la consultation" : "Stopper la consultation"}</Button>
                       <Button loading={exporting} onClick={this.export_alternatives} fluid>Excel avis</Button>
+                      <Button loading={exporting} onClick={this.export_voters} fluid>Excel voteurs</Button>
                       <Link to={"/admin/consult_summary/" + consult.url_shorten}>
                         <Button fluid>Compte rendu</Button>
                       </Link>
@@ -200,4 +243,6 @@ export default ConsultPartialContainer = withTracker((props) => {
     territories,
     loading
   }
-})(ConsultPartial)
+})(styled(ConsultPartial)`
+  display: flex !important;
+`)

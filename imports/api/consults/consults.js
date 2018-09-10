@@ -127,7 +127,19 @@ const ConsultsSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
+  dmt: {
+    type: Boolean,
+    defaultValue: false // true if dessine moi toulouse
+  },
   hide_territories: {
+    type: Boolean,
+    defaultValue: false
+  },
+  moderators: {
+    type: [String],
+    defaultValue: []
+  },
+  scheduler_off: {
     type: Boolean,
     defaultValue: false
   }

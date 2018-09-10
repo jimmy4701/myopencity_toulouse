@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {Card, Image, Button, Icon} from 'semantic-ui-react'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import _ from 'lodash'
 import {Link, withRouter} from 'react-router-dom'
 import { Territories } from '/imports/api/territories/territories'
+import styled from 'styled-components'
 
 export class ProjectPartial extends Component{
 
@@ -95,13 +96,13 @@ export class ProjectPartial extends Component{
   }
 
   render(){
-    const {project, hideButtons, author, user_id, loading, territory} = this.props
+    const {project, hideButtons, author, user_id, loading, territory, className} = this.props
 
     const {display_manage_buttons, display_admin_buttons, remove_confirm} = this.state
     const {consult_territory_icon} = Meteor.isClient && Session.get('global_configuration')
     if(!loading){
       return(
-        <Card className="inline-block project-partial">
+        <Card className={"inline-block project-partial " + className}>
           <Link to={"/projects/" + project.shorten_url}>
             <Image src={project.image_url} />
           </Link>
@@ -172,7 +173,7 @@ export class ProjectPartial extends Component{
   }
 }
 
-export default ProjectPartialContainer = createContainer(({ project }) => {
+export default ProjectPartialContainer = withTracker(({ project }) => {
   const AuthorPublication = Meteor.isClient && Meteor.subscribe('project.author', project.author)
   const loading = Meteor.isClient && !AuthorPublication.ready()
   const author = Meteor.users.findOne({_id: project.author})
@@ -184,4 +185,7 @@ export default ProjectPartialContainer = createContainer(({ project }) => {
     territory,
     user_id
   }
-}, withRouter(ProjectPartial))
+})(withRouter(styled(ProjectPartial)`
+  height: 100%;
+  display: flex !important;
+`))

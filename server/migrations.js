@@ -1,8 +1,32 @@
 import { Meteor } from 'meteor/meteor'
 import { Consults } from '/imports/api/consults/consults'
+import { ConsultParts } from '/imports/api/consult_parts/consult_parts'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 
+Migrations.add({
+  version: 11,
+  name: "MIGRATION 11 : Add priority attribute to consult parts",
+  up() {
+    ConsultParts.update({}, {$set: {priority: 0}}, {multi: true})
+  } 
+}) 
+
+Migrations.add({
+  version: 10,
+  name: "MIGRATION 10 : Add scheduler off attribute to consults",
+  up() {
+    Consults.update({}, {$set: {scheduler_off: false}}, {multi: true})
+  } 
+}) 
+
+Migrations.add({
+  version: 9,
+  name: "MIGRATION 9 : Add moderators attribute to consults",
+  up() {
+    Consults.update({}, {$set: {moderators: []}}, {multi: true})
+  } 
+}) 
 
 Migrations.add({
   version: 8,

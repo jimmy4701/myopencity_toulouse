@@ -176,6 +176,14 @@ export default class ConfigurationConsultsForm extends Component {
                             <Form.Input
                                 width={5}
                                 label="Titre de la page de consultations terminées"
+                                placeholder="ex: Consultations terminées"
+                                name="consults_all_territories_ended"
+                                value={configuration.consults_all_territories_ended}
+                                onChange={this.handleConfigurationChange}
+                            />
+                            <Form.Input
+                                width={5}
+                                label="Explication de la page de consultations terminées"
                                 placeholder="ex: Consultations en cours"
                                 name="ended_consults_title"
                                 value={configuration.ended_consults_title}
@@ -346,24 +354,43 @@ export default class ConfigurationConsultsForm extends Component {
                             />
                         </Form.Group>
                         <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Explication de la page consultations</Divider>
-                            <Form.Checkbox
-                                checked={configuration.consults_display_explain}
-                                onClick={() => this.toggleConfiguration('consults_display_explain')}
-                                label={"Afficher l'explication"}
+                        <Form.Checkbox
+                            checked={configuration.consults_display_explain}
+                            onClick={() => this.toggleConfiguration('consults_display_explain')}
+                            label={"Afficher l'explication"}
+                        />
+                        <Form.Field width={16}>
+                            <label>Explication de la page consultations</label>
+                            <TinyMCE
+                                content={configuration.consults_explain}
+                                config={{
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'consults_explain')}
+                                name="consults_explain"
                             />
-                            <Form.Field width={16}>
-                                <label>Explication de la page consultations</label>
-                                <TinyMCE
-                                    content={configuration.consults_explain}
-                                    config={{
-                                        plugins: 'image autoresize media code link',
-                                        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
-                                        images_upload_handler: this.handleUploadImage
-                                    }}
-                                    onChange={(e) => this.handleRichContent(e, 'consults_explain')}
-                                    name="consults_explain"
-                                />
-                            </Form.Field>
+                        </Form.Field>
+                        <Divider className="opencity-divider" style={{ color: configuration.navbar_color }} section>Explication de la page consultations terminées</Divider>
+                        <Form.Checkbox
+                            checked={configuration.ended_consults_display_explain}
+                            onClick={() => this.toggleConfiguration('ended_consults_display_explain')}
+                            label={"Afficher l'explication"}
+                        />
+                        <Form.Field width={16}>
+                            <label>Explication de la page consultations terminées</label>
+                            <TinyMCE
+                                content={configuration.ended_consults_explain}
+                                config={{
+                                    plugins: 'image autoresize media code link',
+                                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | formatselect | image media code | link',
+                                    images_upload_handler: this.handleUploadImage
+                                }}
+                                onChange={(e) => this.handleRichContent(e, 'ended_consults_explain')}
+                                name="ended_consults_explain"
+                            />
+                        </Form.Field>
                         <Button color="green" content="Valider les modifications" />
                     </Form>
                 </Grid.Column>
