@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import { createContainer } from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import {Grid, Header, Loader, Label} from 'semantic-ui-react'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
 import ConsultPartResults from '/imports/components/consult_parts/ConsultPartResults'
@@ -9,18 +9,15 @@ import _ from 'lodash'
 import moment from 'moment'
 
 
-export class ConsultPartAdminStats extends TrackerReact(Component){
+export class ConsultPartAdminStats extends Component{
 
   /*
     required props:
       - none
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
 
-    }
   }
 
   render(){
@@ -91,7 +88,7 @@ export class ConsultPartAdminStats extends TrackerReact(Component){
   }
 }
 
-export default ConsultPartAdminStatsContainer = createContainer(({ consult_part }) => {
+export default ConsultPartAdminStatsContainer = withTracker(({ consult_part }) => {
   const consultPartVotesPublication = Meteor.subscribe('consult_part_votes.by_part', consult_part._id)
   const loading = !consultPartVotesPublication.ready()
   const consult_part_votes = ConsultPartVotes.find({consult_part: consult_part._id}).fetch()
@@ -99,4 +96,4 @@ export default ConsultPartAdminStatsContainer = createContainer(({ consult_part 
     loading,
     consult_part_votes
   }
-}, ConsultPartAdminStats)
+})(ConsultPartAdminStats)

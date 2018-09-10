@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Consults } from '/imports/api/consults/consults';
-import { ConsultParts } from '/imports/api/consult_parts/consult_parts';
-import { Configuration } from '/imports/api/configuration/configuration';
-import { Territories } from '/imports/api/territories/territories';
-import { Grid, Header, Image, Loader, Container, Divider, Statistic } from 'semantic-ui-react';
-import { createContainer } from 'meteor/react-meteor-data'
+import React, { Component } from 'react'
+import { Consults } from '/imports/api/consults/consults'
+import { ConsultParts } from '/imports/api/consult_parts/consult_parts'
+import { Configuration } from '/imports/api/configuration/configuration'
+import { Territories } from '/imports/api/territories/territories'
+import { Grid, Header, Image, Loader, Container, Divider, Statistic } from 'semantic-ui-react'
+import ConsultPartResults from '/imports/components/consult_parts/ConsultPartResults'
+import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import _ from 'lodash'
 import Helmet from 'react-helmet'
@@ -84,6 +85,9 @@ export class AdminConsultSummary extends Component {
                                                             </Grid.Column>
                                                         )
                                                     })}
+                                                    <Grid.Column width={16}>
+                                                        <ConsultPartResults consult_part={part} chart_type={part.results_format} />
+                                                    </Grid.Column>
                                                 </Grid>
                                             </Grid.Column>
                                         )
@@ -139,14 +143,14 @@ export class AdminConsultSummary extends Component {
 
                     </Grid>
                 </Container>
-            );
+            )
         } else {
             return <Loader className="inline-block">Chargement du compte rendu de consultation</Loader>
         }
     }
 }
 
-export default AdminConsultSummaryContainer = createContainer(({match}) => {
+export default AdminConsultSummaryContainer = withTracker(({match}) => {
     const {shorten_url} = match.params
     const consultPublication = Meteor.isClient && Meteor.subscribe('consult.admin_by_shorten_url', shorten_url)
     const consult = Consults.findOne({url_shorten: shorten_url})
@@ -168,4 +172,4 @@ export default AdminConsultSummaryContainer = createContainer(({match}) => {
     }else{
         return {loading: true}
     }
-}, AdminConsultSummary)
+})(AdminConsultSummary)
