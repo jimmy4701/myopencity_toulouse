@@ -13,6 +13,7 @@ import { Alternatives } from '/imports/api/alternatives/alternatives'
 import { ProjectLikes } from '/imports/api/project_likes/project_likes'
 import { ConsultPartVotes } from '/imports/api/consult_part_votes/consult_part_votes'
 import { AlternativeLikes } from '/imports/api/alternative_likes/alternative_likes'
+import moment from 'moment'
 
 Meteor.methods({
   'user.signup'({ email, password, username }) {
@@ -279,6 +280,25 @@ Meteor.methods({
         sender_email = user.emails[0].address
       }
       Meteor.call('mailing_service.contact_email', {message, subject, sender_email})
+    }
+  },
+  'admin.get_users_statistics'(){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous n'êtes pas modérateur")
+    }else{
+      const users = Meteor.users.aggregate([
+        { $project: {
+            creation_date: {$dateToString: { format: "%d.%m.%Y", date: "$createdAt" }}
+          }
+        },
+        {
+          $group: {
+          _id: "$creation_date",
+          count: {$sum: 1}
+        }}
+      ])
+      return users
+      
     }
   }
 })
