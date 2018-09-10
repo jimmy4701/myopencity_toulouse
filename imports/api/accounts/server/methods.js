@@ -288,7 +288,7 @@ Meteor.methods({
     }else{
       const users = Meteor.users.aggregate([
         { $project: {
-            creation_date: {$dateToString: { format: "%d.%m.%Y", date: "$createdAt" }}
+            creation_date: {$dateToString: { format: "%m.%d.%Y", date: "$createdAt" }}
           }
         },
         {
