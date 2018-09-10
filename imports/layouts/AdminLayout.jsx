@@ -31,6 +31,7 @@ import AdminAlternativesValidationPage from '/imports/pages/admin/AdminAlternati
 import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
 import AdminTerritoriesPage from '/imports/pages/admin/AdminTerritoriesPage'
 import AdminTerritory from '/imports/pages/admin/AdminTerritory'
+import AdminStatistics from '/imports/pages/admin/AdminStatistics'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -120,6 +121,10 @@ export class AdminLayout extends TrackerReact(Component) {
                   Quartiers
                 </Menu.Item>
               : ''}
+              <Menu.Item onClick={() => {this.go('/admin/statistics')}} name='statistics'>
+                  <Icon name='chart line' />
+                  Statistics
+                </Menu.Item>
             </Sidebar>
             <Sidebar.Pusher>
               <Grid stackable>
@@ -142,6 +147,7 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminUsersPage }  exact path="/admin/users" { ...this.props } />
                       <Admin component={ AdminTerritoriesPage }  exact path="/admin/territories" { ...this.props } />
                       <Admin component={ AdminTerritory }  exact path="/admin/territory/:territory_id" { ...this.props } />
+                      <Admin component={ AdminStatistics }  exact path="/admin/statistics" { ...this.props } />
                       <Public component={ NotFound } path="*"  { ...this.props } />
                     </Switch>
                   </main>

@@ -280,5 +280,12 @@ Meteor.methods({
       }
       Meteor.call('mailing_service.contact_email', {message, subject, sender_email})
     }
+  },
+  'admin.get_users_statistics'(){
+    if(!Roles.userIsInRole(this.userId, ['admin', 'moderator'])){
+      throw new Meteor.Error('403', "Vous n'êtes pas modérateur")
+    }else{
+      
+    }
   }
 })
