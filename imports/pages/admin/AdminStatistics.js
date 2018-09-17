@@ -29,10 +29,12 @@ export default class AdminStatistics extends Component {
           }
 
         const stats = statistics.map(stat => {
-            return {'label': stat._id, count: stat.count, creation_date: moment(stat._id).format('YYYYMMDD')}
+            return {'label': moment(stat._id).format('DD.MM.YYYY'), count: stat.count, creation_date: moment(stat._id).format('YYYYMMDD')}
         })
-
+        console.log('stats', stats)
+        
         stats = _.orderBy(stats, 'creation_date', 'asc')
+        console.log('stats', stats)
 
         const data = {
             labels: stats.map(stat => stat.label),
