@@ -165,20 +165,20 @@ export class ConsultPart extends Component{
               </Grid>
             </Grid.Column>
           : ''}
-          {consult_part.alternatives_activated ?
+          {(consult_part.alternatives_activated || consult_part.display_alternatives) &&
             <Grid.Column width={16} className="center-align">
               {alternatives_count > 0 ?
                 <Button onClick={(e) => {this.toggleState('display_alternatives', e)}}>
                   {display_alternatives ? "Cacher les " + alternatives_term : "Voir les " + alternatives_count + " " + alternatives_term }
                 </Button>
               : ''}
-              {!display_alternative_form ?
+              {(!display_alternative_form && consult_part.alternatives_activated) ?
                 <Button onClick={this.toggleAlternativeForm} size="big" style={{backgroundColor: buttons_validation_background_color, color: buttons_validation_text_color}} onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)}>
                   {consult_alternative_button_term}
                 </Button>
               : ''}
             </Grid.Column>
-          : ''}
+          }
           <Grid.Column width={16} className="center-align">
             {!hide_vote_button && consult_part.votes_activated && !display_alternative_form && !display_alternatives ?
               <div>

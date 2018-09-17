@@ -80,6 +80,10 @@ const ConsultPartsSchema = new SimpleSchema({
     priority: {
       type: Number,
       defaultValue: 0
+    },
+    display_alternatives: {
+      type: Boolean,
+      defaultValue: false
     }
 })
 

@@ -135,6 +135,10 @@ export default class ConsultPartForm extends TrackerReact(Component){
                      <Checkbox checked={consult_part.alternatives_activated} onClick={(e) => {this.toggleConsultPart('alternatives_activated', e)}}/>
                      <label>Avis ({consult_part.alternatives_activated ? "Actuellement activé" : "Actuellement désactivé"})</label>
                    </Form.Field>
+                   <Form.Field inline={true} as="div">
+                     <Checkbox checked={consult_part.display_alternatives} onClick={(e) => {this.toggleConsultPart('display_alternatives', e)}}/>
+                     <label>Afficher les avis après fermeture ({consult_part.display_alternatives ? "Actuellement activé" : "Actuellement désactivé"})</label>
+                   </Form.Field>
                  </Grid.Column>
                  {consult_part.votes_activated ?
                    <Grid.Column width={8}>
