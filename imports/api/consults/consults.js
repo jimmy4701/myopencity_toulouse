@@ -146,6 +146,11 @@ const ConsultsSchema = new SimpleSchema({
   scheduler_off: {
     type: Boolean,
     defaultValue: false
+  },
+  display_votes_configuration: {
+    type: String,
+    defaultValue: "on_vote",
+    allowedValues: ['on_vote', 'on_consultation_end']
   }
 })
 
