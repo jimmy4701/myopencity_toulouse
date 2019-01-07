@@ -149,19 +149,23 @@ export default class ConsultForm extends TrackerReact(Component) {
 
   edit_part(part) {
     let { consult_parts, editing_part_index } = this.state
-    consult_parts[editing_part_index] = part
-    this.setState({
-      consult_parts,
-      editing_part_index: null,
-      editing_part: null,
-      display_part_form: false
-    })
+    let index = consult_parts.indexOf(part)
+    if(index > -1){
+      consult_parts[index] = part
+      this.setState({
+        consult_parts,
+        editing_part_index: null,
+        editing_part: null,
+        display_part_form: false
+      })
+    }
   }
 
   toggle_edit_part(index, e) {
     e.preventDefault()
     let { consult_parts } = this.state
-    const part = consult_parts[index]
+    const sorted_consult_parts = _.orderBy(consult_parts, 'priority')
+    const part = sorted_consult_parts[index]
     this.setState({ editing_part: part, editing_part_index: index, display_part_form: true })
   }
 
