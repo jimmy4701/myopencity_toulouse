@@ -109,7 +109,7 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.home_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.home_territories[cle]} ({_.round(statistics.territories.home_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                        <p>{statistics.territories.home_territories[cle]} ({_.round(statistics.territories.home_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory ? territory.name : (cle == 'outside') ? "Hors territoire" : ""} </p>
                                     )
                                 })}
                             </Grid.Column>
@@ -118,16 +118,19 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.work_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.work_territories[cle]} ({_.round(statistics.territories.work_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                        <p>{statistics.territories.work_territories[cle]} ({_.round(statistics.territories.work_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory ? territory.name : (cle == 'outside') ? "Hors territoire" : ""} </p>
                                     )
                                 })}
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <Header as='h3'>Ils y passent régulièrement</Header>
                                 {Object.keys(statistics.territories.travel_territories).map(cle => {
+                                    if(cle == 'outside'){
+                                        return 
+                                    }
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.travel_territories[cle]} ({_.round(statistics.territories.travel_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                        <p>{statistics.territories.travel_territories[cle]} ({_.round(statistics.territories.travel_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory ? territory.name : (cle == 'outside') ? "Hors territoire" : ""} </p>
                                     )
                                 })}
                             </Grid.Column>
@@ -136,7 +139,7 @@ export class AdminConsultSummary extends Component {
                                 {Object.keys(statistics.territories.interest_territories).map(cle => {
                                     const territory = _.find(territories, (o) =>{ return o._id == cle})
                                     return (
-                                        <p>{statistics.territories.interest_territories[cle]} ({_.round(statistics.territories.interest_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory && territory.name} </p>
+                                        <p>{statistics.territories.interest_territories[cle]} ({_.round(statistics.territories.interest_territories[cle]*100/statistics.total_voters, 2) + " %"}) - {territory ? territory.name : (cle == 'outside') ? "Hors territoire" : ""} </p>
                                     )
                                 })}
                             </Grid.Column>
