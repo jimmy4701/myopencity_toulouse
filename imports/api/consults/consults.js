@@ -150,7 +150,7 @@ const ConsultsSchema = new SimpleSchema({
   display_votes_configuration: {
     type: String,
     defaultValue: "on_vote",
-    allowedValues: ['on_vote', 'on_consultation_end']
+    allowedValues: ['on_vote', 'on_consultation_end', 'no_display']
   }
 })
 

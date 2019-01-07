@@ -162,7 +162,7 @@ export class ConsultPage extends TrackerReact(Component){
                       ]}
                     </div>
                   {consult_parts.map((part, index) => {
-                    return <ConsultPart hide_vote_button={!consult.votable} consult_part={part} />
+                    return <ConsultPart consult_votable={consult.votable} consult_part={part} results_configuration={consult.display_votes_configuration} consult_ended={consult.ended} />
                   })}
                 </Container>
               </Grid.Column>
