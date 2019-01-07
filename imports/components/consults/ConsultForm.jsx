@@ -352,7 +352,8 @@ export default class ConsultForm extends TrackerReact(Component) {
 
     const display_votes_options = [
       {key: "on_vote", value: "on_vote", text: "Résultats visibles dès le vote"},
-      {key: "on_consultation_end", value: "on_consultation_end", text: "Résultats visibles à la fin de la consultation"}
+      {key: "on_consultation_end", value: "on_consultation_end", text: "Résultats visibles à la fin de la consultation"},
+      {key: "no_display", value: "no_display", text: "Résultats non visibles"}
     ]
 
     return (
