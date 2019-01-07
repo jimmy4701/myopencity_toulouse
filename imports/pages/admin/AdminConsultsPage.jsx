@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Grid, Header, Button, Loader, Container, Icon} from 'semantic-ui-react'
+import {Grid, Header, Button, Loader, Container, Icon, Form} from 'semantic-ui-react'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import {Consults} from '/imports/api/consults/consults'
 import { createContainer } from 'meteor/react-meteor-data'
@@ -13,19 +13,19 @@ export class AdminConsultsPage extends TrackerReact(Component){
       - none
   */
 
-  constructor(props){
-    super(props)
-    this.state = {
-
-    }
-    console.log(this.props.consults)
+  state = {
 
   }
 
+  handleChange = (e, {name, value}) => this.setState({[name]: value})
 
   render(){
     const {consults, loading} = this.props
+    const {filter_text} = this.state
     if(!loading){
+
+      const filtered_consults = filter_text ? consults.filter(o => o.title.match(new RegExp(filter_text, 'ig'))) : consults
+
       return(
         <Grid stackable className="wow fadeInLeft">
           <Grid.Column width={16} className="center-align">
@@ -43,8 +43,20 @@ export class AdminConsultsPage extends TrackerReact(Component){
                   </Link>
                 }
               </div>
+              {consults.length > 0 &&
+                <div style={{margin: "1em 0"}}>
+                  <Form>
+                    <Form.Input
+                      label='Rechercher une consultation par titre'
+                      onChange={this.handleChange}
+                      value={filter_text}
+                      name='filter_text'
+                    />
+                  </Form>
+                </div>
+              }
               <Grid stackable>
-                {consults.map((consult, index) => {
+                {filtered_consults.map((consult, index) => {
                   return (
                     <Grid.Column key={index} width={4} className="center-align">
                       <ConsultPartial consult={consult} display_dates />
