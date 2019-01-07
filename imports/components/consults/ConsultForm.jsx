@@ -28,7 +28,8 @@ export default class ConsultForm extends TrackerReact(Component) {
       attached_files: [],
       territories: [],
       image_url: Session.get('global_configuration').consults_default_image_url,
-      moderators: []
+      moderators: [],
+      display_votes_configuration: "on_vote"
     },
     step: 'global', // 'global' / 'design' / 'parts' / 'documents' / 'settings'
     editing_part: null,
@@ -148,19 +149,23 @@ export default class ConsultForm extends TrackerReact(Component) {
 
   edit_part(part) {
     let { consult_parts, editing_part_index } = this.state
-    consult_parts[editing_part_index] = part
-    this.setState({
-      consult_parts,
-      editing_part_index: null,
-      editing_part: null,
-      display_part_form: false
-    })
+    let index = consult_parts.indexOf(part)
+    if(index > -1){
+      consult_parts[index] = part
+      this.setState({
+        consult_parts,
+        editing_part_index: null,
+        editing_part: null,
+        display_part_form: false
+      })
+    }
   }
 
   toggle_edit_part(index, e) {
     e.preventDefault()
     let { consult_parts } = this.state
-    const part = consult_parts[index]
+    const sorted_consult_parts = _.orderBy(consult_parts, 'priority')
+    const part = sorted_consult_parts[index]
     this.setState({ editing_part: part, editing_part_index: index, display_part_form: true })
   }
 
@@ -305,6 +310,12 @@ export default class ConsultForm extends TrackerReact(Component) {
     this.setState({consult})
   }
 
+  handleDisplayVotesChange = (e, {value}) => {
+    let {consult} = this.state
+    consult.display_votes_configuration = value
+    this.setState({consult})
+  }
+
   handleTerritoriesChange = (event, data) => {
     let {consult} = this.state
     consult.territories = data.value
@@ -338,6 +349,11 @@ export default class ConsultForm extends TrackerReact(Component) {
     const moderators_options = moderators.map(moderator => {
       return {key: moderator._id, value: moderator._id, text: moderator.emails[0].address + " (" + moderator.username + ")"}
     })
+
+    const display_votes_options = [
+      {key: "on_vote", value: "on_vote", text: "Résultats visibles dès le vote"},
+      {key: "on_consultation_end", value: "on_consultation_end", text: "Résultats visibles à la fin de la consultation"}
+    ]
 
     return (
       <Grid stackable>
@@ -584,6 +600,12 @@ export default class ConsultForm extends TrackerReact(Component) {
                   </label>
                   <Checkbox checked={consult.alternatives_validation} onClick={(e) => { this.toggleConsult('alternatives_validation', e) }} toggle />
                 </Form.Field>
+                <Form.Select
+                  options={display_votes_options}
+                  label="Configuration de l'affichage des résultats de vote"
+                  onChange={this.handleDisplayVotesChange}
+                  value={consult.display_votes_configuration}
+                />
                 <Header as="h3">Modération</Header>
                 <Form.Select
                   options={moderators_options}

@@ -248,5 +248,17 @@ Meteor.methods({
       });
       return response
     }
+  },
+  'consults.allowed_to_see'(url_shorten){
+    const consult = Consults.findOne({url_shorten})
+    if(!consult){
+      throw new Meteor.Error('404', "Consultation introuvable")
+    }else{
+      if(consult.visible == true){
+        return true
+      }else{
+        return Roles.userIsInRole(this.userId, ['admin', 'moderator'])
+      }
+    }
   }
 })

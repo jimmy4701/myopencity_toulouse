@@ -5,6 +5,14 @@ import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
 
 Migrations.add({
+  version: 12,
+  name: "MIGRATION 12 : Add display votes configuration to consults",
+  up() {
+    Consults.update({}, {$set: {display_votes_configuration: "on_vote"}}, {multi: true})
+  } 
+}) 
+
+Migrations.add({
   version: 11,
   name: "MIGRATION 11 : Add priority attribute to consult parts",
   up() {

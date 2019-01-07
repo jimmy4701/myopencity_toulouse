@@ -24,15 +24,12 @@ export class ConsultPart extends Component{
       - hide_vote_button: Boolean
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
-      hover_vote: false,
-      display_alternative_form: false,
-      search_alternatives_terms: "",
-      alternatives_page: 0,
-      displaying_alternative: false
-    }
+  state = {
+    hover_vote: false,
+    display_alternative_form: false,
+    search_alternatives_terms: "",
+    alternatives_page: 0,
+    displaying_alternative: false
   }
 
   on_mouse_over(){
@@ -109,7 +106,7 @@ export class ConsultPart extends Component{
   }
 
   render(){
-    const {consult_part, consult_part_vote, alternatives, hide_vote_button, alternatives_count, loading} = this.props
+    const {consult_part, consult_part_vote, alternatives, alternatives_count, loading, results_configuration, consult_ended, consult_votable} = this.props
     const {
       display_alternatives,
       display_alternative_form,
@@ -128,6 +125,10 @@ export class ConsultPart extends Component{
     const consult_part_hover_class = this.state.hover_vote ? "hover" : ""
 
     if(!loading){
+
+      const display_results = (results_configuration == "on_vote" && consult_part_vote) || (results_configuration == 'on_consultation_end' && consult_ended)
+      const display_vote_button = consult_votable && !consult_part_vote
+
       return(
         <Grid stackable className={"consult-part " + consult_part_hover_class}>
           <Grid.Column width={16}>
@@ -180,18 +181,15 @@ export class ConsultPart extends Component{
             </Grid.Column>
           }
           <Grid.Column width={16} className="center-align">
-            {!hide_vote_button && consult_part.votes_activated && !display_alternative_form && !display_alternatives ?
+            {(consult_part.votes_activated && !display_alternative_form && !display_alternatives) &&
               <div>
-                {consult_part_vote ?
-                  <div>
-                    <Header as="h3">{consult_yet_voted_term}</Header>
-                    <ConsultPartResults consult_part={consult_part} chart_type={consult_part.results_format}/>
-                  </div>
-                  :
+                {consult_part_vote && <Header as="h3">{consult_yet_voted_term}</Header>}
+                {display_vote_button && 
                   <ConsultPartVoteButton onMouseOut={this.on_mouse_out.bind(this)} onMouseOver={this.on_mouse_over.bind(this)} consult_part={consult_part} />
                 }
+                {display_results && <ConsultPartResults consult_part={consult_part} chart_type={consult_part.results_format}/>}
               </div>
-              : ''}
+            }
           </Grid.Column>
           {Meteor.isClient && !Meteor.userId() && (consult_part.votes_activated || consult_part.alternatives_activated) &&
               <Grid.Column width={16} className="center-align">
