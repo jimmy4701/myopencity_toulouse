@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Menu, Button } from 'semantic-ui-react'
+import { toast } from 'react-toastify'
+import { BudgetConsultGeneralForm } from '/imports/components/budget_consults'
 
 export default class BudgetConsultForm extends Component {
     state = {
@@ -10,8 +12,23 @@ export default class BudgetConsultForm extends Component {
 
     changeStep = (step) => this.setState({step})
 
+    submitForm = () => {
+        const {budget_consult} = this.state
+        Meteor.call(`budget_consults.${this.props.budget_consult ? 'update' : 'insert'}`, budget_consult , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success(`Budget participatif ${this.props.budget_consult ? "modifié" : "créé"}`)
+                if(this.props.onFormSubmit) this.props.onFormSubmit()
+            }
+        })
+    }
+
+    subFormSubmit = (budget_consult) => this.setState({budget_consult})
+
     render(){
-        const { step } = this.state
+        const { step, budget_consult } = this.state
 
         return(
             <MainContainer>
@@ -20,7 +37,9 @@ export default class BudgetConsultForm extends Component {
                         <Menu.Item onClick={() => this.changeStep('global')} active={step == 'global'}>Informations générales</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('territories')} active={step == 'territories'}>Territoires</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('design')} active={step == 'design'}>Apparence</Menu.Item>
-                        <Menu.Item onClick={() => this.changeStep('parts')} active={step == 'parts'}>Parties / Contenu</Menu.Item>
+                        <Menu.Item onClick={() => this.changeStep('propositions')} active={step == 'propositions'}>Propositions</Menu.Item>
+                        <Menu.Item onClick={() => this.changeStep('agora')} active={step == 'agora'}>Agora</Menu.Item>
+                        <Menu.Item onClick={() => this.changeStep('results')} active={step == 'results'}>Résultats</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('documents')} active={step == 'documents'}>Documents</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('settings')} active={step == 'settings'}>Configuration</Menu.Item>
                         <Menu.Item onClick={this.submit_form}>{this.props.budget_consult ? "Modifier" : "Créer"}</Menu.Item>
@@ -28,7 +47,7 @@ export default class BudgetConsultForm extends Component {
                 </ActionsContainer>
                 <PartsContainer>
                     {step == "global" &&
-                        <h1>GLOBAL</h1>
+                        <BudgetConsultGeneralForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "territories" &&
                         <h1>territories</h1>

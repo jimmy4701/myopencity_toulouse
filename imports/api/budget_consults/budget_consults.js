@@ -19,6 +19,26 @@ const BudgetConsultsSchema = new SimpleSchema({
     created_at: {
         type: Date
     },
+    propositions_start_date: {
+        type: Date,
+        optional: true
+    },
+    propositions_end_date : {
+        type: Date,
+        optional: true
+    },
+    agora_start_date: {
+        type: Date,
+        optional: true
+    },
+    agora_end_date : {
+        type: Date,
+        optional: true
+    },
+    results_start_date: {
+        type: Date,
+        optional: true
+    },
     updated_at: {
         type: Date,
         optional: true
