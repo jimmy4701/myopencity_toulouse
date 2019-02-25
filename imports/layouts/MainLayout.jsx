@@ -5,6 +5,7 @@ import { Switch, withRouter, Link } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
 import { Loader, Grid, Sidebar, Button, Menu, Icon } from 'semantic-ui-react'
+import { ToastContainer } from 'react-toastify'
 
 // Components
 import Navbar from '/imports/components/navigation/Navbar'
@@ -204,6 +205,7 @@ export class MainLayout extends TrackerReact(Component) {
               </Grid>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
+          <ToastContainer />
           <CookieConsent
             location="bottom"
             buttonText="J'accepte"

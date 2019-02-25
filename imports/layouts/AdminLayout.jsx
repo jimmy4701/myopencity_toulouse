@@ -6,6 +6,7 @@ import { Helmet }           from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
 import {Loader, Sidebar, Menu, Button, Grid, Icon} from 'semantic-ui-react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
+import { ToastContainer } from 'react-toastify'
 
 // Components
 import Navbar from '/imports/components/navigation/Navbar'
@@ -30,6 +31,7 @@ import AdminExternalApisPage from '/imports/pages/admin/AdminExternalApisPage'
 import AdminAlternativesValidationPage from '/imports/pages/admin/AdminAlternativesValidationPage'
 import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
 import AdminTerritoriesPage from '/imports/pages/admin/AdminTerritoriesPage'
+import AdminSubTerritories from '/imports/pages/admin/AdminSubTerritories'
 import AdminTerritory from '/imports/pages/admin/AdminTerritory'
 import AdminStatistics from '/imports/pages/admin/AdminStatistics'
 import AdminBudgets from '/imports/pages/admin/AdminBudgets'
@@ -158,6 +160,7 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminAlternativesValidationPage }  exact path="/admin/alternatives" { ...this.props } />
                       <Admin component={ AdminUsersPage }  exact path="/admin/users" { ...this.props } />
                       <Admin component={ AdminTerritoriesPage }  exact path="/admin/territories" { ...this.props } />
+                      <Admin component={ AdminSubTerritories }  exact path="/admin/sub_territories" { ...this.props } />
                       <Admin component={ AdminTerritory }  exact path="/admin/territory/:territory_id" { ...this.props } />
                       <Admin component={ AdminStatistics }  exact path="/admin/statistics" { ...this.props } />
                       <Public component={ NotFound } path="*"  { ...this.props } />
@@ -168,6 +171,7 @@ export class AdminLayout extends TrackerReact(Component) {
             </Sidebar.Pusher>
           </Sidebar.Pushable>
           <Button style={{backgroundColor: global_configuration.navbar_color, color: global_configuration.navbar_color}} onClick={(e) => {this.toggleSidebar(e)}} className="open-sidebar-button" rounded icon="content" size="big"></Button>
+          <ToastContainer />
         </div>
       )
     }else{
