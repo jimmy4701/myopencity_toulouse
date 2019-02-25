@@ -44,6 +44,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import CookieConsent from "react-cookie-consent"
 import AccountValidation from '/imports/pages/accounts/AccountValidation'
 import Lexical from '/imports/pages/general/Lexical'
+import BudgetConsult from '/imports/pages/budget_consults/BudgetConsult'
 
 export class MainLayout extends TrackerReact(Component) {
   
@@ -173,6 +174,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={SigninPage} exact path="/sign_in"       { ...this.props } />
                       <Public component={ConsultsPage} exact path="/consults"       { ...this.props } />
                       <Public component={ConsultPage} exact path="/consults/:urlShorten"       { ...this.props } />
+                      <Public component={BudgetConsult} exact path="/budgets/:url_shorten"       { ...this.props } />
                       <Public component={TerritoryConsultsPage} exact path="/territory/:shorten_url/consults"       { ...this.props } />
                       <Public component={ProfilePage} exact path="/profile/:user_id"       { ...this.props } />
                       <Public component={ProjectsPage} exact path="/projects"       { ...this.props } />
