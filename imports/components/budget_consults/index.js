@@ -3,11 +3,13 @@ import BudgetConsultPartial from './BudgetConsultPartial'
 import BudgetConsultGeneralForm from './form_parts/BudgetConsultGeneralForm'
 import BudgetConsultTerritoriesForm from './form_parts/BudgetConsultTerritoriesForm'
 import BudgetConsultDesignForm from './form_parts/BudgetConsultDesignForm'
+import BudgetConsultPropositionForm from './form_parts/BudgetConsultPropositionForm'
 
 export {
     BudgetConsultForm,
     BudgetConsultPartial,
     BudgetConsultGeneralForm,
     BudgetConsultTerritoriesForm,
-    BudgetConsultDesignForm
+    BudgetConsultDesignForm,
+    BudgetConsultPropositionForm
 }

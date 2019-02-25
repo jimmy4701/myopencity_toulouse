@@ -2,13 +2,15 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Menu, Button } from 'semantic-ui-react'
 import { toast } from 'react-toastify'
-import { BudgetConsultGeneralForm, BudgetConsultTerritoriesForm, BudgetConsultDesignForm } from '/imports/components/budget_consults'
+import { BudgetConsultGeneralForm, BudgetConsultTerritoriesForm, BudgetConsultDesignForm, BudgetConsultPropositionForm } from '/imports/components/budget_consults'
 
 export default class BudgetConsultForm extends Component {
     state = {
         budget_consult: {
             territories: [],
-            sub_territories: []
+            sub_territories: [],
+            propositions_active: true,
+            propositions_step_name: "Propositions" 
         },
         step: "global"
     }
@@ -41,7 +43,7 @@ export default class BudgetConsultForm extends Component {
                         <Menu.Item onClick={() => this.changeStep('territories')} active={step == 'territories'}>Territoires</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('design')} active={step == 'design'}>Apparence</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('propositions')} active={step == 'propositions'}>Propositions</Menu.Item>
-                        <Menu.Item onClick={() => this.changeStep('agora')} active={step == 'agora'}>Agora</Menu.Item>
+                        <Menu.Item onClick={() => this.changeStep('votes')} active={step == 'votes'}>Votes</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('results')} active={step == 'results'}>Résultats</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('documents')} active={step == 'documents'}>Documents</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('settings')} active={step == 'settings'}>Configuration</Menu.Item>
@@ -58,8 +60,8 @@ export default class BudgetConsultForm extends Component {
                     {step == "design" &&
                         <BudgetConsultDesignForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
-                    {step == "parts" &&
-                        <h1>parts</h1>
+                    {step == "propositions" &&
+                        <BudgetConsultPropositionForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "documents" &&
                         <h1>documents</h1>

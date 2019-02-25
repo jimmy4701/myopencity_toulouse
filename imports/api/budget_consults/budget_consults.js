@@ -90,6 +90,34 @@ const BudgetConsultsSchema = new SimpleSchema({
     sub_territories: {
         type: [String],
         defaultValue: []
+    },
+    propositions_active: {
+        type: Boolean,
+        defaultValue: true
+    },
+    propositions_content: {
+        type: String,
+        optional: true
+    },
+    votes_content: {
+        type: String,
+        optional: true
+    },
+    results_content: {
+        type: String,
+        optional: true
+    },
+    propositions_step_name: {
+        type: String,
+        defaultValue: "Propositions"
+    },
+    votes_step_name: {
+        type: String,
+        defaultValue: "Votes"
+    },
+    results_step_name: {
+        type: String,
+        defaultValue: "Résultats"
     }
 })
 
