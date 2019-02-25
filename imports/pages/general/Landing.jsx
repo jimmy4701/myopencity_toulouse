@@ -6,6 +6,7 @@ import { Consults } from '/imports/api/consults/consults'
 import { Projects } from '/imports/api/projects/projects'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
+import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
 import { Link } from 'react-router-dom'
 import TerritoriesMap from '/imports/components/territories/TerritoriesMap'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
@@ -24,7 +25,7 @@ export class Landing extends Component {
 
   render() {
 
-    const { consults, geolocated_consults, projects, global_configuration, territories, loading, className } = this.props
+    const { consults, geolocated_consults, projects, global_configuration, territories, loading, className, budget_consult } = this.props
     const {
       landing_header_background_url,
       main_title,
@@ -68,7 +69,21 @@ export class Landing extends Component {
                   </Container>
                 </Grid.Column>
               </Grid>
-            </Grid.Column>  
+            </Grid.Column>
+            {budget_consult &&
+              <BudgetConsultContainer width={16}>
+                <BudgetSubTitle>Budget participatif</BudgetSubTitle>
+                <BudgetTitle>Participez dès maintenant</BudgetTitle>
+                
+                <Link to={`/budgets/${budget_consult.url_shorten}`}>
+                  <Button size="big">
+                    {budget_consult.step == "propositions" && "Proposez vos idées"}
+                    {budget_consult.step == "votes" && "Votez pour vos projets préférés"}
+                    {budget_consult.step == "results" && "Voir les résultats"}
+                  </Button>
+                </Link>
+              </BudgetConsultContainer>
+            }
             {consults.length > 0 ?
               <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_consults_background_color}}>
                 <Header as="h2">Les {consult_term}s du moment</Header>
@@ -131,12 +146,14 @@ export default LandingContainer = withTracker(() => {
   const landingConsultsPublication = Meteor.isClient && Meteor.subscribe('consults.landing')
   const landingProjectsPublication = Meteor.isClient && Meteor.subscribe('projects.landing')
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
+  const budgetConsultPublication = Meteor.isClient && Meteor.subscribe('budget_consults.landing')
   const globalConfigurationPublication = Meteor.isClient && Meteor.subscribe('global_configuration')
-  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !territoriesPublication.ready() || !landingProjectsPublication.ready() || !globalConfigurationPublication.ready())
+  const loading = Meteor.isClient && (!landingConsultsPublication.ready() || !territoriesPublication.ready() || !landingProjectsPublication.ready() || !budgetConsultPublication.ready() || !globalConfigurationPublication.ready())
   const geolocated_consults = Consults.find({coordinates: {$exists: true}, map_display: true}).fetch()
   const consults = Consults.find({landing_display: true}).fetch()
   const projects = Projects.find({landing_display: true}).fetch()
   const territories = Territories.find({active: true}).fetch()
+  const budget_consult = BudgetConsults.findOne({landing_display: true, active: true})
   const global_configuration = Configuration.findOne()
   return {
     loading,
@@ -144,7 +161,8 @@ export default LandingContainer = withTracker(() => {
     projects,
     territories,
     geolocated_consults,
-    global_configuration
+    global_configuration,
+    budget_consult
   }
 })(styled(Landing)`
   > div .first-landing-header{
@@ -171,3 +189,21 @@ export default LandingContainer = withTracker(() => {
     }
   }
 `)
+
+const BudgetConsultContainer = styled(Grid.Column)`
+  display: flex !important;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 21em;
+  margin-bottom: 10em;
+`
+
+const BudgetTitle = styled.h1`
+  font-size: 3.5em !important;
+  margin-top: 0;
+`
+
+const BudgetSubTitle = styled.h1`
+  margin-bottom: 0;
+`

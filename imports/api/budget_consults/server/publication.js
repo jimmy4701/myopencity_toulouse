@@ -17,3 +17,7 @@ Meteor.publish('budget_consults.by_id', function(id){
         return BudgetConsults.find({_id: id, active: true}, {limit: 1, sort: {}})
     }
 })
+
+Meteor.publish('budget_consults.landing', function(){
+    return BudgetConsults.find({active: true, landing_display: true}, {limit: 1, sort: {}})
+})
