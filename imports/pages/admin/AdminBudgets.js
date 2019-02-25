@@ -26,6 +26,5 @@ export default class AdminBudgets extends Component {
 }
 
 const MainContainer = styled.div`
-    background-color: red;
     height: 100vh;
 `
