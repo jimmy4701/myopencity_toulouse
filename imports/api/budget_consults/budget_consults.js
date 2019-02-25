@@ -142,6 +142,10 @@ const BudgetConsultsSchema = new SimpleSchema({
     results_step_name: {
         type: String,
         defaultValue: "Résultats"
+    },
+    available_votes: {
+        type: Number,
+        defaultValue: 6
     }
 })
 

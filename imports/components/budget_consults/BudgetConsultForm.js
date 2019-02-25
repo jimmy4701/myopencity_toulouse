@@ -24,7 +24,8 @@ export default class BudgetConsultForm extends Component {
             votes_modal_title: "Votez pour vos projets préférés",
             results_step_name: "Résultats",
             step: "propositions",
-            attached_files: []
+            attached_files: [],
+            available_votes: 6
         },
         step: "global"
     }

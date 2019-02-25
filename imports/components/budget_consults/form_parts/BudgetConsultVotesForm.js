@@ -73,6 +73,13 @@ export default class BudgetConsultVotesForm extends Component {
                             value={budget_consult.votes_modal_title}
                             name='votes_modal_title'
                         />
+                        <Form.Input
+                            label='Nombre de votes disponibles par citoyen'
+                            onChange={this.handleChange}
+                            type="number"
+                            value={budget_consult.available_votes}
+                            name='available_votes'
+                        />
                     </CustomFormGroup>
                     <Form.Checkbox
                         checked={budget_consult.votes_active}
