@@ -32,6 +32,9 @@ import AdminUsersPage from '/imports/pages/admin/AdminUsersPage'
 import AdminTerritoriesPage from '/imports/pages/admin/AdminTerritoriesPage'
 import AdminTerritory from '/imports/pages/admin/AdminTerritory'
 import AdminStatistics from '/imports/pages/admin/AdminStatistics'
+import AdminBudgets from '/imports/pages/admin/AdminBudgets'
+import AdminBudgetCreation from '/imports/pages/admin/AdminBudgetCreation'
+import AdminBudgetEdition from '/imports/pages/admin/AdminBudgetEdition'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -95,6 +98,12 @@ export class AdminLayout extends TrackerReact(Component) {
                 <Icon name='comments' />
                 Consultations
               </Menu.Item>
+              {Roles.userIsInRole(Meteor.userId(), 'admin') &&
+                <Menu.Item onClick={() => {this.go('/admin/budgets')}} name='budget'>
+                  <Icon name='euro' />
+                  Budget participatif
+                </Menu.Item>
+              }
               <Menu.Item onClick={() => {this.go('/admin/projects')}} name='projects'>
                 <Icon name='lightbulb' />
                 Boîte à idées
@@ -140,6 +149,9 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminConsultEditPage }  exact path="/admin/consults/:consult_shorten_url/edit" { ...this.props } />
                       <Admin component={ AdminProjectsPage }  exact path="/admin/projects" { ...this.props } />
                       <Admin component={ AdminConsultStatsPage }  exact path="/admin/consults/:shorten_url/stats" { ...this.props } />
+                      <Admin component={ AdminBudgets }  exact path="/admin/budgets" { ...this.props } />
+                      <Admin component={ AdminBudgetCreation }  exact path="/admin/budgets/new" { ...this.props } />
+                      <Admin component={ AdminBudgetEdition }  exact path="/admin/budgets/:id/edit" { ...this.props } />
                       <Admin component={ AdminApiAuthorizationsPage }  exact path="/admin/api_authorizations" { ...this.props } />
                       <Admin component={ AdminExternalOpencitiesPage }  exact path="/admin/external_opencities" { ...this.props } />
                       <Admin component={ AdminExternalApisPage }  exact path="/admin/external_apis" { ...this.props } />
