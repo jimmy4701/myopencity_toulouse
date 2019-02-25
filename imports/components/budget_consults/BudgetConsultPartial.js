@@ -33,12 +33,12 @@ export default class BudgetConsultPartial extends Component {
                         <Link to={"/consults/" + budget_consult.url_shorten}>
                             <Button fluid>Consulter</Button>
                         </Link>
-                        {Roles.userIsInRole(user_id, ['admin', 'moderator']) &&
+                        {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
                             <div>
-                                <Button fluid active={this.state.display_manage_buttons} onClick={(e) => { this.toggleState('display_manage_buttons', e) }}>Gérer</Button>
+                                <Button fluid active={this.state.display_manage_buttons} onClick={this.toggleState} name="display_manage_buttons">Gérer</Button>
                                 {display_manage_buttons &&
                                     <div>
-                                        <Link to={"/admin/consults/" + budget_consult.url_shorten + "/edit"}>
+                                        <Link to={"/admin/budgets/" + budget_consult._id + "/edit"}>
                                             <Button fluid>Modifier</Button>
                                         </Link>
                                         <Button onClick={this.toggleBudgetConsult} name="active" fluid>{budget_consult.active ? "Rendre inactif" : "Rendre actif"}</Button>

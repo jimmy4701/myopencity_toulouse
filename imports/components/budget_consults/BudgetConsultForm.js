@@ -30,6 +30,10 @@ export default class BudgetConsultForm extends Component {
         step: "global"
     }
 
+    componentWillMount(){
+        const {budget_consult} = this.props
+        if(budget_consult) this.setState({budget_consult})
+    }
     changeStep = (step) => this.setState({step})
 
     submitForm = () => {
@@ -62,7 +66,7 @@ export default class BudgetConsultForm extends Component {
                         <Menu.Item onClick={() => this.changeStep('results')} active={step == 'results'}>Résultats</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('documents')} active={step == 'documents'}>Documents</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('settings')} active={step == 'settings'}>Configuration</Menu.Item>
-                        <Menu.Item onClick={this.submit_form}>{this.props.budget_consult ? "Modifier" : "Créer"}</Menu.Item>
+                        <CustomMenuItem onClick={this.submitForm}>{this.props.budget_consult ? "Modifier" : "Créer"}</CustomMenuItem>
                     </Menu>
                 </ActionsContainer>
                 <PartsContainer>
@@ -111,4 +115,10 @@ const PartsContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+`
+
+const CustomMenuItem = styled(Menu.Item)`
+    cursor: pointer;
+    background-color: #00a611 !important;
+    color: white !important;
 `
