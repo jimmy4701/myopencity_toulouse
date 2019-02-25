@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Menu, Button } from 'semantic-ui-react'
 import { toast } from 'react-toastify'
-import { BudgetConsultGeneralForm, BudgetConsultTerritoriesForm } from '/imports/components/budget_consults'
+import { BudgetConsultGeneralForm, BudgetConsultTerritoriesForm, BudgetConsultDesignForm } from '/imports/components/budget_consults'
 
 export default class BudgetConsultForm extends Component {
     state = {
@@ -56,7 +56,7 @@ export default class BudgetConsultForm extends Component {
                         <BudgetConsultTerritoriesForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "design" &&
-                        <h1>design</h1>
+                        <BudgetConsultDesignForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "parts" &&
                         <h1>parts</h1>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Button, Card } from 'semantic-ui-react'
+import { Button, Card, Image } from 'semantic-ui-react'
 import { truncate } from 'lodash'
 
 export default class BudgetConsultPartial extends Component {
@@ -13,41 +13,44 @@ export default class BudgetConsultPartial extends Component {
 
     render(){
         const {display_manage_buttons, removing} = this.state
+        const { hide_buttons, budget_consult } = this.props
 
         return(
-            <Card className={"inline-block " + className} style={{height: "100%"}}>
-                <Link to={"/consults/" + consult.url_shorten}>
-                    <Image src={consult.image_url_mini ? consult.image_url_mini : consult.image_url} />
+            <Card>
+                <Link to={"/budget_consults/" + budget_consult.url_shorten}>
+                    <Image src={budget_consult.image_url_mini ? budget_consult.image_url_mini : budget_consult.image_url} />
                 </Link>
                 <Card.Content>
                     <Card.Header>
                         {budget_consult.title}
                     </Card.Header>
                     <Card.Description>
-                        {truncate(consult.description, { length: 200, separator: ' ' })}
+                        {truncate(budget_consult.description, { length: 200, separator: ' ' })}
                     </Card.Description>
                 </Card.Content>
-                <Card.Content className="center-align" extra>
-                    <Link to={"/consults/" + consult.url_shorten}>
-                        <Button fluid>Consulter</Button>
-                    </Link>
-                    {Roles.userIsInRole(user_id, ['admin', 'moderator']) &&
-                        <div>
-                            <Button fluid active={this.state.display_manage_buttons} onClick={(e) => { this.toggleState('display_manage_buttons', e) }}>Gérer</Button>
-                            {display_manage_buttons &&
-                                <div>
-                                    <Link to={"/admin/consults/" + consult.url_shorten + "/edit"}>
-                                        <Button fluid>Modifier</Button>
-                                    </Link>
-                                    <Button onClick={this.toggleBudgetConsult} name="active" fluid>{budget_consult.active ? "Rendre inactif" : "Rendre actif"}</Button>
-                                    <Button onClick={this.toggleLanding} fluid>{budget_consult.landing_display ? "Ne plus mettre en avant" : "Mettre en avant"}</Button>
-                                    <Button name="removing" onClick={this.toggleState} color={!removing && "red"}>{removing ? "Annuler" : "Supprimer"}</Button>
-                                    {removing && <Button color="red" onClick={this.remove}>Supprimer</Button>}
-                                </div>
-                            }
-                        </div>
-                    }
-                </Card.Content>
+                {!hide_buttons &&
+                    <Card.Content className="center-align" extra>
+                        <Link to={"/consults/" + budget_consult.url_shorten}>
+                            <Button fluid>Consulter</Button>
+                        </Link>
+                        {Roles.userIsInRole(user_id, ['admin', 'moderator']) &&
+                            <div>
+                                <Button fluid active={this.state.display_manage_buttons} onClick={(e) => { this.toggleState('display_manage_buttons', e) }}>Gérer</Button>
+                                {display_manage_buttons &&
+                                    <div>
+                                        <Link to={"/admin/consults/" + budget_consult.url_shorten + "/edit"}>
+                                            <Button fluid>Modifier</Button>
+                                        </Link>
+                                        <Button onClick={this.toggleBudgetConsult} name="active" fluid>{budget_consult.active ? "Rendre inactif" : "Rendre actif"}</Button>
+                                        <Button onClick={this.toggleLanding} fluid>{budget_consult.landing_display ? "Ne plus mettre en avant" : "Mettre en avant"}</Button>
+                                        <Button name="removing" onClick={this.toggleState} color={!removing && "red"}>{removing ? "Annuler" : "Supprimer"}</Button>
+                                        {removing && <Button color="red" onClick={this.remove}>Supprimer</Button>}
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </Card.Content>
+                }
             </Card>
         )
     }
