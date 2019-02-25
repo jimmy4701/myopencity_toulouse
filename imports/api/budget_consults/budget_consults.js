@@ -35,6 +35,22 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: Date,
         optional: true
     },
+    analysis_start_date: {
+        type: Date,
+        optional: true
+    },
+    analysis_end_date : {
+        type: Date,
+        optional: true
+    },
+    votes_start_date: {
+        type: Date,
+        optional: true
+    },
+    votes_end_date : {
+        type: Date,
+        optional: true
+    },
     results_start_date: {
         type: Date,
         optional: true
@@ -58,7 +74,7 @@ const BudgetConsultsSchema = new SimpleSchema({
     step: {
         type: String,
         defaultValue: "propositions",
-        allowedValues: ['propositions', 'votes', 'results']
+        allowedValues: ['propositions', 'agora', 'analysis', 'votes', 'results']
     },
     image_url: {
         type: String,
@@ -114,6 +130,14 @@ const BudgetConsultsSchema = new SimpleSchema({
     votes_step_name: {
         type: String,
         defaultValue: "Votes"
+    },
+    votes_modal_title: {
+        type: String,
+        defaultValue: "Votez pour vos projets préférés"
+    },
+    votes_modal_explain: {
+        type: String,
+        defaultValue: "Classez vos projets préférés par ordre de préférence"
     },
     results_step_name: {
         type: String,

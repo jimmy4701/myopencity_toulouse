@@ -4,7 +4,7 @@ import TinyMCE from 'react-tinymce'
 import { toast } from 'react-toastify'
 import { Form } from 'semantic-ui-react'
 
-export default class BudgetConsultPropositionForm extends Component {
+export default class BudgetConsultVotesForm extends Component {
     state = {
         budget_consult: {}
     }
@@ -27,7 +27,7 @@ export default class BudgetConsultPropositionForm extends Component {
 
     handleContentChange = (e) => {
         let {budget_consult} = this.state
-        budget_consult.propositions_content = e.target.getContent()
+        budget_consult.votes_content = e.target.getContent()
         this.setState({budget_consult})
     }
 
@@ -60,22 +60,30 @@ export default class BudgetConsultPropositionForm extends Component {
         return(
             <MainContainer>
                 <Form>
-                    <Form.Input
-                        label='Titre de la phase de propositions'
-                        onChange={this.handleChange}
-                        value={budget_consult.propositions_step_name}
-                        name='propositions_step_name'
-                    />
+                    <CustomFormGroup>
+                        <Form.Input
+                            label='Titre de la phase de votes'
+                            onChange={this.handleChange}
+                            value={budget_consult.votes_step_name}
+                            name='votes_step_name'
+                        />
+                        <Form.Input
+                            label='Titre de la modal de vote'
+                            onChange={this.handleChange}
+                            value={budget_consult.votes_modal_title}
+                            name='votes_modal_title'
+                        />
+                    </CustomFormGroup>
                     <Form.Checkbox
-                        checked={budget_consult.propositions_active}
-                        label="Les citoyens peuvent faire des propositions"
+                        checked={budget_consult.votes_active}
+                        label="Les citoyens peuvent voter"
                         onClick={this.toggleState}
-                        name="propositions_active"
+                        name="votes_active"
                     />
                     <Form.Field>
-                        <label>Contenu pour la phase de propositions</label>
+                        <label>Contenu pour la phase de votes</label>
                         <TinyMCE
-                            content={budget_consult.propositions_content}
+                            content={budget_consult.votes_content}
                             config={{
                                 plugins: 'image autoresize media code link paste',
                                 paste_as_text: true,
@@ -94,4 +102,16 @@ export default class BudgetConsultPropositionForm extends Component {
 
 const MainContainer = styled.div`
     
+`
+
+
+const CustomFormGroup = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2em;
+
+    .field {
+        flex: 1 !important;
+        margin: 0.5em !important;
+    }
 `

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Menu, Button } from 'semantic-ui-react'
 import { toast } from 'react-toastify'
-import { BudgetConsultGeneralForm, BudgetConsultTerritoriesForm, BudgetConsultDesignForm, BudgetConsultPropositionForm } from '/imports/components/budget_consults'
+import { BudgetConsultGeneralForm, BudgetConsultTerritoriesForm, BudgetConsultDesignForm, BudgetConsultPropositionForm, BudgetConsultVotesForm } from '/imports/components/budget_consults'
 
 export default class BudgetConsultForm extends Component {
     state = {
@@ -10,7 +10,11 @@ export default class BudgetConsultForm extends Component {
             territories: [],
             sub_territories: [],
             propositions_active: true,
-            propositions_step_name: "Propositions" 
+            votes_active: true,
+            propositions_step_name: "Propositions",
+            votes_step_name: "Votes",
+            votes_modal_title: "Votez pour vos projets préférés",
+            step: "propositions"
         },
         step: "global"
     }
@@ -62,6 +66,9 @@ export default class BudgetConsultForm extends Component {
                     }
                     {step == "propositions" &&
                         <BudgetConsultPropositionForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
+                    }
+                    {step == "votes" &&
+                        <BudgetConsultVotesForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "documents" &&
                         <h1>documents</h1>

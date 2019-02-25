@@ -44,6 +44,8 @@ export default class BudgetConsultGeneralForm extends Component {
                 <h3>Phase de consultation</h3>
                 <PhasesContainer>
                     <PhasePartial active={budget_consult.step == "propositions"} onClick={() => this.handleBudgetStep("propositions")}>Propositions</PhasePartial>
+                    <PhasePartial active={budget_consult.step == "agora"} onClick={() => this.handleBudgetStep("agora")}>Agora</PhasePartial>
+                    <PhasePartial active={budget_consult.step == "analysis"} onClick={() => this.handleBudgetStep("analysis")}>Analyse</PhasePartial>
                     <PhasePartial active={budget_consult.step == "votes"} onClick={() => this.handleBudgetStep("votes")} >Votes</PhasePartial>
                     <PhasePartial active={budget_consult.step == "results"} onClick={() => this.handleBudgetStep("results")} >Résultats</PhasePartial>
                 </PhasesContainer>
@@ -67,6 +69,42 @@ export default class BudgetConsultGeneralForm extends Component {
                                 dateFormat="DD/MM/YYYY"
                                 name="propositions_end_date"
                                 onChange={(date) => this.handleDateChange(date, "propositions_end_date")}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Début de la phase d'agora</label>
+                            <DatePicker
+                                selected={moment(budget_consult.agora_start_date)}
+                                dateFormat="DD/MM/YYYY"
+                                name="agora_start_date"
+                                onChange={(date) => this.handleDateChange(date, "agora_start_date")}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Début de la phase d'agora</label>
+                            <DatePicker
+                                selected={moment(budget_consult.agora_end_date)}
+                                dateFormat="DD/MM/YYYY"
+                                name="agora_end_date"
+                                onChange={(date) => this.handleDateChange(date, "agora_end_date")}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Début de la phase d'analyse technique</label>
+                            <DatePicker
+                                selected={moment(budget_consult.analysis_start_date)}
+                                dateFormat="DD/MM/YYYY"
+                                name="analysis_start_date"
+                                onChange={(date) => this.handleDateChange(date, "analysis_start_date")}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Début de la phase d'analyse technique</label>
+                            <DatePicker
+                                selected={moment(budget_consult.analysis_end_date)}
+                                dateFormat="DD/MM/YYYY"
+                                name="analysis_end_date"
+                                onChange={(date) => this.handleDateChange(date, "analysis_end_date")}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -125,6 +163,7 @@ const MainContainer = styled.div`
 const CustomFormGroup = styled.div`
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 `
 
 const PhasesContainer = styled.div`
