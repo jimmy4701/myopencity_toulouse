@@ -146,6 +146,10 @@ const BudgetConsultsSchema = new SimpleSchema({
     available_votes: {
         type: Number,
         defaultValue: 6
+    },
+    active: {
+        type: Boolean,
+        defaultValue: false
     }
 })
 
