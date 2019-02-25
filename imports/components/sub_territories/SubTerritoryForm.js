@@ -55,6 +55,12 @@ class SubTerritoryForm extends Component {
         this.setState({ sub_territory })
     }
 
+    handleTerritorySelect = (event, data) => {
+        let { sub_territory } = this.state
+        sub_territory.parent_territory = data.value
+        this.setState({sub_territory})
+    }
+
     submit_form = (e) => {
         e.preventDefault()
         const {sub_territory} = this.state
