@@ -83,6 +83,10 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: [FilesSchema],
         defaultValue: []
     },
+    territories: {
+        type: [String],
+        defaultValue: []
+    },
     sub_territories: {
         type: [String],
         defaultValue: []
