@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Divider } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 
 export default class BudgetConsultGeneralForm extends Component {
@@ -28,13 +28,26 @@ export default class BudgetConsultGeneralForm extends Component {
         let { budget_consult } = this.state
         budget_consult[name] = value
         this.setState({budget_consult})
-    } 
+    }
+
+    handleBudgetStep = (step) => {
+        let { budget_consult } = this.state
+        budget_consult.step = step
+        this.setState({budget_consult})
+    }
 
     render(){
         const { budget_consult } = this.state
 
         return(
             <MainContainer>
+                <h3>Phase de consultation</h3>
+                <PhasesContainer>
+                    <PhasePartial active={budget_consult.step == "propositions"} onClick={() => this.handleBudgetStep("propositions")}>Propositions</PhasePartial>
+                    <PhasePartial active={budget_consult.step == "votes"} onClick={() => this.handleBudgetStep("votes")} >Votes</PhasePartial>
+                    <PhasePartial active={budget_consult.step == "results"} onClick={() => this.handleBudgetStep("results")} >Résultats</PhasePartial>
+                </PhasesContainer>
+                <Divider />
                 <h3>Dates des différentes phases</h3>
                 <Form>
                     <CustomFormGroup>
@@ -112,4 +125,21 @@ const MainContainer = styled.div`
 const CustomFormGroup = styled.div`
     display: flex;
     justify-content: space-between;
+`
+
+const PhasesContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;    
+`
+
+const PhasePartial = styled.div`
+    flex: 1;
+    cursor: pointer;
+    background-color: ${props => props.active ? "#c20012" : "white"};
+    border: 1px solid #c20012;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 0.3em;
+    color: ${props => props.active ? "white" : "black"};
 `
