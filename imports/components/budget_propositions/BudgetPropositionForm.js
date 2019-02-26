@@ -140,16 +140,19 @@ export default class BudgetPropositionForm extends Component {
                     />
                 </Form.Field>
                 {amazon_connected &&
-                    <DocumentFormContainer>
-                        <Form.Field>
-                            <label>Donnez un titre à votre document</label>
-                            <Input loading={loading_file} onChange={this.handleChange} name="document_title" type="text" value={document_title} />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Ajoutez un document depuis votre ordinateur {!document_title && "(Merci d'entrer un nom de document)"}</label>
-                            <Input loading={loading_file} onChange={(e) => { this.handleFileImport(e) }} type="file" />
-                        </Form.Field>
-                    </DocumentFormContainer>
+                    <div>
+                        <h3>Liez des documents à votre proposition de projet</h3>
+                        <DocumentFormContainer>
+                            <CustomField>
+                                <label>Donnez un titre à votre document</label>
+                                <Input loading={loading_file} onChange={this.handleChange} name="document_title" type="text" value={document_title} />
+                            </CustomField>
+                            <CustomField style={{flex: 2, marginLeft: "1em"}}>
+                                <label>Ajoutez un document depuis votre ordinateur {!document_title && "(Merci d'entrer un nom de document)"}</label>
+                                <Input disabled={!document_title} loading={loading_file} onChange={(e) => { this.handleFileImport(e) }} type="file" />
+                            </CustomField>
+                        </DocumentFormContainer>
+                    </div>
                 }
                 {budget_proposition.documents.length > 0 &&
                     <DocumentsContainer>
@@ -167,10 +170,18 @@ export default class BudgetPropositionForm extends Component {
 const CustomForm = styled(Form)`
     
 `
+const CustomField = styled(Form.Field)`
+    flex: 1;
+`
 
 const DocumentFormContainer = styled.div`
     display: flex;
     flex-wrap;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 3em;
+    border-top: 1px solid #dadada;
+    padding-top: 1em;
 `
 
 const DocumentPartial = (props) => {
@@ -186,7 +197,7 @@ const CustomDocument = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 1em;
-    border: 1px solid black;
+    border: 1px solid #dadada;
     border-radius: 0.5em;
     box-shadow: 4px -2px 20px -10px rgba(0,0,0,0.75);
     margin-top: 0.5em;
