@@ -17,6 +17,7 @@ Meteor.methods({
         budget_proposition.created_at = new Date()
 
         BudgetPropositions.insert(budget_proposition)
+        return existing_propositions_count + 1 >= budget_consult.propositions_max
     }
 },
 'budget_propositions.update'(budget_proposition){

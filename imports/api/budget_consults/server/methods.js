@@ -49,7 +49,10 @@ Meteor.methods({
     }
 },
 'budget_consults.has_proposed'(url_shorten){
+    console.log(url_shorten)
     const budget_consult = BudgetConsults.findOne({url_shorten: url_shorten}, {fields: {_id: 1, url_shorten: 1, propositions_max: 1}})
-    return BudgetPropositions.find({_id: budget_consult._id, user: this.userId}).count() >= budget_consult.propositions_max
+    const propositions_count = BudgetPropositions.find({budget_consult: budget_consult._id, user: this.userId}).count()
+    console.log(`propositions count ${propositions_count}, max: ${budget_consult.propositions_max}`)
+    return propositions_count >= budget_consult.propositions_max
 }
 })

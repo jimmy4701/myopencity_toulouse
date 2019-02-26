@@ -16,6 +16,13 @@ class BudgetConsult extends Component {
 
     componentDidMount(){
         window.scrollTo({top: 0, behavior: "smooth"})
+        Meteor.call('budget_consults.has_proposed', this.props.match.params.url_shorten, (error, result) => {
+            if(error){
+                console.log(error.reason)
+            }else{
+                this.setState({has_proposed: result})
+            }
+        })
     }
 
     componentWillReceiveProps(props){
@@ -28,15 +35,11 @@ class BudgetConsult extends Component {
                     this.setState({sub_territories: result})
                 }
             })
-            Meteor.call('budget_consults.has_proposed', props.url_shorten, (error, result) => {
-                if(error){
-                    console.log(error.reason)
-                }else{
-                    this.setState({has_proposed: result})
-                }
-            })
+            
         }
     }
+
+    handlePropositionSubmit = (has_proposed) => this.setState({has_proposed})
 
     render(){
         const { loading, budget_consult } = this.props
@@ -102,7 +105,12 @@ class BudgetConsult extends Component {
                         {budget_consult.step == 'propositions' && !has_proposed  &&
                             <PropositionFormContainer>
                                 <h2>Proposez votre projet</h2>
-                                <BudgetPropositionForm budget_consult={budget_consult} disabled={!budget_consult.propositions_active} sub_territories={sub_territories}/>
+                                <BudgetPropositionForm 
+                                    budget_consult={budget_consult} 
+                                    disabled={!budget_consult.propositions_active} 
+                                    sub_territories={sub_territories}
+                                    onFormSubmit={this.handlePropositionSubmit}
+                                />
                             </PropositionFormContainer>
                         }
                         {budget_consult.step == 'votes' &&

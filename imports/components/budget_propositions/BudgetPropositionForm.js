@@ -116,7 +116,11 @@ export default class BudgetPropositionForm extends Component {
                   toast.error(error.message)
               }else{
                   toast.success("Votre idée a bien été proposée")
-                  if(this.props.onFormSubmit) this.props.onFormSubmit()
+                  this.setState({budget_proposition: {
+                    documents: [],
+                    user_age: 'adult'
+                }})
+                  if(this.props.onFormSubmit) this.props.onFormSubmit(result)
               }
           })
       }
