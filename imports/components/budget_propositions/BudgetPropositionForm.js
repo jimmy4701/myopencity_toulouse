@@ -8,7 +8,8 @@ import TinyMCE from 'react-tinymce'
 export default class BudgetPropositionForm extends Component {
     state = {
         budget_proposition: {
-            documents: []
+            documents: [],
+            user_age: 'adult'
         },
         sub_territories: []
         
@@ -95,14 +96,40 @@ export default class BudgetPropositionForm extends Component {
           this.setState({budget_proposition})
       }
 
+      handleUserSelect = (event, {name, value}) => {
+          let { budget_proposition } = this.state
+          budget_proposition[name] = value
+          this.setState({budget_proposition})
+      }
+
+      submit_form = (e) => {
+          e.preventDefault()
+          const { budget_consult } = this.props
+          const { budget_proposition } = this.state
+          if(budget_consult.title || !budget_consult.content){
+              toast.error("Il manque des champs obligatoires dans votre proposition d'idée")
+              return
+          }
+          Meteor.call('budget_proposition.insert', {budget_consult_id: budget_consult._id, budget_proposition} , (error, result) => {
+              if(error){
+                  console.log('Erreur', error.message)
+                  toast.error(error.message)
+              }else{
+                  toast.success("Votre idée a bien été proposée")
+                  if(this.props.onFormSubmit) this.props.onFormSubmit()
+              }
+          })
+      }
+
     render(){
         const { budget_proposition, sub_territories, loading_file, document_title } = this.state
+        const { budget_consult } = this.props
 
         const sub_territories_options = sub_territories.map(ter => {
             return {key: ter._id, value: ter._id, text: ter.name}
         })
 
-        const { amazon_connected } = Meteor.isClient && Session.get('global_configuration')
+        const { amazon_connected, buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
 
         return(
             <CustomForm onSubmit={this.submitForm}>
@@ -133,6 +160,7 @@ export default class BudgetPropositionForm extends Component {
                         config={{
                             plugins: 'image autoresize media link paste',
                             paste_as_text: true,
+                            menubar: false,
                             toolbar: 'bold italic | image media | link',
                             images_upload_handler: this.handleUploadImage
                         }}
@@ -142,7 +170,7 @@ export default class BudgetPropositionForm extends Component {
                 {amazon_connected &&
                     <div>
                         <h3>Liez des documents à votre proposition de projet</h3>
-                        <DocumentFormContainer>
+                        <FlexFormContainer bordered>
                             <CustomField>
                                 <label>Donnez un titre à votre document</label>
                                 <Input loading={loading_file} onChange={this.handleChange} name="document_title" type="text" value={document_title} />
@@ -151,7 +179,7 @@ export default class BudgetPropositionForm extends Component {
                                 <label>Ajoutez un document depuis votre ordinateur {!document_title && "(Merci d'entrer un nom de document)"}</label>
                                 <Input disabled={!document_title} loading={loading_file} onChange={(e) => { this.handleFileImport(e) }} type="file" />
                             </CustomField>
-                        </DocumentFormContainer>
+                        </FlexFormContainer>
                     </div>
                 }
                 {budget_proposition.documents.length > 0 &&
@@ -161,7 +189,42 @@ export default class BudgetPropositionForm extends Component {
                         })}
                     </DocumentsContainer>
                 }
-
+                <FlexFormContainer bordered>
+                    <CustomSelect
+                        value={budget_proposition.user_type}
+                        onChange={this.handleUserSelect}
+                        name="user_type"
+                        label="Vous proposez en tant que"
+                        options={[
+                            {key: 'individual', value: 'individual', text: "Un individu"},
+                            {key: 'collective', value: 'collective', text: "Un collectif"},
+                            {key: 'association', value: 'association', text: "Une association"}
+                        ]}
+                    />
+                    <CustomSelect
+                        style={{marginLeft: "1em"}}
+                        value={budget_proposition.user_age}
+                        label="Vous êtes"
+                        name="user_age"
+                        onChange={this.handleUserSelect}
+                        options={[
+                            {key: 'adult', value: 'adult', text: "Adulte"},
+                            {key: 'minor', value: 'minor', text: "Mineur"}
+                        ]}
+                    />
+                </FlexFormContainer>
+                {budget_proposition.user_age == 'minor' &&
+                    <LegalInformation>
+                        {budget_consult.parental_text ? budget_consult.parental_text : 
+                            <div>Les mineurs participant aux consultations de budget participatif de la plateforme jeparticipe.toulouse.fr ont l'obligation de joindre une autorisation parentale signée dans les documents joints à leurs propositions.
+                            Aucune proposition soumise sans autorisation parentale valide ne pourra être prise en compte.</div>
+                        }
+                        <div>Pour récupérer l'autorisation parentale, <a href={budget_consult.parental_link} target="_blank">cliquez ici.</a></div>
+                    </LegalInformation>
+                }
+                <ButtonContainer>
+                    <CustomButton background_color={buttons_validation_background_color} color={buttons_validation_text_color} size="huge" onClick={this.submitForm}>Proposer mon idée</CustomButton>
+                </ButtonContainer>
             </CustomForm>
         )
     }
@@ -174,13 +237,13 @@ const CustomField = styled(Form.Field)`
     flex: 1;
 `
 
-const DocumentFormContainer = styled.div`
+const FlexFormContainer = styled.div`
     display: flex;
     flex-wrap;
     width: 100%;
     justify-content: space-between;
     margin-top: 3em;
-    border-top: 1px solid #dadada;
+    ${props => props.bordered && "border-top: 1px solid #dadada;"}
     padding-top: 1em;
 `
 
@@ -205,4 +268,23 @@ const CustomDocument = styled.div`
 const DocumentsContainer = styled.div`
     display: flex;
     flex-direction: column;
+`
+
+const CustomSelect = styled(Form.Select)`
+    flex: 1;
+`
+
+const LegalInformation = styled.div`
+    font-size: 0.8em;
+`
+
+const ButtonContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const CustomButton = styled(Button)`
+    background-color: ${props => props.background_color} !important;
+    color: ${props => props.color} !important;
 `

@@ -25,7 +25,8 @@ export default class BudgetConsultForm extends Component {
             results_step_name: "Résultats",
             step: "propositions",
             attached_files: [],
-            available_votes: 6
+            available_votes: 6,
+            propositions_max: 1
         },
         step: "global"
     }

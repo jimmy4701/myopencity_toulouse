@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
 import {Helmet} from 'react-helmet'
 import Stepper from '/imports/components/general/Stepper'
-import { Container, Button } from 'semantic-ui-react'
+import { Container, Button, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BudgetPropositionForm } from '/imports/components/budget_propositions'
 import { toast } from 'react-toastify'
@@ -28,12 +28,19 @@ class BudgetConsult extends Component {
                     this.setState({sub_territories: result})
                 }
             })
+            Meteor.call('budget_consults.has_proposed', props.url_shorten, (error, result) => {
+                if(error){
+                    console.log(error.reason)
+                }else{
+                    this.setState({has_proposed: result})
+                }
+            })
         }
     }
 
     render(){
         const { loading, budget_consult } = this.props
-        const { sub_territories } = this.state
+        const { sub_territories, has_proposed } = this.state
 
         const {
             consult_header_height,
@@ -91,13 +98,15 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
-
                         {/* PROPOSITIONS ACTIVE PART */}
-                        {budget_consult.step == 'propositions'  &&
+                        {budget_consult.step == 'propositions' && !has_proposed  &&
                             <PropositionFormContainer>
                                 <h2>Proposez votre projet</h2>
-                                <BudgetPropositionForm disabled={!budget_consult.propositions_active} sub_territories={sub_territories}/>
+                                <BudgetPropositionForm budget_consult={budget_consult} disabled={!budget_consult.propositions_active} sub_territories={sub_territories}/>
                             </PropositionFormContainer>
+                        }
+                        {budget_consult.step == 'votes' &&
+                            <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
                         }
                     </CustomContainer>
                 </MainContainer>
@@ -115,7 +124,8 @@ export default BudgetConsultContainer = withTracker(({match}) => {
     const budget_consult = BudgetConsults.findOne({url_shorten})
     return {
         loading,
-        budget_consult
+        budget_consult,
+        url_shorten
     }
 })(BudgetConsult)
 

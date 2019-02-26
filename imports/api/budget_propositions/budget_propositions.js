@@ -24,9 +24,10 @@ const BudgetPropositionsSchema = new SimpleSchema({
         allowedValues: ['individual', 'collective', 'association'],
         defaultValue: 'individual'
     },
-    user_minor: {
-        type: Boolean,
-        defaultValue: false
+    user_age: {
+        type: String,
+        defaultValue: "adult",
+        allowedValues: ['adult', 'minor']
     },
     documents: {
         type: [DocumentSchema],

@@ -1,5 +1,6 @@
 import {Meteor} from 'meteor/meteor'
 import {BudgetConsults} from '../budget_consults'
+import {BudgetPropositions} from '/imports/api/budget_propositions/budget_propositions'
 import _ from 'lodash'
 
 const generate_url_shorten = (title) => {
@@ -46,5 +47,9 @@ Meteor.methods({
     }else{
         BudgetConsults.remove({_id: budget_consult_id})
     }
+},
+'budget_consults.has_proposed'(url_shorten){
+    const budget_consult = BudgetConsults.findOne({url_shorten: url_shorten}, {fields: {_id: 1, url_shorten: 1, propositions_max: 1}})
+    return BudgetPropositions.find({_id: budget_consult._id, user: this.userId}).count() >= budget_consult.propositions_max
 }
 })

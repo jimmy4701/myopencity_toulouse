@@ -66,11 +66,30 @@ export default class BudgetConsultPropositionForm extends Component {
                         value={budget_consult.propositions_step_name}
                         name='propositions_step_name'
                     />
+                    <Form.Input
+                        label='Nombre max de propositions par citoyen'
+                        onChange={this.handleChange}
+                        value={budget_consult.propositions_max}
+                        type="number"
+                        name='propositions_max'
+                    />
                     <Form.Checkbox
                         checked={budget_consult.propositions_active}
                         label="Les citoyens peuvent faire des propositions"
                         onClick={this.toggleState}
                         name="propositions_active"
+                    />
+                    <Form.Input
+                        label="Texte de demande d'autorisation parentale pour les mineurs"
+                        onChange={this.handleChange}
+                        value={budget_consult.parental_text}
+                        name='parental_text'
+                    />
+                    <Form.Input
+                        label="Lien URL vers le document d'autorisation parentale"
+                        onChange={this.handleChange}
+                        value={budget_consult.parental_link}
+                        name='parental_link'
                     />
                     <Form.Field>
                         <label>Contenu pour la phase de propositions</label>

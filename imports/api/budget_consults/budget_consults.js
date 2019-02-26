@@ -115,6 +115,10 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: String,
         optional: true
     },
+    propositions_max: {
+        type: Number,
+        defaultValue: 1
+    },
     votes_content: {
         type: String,
         optional: true
@@ -150,6 +154,14 @@ const BudgetConsultsSchema = new SimpleSchema({
     active: {
         type: Boolean,
         defaultValue: false
+    },
+    parental_link: {
+        type: String,
+        optional: true
+    },
+    parental_text: {
+        type: String,
+        optional: true
     }
 })
 
