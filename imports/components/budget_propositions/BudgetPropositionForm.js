@@ -102,15 +102,15 @@ export default class BudgetPropositionForm extends Component {
           this.setState({budget_proposition})
       }
 
-      submit_form = (e) => {
+      submitForm = (e) => {
           e.preventDefault()
           const { budget_consult } = this.props
           const { budget_proposition } = this.state
-          if(budget_consult.title || !budget_consult.content){
+          if(!budget_proposition.title || !budget_proposition.content){
               toast.error("Il manque des champs obligatoires dans votre proposition d'idée")
               return
           }
-          Meteor.call('budget_proposition.insert', {budget_consult_id: budget_consult._id, budget_proposition} , (error, result) => {
+          Meteor.call('budget_propositions.insert', {budget_consult_id: budget_consult._id, budget_proposition} , (error, result) => {
               if(error){
                   console.log('Erreur', error.message)
                   toast.error(error.message)

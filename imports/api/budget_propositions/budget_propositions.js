@@ -40,7 +40,8 @@ const BudgetPropositionsSchema = new SimpleSchema({
         type: Date
     },
     updated_at: {
-        type: Date
+        type: Date,
+        optional: true
     },
     user: {
         type: String
