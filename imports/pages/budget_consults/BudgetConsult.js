@@ -6,6 +6,8 @@ import {Helmet} from 'react-helmet'
 import Stepper from '/imports/components/general/Stepper'
 import { Container, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { BudgetPropositionForm } from '/imports/components/budget_propositions'
+import { toast } from 'react-toastify'
 
 class BudgetConsult extends Component {
     state = {
@@ -16,8 +18,22 @@ class BudgetConsult extends Component {
         window.scrollTo({top: 0, behavior: "smooth"})
     }
 
+    componentWillReceiveProps(props){
+        if(props.budget_consult){
+            Meteor.call('sub_territories.get_by_ids', {ids: props.budget_consult.sub_territories, fields: {name: 1, _id: 1}}, (error, result) => {
+                if(error){
+                    console.log('Erreur', error.message)
+                    toast.error(error.message)
+                }else{
+                    this.setState({sub_territories: result})
+                }
+            })
+        }
+    }
+
     render(){
         const { loading, budget_consult } = this.props
+        const { sub_territories } = this.state
 
         const {
             consult_header_height,
@@ -72,6 +88,14 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer className="animated fadeInDown">
                         <Stepper steps={steps} current_step={step_index}/>
+                    </CustomContainer>
+                    <CustomContainer>
+                        <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
+
+                        {/* PROPOSITIONS ACTIVE PART */}
+                        {budget_consult.step == 'propositions'  &&
+                            <BudgetPropositionForm disabled={!budget_consult.propositions_active} sub_territories={sub_territories}/>
+                        }
                     </CustomContainer>
                 </MainContainer>
             )
