@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { withTracker } from 'meteor/react-meteor-data'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
 import {Helmet} from 'react-helmet'
+import Stepper from '/imports/components/general/Stepper'
+import { Container, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class BudgetConsult extends Component {
     state = {
@@ -29,7 +32,17 @@ class BudgetConsult extends Component {
             consult_term
           } = Meteor.isClient && Session.get('global_configuration')
 
+        const steps = [
+            { key: "propositions", title: "Propositons", description: "Jusqu'au 22 Janvier"},
+            { key: "agora", title: "Agora", description: "Jusqu'au 22 Janvier"},
+            { key: "analysis", title: "Analyse technique", description: "Jusqu'au 22 Janvier"},
+            { key: "votes", title: "Votes", description: "Jusqu'au 22 Janvier"},
+            { key: "results", title: "Résultats", description: "Jusqu'au 22 Janvier"},
+        ]
+
+        
         if(!loading){
+            const step_index = steps.findIndex(o => o.key == budget_consult.step )
             return(
                 <MainContainer>
                     <Helmet>
@@ -44,6 +57,22 @@ class BudgetConsult extends Component {
                         <ConsultBackground/>
                         <ConsultTitle className="animated fadeInUp" color={consult_header_color}>{budget_consult.title}</ConsultTitle>
                     </ConsultHeader>
+                    <CustomContainer>
+                        <SocialShareContainer style={{marginBottom: "2em"}}>
+                            <p style={{marginBottom: 0}}><strong>Partagez sur les réseaux sociaux</strong></p>
+                            {Meteor.isClient && [
+                                <Link to={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
+                                    <Button icon="facebook" color="blue" size="tiny" content="Facebook"/>
+                                </Link>,
+                                <Link to={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse #budget " +  budget_consult.title + " " +  window.location.href) } target="_blank">
+                                    <Button icon="twitter" color="blue" size="tiny" content="Twitter"/>
+                                </Link>
+                            ]}
+                        </SocialShareContainer>
+                    </CustomContainer>
+                    <CustomContainer className="animated fadeInDown">
+                        <Stepper steps={steps} current_step={step_index}/>
+                    </CustomContainer>
                 </MainContainer>
             )
         }else{
@@ -90,4 +119,13 @@ const ConsultBackground = styled.div`
 
 const ConsultTitle = styled.h3`
     color: ${props => props.color};
+    font-size: 2em;
+`
+
+const CustomContainer = styled(Container)`
+    margin-top: 2em;
+`
+
+const SocialShareContainer = styled.div`
+    margin-bottom: 2em;
 `
