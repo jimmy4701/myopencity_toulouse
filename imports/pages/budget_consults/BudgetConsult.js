@@ -94,7 +94,10 @@ class BudgetConsult extends Component {
 
                         {/* PROPOSITIONS ACTIVE PART */}
                         {budget_consult.step == 'propositions'  &&
-                            <BudgetPropositionForm disabled={!budget_consult.propositions_active} sub_territories={sub_territories}/>
+                            <PropositionFormContainer>
+                                <h2>Proposez votre projet</h2>
+                                <BudgetPropositionForm disabled={!budget_consult.propositions_active} sub_territories={sub_territories}/>
+                            </PropositionFormContainer>
                         }
                     </CustomContainer>
                 </MainContainer>
@@ -152,4 +155,8 @@ const CustomContainer = styled(Container)`
 
 const SocialShareContainer = styled.div`
     margin-bottom: 2em;
+`
+
+const PropositionFormContainer = styled.div`
+    margin-top: 2em;
 `
