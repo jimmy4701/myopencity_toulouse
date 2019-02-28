@@ -48,6 +48,10 @@ const BudgetPropositionsSchema = new SimpleSchema({
     },
     budget_consult: {
         type: String
+    },
+    validated: {
+        type: Boolean,
+        defaultValue: false
     }
 })
 

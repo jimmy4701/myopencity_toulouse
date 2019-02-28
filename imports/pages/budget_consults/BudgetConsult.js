@@ -102,16 +102,24 @@ class BudgetConsult extends Component {
                     <CustomContainer>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
                         {/* PROPOSITIONS ACTIVE PART */}
-                        {budget_consult.step == 'propositions' && !has_proposed  &&
-                            <PropositionFormContainer>
-                                <h2>Proposez votre projet</h2>
-                                <BudgetPropositionForm 
-                                    budget_consult={budget_consult} 
-                                    disabled={!budget_consult.propositions_active} 
-                                    sub_territories={sub_territories}
-                                    onFormSubmit={this.handlePropositionSubmit}
-                                />
-                            </PropositionFormContainer>
+                        {budget_consult.step == 'propositions' &&
+                            <div>
+                                {has_proposed ?
+                                    <HasProposedContainer>
+                                        <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
+                                    </HasProposedContainer>
+                                :
+                                    <PropositionFormContainer>
+                                        <h2>Proposez votre projet</h2>
+                                        <BudgetPropositionForm 
+                                            budget_consult={budget_consult} 
+                                            disabled={!budget_consult.propositions_active} 
+                                            sub_territories={sub_territories}
+                                            onFormSubmit={this.handlePropositionSubmit}
+                                        />
+                                    </PropositionFormContainer>
+                                }
+                            </div>
                         }
                         {budget_consult.step == 'votes' &&
                             <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
@@ -177,4 +185,8 @@ const SocialShareContainer = styled.div`
 
 const PropositionFormContainer = styled.div`
     margin-top: 2em;
+`
+
+const HasProposedContainer = styled.div`
+    margin: 2em 0;
 `
