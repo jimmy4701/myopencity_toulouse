@@ -9,3 +9,7 @@ Meteor.publish('sub_territories.all', function(){
         return SubTerritories.find({}, {limit: 100000, sort: {}})
     }
 })
+
+Meteor.publish('sub_territories.by_ids', function(ids){
+    return SubTerritories.find({_id: {$in: ids}}, {limit: 100000, sort: {}})
+})

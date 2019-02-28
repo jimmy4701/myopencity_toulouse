@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { withTracker } from 'meteor/react-meteor-data'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
+import { SubTerritories } from '/imports/api/sub_territories/sub_territories'
 import {Helmet} from 'react-helmet'
 import Stepper from '/imports/components/general/Stepper'
 import { Container, Button, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BudgetPropositionForm } from '/imports/components/budget_propositions'
 import { toast } from 'react-toastify'
-
+import { TerritoriesMap } from '/imports/components/territories'
 class BudgetConsult extends Component {
     state = {
         
@@ -25,25 +26,11 @@ class BudgetConsult extends Component {
         })
     }
 
-    componentWillReceiveProps(props){
-        if(props.budget_consult){
-            Meteor.call('sub_territories.get_by_ids', {ids: props.budget_consult.sub_territories, fields: {name: 1, _id: 1}}, (error, result) => {
-                if(error){
-                    console.log('Erreur', error.message)
-                    toast.error(error.message)
-                }else{
-                    this.setState({sub_territories: result})
-                }
-            })
-            
-        }
-    }
-
     handlePropositionSubmit = (has_proposed) => this.setState({has_proposed})
 
     render(){
-        const { loading, budget_consult } = this.props
-        const { sub_territories, has_proposed } = this.state
+        const { loading, budget_consult, sub_territories } = this.props
+        const { has_proposed } = this.state
 
         const {
             consult_header_height,
@@ -99,8 +86,16 @@ class BudgetConsult extends Component {
                     <CustomContainer className="animated fadeInDown">
                         <Stepper steps={steps} current_step={step_index}/>
                     </CustomContainer>
-                    <CustomContainer>
+                    <CustomContainer size_defined>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
+                        <TerritoriesMap 
+                            territories={sub_territories}
+                            consults={[]}
+                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"
+                            loadingElement={<div style={{ height: `100%` }} />}
+                            containerElement={<MapContainer />}
+                            mapElement={<div style={{ height: `100%`, width: '100%' }} />}
+                        />
                         {has_proposed ?
                             <HasProposedContainer>
                                 <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
@@ -148,12 +143,20 @@ class BudgetConsult extends Component {
 export default BudgetConsultContainer = withTracker(({match}) => {
     const { url_shorten } = match.params
     const budgetConsultPublication = Meteor.isClient && Meteor.subscribe('budget_consults.by_url_shorten', url_shorten)
-    const loading = Meteor.isClient && !budgetConsultPublication.ready()
     const budget_consult = BudgetConsults.findOne({url_shorten})
-    return {
-        loading,
-        budget_consult,
-        url_shorten
+
+    if(budget_consult){
+        const subTerritoriesPublication = Meteor.isClient && Meteor.subscribe('sub_territories.by_ids', budget_consult.sub_territories)
+        const loading = Meteor.isClient && (!budgetConsultPublication.ready() || !subTerritoriesPublication.ready())
+        const sub_territories = SubTerritories.find({_id: {$in: budget_consult.sub_territories}}, {fields: {name: 1, coordinates: 1, color: 1}}).fetch()
+        return {
+            loading,
+            budget_consult,
+            url_shorten,
+            sub_territories
+        }
+    }else{
+        return {loading: true}
     }
 })(BudgetConsult)
 
@@ -189,6 +192,7 @@ const ConsultTitle = styled.h3`
 
 const CustomContainer = styled(Container)`
     margin-top: 2em;
+    ${props => props.size_defined ? "height: 100%; width: 100%;" : ""}
 `
 
 const SocialShareContainer = styled.div`
@@ -200,5 +204,11 @@ const PropositionFormContainer = styled.div`
 `
 
 const HasProposedContainer = styled.div`
+    margin: 2em 0;
+`
+
+const MapContainer = styled.div`
+    height: 35em;
+    width: 100%;
     margin: 2em 0;
 `
