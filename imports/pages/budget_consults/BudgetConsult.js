@@ -58,16 +58,16 @@ class BudgetConsult extends Component {
             consult_term
           } = Meteor.isClient && Session.get('global_configuration')
 
-        const steps = [
-            { key: "propositions", title: "Propositons", description: "Jusqu'au 22 Janvier"},
-            { key: "agora", title: "Agora", description: "Jusqu'au 22 Janvier"},
-            { key: "analysis", title: "Analyse technique", description: "Jusqu'au 22 Janvier"},
-            { key: "votes", title: "Votes", description: "Jusqu'au 22 Janvier"},
-            { key: "results", title: "Résultats", description: "Jusqu'au 22 Janvier"},
-        ]
-
-        
-        if(!loading){
+          
+          
+          if(!loading){
+              const steps = [
+                  { key: "propositions", title: budget_consult.propositions_step_name, description: "Jusqu'au 22 Janvier"},
+                  { key: "agora", title: budget_consult.agora_step_name, description: "Jusqu'au 22 Janvier"},
+                  { key: "analysis", title: budget_consult.analysis_step_name, description: "Jusqu'au 22 Janvier"},
+                  { key: "votes", title: budget_consult.votes_step_name, description: "Jusqu'au 22 Janvier"},
+                  { key: "results", title: budget_consult.results_step_name, description: "Jusqu'au 22 Janvier"},
+              ]
             const step_index = steps.findIndex(o => o.key == (budget_consult ? budget_consult.step : 'propositions') )
             return(
                 <MainContainer>
@@ -101,28 +101,40 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
-                        {/* PROPOSITIONS ACTIVE PART */}
-                        {budget_consult.step == 'propositions' &&
-                            <div>
-                                {has_proposed ?
-                                    <HasProposedContainer>
-                                        <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
-                                    </HasProposedContainer>
-                                :
-                                    <PropositionFormContainer>
-                                        <h2>Proposez votre projet</h2>
-                                        <BudgetPropositionForm 
-                                            budget_consult={budget_consult} 
-                                            disabled={!budget_consult.propositions_active} 
-                                            sub_territories={sub_territories}
-                                            onFormSubmit={this.handlePropositionSubmit}
-                                        />
-                                    </PropositionFormContainer>
-                                }
-                            </div>
+                        {has_proposed ?
+                            <HasProposedContainer>
+                                <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
+                            </HasProposedContainer>
+                        :
+                            <PropositionFormContainer>
+                                <h2>Proposez votre projet</h2>
+                                <BudgetPropositionForm 
+                                    budget_consult={budget_consult} 
+                                    disabled={!budget_consult.propositions_active} 
+                                    sub_territories={sub_territories}
+                                    onFormSubmit={this.handlePropositionSubmit}
+                                />
+                            </PropositionFormContainer>
                         }
-                        {budget_consult.step == 'votes' &&
-                            <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
+                        {step_index >= 1 &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.agora_content }} />
+                            </CustomContainer>
+                        }
+                        {step_index >= 2 &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.analysis_content }} />
+                            </CustomContainer>
+                        }
+                        {step_index >= 3 &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
+                            </CustomContainer>
+                        }
+                        {step_index >= 4 &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.results_content }} />
+                            </CustomContainer>
                         }
                     </CustomContainer>
                 </MainContainer>

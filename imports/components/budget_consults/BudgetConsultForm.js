@@ -10,7 +10,9 @@ import {
     BudgetConsultVotesForm,
     BudgetConsultResultsForm,
     BudgetConsultDocumentsForm,
-    BudgetConsultConfigurationForm
+    BudgetConsultConfigurationForm,
+    BudgetConsultAgoraForm,
+    BudgetConsultAnalysisForm
  } from '/imports/components/budget_consults'
 
 export default class BudgetConsultForm extends Component {
@@ -21,8 +23,9 @@ export default class BudgetConsultForm extends Component {
             propositions_active: true,
             votes_active: true,
             propositions_step_name: "Propositions",
+            agora_step_name: "Agora",
+            analysis_step_name: "Analyse technique",
             votes_step_name: "Votes",
-            votes_modal_title: "Votez pour vos projets préférés",
             results_step_name: "Résultats",
             step: "propositions",
             attached_files: [],
@@ -64,6 +67,8 @@ export default class BudgetConsultForm extends Component {
                         <Menu.Item onClick={() => this.changeStep('territories')} active={step == 'territories'}>Territoires</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('design')} active={step == 'design'}>Apparence</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('propositions')} active={step == 'propositions'}>Propositions</Menu.Item>
+                        <Menu.Item onClick={() => this.changeStep('agora')} active={step == 'agora'}>Agora</Menu.Item>
+                        <Menu.Item onClick={() => this.changeStep('analysis')} active={step == 'analysis'}>Analyse</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('votes')} active={step == 'votes'}>Votes</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('results')} active={step == 'results'}>Résultats</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('documents')} active={step == 'documents'}>Documents</Menu.Item>
@@ -83,6 +88,12 @@ export default class BudgetConsultForm extends Component {
                     }
                     {step == "propositions" &&
                         <BudgetConsultPropositionForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
+                    }
+                    {step == "agora" &&
+                        <BudgetConsultAgoraForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
+                    }
+                    {step == "analysis" &&
+                        <BudgetConsultAnalysisForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "votes" &&
                         <BudgetConsultVotesForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />

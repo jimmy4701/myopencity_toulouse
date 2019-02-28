@@ -131,6 +131,22 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: String,
         defaultValue: "Propositions"
     },
+    agora_step_name: {
+        type: String,
+        defaultValue: "Agora"
+    },
+    agora_content: {
+        type: String,
+        optional: true
+    },
+    analysis_step_name: {
+        type: String,
+        defaultValue: "Analyse technique"
+    },
+    analysis_content: {
+        type: String,
+        optional: true
+    },
     votes_step_name: {
         type: String,
         defaultValue: "Votes"
