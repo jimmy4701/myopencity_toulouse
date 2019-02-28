@@ -87,6 +87,11 @@ export class AdminTerritoriesPage extends Component{
           <Grid.Column width={16}>
             <Container>
                 <Button color={!display_form && "green"} onClick={this.toggleState} name="display_form" >{display_form ? "Annuler" : "Créer un nouveau territoire"}</Button>
+                {!display_form &&
+                  <Link to="/admin/sub_territories">
+                    <Button icon="map" content="Gérer les sous-territoires"/>
+                  </Link>
+                }
                 {display_form ?
                   <TerritoryForm territory={editing_territory} onSubmitForm={this.onSubmit} />
               :

@@ -37,6 +37,7 @@ import Participation from '/imports/pages/general/Participation'
 import Lexical from '/imports/pages/general/Lexical'
 import NotFound from '/imports/pages/general/NotFound'
 import AccountValidation from '/imports/pages/accounts/AccountValidation'
+import BudgetConsult from '/imports/pages/budget_consults/BudgetConsult'
 
 export class MainLayoutServer extends Component {
   constructor(props) {
@@ -87,6 +88,7 @@ export class MainLayoutServer extends Component {
             <Public component={SigninPage} exact path="/sign_in"       { ...this.props } />
             <Public component={ConsultsPage} exact path="/consults"       { ...this.props } />
             <Public component={ConsultPage} exact path="/consults/:urlShorten"       { ...this.props } />
+            <Public component={BudgetConsult} exact path="/budgets/:url_shorten"       { ...this.props } />
             <Public component={TerritoryConsultsPage} exact path="/territory/:shorten_url/consults"       { ...this.props } />
             <Public component={ProfilePage} exact path="/profile/:user_id"       { ...this.props } />
             <Public component={ProjectsPage} exact path="/projects"       { ...this.props } />
