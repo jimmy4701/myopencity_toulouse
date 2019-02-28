@@ -68,7 +68,7 @@ class BudgetConsult extends Component {
 
         
         if(!loading){
-            const step_index = steps.findIndex(o => o.key == budget_consult.step )
+            const step_index = steps.findIndex(o => o.key == (budget_consult ? budget_consult.step : 'propositions') )
             return(
                 <MainContainer>
                     <Helmet>
@@ -136,7 +136,7 @@ class BudgetConsult extends Component {
 export default BudgetConsultContainer = withTracker(({match}) => {
     const { url_shorten } = match.params
     const budgetConsultPublication = Meteor.isClient && Meteor.subscribe('budget_consults.by_url_shorten', url_shorten)
-    const loading = Meteor.isClient && (!budgetConsultPublication.ready())
+    const loading = Meteor.isClient && !budgetConsultPublication.ready()
     const budget_consult = BudgetConsults.findOne({url_shorten})
     return {
         loading,

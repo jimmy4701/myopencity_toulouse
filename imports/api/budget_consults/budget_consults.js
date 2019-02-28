@@ -162,6 +162,10 @@ const BudgetConsultsSchema = new SimpleSchema({
     parental_text: {
         type: String,
         optional: true
+    },
+    moderators_emails: {
+        type: [String],
+        defaultValue: []
     }
 })
 

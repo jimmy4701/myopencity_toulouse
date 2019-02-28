@@ -7,6 +7,7 @@ import BudgetConsultPropositionForm from './form_parts/BudgetConsultPropositionF
 import BudgetConsultVotesForm from './form_parts/BudgetConsultVotesForm'
 import BudgetConsultResultsForm from './form_parts/BudgetConsultResultsForm'
 import BudgetConsultDocumentsForm from './form_parts/BudgetConsultDocumentsForm'
+import BudgetConsultConfigurationForm from './form_parts/BudgetConsultConfigurationForm'
 
 export {
     BudgetConsultForm,
@@ -17,5 +18,6 @@ export {
     BudgetConsultPropositionForm,
     BudgetConsultVotesForm,
     BudgetConsultResultsForm,
-    BudgetConsultDocumentsForm
+    BudgetConsultDocumentsForm,
+    BudgetConsultConfigurationForm
 }

@@ -9,7 +9,8 @@ import {
     BudgetConsultPropositionForm,
     BudgetConsultVotesForm,
     BudgetConsultResultsForm,
-    BudgetConsultDocumentsForm
+    BudgetConsultDocumentsForm,
+    BudgetConsultConfigurationForm
  } from '/imports/components/budget_consults'
 
 export default class BudgetConsultForm extends Component {
@@ -93,7 +94,7 @@ export default class BudgetConsultForm extends Component {
                         <BudgetConsultDocumentsForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                     {step == "settings" &&
-                        <h1>settings</h1>
+                        <BudgetConsultConfigurationForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
                 </PartsContainer>
             </MainContainer>
