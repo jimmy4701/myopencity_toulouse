@@ -20,9 +20,10 @@ const BudgetPropositionsSchema = new SimpleSchema({
         optional: true
     },
     coordinates: {
-        type: String,
+        type: Object,
+        blackbox: true,
         optional: true
-    },
+      },
     geolocation_address: {
         type: String,
         optional: true
