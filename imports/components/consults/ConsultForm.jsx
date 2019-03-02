@@ -11,6 +11,7 @@ import moment from 'moment'
 import ImageCropper from '/imports/components/general/ImageCropper'
 if(Meteor.isClient){
   import readAndCompressImage from 'browser-image-resizer'
+  import 'moment/locale/fr'
 }
 import _ from 'lodash'
 
@@ -382,16 +383,18 @@ export default class ConsultForm extends TrackerReact(Component) {
                 <Form.Field>
                   <label>Date de début de consultation</label>
                   <DatePicker
-                      selected={moment(consult.start_date)}
+                      locale="fr"
                       dateFormat="DD/MM/YYYY"
+                      selected={moment(consult.start_date)}
                       onChange={this.handleStartDate}
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Date de fin de consultation</label>
                   <DatePicker
-                      selected={moment(consult.end_date)}
+                      locale="fr"
                       dateFormat="DD/MM/YYYY"
+                      selected={moment(consult.end_date)}
                       onChange={this.handleEndDate}
                   />
                 </Form.Field>

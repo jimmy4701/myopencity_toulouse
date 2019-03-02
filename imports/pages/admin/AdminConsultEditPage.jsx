@@ -16,12 +16,9 @@ export class AdminConsultEditPage extends TrackerReact(Component){
       - consult_shorten_url: String
   */
 
-  constructor(props){
-    super(props);
-    this.state = {
+  state = {
       consult: {},
       consult_parts: []
-    }
   }
 
   componentWillMount(){
