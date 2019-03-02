@@ -26,10 +26,48 @@ class AdminBudgetProposition extends Component {
         })
     }
 
+    verify = () => {
+        const {budget_proposition} = this.props
+        Meteor.call('budget_propositions.verify', budget_proposition._id, (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success("La proposition est déclarée comme vérifiée")
+            }
+        })
+    }
+
+    validate = () => {
+        const { budget_proposition } = this.props
+        Meteor.call('budget_propositions.validate', budget_proposition._id , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success("La proposition a bien été validée")
+            }
+        })
+    }
+
+    unvalidate = () => {
+        const { budget_proposition } = this.props
+        Meteor.call('budget_propositions.unvalidate', budget_proposition._id , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success("La proposition a bien été invalidée")
+            }
+        })
+    }
+
     render(){
         const {budget_proposition, sub_territories, all_sub_territories, loading} = this.props
         const { editing } = this.state
-
+        const is_verified = budget_proposition.status.find(o => o == 'verified')
+        const is_validated = budget_proposition.status.find(o => o == 'validated')
+        
         if(!loading){
             return(
                 <MainContainer>
@@ -41,6 +79,11 @@ class AdminBudgetProposition extends Component {
                     </Content>
                     <ActionsContainer>
                         <Button onClick={this.toggleState} name="editing">{editing ? "Annuler" : "Modifier"}</Button>
+                        {!is_verified &&
+                            <Button onClick={this.verify}>Déclarer comme vérifié</Button>
+                        }
+                        <Button onClick={this.validate}>Valider</Button>
+                        <Button onClick={this.unvalidate}>Invalider</Button>
                     </ActionsContainer>
                     {editing &&
                         <FormContainer>

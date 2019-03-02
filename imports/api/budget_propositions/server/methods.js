@@ -39,5 +39,51 @@ Meteor.methods({
     }else{
         BudgetPropositions.remove({_id: budget_proposition_id})
     }
+},
+'budget_propositions.verify'(budget_proposition_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+        const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id})
+        budget_proposition.status = budget_proposition.status.filter(o => o != 'not_verified')
+        budget_proposition.status.push('verified')
+        BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: budget_proposition.status}})
+    }
+},
+'budget_propositions.validate'(budget_proposition_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+        const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id})
+        let status = budget_proposition.status
+
+        if(status.includes('validated')){
+            throw new Meteor.Error("403", "La proposition est déjà validée")
+        } else {
+            status = status.filter(o => o != 'invalid')
+            status = status.filter(o => o != 'not_verified')
+            status.push('validated')            
+            if(!status.includes('verified')) status.push('verified')
+        }
+        BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: status}})
+    }
+},
+'budget_propositions.unvalidate'(budget_proposition_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+        const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id})
+        let status = budget_proposition.status
+
+        if(status.includes('invalid')){
+            throw new Meteor.Error('403', "La proposition est déjà invalidée")
+        }else{
+            status = status.filter(o => o != 'validated')
+            status.push('invalid')
+            status = status.filter(o => o != 'not_verified')
+            if(!status.includes('verified')) status.push('verified')
+        }
+        BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: status}})
+    }
 }
 })

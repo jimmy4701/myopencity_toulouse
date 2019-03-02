@@ -223,7 +223,7 @@ export default class AdminBudgetPropositionForm extends Component {
                 {budget_proposition.documents.length > 0 &&
                     <DocumentsContainer>
                         {budget_proposition.documents.map((document, index) => {
-                            return <DocumentPartial key={document.url + index} onRemove={this.handleRemoveDocument} document={document} />
+                            return <DocumentPartial key={document.url + index} onRemove={this.handleRemoveDocument} document={document} onClick={() => window.open(document.url)} />
                         })}
                     </DocumentsContainer>
                 }
@@ -287,7 +287,7 @@ const FlexFormContainer = styled.div`
 
 const DocumentPartial = (props) => {
     return(
-        <CustomDocument>
+        <CustomDocument {...props}>
             {props.document.title}
             <Button size="mini" color="red" onClick={() => props.onRemove(props.document)} content="Supprimer" icon="delete" />
         </CustomDocument>
@@ -299,6 +299,7 @@ const CustomDocument = styled.div`
     justify-content: space-between;
     padding: 1em;
     border: 1px solid #dadada;
+    cursor: pointer;
     border-radius: 0.5em;
     box-shadow: 4px -2px 20px -10px rgba(0,0,0,0.75);
     margin-top: 0.5em;
