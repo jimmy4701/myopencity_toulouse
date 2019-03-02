@@ -22,7 +22,8 @@ class TerritoriesMap extends Component {
 
     componentWillReceiveProps(){
       const info_windows = {}
-      this.props.consults.map(consult => {
+      const {consults = []} = this.props
+      consults.map(consult => {
         info_windows[consult._id] = false
       })
       this.setState({info_windows})
@@ -35,7 +36,7 @@ class TerritoriesMap extends Component {
     }
 
     render() {
-        const {territories, consults} = this.props
+        const {territories = [], consults = [], budget_propositions = []} = this.props
         const {info_windows} = this.state
         const {navbar_color} = Session.get('global_configuration')
 
@@ -367,6 +368,25 @@ class TerritoriesMap extends Component {
                                     </div>
                                   </InfoWindow>
                                 }
+                              </Marker>
+                                
+                            )
+                        }
+                    }) }
+                  </MarkerClusterer>
+
+                  <MarkerClusterer
+                    averageCenter
+                    enableRetinaIcons
+                    gridSize={60}
+                  >
+                    {budget_propositions && budget_propositions.map(proposition => {
+                        if(proposition.coordinates){
+                            return (
+                              <Marker
+                                key={proposition._id}
+                                position={proposition.coordinates}
+                              >
                               </Marker>
                                 
                             )

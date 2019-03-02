@@ -33,7 +33,7 @@ class BudgetConsult extends Component {
     handlePropositionSubmit = (has_proposed) => this.setState({has_proposed})
 
     render(){
-        const { loading, budget_consult, sub_territories, budget_propositions_total_pages } = this.props
+        const { loading, budget_consult, sub_territories, budget_propositions_total_pages, budget_propositions_count, budget_propositions_coordinates } = this.props
         const { has_proposed, validated_page } = this.state
 
         const {
@@ -92,11 +92,16 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer size_defined>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
+                        {budget_propositions_count > 0 &&
+                            <h3>Déjà {budget_propositions_count} idées proposées</h3>
+                        }
                         <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={budget_propositions_total_pages} status="validated" />
-                        <Pagination increment total_pages={budget_propositions_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
+                        <PaginationContainer>
+                            <Pagination increment total_pages={budget_propositions_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
+                        </PaginationContainer>
                         <TerritoriesMap 
                             territories={sub_territories}
-                            consults={[]}
+                            budget_propositions={budget_propositions_coordinates}
                             googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"
                             loadingElement={<div style={{ height: `100%` }} />}
                             containerElement={<MapContainer />}
@@ -156,13 +161,17 @@ export default BudgetConsultContainer = withTracker(({match}) => {
         const budgetPropositionsPublication = Meteor.isClient && Meteor.subscribe('budget_propositions.by_budget_consult_light', budget_consult._id)
         const loading = Meteor.isClient && (!budgetConsultPublication.ready() || !subTerritoriesPublication.ready() || !budgetPropositionsPublication.ready())
         const sub_territories = SubTerritories.find({_id: {$in: budget_consult.sub_territories}}, {fields: {name: 1, coordinates: 1, color: 1}}).fetch()
-        const budget_propositions_total_pages = ceil(BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}).count() / 10)
+        const budget_propositions_count = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}).count()
+        const budget_propositions_total_pages = ceil(budget_propositions_count / 10)
+        const budget_propositions_coordinates = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}, {fields: {coordinates: 1}}).fetch()
         return {
             loading,
             budget_consult,
             url_shorten,
             sub_territories,
-            budget_propositions_total_pages
+            budget_propositions_total_pages,
+            budget_propositions_count,
+            budget_propositions_coordinates
         }
     }else{
         return {loading: true}
@@ -220,4 +229,10 @@ const MapContainer = styled.div`
     height: 35em;
     width: 100%;
     margin: 2em 0;
+`
+
+const PaginationContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
