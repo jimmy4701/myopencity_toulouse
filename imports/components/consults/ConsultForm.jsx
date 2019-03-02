@@ -9,7 +9,9 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 import ImageCropper from '/imports/components/general/ImageCropper'
-import readAndCompressImage from 'browser-image-resizer'
+if(Meteor.isClient){
+  import readAndCompressImage from 'browser-image-resizer'
+}
 import _ from 'lodash'
 
 export default class ConsultForm extends TrackerReact(Component) {

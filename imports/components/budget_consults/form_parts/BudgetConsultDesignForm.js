@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { BudgetConsultPartial } from '/imports/components/budget_consults'
 import ImageCropper from '/imports/components/general/ImageCropper'
-import readAndCompressImage from 'browser-image-resizer'
+if(Meteor.isClient){
+  import readAndCompressImage from 'browser-image-resizer'
+}
 import { toast } from 'react-toastify'
 import { Form, Input } from 'semantic-ui-react'
 
