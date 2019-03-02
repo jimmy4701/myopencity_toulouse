@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { Switch, withRouter, Link } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
-import { Loader, Grid, Sidebar, Button, Menu, Icon } from 'semantic-ui-react'
+import { Loader, Grid, Sidebar, Menu } from 'semantic-ui-react'
 import { ToastContainer } from 'react-toastify'
 
 // Components
@@ -233,3 +233,5 @@ export default MainLayoutContainer = createContainer(() => {
     global_configuration
   }
 }, withRouter(MainLayout))
+
+

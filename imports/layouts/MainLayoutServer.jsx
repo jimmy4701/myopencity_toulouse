@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { Switch, withRouter } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
-import { Dimmer, Loader, Image } from 'semantic-ui-react'
+import styled from 'styled-components'
 
 //components
 import Public from "/imports/components/routes/Public"
@@ -77,10 +77,9 @@ export class MainLayoutServer extends Component {
           }
         </Helmet>
         <main>
-          <Dimmer active style={{ opacity: '1 !important' }}>
-            <Image src="/images/logo_loading.gif" inline /><br />
-            <Loader color="blue"></Loader>
-          </Dimmer>
+          <CustomDimmer active >
+            <img src="/images/logo_loading.gif" />
+          </CustomDimmer>
           <Switch style={{ display: 'none' }}>
             <Public component={Landing} exact path="/"       { ...this.props } />
             <Public component={Conditions} exact path="/conditions" { ...this.props } />
@@ -122,3 +121,21 @@ export default MainLayoutServerContainer = createContainer(() => {
     configuration
   }
 }, withRouter(MainLayoutServer))
+
+
+const CustomDimmer = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.8);
+  opacity: 1 ;
+  z-index: 9999;
+
+`
