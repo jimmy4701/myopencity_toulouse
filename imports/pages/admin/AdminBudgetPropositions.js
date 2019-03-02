@@ -4,12 +4,12 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
 import { Container, Button } from 'semantic-ui-react'
 import { ActionsContainer } from '/imports/components/general'
-import { BudgetPropositionsNotVerified } from '/imports/components/admin/budget'
+import { BudgetPropositionsDisplayer } from '/imports/components/admin/budget'
 import Helmet from 'react-helmet'
 
 class AdminBudgetPropositions extends Component {
     state = {
-        step: "not-verified"
+        step: "not_verified"
     }
 
     changeStep = (e, {name}) => this.setState({step: name})
@@ -28,13 +28,13 @@ class AdminBudgetPropositions extends Component {
                         <h1>{budget_consult.title}</h1>
                         <h2>Gestion des propositions de budget participatif</h2>
                         <ActionsContainer>
-                            <Button onClick={this.changeStep} active={step == 'not-verified'} name="not-verified">Proposées non validées</Button>
-                            <Button onClick={this.changeStep} active={step == 'validated'} name="validated">Proposées non validées</Button>
-                            <Button onClick={this.changeStep} active={step == 'selected'} name="selected">Proposées non validées</Button>
+                            <Button onClick={this.changeStep} active={step == 'not_verified'} name="not_verified">Non vérifiées</Button>
+                            <Button onClick={this.changeStep} active={step == 'validated'} name="validated">Validées</Button>
+                            <Button onClick={this.changeStep} active={step == 'invalid'} name="invalid">Invalidées</Button>
+                            <Button onClick={this.changeStep} active={step == 'votable'} name="votable">Votables</Button>
                         </ActionsContainer>
-                        {step == 'not-verified' &&
-                            <BudgetPropositionsNotVerified budget_consult_id={budget_consult._id}/>
-                        }
+
+                        <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} status={ step } /> 
                     </CustomContainer>
                 </MainContainer>
             )

@@ -65,8 +65,8 @@ class AdminBudgetProposition extends Component {
     render(){
         const {budget_proposition, sub_territories, all_sub_territories, loading} = this.props
         const { editing } = this.state
-        const is_verified = budget_proposition.status.find(o => o == 'verified')
-        const is_validated = budget_proposition.status.find(o => o == 'validated')
+        const is_validated = budget_proposition.status.includes('validated')
+        const is_invalid = budget_proposition.status.includes('invalid')
         
         if(!loading){
             return(
@@ -79,11 +79,12 @@ class AdminBudgetProposition extends Component {
                     </Content>
                     <ActionsContainer>
                         <Button onClick={this.toggleState} name="editing">{editing ? "Annuler" : "Modifier"}</Button>
-                        {!is_verified &&
-                            <Button onClick={this.verify}>Déclarer comme vérifié</Button>
+                        {(is_invalid || (!is_invalid && !is_validated)) &&
+                            <Button onClick={this.validate}>Valider</Button>
                         }
-                        <Button onClick={this.validate}>Valider</Button>
-                        <Button onClick={this.unvalidate}>Invalider</Button>
+                        {(is_validated || (!is_invalid && !is_validated)) &&
+                            <Button onClick={this.unvalidate}>Invalider</Button>
+                        }
                     </ActionsContainer>
                     {editing &&
                         <FormContainer>

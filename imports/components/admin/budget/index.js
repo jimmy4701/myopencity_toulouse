@@ -1,9 +1,9 @@
-import BudgetPropositionsNotVerified from './BudgetPropositionsNotVerified'
+import BudgetPropositionsDisplayer from './BudgetPropositionsDisplayer'
 import AdminBudgetProposition from './AdminBudgetProposition'
 import AdminBudgetPropositionForm from './AdminBudgetPropositionForm'
 
 export {
-    BudgetPropositionsNotVerified,
+    BudgetPropositionsDisplayer,
     AdminBudgetProposition,
     AdminBudgetPropositionForm
 }
