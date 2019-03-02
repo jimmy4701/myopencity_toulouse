@@ -471,7 +471,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `100vh` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
-                     />
+                  />
               </Grid.Column>
             </Grid>
           }

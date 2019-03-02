@@ -27,15 +27,15 @@ Meteor.methods({
     }
 },
 'budget_propositions.update'(budget_proposition){
-    if(!this.userId){
-        throw new Meteor.Error('403', 'Vous devez vous connecter')
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
     }else{
         BudgetPropositions.update({_id: budget_proposition._id}, {$set: budget_proposition})
     }
 },
 'budget_propositions.remove'(budget_proposition_id){
-    if(!this.userId){
-        throw new Meteor.Error('403', 'Vous devez vous connecter')
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
     }else{
         BudgetPropositions.remove({_id: budget_proposition_id})
     }

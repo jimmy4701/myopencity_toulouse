@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Form, Input, Button } from 'semantic-ui-react'
 import { toast } from 'react-toastify'
 import TinyMCE from 'react-tinymce'
+import Geocomplete from '/imports/components/territories/Geocomplete'
 
-
-export default class BudgetPropositionForm extends Component {
+export default class AdminBudgetPropositionForm extends Component {
     state = {
         budget_proposition: {
             documents: [],
@@ -23,10 +23,15 @@ export default class BudgetPropositionForm extends Component {
         }
     }
 
+    componentWillMount(){
+        this.setState({budget_proposition: this.props.budget_proposition})
+    }
+
     componentDidMount(){
         if(this.props.sub_territories){
             this.setState({sub_territories: this.props.sub_territories})
         }
+        
     }
 
 
@@ -109,27 +114,28 @@ export default class BudgetPropositionForm extends Component {
           this.setState({budget_proposition})
       }
 
-      submitForm = (e) => {
-          e.preventDefault()
-          const { budget_consult } = this.props
-          const { budget_proposition } = this.state
-          if(!budget_proposition.title || !budget_proposition.content){
-              toast.error("Il manque des champs obligatoires dans votre proposition d'idée")
-              return
-          }
-          Meteor.call('budget_propositions.insert', {budget_consult_id: budget_consult._id, budget_proposition} , (error, result) => {
-              if(error){
-                  console.log('Erreur', error.message)
-                  toast.error(error.message)
-              }else{
-                  toast.success("Votre idée a bien été proposée")
-                  this.setState({budget_proposition: {
-                    documents: [],
-                    user_age: 'adult'
-                }})
-                  if(this.props.onFormSubmit) this.props.onFormSubmit(result)
-              }
-          })
+      handleAddressSelect = ({address, coordinates}) => {
+        let {budget_proposition} = this.state
+        budget_proposition.geolocation_address = address
+        budget_proposition.coordinates = coordinates
+        this.setState({budget_proposition})
+      }
+
+      removeAddress = () => {
+          let { budget_proposition } = this.state
+          budget_proposition.geolocation_address = ""
+          budget_proposition.coordinates = null
+          this.setState({budget_proposition})
+      }
+
+      handleGeocompleteSelect = ({address, coordinates}) => {
+          console.log(address, coordinates)
+      }
+
+      handleStatusSelect = (event, {value}) => {
+          let { budget_proposition } = this.state
+          budget_proposition.status = value
+          this.setState({budget_proposition})
       }
 
     render(){
@@ -142,6 +148,15 @@ export default class BudgetPropositionForm extends Component {
 
         const { amazon_connected, buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
 
+        const status_options = [
+            {key: "not_verified", value: "not_verified", text: "Non vérifié"},
+            {key: "verified", value: "verified", text: "Vérifié"},
+            {key: "validated", value: "validated", text: "Validé"},
+            {key: "invalid", value: "invalid", text: "Non valide"},
+            {key: "votable", value: "votable", text: "Votable"},
+            {key: "voted", value: "voted", text: "Voté"}
+        ]
+
         return(
             <CustomForm onSubmit={this.submitForm}>
                 <Form.Input
@@ -152,11 +167,23 @@ export default class BudgetPropositionForm extends Component {
                     required
                 />
                 <Form.Input
-                    label='Localisation du projet (adresse et lieu si possible)'
+                    label='Localisation du projet par le citoyen (adresse et lieu si possible)'
                     onChange={this.handlePropositionChange}
                     value={budget_proposition.address}
                     name='address'
                 />
+                <Form.Field>
+                    <label>Adresse de géolocalisation (Google Map)</label>
+                    <Geocomplete onSelect={this.handleAddressSelect}/>
+                    {budget_proposition.geolocation_address ?
+                        <div>
+                            <p>Adresse actuelle : {budget_proposition.geolocation_address}</p>
+                            <Button onClick={this.removeAddress}>Supprimer l'adresse</Button>
+                        </div>
+                    :
+                        <p>Actuellement aucune adresse sélectionnée</p>
+                    }
+                </Form.Field>
                 <Form.Select
                     options={sub_territories_options}
                     onChange={this.handleSubTerritorySelect}
@@ -224,17 +251,17 @@ export default class BudgetPropositionForm extends Component {
                         ]}
                     />
                 </FlexFormContainer>
-                {budget_proposition.user_age == 'minor' &&
-                    <LegalInformation>
-                        {budget_consult.parental_text ? budget_consult.parental_text : 
-                            <div>Les mineurs participant aux consultations de budget participatif de la plateforme jeparticipe.toulouse.fr ont l'obligation de joindre une autorisation parentale signée dans les documents joints à leurs propositions.
-                            Aucune proposition soumise sans autorisation parentale valide ne pourra être prise en compte.</div>
-                        }
-                        <div>Pour récupérer l'autorisation parentale, <a href={budget_consult.parental_link} target="_blank">cliquez ici.</a></div>
-                    </LegalInformation>
-                }
+                <ValidationContainer>
+                    <Form.Select 
+                        options={status_options}
+                        onChange={this.handleStatusSelect}
+                        multiple
+                        value={budget_proposition.status}
+                        label="Statuts de la proposition"
+                    />
+                </ValidationContainer>
                 <ButtonContainer>
-                    <CustomButton background_color={buttons_validation_background_color} color={buttons_validation_text_color} size="huge" onClick={this.submitForm}>Proposer mon idée</CustomButton>
+                    <CustomButton background_color={buttons_validation_background_color} color={buttons_validation_text_color} size="huge" onClick={this.submitForm}>Modifier la proposition</CustomButton>
                 </ButtonContainer>
             </CustomForm>
         )
@@ -285,9 +312,6 @@ const CustomSelect = styled(Form.Select)`
     flex: 1;
 `
 
-const LegalInformation = styled.div`
-    font-size: 0.8em;
-`
 
 const ButtonContainer = styled.div`
     display: flex;
@@ -298,4 +322,9 @@ const ButtonContainer = styled.div`
 const CustomButton = styled(Button)`
     background-color: ${props => props.background_color} !important;
     color: ${props => props.color} !important;
+`
+
+const ValidationContainer = styled.div`
+    display: flex;
+    margin-top: 1em;
 `

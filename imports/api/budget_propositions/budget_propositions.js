@@ -19,6 +19,14 @@ const BudgetPropositionsSchema = new SimpleSchema({
         type: String,
         optional: true
     },
+    coordinates: {
+        type: String,
+        optional: true
+    },
+    geolocation_address: {
+        type: String,
+        optional: true
+    },
     user_type: {
         type: String,
         allowedValues: ['individual', 'collective', 'association'],
@@ -52,6 +60,14 @@ const BudgetPropositionsSchema = new SimpleSchema({
     validated: {
         type: Boolean,
         defaultValue: false
+    },
+    status: {
+        type: [String],
+        defaultValue: ['not_verified'] // not_verified, verified, validated, unvalidated, votable, voted
+    },
+    sub_territories: {
+        type: [String],
+        defaultValue: []
     }
 })
 
