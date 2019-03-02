@@ -62,6 +62,9 @@ export default class BudgetConsultPartial extends Component {
                                         <Link to={"/admin/budgets/" + budget_consult._id + "/edit"}>
                                             <Button fluid>Modifier</Button>
                                         </Link>
+                                        <Link to={"/admin/budgets/" + budget_consult._id + "/propositions"}>
+                                            <Button fluid>Propositions</Button>
+                                        </Link>
                                         <Button onClick={() => this.toggle("visible")} fluid>{budget_consult.visible ? "Rendre invisible" : "Rendre visible"}</Button>
                                         <Button onClick={() => this.toggle("landing_display")} fluid>{budget_consult.landing_display ? "Ne plus mettre en avant" : "Mettre en avant"}</Button>
                                         <Button onClick={() => this.toggle("active")} fluid>{budget_consult.active ? "Désactiver" : "Activer"}</Button>

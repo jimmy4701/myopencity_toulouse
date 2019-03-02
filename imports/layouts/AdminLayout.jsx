@@ -37,6 +37,7 @@ import AdminStatistics from '/imports/pages/admin/AdminStatistics'
 import AdminBudgetConsults from '/imports/pages/admin/AdminBudgetConsults'
 import AdminBudgetCreation from '/imports/pages/admin/AdminBudgetCreation'
 import AdminBudgetEdition from '/imports/pages/admin/AdminBudgetEdition'
+import AdminBudgetPropositions from '/imports/pages/admin/AdminBudgetPropositions'
 import NotFound from '/imports/pages/general/NotFound'
 
 export class AdminLayout extends TrackerReact(Component) {
@@ -154,6 +155,7 @@ export class AdminLayout extends TrackerReact(Component) {
                       <Admin component={ AdminBudgetConsults }  exact path="/admin/budgets" { ...this.props } />
                       <Admin component={ AdminBudgetCreation }  exact path="/admin/budgets/new" { ...this.props } />
                       <Admin component={ AdminBudgetEdition }  exact path="/admin/budgets/:id/edit" { ...this.props } />
+                      <Admin component={ AdminBudgetPropositions }  exact path="/admin/budgets/:budget_consult_id/propositions" { ...this.props } />
                       <Admin component={ AdminApiAuthorizationsPage }  exact path="/admin/api_authorizations" { ...this.props } />
                       <Admin component={ AdminExternalOpencitiesPage }  exact path="/admin/external_opencities" { ...this.props } />
                       <Admin component={ AdminExternalApisPage }  exact path="/admin/external_apis" { ...this.props } />
