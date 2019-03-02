@@ -1,8 +1,18 @@
 import { Meteor } from 'meteor/meteor'
 import { Consults } from '/imports/api/consults/consults'
+import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
 import { ConsultParts } from '/imports/api/consult_parts/consult_parts'
 import { Configuration } from '/imports/api/configuration/configuration'
 import { Territories } from '/imports/api/territories/territories'
+
+
+Migrations.add({
+  version: 13,
+  name: "MIGRATION 13 : Add ended attribute to budget_consults",
+  up() {
+    BudgetConsults.update({}, {$set: {ended: false}}, {multi: true})
+  } 
+})  
 
 Migrations.add({
   version: 12,

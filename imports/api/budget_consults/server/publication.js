@@ -33,3 +33,7 @@ Meteor.publish('budget_consults.by_url_shorten', function(url_shorten){
 Meteor.publish('budget_consults.visible', function(){
     return BudgetConsults.find({visible: true, active: true}, {limit: 1000, sort: {}})
 })
+
+Meteor.publish('budget_consults.by_territory', function(territory_id){
+    return BudgetConsults.find({visible: true, active: true, territories: territory_id}, {limit: 1000, sort: {}})
+})

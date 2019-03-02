@@ -65,6 +65,7 @@ export default class BudgetConsultPartial extends Component {
                                         <Button onClick={() => this.toggle("visible")} fluid>{budget_consult.visible ? "Rendre invisible" : "Rendre visible"}</Button>
                                         <Button onClick={() => this.toggle("landing_display")} fluid>{budget_consult.landing_display ? "Ne plus mettre en avant" : "Mettre en avant"}</Button>
                                         <Button onClick={() => this.toggle("active")} fluid>{budget_consult.active ? "Désactiver" : "Activer"}</Button>
+                                        <Button onClick={() => this.toggle("ended")} fluid>{budget_consult.ended ? "Lancer" : "Stopper"}</Button>
                                         <Button name="removing" onClick={this.toggleState} color={!removing && "red"}>{removing ? "Annuler" : "Supprimer"}</Button>
                                         {removing && <Button color="red" onClick={this.remove}>Supprimer</Button>}
                                     </div>
