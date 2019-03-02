@@ -7,12 +7,16 @@ import {Helmet} from 'react-helmet'
 import Stepper from '/imports/components/general/Stepper'
 import { Container, Button, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { BudgetPropositionForm } from '/imports/components/budget_propositions'
+import { BudgetPropositionForm, BudgetPropositionsDisplayer } from '/imports/components/budget_propositions'
 import { toast } from 'react-toastify'
 import { TerritoriesMap } from '/imports/components/territories'
+import { BudgetPropositions } from '/imports/api/budget_propositions/budget_propositions'
+import { Pagination } from '/imports/components/general'
+import { ceil } from 'lodash'
+
 class BudgetConsult extends Component {
     state = {
-        
+        validated_page: 0
     }
 
     componentDidMount(){
@@ -29,8 +33,8 @@ class BudgetConsult extends Component {
     handlePropositionSubmit = (has_proposed) => this.setState({has_proposed})
 
     render(){
-        const { loading, budget_consult, sub_territories } = this.props
-        const { has_proposed } = this.state
+        const { loading, budget_consult, sub_territories, budget_propositions_total_pages } = this.props
+        const { has_proposed, validated_page } = this.state
 
         const {
             consult_header_height,
@@ -88,6 +92,8 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer size_defined>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
+                        <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={budget_propositions_total_pages} status="validated" />
+                        <Pagination increment total_pages={budget_propositions_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
                         <TerritoriesMap 
                             territories={sub_territories}
                             consults={[]}
@@ -147,13 +153,16 @@ export default BudgetConsultContainer = withTracker(({match}) => {
 
     if(budget_consult){
         const subTerritoriesPublication = Meteor.isClient && Meteor.subscribe('sub_territories.by_ids', budget_consult.sub_territories)
-        const loading = Meteor.isClient && (!budgetConsultPublication.ready() || !subTerritoriesPublication.ready())
+        const budgetPropositionsPublication = Meteor.isClient && Meteor.subscribe('budget_propositions.by_budget_consult_light', budget_consult._id)
+        const loading = Meteor.isClient && (!budgetConsultPublication.ready() || !subTerritoriesPublication.ready() || !budgetPropositionsPublication.ready())
         const sub_territories = SubTerritories.find({_id: {$in: budget_consult.sub_territories}}, {fields: {name: 1, coordinates: 1, color: 1}}).fetch()
+        const budget_propositions_total_pages = ceil(BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}).count() / 10)
         return {
             loading,
             budget_consult,
             url_shorten,
-            sub_territories
+            sub_territories,
+            budget_propositions_total_pages
         }
     }else{
         return {loading: true}

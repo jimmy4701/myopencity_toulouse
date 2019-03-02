@@ -85,5 +85,9 @@ Meteor.methods({
         }
         BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: status}})
     }
+},
+'budget_propositions.get_total_pages'(budget_consult_id){
+    const total = BudgetPropositions.find({budget_consult: budget_consult_id, status: "validated"}).count()
+    return total / 10
 }
 })
