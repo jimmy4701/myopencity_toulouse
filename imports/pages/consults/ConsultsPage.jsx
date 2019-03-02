@@ -4,6 +4,8 @@ import { createContainer } from 'meteor/react-meteor-data'
 import { Grid, Header, Loader, Button, Container } from 'semantic-ui-react'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import { Consults } from '/imports/api/consults/consults'
+import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
+import { BudgetConsultPartial } from '/imports/components/budget_consults'
 
 export class ConsultsPage extends TrackerReact(Component) {
 
@@ -26,7 +28,7 @@ export class ConsultsPage extends TrackerReact(Component) {
   }
 
   render() {
-    const { consults, ended_consults, loading } = this.props
+    const { consults, ended_consults, budget_consults, ended_budget_consults, loading } = this.props
     const { show_ended_consults } = this.state
     const { ended_consults_title, consults_title, consults_no_consults, navbar_color, consults_all_territories, consults_display_explain, consults_explain, consults_all_territories_ended, ended_consults_explain, ended_consults_display_explain } = Meteor.isClient && Session.get('global_configuration')
 
@@ -53,10 +55,15 @@ export class ConsultsPage extends TrackerReact(Component) {
                   <Header className="center-align" as="h3">{consults_no_consults}</Header>
                   :
                   <Grid stackable style={{display: "flex", flexWrap: "wrap"}}>
+                    {budget_consults.map(budget_consult => {
+                      return <Grid.Column width={4} key={budget_consult._id}>
+                        <BudgetConsultPartial budget_consult={budget_consult} className="animated fadeInUp" />
+                      </Grid.Column>
+                    })}
                     {consults.map((consult, index) => {
                       return (
                         <Grid.Column width={4} className="center-align" key={consult._id}>
-                          <ConsultPartial className="wow fadeInUp" consult={consult} />
+                          <ConsultPartial className="animated fadeInUp" consult={consult} />
                         </Grid.Column>
                       )
                     })}
@@ -72,7 +79,7 @@ export class ConsultsPage extends TrackerReact(Component) {
                     {ended_consults.map((consult, index) => {
                       return (
                         <Grid.Column width={4} className="center-align">
-                          <ConsultPartial className="wow fadeInUp" consult={consult} />
+                          <ConsultPartial className="animated fadeInUp" consult={consult} />
                         </Grid.Column>
                       )
                     })}
@@ -91,13 +98,18 @@ export class ConsultsPage extends TrackerReact(Component) {
 
 export default ConsultsPageContainer = createContainer(() => {
   const consultsPublication = Meteor.isClient && Meteor.subscribe('consults.visible')
+  const budgetConsultsPublication = Meteor.isClient && Meteor.subscribe('budget_consults.visible')
   const territoriesPublication = Meteor.isClient && Meteor.subscribe('territories.active')
-  const loading = Meteor.isClient && (!territoriesPublication.ready() || !consultsPublication.ready())
+  const loading = Meteor.isClient && (!territoriesPublication.ready() || !consultsPublication.ready() || !budgetConsultsPublication.ready())
   const consults = Consults.find({ visible: true, ended: false }, {sort: {title: 1}}).fetch()
   const ended_consults = Consults.find({ visible: true, ended: true },  {sort: {title: 1}}).fetch()
+  const budget_consults = BudgetConsults.find({visible: true, active: true}, {sort: {created_at: 1}}).fetch()
+  const ended_budget_consults = BudgetConsults.find({visible: true, active: true, ended: true}, {sort: {created_at: 1}}).fetch()
   return {
     loading,
     consults,
-    ended_consults
+    ended_consults,
+    budget_consults,
+    ended_budget_consults
   }
 }, ConsultsPage)

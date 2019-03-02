@@ -171,6 +171,10 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: Boolean,
         defaultValue: false
     },
+    ended: {
+        type: Boolean,
+        defaultValue: false
+    },
     parental_link: {
         type: String,
         optional: true

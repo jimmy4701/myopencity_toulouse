@@ -29,3 +29,7 @@ Meteor.publish('budget_consults.by_url_shorten', function(url_shorten){
         return BudgetConsults.find({url_shorten, active: true, visible: true}, {limit: 1, sort: {}})
     }
 })
+
+Meteor.publish('budget_consults.visible', function(){
+    return BudgetConsults.find({visible: true, active: true}, {limit: 1000, sort: {}})
+})

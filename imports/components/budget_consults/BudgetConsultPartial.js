@@ -41,7 +41,7 @@ export default class BudgetConsultPartial extends Component {
                 <Link to={"/budget_consults/" + budget_consult.url_shorten}>
                     <Image src={budget_consult.image_url_mini ? budget_consult.image_url_mini : budget_consult.image_url} />
                 </Link>
-                <Card.Content>
+                <Card.Content className="center-align">
                     <Card.Header>
                         {budget_consult.title}
                     </Card.Header>
@@ -54,7 +54,7 @@ export default class BudgetConsultPartial extends Component {
                         <Link to={"/budgets/" + budget_consult.url_shorten}>
                             <Button fluid>Consulter</Button>
                         </Link>
-                        {Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
+                        {Meteor.isClient && Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator']) &&
                             <div>
                                 <Button fluid active={this.state.display_manage_buttons} onClick={this.toggleState} name="display_manage_buttons">Gérer</Button>
                                 {display_manage_buttons &&
@@ -79,5 +79,5 @@ export default class BudgetConsultPartial extends Component {
 }
 
 const MainContainer = styled.div`
-    
+    text-align: center;
 `
