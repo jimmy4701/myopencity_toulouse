@@ -36,6 +36,12 @@ export default class BudgetConsultGeneralForm extends Component {
         this.setState({budget_consult})
     }
 
+    resetStepDate = (attr) => {
+        const { budget_consult } = this.state
+        budget_consult[attr] = null
+        this.setState({budget_consult})
+    }
+
     render(){
         const { budget_consult } = this.state
 
@@ -81,7 +87,7 @@ export default class BudgetConsultGeneralForm extends Component {
                             />
                         </Form.Field>
                         <Form.Field>
-                            <label>Début de la phase d'agora</label>
+                            <label>Fin de la phase d'agora</label>
                             <DatePicker
                                 selected={moment(budget_consult.agora_end_date)}
                                 dateFormat="DD/MM/YYYY"
@@ -99,7 +105,7 @@ export default class BudgetConsultGeneralForm extends Component {
                             />
                         </Form.Field>
                         <Form.Field>
-                            <label>Début de la phase d'analyse technique</label>
+                            <label>Fin de la phase d'analyse technique</label>
                             <DatePicker
                                 selected={moment(budget_consult.analysis_end_date)}
                                 dateFormat="DD/MM/YYYY"
@@ -117,7 +123,7 @@ export default class BudgetConsultGeneralForm extends Component {
                             />
                         </Form.Field>
                         <Form.Field>
-                            <label>Début de la phase de votes</label>
+                            <label>Fin de la phase de votes</label>
                             <DatePicker
                                 selected={moment(budget_consult.votes_end_date)}
                                 dateFormat="DD/MM/YYYY"

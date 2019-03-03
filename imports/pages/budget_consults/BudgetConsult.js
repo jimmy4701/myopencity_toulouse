@@ -13,6 +13,7 @@ import { TerritoriesMap } from '/imports/components/territories'
 import { BudgetPropositions } from '/imports/api/budget_propositions/budget_propositions'
 import { Pagination } from '/imports/components/general'
 import { ceil } from 'lodash'
+import moment from 'moment'
 
 class BudgetConsult extends Component {
     state = {
@@ -28,6 +29,21 @@ class BudgetConsult extends Component {
                 this.setState({has_proposed: result})
             }
         })
+    }
+
+    getDateDescription = (step) => {
+        const { budget_consult } = this.props
+        const start_date = budget_consult[`${step}_start_date`]
+        const end_date = budget_consult[`${step}_end_date`]
+        if(start_date && end_date){
+            return `Du ${moment(start_date).format('DD/MM/YYYY')} au ${moment(end_date).format('DD/MM/YYYY')}`
+        }else if(start_date){
+            return `A partir du ${moment(start_date).format('DD/MM/YYYY')}`
+        }else if(end_date){
+            return `Jusqu'au ${moment(end_date).format('DD/MM/YYYY')}`
+        }else{
+            return "Aucune date encore précisée"
+        }
     }
 
     handlePropositionSubmit = (has_proposed) => this.setState({has_proposed})
@@ -48,16 +64,34 @@ class BudgetConsult extends Component {
             buttons_validation_background_color,
             consult_term
           } = Meteor.isClient && Session.get('global_configuration')
-
-          
           
           if(!loading){
               const steps = [
-                  { key: "propositions", title: budget_consult.propositions_step_name, description: "Jusqu'au 22 Janvier"},
-                  { key: "agora", title: budget_consult.agora_step_name, description: "Jusqu'au 22 Janvier"},
-                  { key: "analysis", title: budget_consult.analysis_step_name, description: "Jusqu'au 22 Janvier"},
-                  { key: "votes", title: budget_consult.votes_step_name, description: "Jusqu'au 22 Janvier"},
-                  { key: "results", title: budget_consult.results_step_name, description: "Jusqu'au 22 Janvier"},
+                  { 
+                      key: "propositions",
+                      title: budget_consult.propositions_step_name,
+                      description: this.getDateDescription('propositions')
+                    },
+                  { 
+                      key: "agora",
+                      title: budget_consult.agora_step_name,
+                      description: this.getDateDescription('agora')
+                    },
+                  { 
+                      key: "analysis",
+                      title: budget_consult.analysis_step_name,
+                      description: this.getDateDescription('analysis')
+                    },
+                  { 
+                      key: "votes",
+                      title: budget_consult.votes_step_name,
+                      description: this.getDateDescription('votes')
+                    },
+                  { 
+                      key: "results",
+                      title: budget_consult.results_step_name,
+                      description: this.getDateDescription('results')
+                    },
               ]
             const step_index = steps.findIndex(o => o.key == (budget_consult ? budget_consult.step : 'propositions') )
             return(
