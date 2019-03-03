@@ -179,7 +179,7 @@ class BudgetConsult extends Component {
                         {step_index >= 3 &&
                             <CustomContainer>
                                 <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
-                                <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={votable_page} total_pages={votable_budget_propositions_total_pages} status="votable" />
+                                <BudgetPropositionsDisplayer votable budget_consult_id={budget_consult._id} page={votable_page} total_pages={votable_budget_propositions_total_pages} status="votable" />
                                 <PaginationContainer>
                                     <Pagination increment total_pages={votable_budget_propositions_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
                                 </PaginationContainer>

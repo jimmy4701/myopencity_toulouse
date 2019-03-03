@@ -10,12 +10,14 @@ class BudgetPropositionsDisplayer extends Component {
     }
 
     render(){
-        const {budget_propositions, loading} = this.props
+        const {budget_propositions, votable, loading} = this.props
 
         if(!loading){
             return(
                 <MainContainer>
-                    {budget_propositions.map(proposition => <BudgetPropositionPartial key={proposition._id} budget_proposition={proposition} />)}
+                    {budget_propositions.map(proposition => {
+                        return <BudgetPropositionPartial votable={votable} key={proposition._id} budget_proposition={proposition} />
+                    })}
                 </MainContainer>
             )
         }else{

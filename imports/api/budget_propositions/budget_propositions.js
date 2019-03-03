@@ -69,6 +69,11 @@ const BudgetPropositionsSchema = new SimpleSchema({
     sub_territories: {
         type: [String],
         defaultValue: []
+    },
+    estimation: {
+        type: Number,
+        decimal: true,
+        optional: true
     }
 })
 

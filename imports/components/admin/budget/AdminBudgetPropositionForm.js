@@ -184,6 +184,14 @@ export default class AdminBudgetPropositionForm extends Component {
                         <p>Actuellement aucune adresse sélectionnée</p>
                     }
                 </Form.Field>
+                <Form.Input
+                    label='Estimation du budget'
+                    onChange={this.handlePropositionChange}
+                    value={budget_proposition.estimation}
+                    name='estimation'
+                    type='number'
+                    step='0.01'
+                />
                 <Form.Select
                     options={sub_territories_options}
                     onChange={this.handleSubTerritorySelect}
