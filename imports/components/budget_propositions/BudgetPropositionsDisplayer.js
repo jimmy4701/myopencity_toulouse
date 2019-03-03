@@ -28,7 +28,7 @@ export default BudgetPropositionsDisplayerContainer = withTracker((props) => {
     const {budget_consult_id, page, status} = props
     const budgetPropositionsPublication = Meteor.isClient && Meteor.subscribe('budget_propositions.by_budget_consult', {budget_consult_id, page, status})
     const loading = Meteor.isClient && !budgetPropositionsPublication.ready()
-    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, status: "validated"}, {limit: 10, skip: 10 * page}).fetch()
+    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'validated'}, {status}] }, {limit: 10, skip: 10 * page}).fetch()
     return {
         loading,
         budget_propositions
