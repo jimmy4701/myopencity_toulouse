@@ -89,5 +89,29 @@ Meteor.methods({
 'budget_propositions.get_total_pages'(budget_consult_id){
     const total = BudgetPropositions.find({budget_consult: budget_consult_id, status: "validated"}).count()
     return total / 10
+},
+'budget_propositions.make_votable'(budget_proposition_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+        const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id})
+        let status = budget_proposition.status
+        if(!status.includes('votable')){
+            status.push('votable')
+        }else{
+            throw new Meteor.Error('403', "La proposition est déjà votable")
+        }
+        BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: status}})
+    }
+},
+'budget_propositions.remove_votable'(budget_proposition_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé")
+    }else{
+        const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id})
+        let status = budget_proposition.status
+        status = status.filter(o => o != 'votable')
+        BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: status}})
+    }
 }
 })

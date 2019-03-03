@@ -62,11 +62,36 @@ class AdminBudgetProposition extends Component {
         })
     }
 
+    removeVotable = () => {
+        const { budget_proposition } = this.props
+        Meteor.call('budget_propositions.remove_votable', budget_proposition._id , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success("La proposition n'est plus votable")
+            }
+        })
+    }
+
+    makeVotable = () => {
+        const { budget_proposition } = this.props
+        Meteor.call('budget_propositions.make_votable', budget_proposition._id , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success("La proposition est maintenant votable")
+            }
+        })
+    }
+
     render(){
         const {budget_proposition, sub_territories, all_sub_territories, loading} = this.props
         const { editing } = this.state
         const is_validated = budget_proposition.status.includes('validated')
         const is_invalid = budget_proposition.status.includes('invalid')
+        const is_votable = budget_proposition.status.includes('votable')
         
         if(!loading){
             return(
@@ -74,6 +99,8 @@ class AdminBudgetProposition extends Component {
                     <Title>{budget_proposition.title} - Proposé le {moment(budget_proposition.created_at).format('DD/MM/YYYY à HH:mm')}</Title>
                     <Address>{budget_proposition.address}</Address>
                     <TerritoriesContainer>{sub_territories.map(territory => <Label size="mini">{territory.name}</Label>)}</TerritoriesContainer>
+                    {is_invalid && is_votable && <Label color="red">La proposition est votable mais invalidée</Label>}
+                    {is_validated && is_votable && <Label color="green">VOTABLE</Label>}
                     <Content>
                         <div dangerouslySetInnerHTML={{__html: budget_proposition.content }} />
                     </Content>
@@ -84,6 +111,9 @@ class AdminBudgetProposition extends Component {
                         }
                         {(is_validated || (!is_invalid && !is_validated)) &&
                             <Button onClick={this.unvalidate}>Invalider</Button>
+                        }
+                        {is_validated &&
+                            <Button onClick={is_votable ? this.removeVotable : this.makeVotable}>{`Rendre ${is_votable ? 'non' : ''} votable`}</Button>
                         }
                     </ActionsContainer>
                     {editing &&
