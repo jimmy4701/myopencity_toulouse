@@ -29,7 +29,7 @@ class BudgetPropositionsDisplayer extends Component {
 
     render(){
         const {budget_propositions, votable, loading} = this.props
-        const { maximum_votes, total_votes } = this.state
+        const { maximum_votes, total_votes, votes} = this.state
 
         const { buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
 
@@ -38,7 +38,7 @@ class BudgetPropositionsDisplayer extends Component {
 
         if(!loading){
             return(
-                <MainContainer>
+                <MainContainer {...this.props}>
                     {votable && maximum_votes &&
                         <TotalVotesContainer>
                             <h2>Vous disposez de {maximum_votes} coeurs à donner à vos idées préférées</h2>
@@ -64,19 +64,19 @@ class BudgetPropositionsDisplayer extends Component {
                                     color="red"
                                 />                                                         
                             }
-                            
                         </TotalVotesContainer>
                     }
-                    {budget_propositions.map(proposition => {
-                        return <BudgetPropositionPartial votable={votable} onVote={this.handleVote} key={proposition._id} budget_proposition={proposition} />
-                    })}
                     {votable &&
                         <ValidationContainer>
-                            <CustomButton disabled={remaining_votes < 0} background_color={buttons_validation_background_color} color={buttons_validation_text_color} size="huge" onClick={this.submitVotes}>
+                            <CustomButton disabled={(remaining_votes < 0) || (total_votes == 0)} background_color={buttons_validation_background_color} color={buttons_validation_text_color} size="huge" onClick={this.submitVotes}>
                                 {remaining_votes >= 0 ? "Valider mes choix" : "Merci de retirer des coeurs"}
                             </CustomButton>
                         </ValidationContainer>
                     }
+                    {budget_propositions.map(proposition => {
+                        return <BudgetPropositionPartial votable={votable} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
+                    })}
+                    
                 </MainContainer>
             )
         }else{
@@ -100,6 +100,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-top: 1em;
+    ${props => props.votable && "flex-direction: column;"}
 `
 
 const TotalVotesContainer = styled.div`

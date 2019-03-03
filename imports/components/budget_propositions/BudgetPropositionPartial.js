@@ -14,7 +14,7 @@ export default class BudgetPropositionPartial extends Component {
     }
 
     render(){
-        const { budget_proposition, votable } = this.props
+        const { budget_proposition, votable, vote = 0 } = this.props
         const { display_content } = this.state
 
         return(
@@ -22,7 +22,7 @@ export default class BudgetPropositionPartial extends Component {
                 <HeaderContainer>
         <Title>{budget_proposition.title} {votable && budget_proposition.estimation && <Estimation>(Estimé à {budget_proposition.estimation.toLocaleString('fr')} €)</Estimation>}</Title>
                     {votable &&
-                        <Rating icon='heart' clearable maxRating={3} size="huge" onRate={this.handleRate} />
+                        <Rating icon='heart' clearable maxRating={3} size="huge" rating={vote} onRate={this.handleRate} />
                     }
                 </HeaderContainer>
                 {display_content &&
