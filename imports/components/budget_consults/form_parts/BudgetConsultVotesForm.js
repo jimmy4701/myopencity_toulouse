@@ -68,12 +68,6 @@ export default class BudgetConsultVotesForm extends Component {
                             name='votes_step_name'
                         />
                         <Form.Input
-                            label='Titre de la modal de vote'
-                            onChange={this.handleChange}
-                            value={budget_consult.votes_modal_title}
-                            name='votes_modal_title'
-                        />
-                        <Form.Input
                             label='Nombre de votes disponibles par citoyen'
                             onChange={this.handleChange}
                             type="number"

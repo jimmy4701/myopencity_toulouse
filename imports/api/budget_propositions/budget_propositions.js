@@ -74,6 +74,10 @@ const BudgetPropositionsSchema = new SimpleSchema({
         type: Number,
         decimal: true,
         optional: true
+    },
+    votes_count: {
+        type: Number,
+        defaultValue: 0
     }
 })
 

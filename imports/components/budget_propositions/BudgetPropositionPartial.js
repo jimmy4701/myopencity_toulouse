@@ -9,7 +9,8 @@ export default class BudgetPropositionPartial extends Component {
 
     handleRate = (e, {rating, maxRating}) => {
         e.stopPropagation()
-        
+        const {budget_proposition} = this.props
+        this.props.onVote({proposition_id: budget_proposition._id, vote: rating})
     }
 
     render(){
@@ -19,9 +20,9 @@ export default class BudgetPropositionPartial extends Component {
         return(
             <MainContainer active={display_content} onClick={() => this.setState({display_content: !display_content})} className="animated fadeInUp">
                 <HeaderContainer>
-                    <Title>{budget_proposition.title}</Title>
+        <Title>{budget_proposition.title} {votable && budget_proposition.estimation && <Estimation>(Estimé à {budget_proposition.estimation.toLocaleString('fr')} €)</Estimation>}</Title>
                     {votable &&
-                        <Rating icon='heart' maxRating={3} size="huge" onRate={this.handleRate} />
+                        <Rating icon='heart' clearable maxRating={3} size="huge" onRate={this.handleRate} />
                     }
                 </HeaderContainer>
                 {display_content &&
@@ -58,4 +59,9 @@ const Content = styled.div`
 
 const Title = styled.div`
     font-weight: bold;
+`
+
+const Estimation = styled.span`
+    font-weight: bold;
+    color: grey;
 `
