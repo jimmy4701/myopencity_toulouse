@@ -1,19 +1,17 @@
 import React, {Component} from 'react'
 import {Grid, Button, Loader, Header, Modal, Label} from 'semantic-ui-react'
 import ConsultPartVoteButton from '/imports/components/consult_parts/ConsultPartVoteButton'
-import {ConsultParts} from '/imports/api/consult_parts/consult_parts'
 import {ConsultPartVotes} from '/imports/api/consult_part_votes/consult_part_votes'
 import {Alternatives} from '/imports/api/alternatives/alternatives'
 import ConsultPartResults from '/imports/components/consult_parts/ConsultPartResults'
 import { withTracker } from 'meteor/react-meteor-data'
 import AlternativeForm from '/imports/components/alternatives/AlternativeForm'
-import AlternativePartial from '/imports/components/alternatives/AlternativePartial'
 import AlternativesList from '/imports/components/alternatives/AlternativesList'
 import AccountValidationModal from '/imports/components/accounts/AccountValidationModal'
 import ReactPaginate from 'react-paginate'
 import {withRouter} from 'react-router-dom'
 import _ from 'lodash'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 export class ConsultPart extends Component{
 
@@ -196,7 +194,7 @@ export class ConsultPart extends Component{
                   <Button onClick={this.goSignIn} icon="user" content="Se connecter pour participer"/>
               </Grid.Column>
           }
-          <Modal open={display_alternative_form} className="animated fadeInDown">
+          <CustomModal centered open={display_alternative_form} className="animated fadeInDown">
             <Modal.Header>{consult_alternative_button_term}</Modal.Header>
             <Modal.Content>
               <Modal.Description>
@@ -206,7 +204,7 @@ export class ConsultPart extends Component{
             <Modal.Actions>
               <Button onClick={this.toggleAlternativeForm}>Annuler</Button>
             </Modal.Actions>
-          </Modal>
+          </CustomModal>
           <AccountValidationModal open={open_validation_modal} onClose={() => this.setState({open_validation_modal: false})} />
         </Grid>
       )
@@ -230,3 +228,8 @@ export default ConsultPartContainer = withTracker(({ consult_part }) => {
     alternatives_count
   }
 })(withRouter(ConsultPart))
+
+
+const CustomModal = styled(Modal)`
+  top: 20em !important;
+`
