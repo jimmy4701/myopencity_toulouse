@@ -45,6 +45,14 @@ export class Landing extends Component {
       landing_map_explain
     } = global_configuration
 
+    const budget_steps_labels = {
+      'propositions': "Proposez vos idées",
+      'agora': "Voir les idées proposées",
+      'analysis': "Voir les idées proposées",
+      'votes': "Votez pour vos idées préférées",
+      'results': "Voir les résultats"
+    }
+
     if (!loading) {
       return (
         <Grid stackable centered className={className + " landing-page"}>
@@ -77,9 +85,7 @@ export class Landing extends Component {
                 
                 <Link to={`/budgets/${budget_consult.url_shorten}`}>
                   <Button size="big">
-                    {budget_consult.step == "propositions" && "Proposez vos idées"}
-                    {budget_consult.step == "votes" && "Votez pour vos projets préférés"}
-                    {budget_consult.step == "results" && "Voir les résultats"}
+                    {budget_steps_labels[budget_consult.step]}
                   </Button>
                 </Link>
               </BudgetConsultContainer>
