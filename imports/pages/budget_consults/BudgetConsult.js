@@ -18,7 +18,8 @@ import moment from 'moment'
 class BudgetConsult extends Component {
     state = {
         validated_page: 0,
-        votable_page: 0
+        votable_page: 0,
+        budget_propositions_coordinates: []
     }
 
     componentDidMount(){
@@ -28,6 +29,22 @@ class BudgetConsult extends Component {
                 console.log(error.reason)
             }else{
                 this.setState({has_proposed: result})
+            }
+        })
+        Meteor.call('budget_propositions.get_total_pages', this.props.match.params.url_shorten, (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                this.setState(result)
+            }
+        })
+        Meteor.call('budget_propositions.coordinates', this.props.match.params.url_shorten , (error, budget_propositions_coordinates) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                this.setState({budget_propositions_coordinates})
             }
         })
     }
@@ -53,26 +70,21 @@ class BudgetConsult extends Component {
         const { 
             loading,
             budget_consult,
-            sub_territories,
-            validated_budget_propositions_total_pages,
-            validated_budget_propositions_count,
-            votable_budget_propositions_total_pages,
-            votable_budget_propositions_count,
-            budget_propositions_coordinates 
+            sub_territories
         } = this.props
-        const { has_proposed, validated_page, votable_page } = this.state
+        const { 
+            has_proposed, 
+            validated_page, 
+            votable_page,
+            validated_total_pages,
+            validated_count,
+            votable_total_pages,
+            budget_propositions_coordinates
+        } = this.state
 
         const {
             consult_header_height,
             consult_header_color,
-            consult_description_background_color,
-            consult_description_color,
-            consult_description_font_size,
-            consult_territory_prefix, 
-            consult_territory_icon,
-            buttons_validation_text_color,
-            buttons_validation_background_color,
-            consult_term
           } = Meteor.isClient && Session.get('global_configuration')
           
           if(!loading){
@@ -159,12 +171,12 @@ class BudgetConsult extends Component {
                                 />
                             </PropositionFormContainer>
                         }
-                        {validated_budget_propositions_count > 0 &&
-                            <h3>Déjà {validated_budget_propositions_count} idées proposées</h3>
+                        {validated_count > 0 &&
+                            <h3>Déjà {validated_count} idées proposées</h3>
                         }
-                        <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={validated_budget_propositions_total_pages} status="validated" />
+                        <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={validated_total_pages} status="validated" />
                         <PaginationContainer>
-                            <Pagination increment total_pages={validated_budget_propositions_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
+                            <Pagination increment total_pages={validated_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
                         </PaginationContainer>
                         {step_index >= 1 &&
                             <CustomContainer>
@@ -184,11 +196,11 @@ class BudgetConsult extends Component {
                                     maximum_votes={budget_consult.available_votes} 
                                     budget_consult_id={budget_consult._id} 
                                     page={votable_page} 
-                                    total_pages={votable_budget_propositions_total_pages} 
+                                    total_pages={votable_total_pages} 
                                     status="votable" 
                                 />
                                 <PaginationContainer>
-                                    <Pagination increment total_pages={votable_budget_propositions_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
+                                    <Pagination increment total_pages={votable_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
                                 </PaginationContainer>
                             </CustomContainer>
                         }
@@ -213,27 +225,14 @@ export default BudgetConsultContainer = withTracker(({match}) => {
 
     if(budget_consult){
         const subTerritoriesPublication = Meteor.isClient && Meteor.subscribe('sub_territories.by_ids', budget_consult.sub_territories)
-        const budgetPropositionsPublication = Meteor.isClient && Meteor.subscribe('budget_propositions.by_budget_consult_light', budget_consult._id)
-        const loading = Meteor.isClient && (!budgetConsultPublication.ready() || !subTerritoriesPublication.ready() || !budgetPropositionsPublication.ready())
+        const loading = Meteor.isClient && (!budgetConsultPublication.ready() || !subTerritoriesPublication.ready())
         const sub_territories = SubTerritories.find({_id: {$in: budget_consult.sub_territories}}, {fields: {name: 1, coordinates: 1, color: 1}}).fetch()
-        
-        const validated_budget_propositions_count = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}).count()
-        const validated_budget_propositions_total_pages = ceil(validated_budget_propositions_count / 10)
 
-        const votable_budget_propositions_count = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'votable'}).count()
-        const votable_budget_propositions_total_pages = ceil(votable_budget_propositions_count / 10)
-
-        const budget_propositions_coordinates = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}, {fields: {coordinates: 1}}).fetch()
         return {
             loading,
             budget_consult,
             url_shorten,
-            sub_territories,
-            validated_budget_propositions_total_pages,
-            validated_budget_propositions_count,
-            votable_budget_propositions_total_pages,
-            votable_budget_propositions_count,
-            budget_propositions_coordinates
+            sub_territories
         }
     }else{
         return {loading: true}

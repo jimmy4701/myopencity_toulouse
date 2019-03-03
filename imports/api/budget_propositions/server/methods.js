@@ -1,6 +1,7 @@
 import {Meteor} from 'meteor/meteor'
 import {BudgetPropositions} from '../budget_propositions'
 import {BudgetConsults} from '/imports/api/budget_consults/budget_consults'
+import { ceil } from 'lodash'
 
 
 Meteor.methods({
@@ -113,5 +114,33 @@ Meteor.methods({
         status = status.filter(o => o != 'votable')
         BudgetPropositions.update({_id: budget_proposition_id}, {$set: {status: status}})
     }
+},
+'budget_propositions.get_total_pages'(url_shorten){
+    const budget_consult = BudgetConsults.findOne({url_shorten})
+    const validated_count = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}).count()
+    const votable_count = BudgetPropositions.find({budget_consult: budget_consult._id, $and: [{status: 'validated'}, {status: 'votable'}]}).count()
+
+    const validated_total_pages = ceil(validated_count / 10)
+    const votable_total_pages = ceil(votable_count / 10)
+
+    return {
+        votable_total_pages,
+        validated_total_pages
+    }
+},
+'budget_propositions.coordinates'(url_shorten){
+    const budget_consult = BudgetConsults.findOne({url_shorten})
+    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'votable'}, {fields: {coordinates: 1}}).fetch()
+    
+    return budget_propositions
+},
+'budget_propositions.get_validated'({budget_consult_id, page}){
+    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, status: 'validated'}, {limit: 10, sort: {created_at: -1}, skip: 10 * page }).fetch()
+    return budget_propositions
+},
+'budget_propositions.get_votable'({budget_consult_id, page}){
+    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'votable'}, {status: 'validated'}]}, {limit: 10, sort: {votes_count: -1}, skip: 10 * page }).fetch()
+    
+    return budget_propositions
 }
 })

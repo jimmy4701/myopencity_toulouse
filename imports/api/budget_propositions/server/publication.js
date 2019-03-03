@@ -18,9 +18,9 @@ Meteor.publish('budget_propositions.by_status', function({budget_consult_id, sta
 })
 
 Meteor.publish('budget_propositions.by_budget_consult_light', function(budget_consult_id){
-    return BudgetPropositions.find({budget_consult: budget_consult_id, status: 'validated'}, {limit: 10000, sort: {}, fields: {_id: 1, status: 1, budget_consult: 1, coordinates: 1} })
+    return BudgetPropositions.find({budget_consult: budget_consult_id, status: 'validated'}, {limit: 10000, sort: {}, fields: {_id: 1, status: 1, budget_consult: 1, coordinates: 1, votes_count: 1} })
 })
 
 Meteor.publish('budget_propositions.by_budget_consult', function({budget_consult_id, page, status}){
-    return BudgetPropositions.find({budget_consult: budget_consult_id, status}, {limit: 10, sort: {created_at: -1}, skip: 10 * page })
+    return BudgetPropositions.find({budget_consult: budget_consult_id, status}, {limit: 10, sort: {votes_count: -1}, skip: 10 * page })
 })

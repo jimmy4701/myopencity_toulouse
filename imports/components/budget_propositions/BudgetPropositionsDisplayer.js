@@ -1,16 +1,42 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import { withTracker } from 'meteor/react-meteor-data'
-import { BudgetPropositions } from '/imports/api/budget_propositions/budget_propositions'
 import { BudgetPropositionPartial } from '/imports/components/budget_propositions'
 import { toast } from 'react-toastify'
 import { Message, Button } from 'semantic-ui-react'
 
-class BudgetPropositionsDisplayer extends Component {
+export default class BudgetPropositionsDisplayer extends Component {
     state = {
         maximum_votes: this.props.maximum_votes,
         votes: {},
-        total_votes: 0
+        total_votes: 0,
+        budget_propositions: [],
+        page: 0
+    }
+
+    componentDidMount(){
+        const { budget_consult_id, page, votable } = this.props
+        Meteor.call(`budget_propositions.get_${votable ? 'votable' : 'validated'}`, {budget_consult_id, page} , (error, budget_propositions) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                this.setState({budget_propositions})
+            }
+        })
+    }
+
+    componentWillReceiveProps(props){
+        if(parseFloat(props.page) != this.state.page){
+            const { budget_consult_id, page, votable } = props
+            Meteor.call(`budget_propositions.get_${votable ? 'votable' : 'validated'}`, {budget_consult_id, page} , (error, budget_propositions) => {
+                if(error){
+                    console.log('Erreur', error.message)
+                    toast.error(error.message)
+                }else{
+                    this.setState({budget_propositions, page: props.page})
+                }
+            })
+        }
     }
 
     handleVote = ({proposition_id, vote}) => {
@@ -28,8 +54,8 @@ class BudgetPropositionsDisplayer extends Component {
     }
 
     render(){
-        const {budget_propositions, votable, loading} = this.props
-        const { maximum_votes, total_votes, votes} = this.state
+        const { votable, loading} = this.props
+        const { maximum_votes, total_votes, votes, budget_propositions} = this.state
 
         const { buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
 
@@ -84,17 +110,6 @@ class BudgetPropositionsDisplayer extends Component {
         }
     }
 }
-
-export default BudgetPropositionsDisplayerContainer = withTracker((props) => {
-    const {budget_consult_id, page, status} = props
-    const budgetPropositionsPublication = Meteor.isClient && Meteor.subscribe('budget_propositions.by_budget_consult', {budget_consult_id, page, status})
-    const loading = Meteor.isClient && !budgetPropositionsPublication.ready()
-    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'validated'}, {status}] }, {limit: 10, skip: 10 * page}).fetch()
-    return {
-        loading,
-        budget_propositions
-    }
-})(BudgetPropositionsDisplayer)
 
 const MainContainer = styled.div`
     display: flex;

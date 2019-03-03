@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import styled from 'styled-components'
-import { Segment, Rating } from 'semantic-ui-react'
+import { Segment, Rating, Icon } from 'semantic-ui-react'
 
 export default class BudgetPropositionPartial extends Component {
     state = {
@@ -20,9 +20,14 @@ export default class BudgetPropositionPartial extends Component {
         return(
             <MainContainer active={display_content} onClick={() => this.setState({display_content: !display_content})} className="animated fadeInUp">
                 <HeaderContainer>
-        <Title>{budget_proposition.title} {votable && budget_proposition.estimation && <Estimation>(Estimé à {budget_proposition.estimation.toLocaleString('fr')} €)</Estimation>}</Title>
+                <Title>{budget_proposition.title} {votable && budget_proposition.estimation && <Estimation>(Estimé à {budget_proposition.estimation.toLocaleString('fr')} €)</Estimation>}</Title>
                     {votable &&
-                        <Rating icon='heart' clearable maxRating={3} size="huge" rating={vote} onRate={this.handleRate} />
+                        <VotesContainer>
+                            {budget_proposition.votes_count > 0 &&
+                                <VotesCount><Icon name="heart" /> {budget_proposition.votes_count} </VotesCount>
+                            }
+                            <Rating icon='heart' clearable maxRating={3} size="huge" rating={vote} onRate={this.handleRate} />
+                        </VotesContainer>
                     }
                 </HeaderContainer>
                 {display_content &&
@@ -64,4 +69,16 @@ const Title = styled.div`
 const Estimation = styled.span`
     font-weight: bold;
     color: grey;
+`
+
+const VotesContainer = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const VotesCount = styled.div`
+    font-weight: bold;
+    color: grey;
+    font-size: 1.3em;
+    margin-right: 1em;
 `
