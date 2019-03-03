@@ -126,13 +126,6 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer size_defined>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
-                        {budget_propositions_count > 0 &&
-                            <h3>Déjà {budget_propositions_count} idées proposées</h3>
-                        }
-                        <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={budget_propositions_total_pages} status="validated" />
-                        <PaginationContainer>
-                            <Pagination increment total_pages={budget_propositions_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
-                        </PaginationContainer>
                         <TerritoriesMap 
                             territories={sub_territories}
                             budget_propositions={budget_propositions_coordinates}
@@ -147,7 +140,7 @@ class BudgetConsult extends Component {
                             </HasProposedContainer>
                         :
                             <PropositionFormContainer>
-                                <h2>Proposez votre projet</h2>
+                                <h2>Proposez votre idée</h2>
                                 <BudgetPropositionForm 
                                     budget_consult={budget_consult} 
                                     disabled={!budget_consult.propositions_active} 
@@ -156,6 +149,13 @@ class BudgetConsult extends Component {
                                 />
                             </PropositionFormContainer>
                         }
+                        {budget_propositions_count > 0 &&
+                            <h3>Déjà {budget_propositions_count} idées proposées</h3>
+                        }
+                        <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={budget_propositions_total_pages} status="validated" />
+                        <PaginationContainer>
+                            <Pagination increment total_pages={budget_propositions_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
+                        </PaginationContainer>
                         {step_index >= 1 &&
                             <CustomContainer>
                                 <div dangerouslySetInnerHTML={{__html: budget_consult.agora_content }} />

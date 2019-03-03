@@ -165,7 +165,7 @@ export default class BudgetPropositionForm extends Component {
                     multiple
                 />
                 <Form.Field required>
-                    <label>Décrivez votre projet</label>
+                    <label>Décrivez votre idée</label>
                     <TinyMCE
                         content={budget_proposition.content}
                         config={{
@@ -180,7 +180,7 @@ export default class BudgetPropositionForm extends Component {
                 </Form.Field>
                 {amazon_connected &&
                     <div>
-                        <h3>Liez des documents à votre proposition de projet</h3>
+                        <h3>Liez des documents à votre proposition</h3>
                         <FlexFormContainer bordered>
                             <CustomField>
                                 <label>Donnez un titre à votre document</label>
