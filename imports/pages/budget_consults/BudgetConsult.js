@@ -134,12 +134,12 @@ class BudgetConsult extends Component {
                         <SocialShareContainer style={{marginBottom: "2em"}}>
                             <p style={{marginBottom: 0}}><strong>Partagez sur les réseaux sociaux</strong></p>
                             {Meteor.isClient && [
-                                <Link to={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
+                                <a href={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
                                     <Button icon="facebook" color="blue" size="tiny" content="Facebook"/>
-                                </Link>,
-                                <Link to={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse #budget " +  budget_consult.title + " " +  window.location.href) } target="_blank">
+                                </a>,
+                                <a href={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse #budget " +  budget_consult.title + " " +  window.location.href) } target="_blank">
                                     <Button icon="twitter" color="blue" size="tiny" content="Twitter"/>
-                                </Link>
+                                </a>
                             ]}
                         </SocialShareContainer>
                     </CustomContainer>

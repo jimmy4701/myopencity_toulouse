@@ -11,6 +11,15 @@ const FilesSchema = new SimpleSchema({
     }
 })
 
+const BudgetVotes = new SimpleSchema({
+    user: {
+        type: String
+    },
+    created_at: {
+        type: Date
+    }
+})
+
 
 const BudgetConsultsSchema = new SimpleSchema({
     author: {
@@ -185,6 +194,10 @@ const BudgetConsultsSchema = new SimpleSchema({
     },
     moderators_emails: {
         type: [String],
+        defaultValue: []
+    },
+    voters: {
+        type: [BudgetVotes],
         defaultValue: []
     }
 })

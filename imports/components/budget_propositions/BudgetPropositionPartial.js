@@ -14,7 +14,7 @@ export default class BudgetPropositionPartial extends Component {
     }
 
     render(){
-        const { budget_proposition, votable, vote = 0 } = this.props
+        const { budget_proposition, votable, vote = 0, has_voted} = this.props
         const { display_content } = this.state
 
         return(
@@ -26,7 +26,9 @@ export default class BudgetPropositionPartial extends Component {
                             {budget_proposition.votes_count > 0 &&
                                 <VotesCount><Icon name="heart" /> {budget_proposition.votes_count} </VotesCount>
                             }
-                            <Rating icon='heart' clearable maxRating={3} size="huge" rating={vote} onRate={this.handleRate} />
+                            {!has_voted &&
+                                <Rating icon='heart' clearable maxRating={3} size="huge" rating={vote} onRate={this.handleRate} />
+                            }
                         </VotesContainer>
                     }
                 </HeaderContainer>

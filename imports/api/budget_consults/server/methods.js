@@ -54,5 +54,48 @@ Meteor.methods({
     const propositions_count = BudgetPropositions.find({budget_consult: budget_consult._id, user: this.userId}).count()
     console.log(`propositions count ${propositions_count}, max: ${budget_consult.propositions_max}`)
     return propositions_count >= budget_consult.propositions_max
+},
+'budget_consults.vote_propositions'({budget_consult_id, votes}){
+    // Votes structure
+    // votes: {
+    //     'BUDGET_PROPOSITION_ID': TOTAL_VOTES
+    // }
+
+    if(!this.userId){
+        throw new Meteor.Error('403', "Vous devez vous connecter pour voter")
+    }else{
+        const budget_consult = BudgetConsults.findOne({_id: budget_consult_id})
+        if(!budget_consult.step == 'votes'){
+            throw new Meteor.Error('403', "La période de votes n'est pas en cours. Vous ne pouvez donc pas voter")
+        }
+
+        if(budget_consult.voters.find(o => o.user == this.userId)){
+            throw new Meteor.Error('403', "Vous avez déjà voté pour cette consultation")
+        }
+
+        let total_votes = 0
+        Object.entries(votes).forEach(entry => total_votes += entry[1])
+        if(total_votes > budget_consult.votes_available){
+            throw new Meteor.Error('403', `Vous ne pouvez pas allouer plus de ${budget_consult.votes_available} coeurs`)
+        }
+
+        Object.entries(votes).forEach(entry => {
+            BudgetPropositions.update({_id: entry[0], $and: [{status: 'votable'}, {status: 'validated'}]}, {$inc: {votes_count: entry[1]}})
+        })
+
+        const new_voter = {
+            user: this.userId,
+            created_at: new Date()
+        }
+        BudgetConsults.update({_id: budget_consult_id, step: 'votes', active: true}, {$push: {voters: new_voter}})
+
+    }
+
+},
+'budget_consults.has_voted'(budget_consult_id){
+    if(!this.userId) return false
+    const budget_consult = BudgetConsults.findOne({_id: budget_consult_id}, {limit: 1, fields: {voters: 1}})
+    const found_voter = budget_consult.voters.find(o => o.user == this.userId)
+    return found_voter ? true : false
 }
 })

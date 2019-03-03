@@ -15,12 +15,26 @@ export default class BudgetPropositionsDisplayer extends Component {
 
     componentDidMount(){
         const { budget_consult_id, page, votable } = this.props
+        this.loadPropositions({ budget_consult_id, votable })
+        if(votable){
+            Meteor.call('budget_consults.has_voted', budget_consult_id , (error, has_voted) => {
+                if(error){
+                    console.log('Erreur', error.message)
+                    toast.error(error.message)
+                }else{
+                    this.setState({has_voted})
+                }
+            })
+        }
+    }
+
+    loadPropositions = ({votable, budget_consult_id, page = 0}) => {
         Meteor.call(`budget_propositions.get_${votable ? 'votable' : 'validated'}`, {budget_consult_id, page} , (error, budget_propositions) => {
             if(error){
                 console.log('Erreur', error.message)
                 toast.error(error.message)
             }else{
-                this.setState({budget_propositions})
+                this.setState({budget_propositions, page})
             }
         })
     }
@@ -28,14 +42,7 @@ export default class BudgetPropositionsDisplayer extends Component {
     componentWillReceiveProps(props){
         if(parseFloat(props.page) != this.state.page){
             const { budget_consult_id, page, votable } = props
-            Meteor.call(`budget_propositions.get_${votable ? 'votable' : 'validated'}`, {budget_consult_id, page} , (error, budget_propositions) => {
-                if(error){
-                    console.log('Erreur', error.message)
-                    toast.error(error.message)
-                }else{
-                    this.setState({budget_propositions, page: props.page})
-                }
-            })
+            this.loadPropositions({ budget_consult_id, votable, page })
         }
     }
 
@@ -49,13 +56,23 @@ export default class BudgetPropositionsDisplayer extends Component {
     }
 
     submitVotes = () => {
+        const { budget_consult_id } = this.props
         const { votes } = this.state
-        toast.success(JSON.stringify(votes))
+        Meteor.call('budget_consults.vote_propositions', {budget_consult_id, votes} , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                toast.success("Vos choix ont bien été pris en compte")
+                this.setState({has_voted: true})
+                this.loadPropositions({budget_consult_id, votable: true})
+            }
+        })
     }
 
     render(){
         const { votable, loading} = this.props
-        const { maximum_votes, total_votes, votes, budget_propositions} = this.state
+        const { maximum_votes, total_votes, votes, budget_propositions, has_voted} = this.state
 
         const { buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
 
@@ -65,7 +82,7 @@ export default class BudgetPropositionsDisplayer extends Component {
         if(!loading){
             return(
                 <MainContainer {...this.props}>
-                    {votable && maximum_votes &&
+                    {votable && maximum_votes && !has_voted &&
                         <TotalVotesContainer>
                             <h2>Vous disposez de {maximum_votes} coeurs à donner à vos idées préférées</h2>
                             
@@ -92,7 +109,14 @@ export default class BudgetPropositionsDisplayer extends Component {
                             }
                         </TotalVotesContainer>
                     }
-                    {votable &&
+                    {votable && has_voted &&
+                        <Message
+                            icon='check circle'
+                            header='Vous avez déjà choisi vos idées préférées'
+                            color="green"
+                        />
+                    }
+                    {votable && !has_voted &&
                         <ValidationContainer>
                             <CustomButton disabled={(remaining_votes < 0) || (total_votes == 0)} background_color={buttons_validation_background_color} color={buttons_validation_text_color} size="huge" onClick={this.submitVotes}>
                                 {remaining_votes >= 0 ? "Valider mes choix" : "Merci de retirer des coeurs"}
@@ -100,7 +124,7 @@ export default class BudgetPropositionsDisplayer extends Component {
                         </ValidationContainer>
                     }
                     {budget_propositions.map(proposition => {
-                        return <BudgetPropositionPartial votable={votable} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
+                        return <BudgetPropositionPartial votable={votable} has_voted={has_voted} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
                     })}
                     
                 </MainContainer>
