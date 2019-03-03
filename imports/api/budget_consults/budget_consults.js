@@ -199,6 +199,11 @@ const BudgetConsultsSchema = new SimpleSchema({
     voters: {
         type: [BudgetVotes],
         defaultValue: []
+    },
+    total_budget: {
+        type: Number,
+        decimal: true,
+        optional: true
     }
 })
 

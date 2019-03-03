@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import styled from 'styled-components'
 import { BudgetPropositionPartial } from '/imports/components/budget_propositions'
 import { toast } from 'react-toastify'
-import { Message, Button } from 'semantic-ui-react'
+import { Message, Button, Divider, Icon } from 'semantic-ui-react'
 
 export default class BudgetPropositionsDisplayer extends Component {
     state = {
@@ -29,12 +29,12 @@ export default class BudgetPropositionsDisplayer extends Component {
     }
 
     loadPropositions = ({votable, budget_consult_id, page = 0}) => {
-        Meteor.call(`budget_propositions.get_${votable ? 'votable' : 'validated'}`, {budget_consult_id, page} , (error, budget_propositions) => {
+        Meteor.call(`budget_propositions.get_${votable ? 'votable' : 'validated'}`, {budget_consult_id, page} , (error, {budget_propositions, budget_index}) => {
             if(error){
                 console.log('Erreur', error.message)
                 toast.error(error.message)
             }else{
-                this.setState({budget_propositions, page})
+                this.setState({budget_propositions, budget_index, page})
             }
         })
     }
@@ -71,8 +71,8 @@ export default class BudgetPropositionsDisplayer extends Component {
     }
 
     render(){
-        const { votable, loading} = this.props
-        const { maximum_votes, total_votes, votes, budget_propositions, has_voted} = this.state
+        const { votable, loading, total_budget} = this.props
+        const { maximum_votes, total_votes, votes, budget_propositions, has_voted, budget_index} = this.state
 
         const { buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
 
@@ -123,8 +123,13 @@ export default class BudgetPropositionsDisplayer extends Component {
                             </CustomButton>
                         </ValidationContainer>
                     }
-                    {budget_propositions.map(proposition => {
-                        return <BudgetPropositionPartial votable={votable} has_voted={has_voted} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
+                    {budget_propositions.map((proposition, index) => {
+                        return(
+                            <Fragment>
+                                <BudgetPropositionPartial votable={votable} has_voted={has_voted} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
+                                {(index == parseFloat(budget_index)) && <BudgetDivider horizontal><Icon name="caret up"/> Limite du budget ({total_budget.toLocaleString('fr')} €) <Icon name="caret up"/></BudgetDivider>}
+                            </Fragment>
+                        )
                     })}
                     
                 </MainContainer>
@@ -162,4 +167,8 @@ const ValidationContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+`
+
+const BudgetDivider = styled(Divider)`
+    color: #a8a8a8 !important;
 `

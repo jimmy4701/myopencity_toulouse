@@ -148,6 +148,14 @@ export default class BudgetConsultGeneralForm extends Component {
                         name="title"
                         required
                     />
+                    <Form.Input 
+                        label="Budget total de la consultation (enveloppe)"
+                        onChange={this.handleChange}
+                        value={budget_consult.total_budget}
+                        name="total_budget"
+                        type="number"
+                        step="0.01"
+                    />
                     <Form.TextArea 
                         label="Description de la consultation"
                         onChange={this.handleChange}

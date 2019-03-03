@@ -136,11 +136,45 @@ Meteor.methods({
 },
 'budget_propositions.get_validated'({budget_consult_id, page}){
     const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, status: 'validated'}, {limit: 10, sort: {created_at: -1}, skip: 10 * page }).fetch()
-    return budget_propositions
+    return {budget_propositions}
 },
 'budget_propositions.get_votable'({budget_consult_id, page}){
+    const budget_consult = BudgetConsults.findOne({_id: budget_consult_id})
+    const all_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'votable'}, {status: 'validated'}]}, {fields: {estimation: 1}}).fetch()
+    
+    let total_estimation = 0
+    let limit_index = null
+    let budget_index = null
+
+    let minimum_index = page * 10
+    let maximum_index = (page + 1) * 10
+
+    var BreakException = {};
+
+    try {
+        all_propositions.forEach((proposition, index) => {
+            if(proposition.estimation){
+                if(total_estimation + proposition.estimation > budget_consult.total_budget){
+                    limit_index = parseFloat(index -1)
+                    throw BreakException;
+                }else{
+                    total_estimation += parseFloat(proposition.estimation)
+                }
+            }
+        })
+    } catch (e) {
+        if (e !== BreakException) throw e;
+    }
+
+    if(limit_index >= minimum_index && limit_index <= maximum_index ){
+        budget_index = parseFloat(limit_index)
+        if(page != 0){
+            budget_index = budget_index % 10
+        }
+    }
+
     const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'votable'}, {status: 'validated'}]}, {limit: 10, sort: {votes_count: -1}, skip: 10 * page }).fetch()
     
-    return budget_propositions
+    return {budget_propositions, budget_index}
 }
 })

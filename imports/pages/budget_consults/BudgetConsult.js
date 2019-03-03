@@ -116,6 +116,7 @@ class BudgetConsult extends Component {
                     },
               ]
             const step_index = steps.findIndex(o => o.key == (budget_consult ? budget_consult.step : 'propositions') )
+
             return(
                 <MainContainer>
                     <Helmet>
@@ -196,7 +197,8 @@ class BudgetConsult extends Component {
                                     maximum_votes={budget_consult.available_votes} 
                                     budget_consult_id={budget_consult._id} 
                                     page={votable_page} 
-                                    total_pages={votable_total_pages} 
+                                    total_pages={votable_total_pages}
+                                    total_budget={budget_consult.total_budget}
                                     status="votable" 
                                 />
                                 <PaginationContainer>
