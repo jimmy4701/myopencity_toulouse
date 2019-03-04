@@ -87,7 +87,7 @@ Meteor.methods({
             user: this.userId,
             created_at: new Date()
         }
-        BudgetConsults.update({_id: budget_consult_id, step: 'votes', active: true}, {$push: {voters: new_voter}})
+        BudgetConsults.update({_id: budget_consult_id, step: 'votes'}, {$push: {voters: new_voter}})
 
     }
 
