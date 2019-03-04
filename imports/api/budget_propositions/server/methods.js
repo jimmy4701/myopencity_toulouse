@@ -20,6 +20,7 @@ Meteor.methods({
 
         const new_proposition_id = BudgetPropositions.insert(budget_proposition)
 
+        
         if(budget_consult.moderators_emails.length > 0){
             Meteor.call('mailing_service.budget_proposition_notification', new_proposition_id)
         }

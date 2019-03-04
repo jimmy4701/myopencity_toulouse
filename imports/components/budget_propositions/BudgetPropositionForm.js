@@ -29,12 +29,6 @@ export default class BudgetPropositionForm extends Component {
         }
     }
 
-
-    submitForm = (e) => {
-        e.preventDefault()
-        const { budget_proposition } = this.state
-        if(this.props.onFormSubmit) this.props.onFormSubmit(budget_proposition)
-    }
     
     handleContentChange = (e) => {
         let {budget_proposition} = this.state
@@ -125,7 +119,13 @@ export default class BudgetPropositionForm extends Component {
                   toast.success("Votre idée a bien été proposée")
                   this.setState({budget_proposition: {
                     documents: [],
-                    user_age: 'adult'
+                    user_age: 'adult',
+                    title: "",
+                    address: "",
+                    sub_territories: [],
+                    content: "",
+                    user_type: null,
+                    
                 }})
                   if(this.props.onFormSubmit) this.props.onFormSubmit(result)
               }

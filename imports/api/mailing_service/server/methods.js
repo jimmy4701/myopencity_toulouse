@@ -135,7 +135,7 @@ Meteor.methods({
       throw new Meteor.Error('403', 'Vous devez vous connecter')
   }else{
 
-      const external_configuration = ExternalApisConfiguration.findOne({}, {fields: {email_smtp_from_domain: 1}})
+      const external_configuration = ExternalApisConfiguration.findOne()
       const budget_proposition = BudgetPropositions.findOne({_id: proposition_id}, {fields: {content: 1, budget_consult: 1}})
       const budget_consult = BudgetConsults.findOne({_id: budget_proposition.budget_consult}, {fields: {title: 1, moderators_emails: 1}})
       // Send alternative notification
