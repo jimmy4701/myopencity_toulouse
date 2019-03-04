@@ -14,9 +14,9 @@ export default class BudgetPropositionsDisplayer extends Component {
     }
 
     componentDidMount(){
-        const { budget_consult_id, page, votable } = this.props
-        this.loadPropositions({ budget_consult_id, votable })
-        if(votable){
+        const { budget_consult_id, display_votes } = this.props
+        this.loadPropositions({ budget_consult_id, votable: display_votes })
+        if(display_votes){
             Meteor.call('budget_consults.has_voted', budget_consult_id , (error, has_voted) => {
                 if(error){
                     console.log('Erreur', error.message)
@@ -41,8 +41,8 @@ export default class BudgetPropositionsDisplayer extends Component {
 
     componentWillReceiveProps(props){
         if(parseFloat(props.page) != this.state.page){
-            const { budget_consult_id, page, votable } = props
-            this.loadPropositions({ budget_consult_id, votable, page })
+            const { budget_consult_id, page, display_votes} = props
+            this.loadPropositions({ budget_consult_id, votable: display_votes, page })
         }
     }
 
@@ -71,7 +71,7 @@ export default class BudgetPropositionsDisplayer extends Component {
     }
 
     render(){
-        const { votable, loading, total_budget} = this.props
+        const { votable, loading, total_budget, display_votes} = this.props
         const { maximum_votes, total_votes, votes, budget_propositions, has_voted, budget_index} = this.state
 
         const { buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
@@ -126,7 +126,7 @@ export default class BudgetPropositionsDisplayer extends Component {
                     {budget_propositions.map((proposition, index) => {
                         return(
                             <Fragment>
-                                <BudgetPropositionPartial votable={votable} has_voted={has_voted} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
+                                <BudgetPropositionPartial display_votes={display_votes} votable={votable} has_voted={has_voted} onVote={this.handleVote} vote={votes[proposition._id]} key={proposition._id} budget_proposition={proposition} />
                                 {(index == parseFloat(budget_index)) && <BudgetDivider horizontal><Icon name="caret up"/> Limite du budget ({total_budget.toLocaleString('fr')} €) <Icon name="caret up"/></BudgetDivider>}
                             </Fragment>
                         )
@@ -144,7 +144,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-top: 1em;
-    ${props => props.votable && "flex-direction: column;"}
+    ${props => props.display_votes && "flex-direction: column;"}
 `
 
 const TotalVotesContainer = styled.div`

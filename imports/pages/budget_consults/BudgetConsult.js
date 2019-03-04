@@ -193,7 +193,8 @@ class BudgetConsult extends Component {
                             <CustomContainer>
                                 <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
                                 <BudgetPropositionsDisplayer 
-                                    votable 
+                                    votable={budget_consult.step == 'votes'}
+                                    display_votes
                                     maximum_votes={budget_consult.available_votes} 
                                     budget_consult_id={budget_consult._id} 
                                     page={votable_page} 

@@ -14,19 +14,19 @@ export default class BudgetPropositionPartial extends Component {
     }
 
     render(){
-        const { budget_proposition, votable, vote = 0, has_voted} = this.props
+        const { budget_proposition, votable, vote = 0, has_voted, display_votes} = this.props
         const { display_content } = this.state
 
         return(
             <MainContainer active={display_content} onClick={() => this.setState({display_content: !display_content})} className="animated fadeInUp">
                 <HeaderContainer>
                 <Title>{budget_proposition.title} {votable && budget_proposition.estimation && <Estimation>(Estimé à {budget_proposition.estimation.toLocaleString('fr')} €)</Estimation>}</Title>
-                    {votable &&
+                    {display_votes &&
                         <VotesContainer>
                             {budget_proposition.votes_count > 0 &&
                                 <VotesCount><Icon name="heart" /> {budget_proposition.votes_count} </VotesCount>
                             }
-                            {!has_voted &&
+                            {votable && !has_voted &&
                                 <Rating icon='heart' clearable maxRating={3} size="huge" rating={vote} onRate={this.handleRate} />
                             }
                         </VotesContainer>
