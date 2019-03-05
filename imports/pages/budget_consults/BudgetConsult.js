@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import styled from 'styled-components'
 import { withTracker } from 'meteor/react-meteor-data'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
