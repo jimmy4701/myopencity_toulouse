@@ -71,7 +71,7 @@ export default class BudgetPropositionsDisplayer extends Component {
     }
 
     render(){
-        const { votable, loading, total_budget, display_votes} = this.props
+        const { votable, loading, total_budget, display_votes, title} = this.props
         const { maximum_votes, total_votes, votes, budget_propositions, has_voted, budget_index} = this.state
 
         const { buttons_validation_background_color, buttons_validation_text_color } = Meteor.isClient && Session.get('global_configuration')
@@ -123,6 +123,9 @@ export default class BudgetPropositionsDisplayer extends Component {
                             </CustomButton>
                         </ValidationContainer>
                     }
+                    {title && 
+                        <TitleContainer><h2>{title}</h2></TitleContainer>
+                    }
                     {budget_propositions.map((proposition, index) => {
                         return(
                             <Fragment>
@@ -171,4 +174,8 @@ const ValidationContainer = styled.div`
 
 const BudgetDivider = styled(Divider)`
     color: #a8a8a8 !important;
+`
+
+const TitleContainer = styled.div`
+    width: 100%;
 `

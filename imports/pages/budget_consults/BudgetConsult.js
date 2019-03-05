@@ -191,25 +191,29 @@ class BudgetConsult extends Component {
                                 containerElement={<MapContainer />}
                                 mapElement={<div style={{ height: `100%`, width: '100%' }} />}
                             />
-                            {has_proposed ?
-                                <HasProposedContainer>
-                                    <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
-                                </HasProposedContainer>
-                            :
-                                <PropositionFormContainer>
-                                    <h2>Proposez votre idée</h2>
-                                    <BudgetPropositionForm 
-                                        budget_consult={budget_consult} 
-                                        disabled={!budget_consult.propositions_active} 
-                                        sub_territories={sub_territories}
-                                        onFormSubmit={this.handlePropositionSubmit}
-                                    />
-                                </PropositionFormContainer>
+                            {budget_consult.step == 'propositions' &&
+                                <Fragment>
+                                    {has_proposed ?
+                                        <HasProposedContainer>
+                                            <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
+                                        </HasProposedContainer>
+                                    :
+                                        <PropositionFormContainer>
+                                            <h2>Proposez votre idée</h2>
+                                            <BudgetPropositionForm 
+                                                budget_consult={budget_consult} 
+                                                disabled={!budget_consult.propositions_active} 
+                                                sub_territories={sub_territories}
+                                                onFormSubmit={this.handlePropositionSubmit}
+                                            />
+                                        </PropositionFormContainer>
+                                    }
+                                    {validated_count > 0 &&
+                                        <h3>Déjà {validated_count} idées proposées</h3>
+                                    }
+                                </Fragment>
                             }
-                            {validated_count > 0 &&
-                                <h3>Déjà {validated_count} idées proposées</h3>
-                            }
-                            <BudgetPropositionsDisplayer budget_consult_id={budget_consult._id} page={validated_page} total_pages={validated_total_pages} status="validated" />
+                            <BudgetPropositionsDisplayer title="Les projets déposés" budget_consult_id={budget_consult._id} page={validated_page} total_pages={validated_total_pages} status="validated" />
                             <PaginationContainer>
                                 <Pagination increment total_pages={validated_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
                             </PaginationContainer>
