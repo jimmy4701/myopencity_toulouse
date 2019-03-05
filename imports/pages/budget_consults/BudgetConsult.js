@@ -149,7 +149,8 @@ class BudgetConsult extends Component {
                     </CustomContainer>
                     <CustomContainer size_defined>
                         <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
-                        <TerritoriesMap 
+                        <TerritoriesMap
+                            avoid_link_territory
                             territories={sub_territories}
                             budget_propositions={budget_propositions_coordinates}
                             googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"

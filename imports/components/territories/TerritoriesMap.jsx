@@ -309,7 +309,7 @@ class TerritoriesMap extends Component {
                             <Polygon 
                                 className="wow fadeIn"
                                 paths={coordinates} 
-                                onClick={() => this.go(territory)}
+                                onClick={() => !this.props.avoid_link_territory ? this.go(territory) : null}
                                 options={{
                                     strokeWeight: 0,
                                     strokeColor: territory.color,
