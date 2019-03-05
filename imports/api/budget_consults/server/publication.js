@@ -24,9 +24,9 @@ Meteor.publish('budget_consults.landing', function(){
 
 Meteor.publish('budget_consults.by_url_shorten', function(url_shorten){
     if(Roles.userIsInRole(this.userId, 'admin')){
-        return BudgetConsults.find({url_shorten}, {limit: 1, sort: {}})
+        return BudgetConsults.find({url_shorten}, {limit: 1, sort: {}, fields: {voters: 0}})
     }else{
-        return BudgetConsults.find({url_shorten, active: true, visible: true}, {limit: 1, sort: {}})
+        return BudgetConsults.find({url_shorten, active: true, visible: true}, {limit: 1, sort: {}, fields: {voters: 0}})
     }
 })
 

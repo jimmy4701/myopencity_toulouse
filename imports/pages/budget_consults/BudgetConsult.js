@@ -17,11 +17,17 @@ class BudgetConsult extends Component {
         validated_page: 0,
         votable_page: 0,
         budget_propositions_coordinates: [],
+        active_step_initialized: false,
         active_step: 'propositions'
     }
 
     componentDidMount(){
         window.scrollTo({top: 0, behavior: "smooth"})
+        const {budget_consult} = this.props
+        if(budget_consult){
+            console.log('ACTIVE STEP CHANGE')
+            this.setState({active_step: budget_consult.step})
+        }
         Meteor.call('budget_consults.has_proposed', this.props.match.params.url_shorten, (error, result) => {
             if(error){
                 console.log(error.reason)
@@ -45,6 +51,14 @@ class BudgetConsult extends Component {
                 this.setState({budget_propositions_coordinates})
             }
         })
+    }
+
+    componentWillReceiveProps(props){
+        const {budget_consult} = props
+        const {active_step_initialized} = this.state
+        if(!active_step_initialized && budget_consult){
+            this.setState({active_step: budget_consult.step, active_step_initialized: true})
+        }
     }
 
     getDateDescription = (step) => {
