@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Container } from 'semantic-ui-react'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
-import { BudgetConsultForm } from '/imports/components/budget_consults'
+import BudgetConsultForm from '/imports/components/budget_consults/BudgetConsultForm'
 import { withRouter } from 'react-router-dom'
 
 class AdminBudgetEdition extends Component {

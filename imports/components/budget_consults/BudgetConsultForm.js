@@ -2,18 +2,16 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Menu, Button } from 'semantic-ui-react'
 import { toast } from 'react-toastify'
-import { 
-    BudgetConsultGeneralForm,
-    BudgetConsultTerritoriesForm,
-    BudgetConsultDesignForm,
-    BudgetConsultPropositionForm,
-    BudgetConsultVotesForm,
-    BudgetConsultResultsForm,
-    BudgetConsultDocumentsForm,
-    BudgetConsultConfigurationForm,
-    BudgetConsultAgoraForm,
-    BudgetConsultAnalysisForm
- } from '/imports/components/budget_consults'
+
+import BudgetConsultGeneralForm from '/imports/components/budget_consults/form_parts/BudgetConsultGeneralForm'
+import BudgetConsultDesignForm from '/imports/components/budget_consults/form_parts/BudgetConsultDesignForm'
+import BudgetConsultTerritoriesForm from '/imports/components/budget_consults/form_parts/BudgetConsultTerritoriesForm'
+import BudgetConsultPropositionForm from '/imports/components/budget_consults/form_parts/BudgetConsultPropositionForm'
+import BudgetConsultVotesForm from '/imports/components/budget_consults/form_parts/BudgetConsultVotesForm'
+import BudgetConsultResultsForm from '/imports/components/budget_consults/form_parts/BudgetConsultResultsForm'
+import BudgetConsultDocumentsForm from '/imports/components/budget_consults/form_parts/BudgetConsultDocumentsForm'
+import BudgetConsultConfigurationForm from '/imports/components/budget_consults/form_parts/BudgetConsultConfigurationForm'
+import BudgetConsultAgoraForm from '/imports/components/budget_consults/form_parts/BudgetConsultAgoraForm'
 
 export default class BudgetConsultForm extends Component {
     state = {
@@ -68,7 +66,7 @@ export default class BudgetConsultForm extends Component {
                         <Menu.Item onClick={() => this.changeStep('design')} active={step == 'design'}>Apparence</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('propositions')} active={step == 'propositions'}>Propositions</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('agora')} active={step == 'agora'}>Agora</Menu.Item>
-                        <Menu.Item onClick={() => this.changeStep('analysis')} active={step == 'analysis'}>Analyse</Menu.Item>
+                        {/* <Menu.Item onClick={() => this.changeStep('analysis')} active={step == 'analysis'}>Analyse</Menu.Item> */}
                         <Menu.Item onClick={() => this.changeStep('votes')} active={step == 'votes'}>Votes</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('results')} active={step == 'results'}>Résultats</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('documents')} active={step == 'documents'}>Documents</Menu.Item>
@@ -92,9 +90,9 @@ export default class BudgetConsultForm extends Component {
                     {step == "agora" &&
                         <BudgetConsultAgoraForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
-                    {step == "analysis" &&
+                    {/* {step == "analysis" &&
                         <BudgetConsultAnalysisForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
-                    }
+                    } */}
                     {step == "votes" &&
                         <BudgetConsultVotesForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }

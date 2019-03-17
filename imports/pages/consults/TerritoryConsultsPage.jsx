@@ -6,7 +6,7 @@ import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import { Consults } from '/imports/api/consults/consults'
 import { Territories } from '/imports/api/territories/territories'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
-import { BudgetConsultPartial } from '/imports/components/budget_consults'
+import BudgetConsultPartial from '/imports/components/budget_consults/BudgetConsultPartial'
 
 export class TerritoryConsultsPage extends TrackerReact(Component) {
 

@@ -37,7 +37,7 @@ export default class BudgetConsultPartial extends Component {
         const { hide_buttons, budget_consult } = this.props
 
         return(
-            <Card>
+            <MainContainer>
                 <Link to={"/budget_consults/" + budget_consult.url_shorten}>
                     <Image src={budget_consult.image_url_mini ? budget_consult.image_url_mini : budget_consult.image_url} />
                 </Link>
@@ -77,11 +77,11 @@ export default class BudgetConsultPartial extends Component {
                         }
                     </Card.Content>
                 }
-            </Card>
+            </MainContainer>
         )
     }
 }
 
-const MainContainer = styled.div`
-    text-align: center;
+const MainContainer = styled(Card)`
+    height: 100%;
 `

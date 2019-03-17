@@ -9,11 +9,12 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 import ImageCropper from '/imports/components/general/ImageCropper'
+import browser_image_resizer  from 'browser-image-resizer'
 if(Meteor.isClient){
-  import readAndCompressImage from 'browser-image-resizer'
   import 'moment/locale/fr'
 }
 import _ from 'lodash'
+import styled from 'styled-components'
 
 export default class ConsultForm extends TrackerReact(Component) {
 
@@ -231,7 +232,9 @@ export default class ConsultForm extends TrackerReact(Component) {
       debug: true
     };
 
-    let minified_image = await readAndCompressImage(cropped_image, config);
+    console.log('BROWSER RESIZER', browser_image_resizer)
+
+    let minified_image = await browser_image_resizer.readAndCompressImage(cropped_image, config);
 
     await uploader_mini.send(minified_image, (error, downloadUrl) => {
       if (error) {
@@ -561,13 +564,11 @@ export default class ConsultForm extends TrackerReact(Component) {
                   </Grid.Column>
                   {consult.attached_files.map((attached_file, index) => {
                     return (
-                      <Grid.Column width={16} className="">
-                        <Segment>
-                          <Icon name="file" />
-                          <Header as="h4">{attached_file.title}</Header>
-                          <Button color="red" icon="remove" text="Supprimer" onClick={(e) => { this.remove_attached_file(index, e) }} />
-                        </Segment>
-                      </Grid.Column>
+                      <DocumentPartial clearing>
+                          <h4><Icon name="file" /> {attached_file.title}</h4> 
+                          <a href={attached_file.url} target="_blank">{attached_file.url}</a>
+                          <Button color="red" icon="remove" content="Supprimer" floated="right" onClick={(e) => { this.remove_attached_file(index, e) }} />
+                      </DocumentPartial>
                     )
                   })}
 
@@ -632,3 +633,8 @@ export default class ConsultForm extends TrackerReact(Component) {
     )
   }
 }
+
+const DocumentPartial = styled(Segment)`
+    padding: 0.5em !important;
+    width: 100%;
+`
