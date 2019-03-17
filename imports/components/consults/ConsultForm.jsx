@@ -9,7 +9,10 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 import ImageCropper from '/imports/components/general/ImageCropper'
-import readAndCompressImage from 'browser-image-resizer'
+if(Meteor.isClient){
+  import readAndCompressImage from 'browser-image-resizer'
+  import 'moment/locale/fr'
+}
 import _ from 'lodash'
 
 export default class ConsultForm extends TrackerReact(Component) {
@@ -352,7 +355,8 @@ export default class ConsultForm extends TrackerReact(Component) {
 
     const display_votes_options = [
       {key: "on_vote", value: "on_vote", text: "Résultats visibles dès le vote"},
-      {key: "on_consultation_end", value: "on_consultation_end", text: "Résultats visibles à la fin de la consultation"}
+      {key: "on_consultation_end", value: "on_consultation_end", text: "Résultats visibles à la fin de la consultation"},
+      {key: "no_display", value: "no_display", text: "Résultats non visibles"}
     ]
 
     return (
@@ -379,16 +383,18 @@ export default class ConsultForm extends TrackerReact(Component) {
                 <Form.Field>
                   <label>Date de début de consultation</label>
                   <DatePicker
-                      selected={moment(consult.start_date)}
+                      locale="fr"
                       dateFormat="DD/MM/YYYY"
+                      selected={moment(consult.start_date)}
                       onChange={this.handleStartDate}
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Date de fin de consultation</label>
                   <DatePicker
-                      selected={moment(consult.end_date)}
+                      locale="fr"
                       dateFormat="DD/MM/YYYY"
+                      selected={moment(consult.end_date)}
                       onChange={this.handleEndDate}
                   />
                 </Form.Field>
@@ -465,7 +471,7 @@ export default class ConsultForm extends TrackerReact(Component) {
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `100vh` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
-                     />
+                  />
               </Grid.Column>
             </Grid>
           }

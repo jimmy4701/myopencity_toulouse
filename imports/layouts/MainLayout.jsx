@@ -4,7 +4,8 @@ import React, { Component } from "react"
 import { Switch, withRouter, Link } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import { createContainer } from 'meteor/react-meteor-data'
-import { Loader, Grid, Sidebar, Button, Menu, Icon } from 'semantic-ui-react'
+import { Loader, Grid, Sidebar, Menu } from 'semantic-ui-react'
+import { ToastContainer } from 'react-toastify'
 
 // Components
 import Navbar from '/imports/components/navigation/Navbar'
@@ -43,6 +44,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import CookieConsent from "react-cookie-consent"
 import AccountValidation from '/imports/pages/accounts/AccountValidation'
 import Lexical from '/imports/pages/general/Lexical'
+import BudgetConsult from '/imports/pages/budget_consults/BudgetConsult'
 
 export class MainLayout extends TrackerReact(Component) {
   
@@ -172,6 +174,7 @@ export class MainLayout extends TrackerReact(Component) {
                       <Public component={SigninPage} exact path="/sign_in"       { ...this.props } />
                       <Public component={ConsultsPage} exact path="/consults"       { ...this.props } />
                       <Public component={ConsultPage} exact path="/consults/:urlShorten"       { ...this.props } />
+                      <Public component={BudgetConsult} exact path="/budgets/:url_shorten"       { ...this.props } />
                       <Public component={TerritoryConsultsPage} exact path="/territory/:shorten_url/consults"       { ...this.props } />
                       <Public component={ProfilePage} exact path="/profile/:user_id"       { ...this.props } />
                       <Public component={ProjectsPage} exact path="/projects"       { ...this.props } />
@@ -204,6 +207,7 @@ export class MainLayout extends TrackerReact(Component) {
               </Grid>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
+          <ToastContainer />
           <CookieConsent
             location="bottom"
             buttonText="J'accepte"
@@ -229,3 +233,5 @@ export default MainLayoutContainer = createContainer(() => {
     global_configuration
   }
 }, withRouter(MainLayout))
+
+

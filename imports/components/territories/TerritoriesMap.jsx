@@ -22,7 +22,8 @@ class TerritoriesMap extends Component {
 
     componentWillReceiveProps(){
       const info_windows = {}
-      this.props.consults.map(consult => {
+      const {consults = []} = this.props
+      consults.map(consult => {
         info_windows[consult._id] = false
       })
       this.setState({info_windows})
@@ -35,7 +36,7 @@ class TerritoriesMap extends Component {
     }
 
     render() {
-        const {territories, consults} = this.props
+        const {territories = [], consults = [], budget_propositions = [], display_roads} = this.props
         const {info_windows} = this.state
         const {navbar_color} = Session.get('global_configuration')
 
@@ -294,10 +295,205 @@ class TerritoriesMap extends Component {
                 }
               ]
 
+        const style_with_roads = [
+          {
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#f5f5f5"
+              }
+            ]
+          },
+          {
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#616161"
+              }
+            ]
+          },
+          {
+            "elementType": "labels.text.stroke",
+            "stylers": [
+              {
+                "color": "#f5f5f5"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative.land_parcel",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#bdbdbd"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#eeeeee"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#757575"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#e5e5e5"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#9e9e9e"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#ffffff"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road.arterial",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#757575"
+              }
+            ]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#dadada"
+              }
+            ]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#616161"
+              }
+            ]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#9e9e9e"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "transit.line",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#e5e5e5"
+              }
+            ]
+          },
+          {
+            "featureType": "transit.station",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#eeeeee"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "color": "#c9c9c9"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#9e9e9e"
+              }
+            ]
+          }
+        ]
+
         return (
             <GoogleMap
                 defaultZoom={12}
-                defaultOptions={{styles: custom_style}}
+                defaultOptions={{styles: display_roads ? style_with_roads : custom_style}}
                 defaultCenter={{ lat: 43.6007584, lng: 1.4329006 }}
             >
                 {this.props.isMarkerShown && <Marker position={{ lat: 43.6007584, lng: 1.4329006 }} />}
@@ -308,7 +504,7 @@ class TerritoriesMap extends Component {
                             <Polygon 
                                 className="wow fadeIn"
                                 paths={coordinates} 
-                                onClick={() => this.go(territory)}
+                                onClick={() => !this.props.avoid_link_territory ? this.go(territory) : null}
                                 options={{
                                     strokeWeight: 0,
                                     strokeColor: territory.color,
@@ -367,6 +563,25 @@ class TerritoriesMap extends Component {
                                     </div>
                                   </InfoWindow>
                                 }
+                              </Marker>
+                                
+                            )
+                        }
+                    }) }
+                  </MarkerClusterer>
+
+                  <MarkerClusterer
+                    averageCenter
+                    enableRetinaIcons
+                    gridSize={60}
+                  >
+                    {budget_propositions && budget_propositions.map(proposition => {
+                        if(proposition.coordinates){
+                            return (
+                              <Marker
+                                key={proposition._id}
+                                position={proposition.coordinates}
+                              >
                               </Marker>
                                 
                             )

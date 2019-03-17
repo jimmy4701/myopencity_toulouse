@@ -4,7 +4,9 @@ import TinyMCE from 'react-tinymce'
 import { Grid, Header, Form, Input, Button, Icon } from 'semantic-ui-react'
 import { SketchPicker } from 'react-color'
 import ImageCropper from '/imports/components/general/ImageCropper'
-import readAndCompressImage from 'browser-image-resizer'
+if(Meteor.isClient){
+    import readAndCompressImage from 'browser-image-resizer'
+  }
 
 export default class TerritoryForm extends TrackerReact(Component) {
 
