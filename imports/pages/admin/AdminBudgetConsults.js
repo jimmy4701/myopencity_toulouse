@@ -4,7 +4,7 @@ import { Button, Grid, Container, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withTracker } from 'meteor/react-meteor-data'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
-import { BudgetConsultPartial } from '/imports/components/budget_consults'
+import BudgetConsultPartial from '/imports/components/budget_consults/BudgetConsultPartial'
 
 class AdminBudgetConsults extends Component {
     state = {

@@ -2,18 +2,16 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import { Menu, Button } from 'semantic-ui-react'
 import { toast } from 'react-toastify'
-import { 
-    BudgetConsultGeneralForm,
-    BudgetConsultTerritoriesForm,
-    BudgetConsultDesignForm,
-    BudgetConsultPropositionForm,
-    BudgetConsultVotesForm,
-    BudgetConsultResultsForm,
-    BudgetConsultDocumentsForm,
-    BudgetConsultConfigurationForm,
-    BudgetConsultAgoraForm,
-    BudgetConsultAnalysisForm
- } from '/imports/components/budget_consults'
+
+import BudgetConsultGeneralForm from '/imports/components/budget_consults/form_parts/BudgetConsultGeneralForm'
+import BudgetConsultDesignForm from '/imports/components/budget_consults/form_parts/BudgetConsultDesignForm'
+import BudgetConsultTerritoriesForm from '/imports/components/budget_consults/form_parts/BudgetConsultTerritoriesForm'
+import BudgetConsultPropositionForm from '/imports/components/budget_consults/form_parts/BudgetConsultPropositionForm'
+import BudgetConsultVotesForm from '/imports/components/budget_consults/form_parts/BudgetConsultVotesForm'
+import BudgetConsultResultsForm from '/imports/components/budget_consults/form_parts/BudgetConsultResultsForm'
+import BudgetConsultDocumentsForm from '/imports/components/budget_consults/form_parts/BudgetConsultDocumentsForm'
+import BudgetConsultConfigurationForm from '/imports/components/budget_consults/form_parts/BudgetConsultConfigurationForm'
+import BudgetConsultAgoraForm from '/imports/components/budget_consults/form_parts/BudgetConsultAgoraForm'
 
 export default class BudgetConsultForm extends Component {
     state = {

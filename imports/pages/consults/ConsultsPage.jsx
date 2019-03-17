@@ -5,7 +5,7 @@ import { Grid, Header, Loader, Button, Container } from 'semantic-ui-react'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import { Consults } from '/imports/api/consults/consults'
 import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
-import { BudgetConsultPartial } from '/imports/components/budget_consults'
+import BudgetConsultPartial from '/imports/components/budget_consults/BudgetConsultPartial'
 
 export class ConsultsPage extends TrackerReact(Component) {
 

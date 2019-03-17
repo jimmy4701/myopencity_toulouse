@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import { BudgetConsultPartial } from '/imports/components/budget_consults'
+import BudgetConsultPartial from '/imports/components/budget_consults/BudgetConsultPartial'
 import ImageCropper from '/imports/components/general/ImageCropper'
-if(Meteor.isClient){
-  import readAndCompressImage from 'browser-image-resizer'
-}
+import browser_image_resizer from 'browser-image-resizer'
 import { toast } from 'react-toastify'
-import { Form, Input } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 
 export default class BudgetConsultDesignForm extends Component {
     state = {
@@ -43,7 +41,7 @@ export default class BudgetConsultDesignForm extends Component {
           debug: true
         };
     
-        let minified_image = await readAndCompressImage(cropped_image, config);
+        let minified_image = await browser_image_resizer.readAndCompressImage(cropped_image, config);
     
         await uploader_mini.send(minified_image, (error, downloadUrl) => {
           if (error) {
