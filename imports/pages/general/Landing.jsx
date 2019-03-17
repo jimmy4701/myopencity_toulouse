@@ -94,15 +94,17 @@ export class Landing extends Component {
               <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_consults_background_color}}>
                 <Header as="h2">Les {consult_term}s du moment</Header>
                 {consults.length > 0 &&
-                  <Container>
-                    <Card.Group itemsPerRow={4} className="centered" stackable>
+                  <ConsultsContainer>
+                    <Grid stackable centered>
                       {consults.map((consult, index) => {
                         return (
+                          <ConsultColumn width={4} textAlign="center">
                             <ConsultPartial consult={consult} key={consult._id} />
+                          </ConsultColumn>
                         )
                       })}
-                    </Card.Group>
-                  </Container>
+                    </Grid>
+                  </ConsultsContainer>
                 }
               </Grid.Column>
               : ''}
@@ -212,4 +214,15 @@ const BudgetTitle = styled.h1`
 
 const BudgetSubTitle = styled.h1`
   margin-bottom: 0;
+`
+
+const ConsultsContainer = styled(Container)`
+
+`
+
+const ConsultColumn = styled(Grid.Column)`
+  @media screen and (max-width: 769px) {
+    display: flex !important;
+    justify-content: center;
+  }
 `
