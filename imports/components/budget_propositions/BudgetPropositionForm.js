@@ -38,7 +38,7 @@ export default class BudgetPropositionForm extends Component {
 
     handleUploadImage = (blobInfo, success, failure) => {
         var metaContext = {}
-        var uploader = new Slingshot.Upload("ConsultImage", metaContext)
+        var uploader = new Slingshot.Upload("BudgetPropositionImage", metaContext)
         uploader.send(blobInfo.blob(), (error, downloadUrl) => {
         if (error) {
             // Log service detailed response
@@ -62,7 +62,7 @@ export default class BudgetPropositionForm extends Component {
         e.preventDefault()
         this.setState({ loading_file: true })
         var metaContext = { title: this.state.document_title }
-        var uploader = new Slingshot.Upload("ConsultFile", metaContext)
+        var uploader = new Slingshot.Upload("BudgetPropositionFile", metaContext)
         uploader.send(e.target.files[0], (error, downloadUrl) => {
           if (error) {
             // Log service detailed response
