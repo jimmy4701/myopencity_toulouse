@@ -68,7 +68,7 @@ export default class BudgetConsultForm extends Component {
                         <Menu.Item onClick={() => this.changeStep('design')} active={step == 'design'}>Apparence</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('propositions')} active={step == 'propositions'}>Propositions</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('agora')} active={step == 'agora'}>Agora</Menu.Item>
-                        <Menu.Item onClick={() => this.changeStep('analysis')} active={step == 'analysis'}>Analyse</Menu.Item>
+                        {/* <Menu.Item onClick={() => this.changeStep('analysis')} active={step == 'analysis'}>Analyse</Menu.Item> */}
                         <Menu.Item onClick={() => this.changeStep('votes')} active={step == 'votes'}>Votes</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('results')} active={step == 'results'}>Résultats</Menu.Item>
                         <Menu.Item onClick={() => this.changeStep('documents')} active={step == 'documents'}>Documents</Menu.Item>
@@ -92,9 +92,9 @@ export default class BudgetConsultForm extends Component {
                     {step == "agora" &&
                         <BudgetConsultAgoraForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }
-                    {step == "analysis" &&
+                    {/* {step == "analysis" &&
                         <BudgetConsultAnalysisForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
-                    }
+                    } */}
                     {step == "votes" &&
                         <BudgetConsultVotesForm budget_consult={budget_consult} onFormSubmit={this.subFormSubmit} />
                     }

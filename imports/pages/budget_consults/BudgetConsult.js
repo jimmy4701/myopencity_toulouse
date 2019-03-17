@@ -125,11 +125,6 @@ class BudgetConsult extends Component {
                       description: this.getDateDescription('agora')
                     },
                   { 
-                      key: "analysis",
-                      title: budget_consult.analysis_step_name,
-                      description: this.getDateDescription('analysis')
-                    },
-                  { 
                       key: "votes",
                       title: budget_consult.votes_step_name,
                       description: this.getDateDescription('votes')
@@ -222,11 +217,6 @@ class BudgetConsult extends Component {
                     {active_step == 'agora' &&
                         <CustomContainer>
                             <div dangerouslySetInnerHTML={{__html: budget_consult.agora_content }} />
-                        </CustomContainer>
-                    }
-                    {active_step == 'analysis' &&
-                        <CustomContainer>
-                            <div dangerouslySetInnerHTML={{__html: budget_consult.analysis_content }} />
                         </CustomContainer>
                     }
                     {active_step == 'votes' &&
