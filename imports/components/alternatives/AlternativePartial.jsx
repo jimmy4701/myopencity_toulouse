@@ -179,7 +179,11 @@ export class AlternativePartial extends Component{
               </Grid.Column>
               {display_consult && 
                 <Grid.Column width={16}>
-                  <Link to={"/consults/" + consult.url_shorten}>{consult.title}</Link>
+                  {consult ?
+                    <Link to={"/consults/" + consult.url_shorten}>{consult.title}</Link>
+                  :
+                    <p>CONSULTATION SUPPRIMÉE</p>
+                  }
                 </Grid.Column>
               }
               <Grid.Column width={16}>
