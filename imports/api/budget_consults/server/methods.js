@@ -1,6 +1,9 @@
 import {Meteor} from 'meteor/meteor'
 import {BudgetConsults} from '../budget_consults'
 import {BudgetPropositions} from '/imports/api/budget_propositions/budget_propositions'
+import {BudgetBallots} from '/imports/api/budget_ballots/budget_ballots'
+import { shuffle } from 'lodash'
+
 import _ from 'lodash'
 
 const generate_url_shorten = (title) => {
@@ -79,15 +82,27 @@ Meteor.methods({
             throw new Meteor.Error('403', `Vous ne pouvez pas allouer plus de ${budget_consult.votes_available} coeurs`)
         }
 
+        let ballot = {
+            budget_consult: budget_consult_id,
+            votes: []
+        }
         Object.entries(votes).forEach(entry => {
+            ballot.votes.push({budget_proposition: entry[0], vote_count: entry[1]})
             BudgetPropositions.update({_id: entry[0], $and: [{status: 'votable'}, {status: 'validated'}]}, {$inc: {votes_count: entry[1]}})
         })
+
+        BudgetBallots.insert(ballot)
 
         const new_voter = {
             user: this.userId,
             created_at: new Date()
         }
-        BudgetConsults.update({_id: budget_consult_id, step: 'votes'}, {$push: {voters: new_voter}})
+
+        let voters = budget_consult.voters
+        voters.push(new_voter)
+        voters = shuffle(voters)
+
+        BudgetConsults.update({_id: budget_consult_id, step: 'votes'}, {$set: {voters}})
 
     }
 

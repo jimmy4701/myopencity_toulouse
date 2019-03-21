@@ -43,7 +43,7 @@ export class SignupForm extends Component{
             console.log("signup error", error)
             const error_message = error.reason == "Username already exists." ? 
               "Le pseudonyme est déjà utilisé" 
-              : error.reason == "Email already exists." ? "L'email est déjà utilisé" : ""
+              : error.reason == "Email already exists." ? "L'email est déjà utilisé" : error.reason
             Bert.alert({
               title: "Erreur lors de l'inscription",
               message: error_message,

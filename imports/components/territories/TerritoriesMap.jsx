@@ -9,7 +9,8 @@ const { MarkerClusterer } = require("react-google-maps/lib/components/addons/Mar
 class TerritoriesMap extends Component {
 
     state = {
-      info_windows: {}
+      info_windows: {},
+      active_proposition: {}
     }
 
     componentDidMount(){
@@ -22,10 +23,15 @@ class TerritoriesMap extends Component {
 
     componentWillReceiveProps(){
       const info_windows = {}
-      const {consults = []} = this.props
+      const {consults = [], propositions = []} = this.props
       consults.map(consult => {
         info_windows[consult._id] = false
       })
+
+      propositions.map(proposition => {
+        info_windows[proposition._id] = false
+      })
+
       this.setState({info_windows})
     }
 
@@ -35,9 +41,25 @@ class TerritoriesMap extends Component {
       this.setState({info_windows})
     }
 
+    toggleActiveProposition = (proposition_id) => {
+      const {active_proposition} = this.state
+      if(active_proposition._id == proposition_id){
+        this.setState({active_proposition: {}})
+      }else{
+        Meteor.call('budget_propositions.get_for_map', proposition_id , (error, result) => {
+          if(error){
+            console.log('Erreur', error.message)
+            toast.error(error.message)
+          }else{
+            this.setState({active_proposition: result})
+          }
+        })
+      }
+    }
+
     render() {
         const {territories = [], consults = [], budget_propositions = [], display_roads} = this.props
-        const {info_windows} = this.state
+        const {info_windows, active_proposition} = this.state
         const {navbar_color} = Session.get('global_configuration')
 
         const custom_style = [
@@ -581,7 +603,16 @@ class TerritoriesMap extends Component {
                               <Marker
                                 key={proposition._id}
                                 position={proposition.coordinates}
+                                onClick={() => this.toggleActiveProposition(proposition._id)}
                               >
+                                {(active_proposition._id == proposition._id) &&
+                                  <InfoWindow onCloseClick={() => this.toggleActiveProposition(proposition._id)}>
+                                    <div>
+                                        <Header as='h4'>{active_proposition.title}</Header>
+                                        <div dangerouslySetInnerHTML={{__html: active_proposition.content }} />
+                                    </div>
+                                  </InfoWindow>
+                                }
                               </Marker>
                                 
                             )

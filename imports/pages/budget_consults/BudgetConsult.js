@@ -5,7 +5,7 @@ import { BudgetConsults } from '/imports/api/budget_consults/budget_consults'
 import { SubTerritories } from '/imports/api/sub_territories/sub_territories'
 import {Helmet} from 'react-helmet'
 import Stepper from '/imports/components/general/Stepper'
-import { Container, Button } from 'semantic-ui-react'
+import { Container, Button, Grid } from 'semantic-ui-react'
 import { BudgetPropositionForm, BudgetPropositionsDisplayer } from '/imports/components/budget_propositions'
 import { toast } from 'react-toastify'
 import { TerritoriesMap } from '/imports/components/territories'
@@ -79,12 +79,8 @@ class BudgetConsult extends Component {
     changeStep = (active_step) => {
         const {budget_consult} = this.props
         const steps = ['propositions', 'agora', 'analysis', 'votes', 'results']
-        const budget_step_index = steps.indexOf(budget_consult.step)
         const active_step_index = steps.indexOf(active_step)
-
-        if(active_step_index <= budget_step_index){
-            this.setState({active_step, active_step_index})
-        }
+        this.setState({active_step, active_step_index})
 
     }
 
@@ -117,22 +113,22 @@ class BudgetConsult extends Component {
                   { 
                       key: "propositions",
                       title: budget_consult.propositions_step_name,
-                      description: this.getDateDescription('propositions')
+                      description: budget_consult.propositions_label
                     },
                   { 
                       key: "agora",
                       title: budget_consult.agora_step_name,
-                      description: this.getDateDescription('agora')
+                      description: budget_consult.agora_label
                     },
                   { 
                       key: "votes",
                       title: budget_consult.votes_step_name,
-                      description: this.getDateDescription('votes')
+                      description: budget_consult.votes_label
                     },
                   { 
                       key: "results",
                       title: budget_consult.results_step_name,
-                      description: this.getDateDescription('results')
+                      description: budget_consult.results_label
                     },
               ]
             const step_index = steps.findIndex(o => o.key == (budget_consult ? budget_consult.step : 'propositions') )
@@ -148,100 +144,117 @@ class BudgetConsult extends Component {
                         <meta property="og:image" content={budget_consult.image_url} />
                         <meta property="og:url" content={"https://jeparticipe.toulouse.fr" + this.props.location.pathname} />
                     </Helmet>
-                    <ConsultHeader height={consult_header_height} image_url={budget_consult.image_url}>
-                        <ConsultBackground/>
-                        <ConsultTitle className="animated fadeInUp" color={consult_header_color}>{budget_consult.title}</ConsultTitle>
-                    </ConsultHeader>
-                    <CustomContainer>
-                        <SocialShareContainer style={{marginBottom: "2em"}}>
-                            <p style={{marginBottom: 0}}><strong>Partagez sur les réseaux sociaux</strong></p>
-                            {Meteor.isClient && [
-                                <a href={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
-                                    <Button icon="facebook" color="blue" size="tiny" content="Facebook"/>
-                                </a>,
-                                <a href={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse #budget " +  budget_consult.title + " " +  window.location.href) } target="_blank">
-                                    <Button icon="twitter" color="blue" size="tiny" content="Twitter"/>
-                                </a>
-                            ]}
-                        </SocialShareContainer>
-                    </CustomContainer>
-                    <CustomContainer className="animated fadeInDown">
-                        <Stepper 
-                            active_step={active_step}
-                            active_step_index={active_step_index}
-                            steps={steps}
-                            budget_step={step_index}
-                            onStepClick={this.changeStep} />
-                    </CustomContainer>
-                    {active_step == 'propositions' &&
+                    <Grid.Column
+                        width={16}
+                        className="center-align consult-header"
+                        style={{
+                            backgroundImage: "url('" + budget_consult.image_url + "')",
+                            height: consult_header_height
+                        }}
+                    >
+                        <Grid verticalAlign="middle" className="consult-header-inner-grid">
+                            <Grid.Column width={16} className="center-align">
+                                <ConsultTitle className="animated fadeInUp" data-wow-delay="1s" as="h1" style={{color: consult_header_color}}>{budget_consult.title}</ConsultTitle>
+                            </Grid.Column>
+                        </Grid>
+                    </Grid.Column>
+                    <Grid.Column width={16}>
+                        
                         <CustomContainer>
-                            <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
-                            <TerritoriesMap
-                                avoid_link_territory
-                                display_roads
-                                territories={sub_territories}
-                                budget_propositions={budget_propositions_coordinates}
-                                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"
-                                loadingElement={<div style={{ height: `100%` }} />}
-                                containerElement={<MapContainer />}
-                                mapElement={<div style={{ height: `100%`, width: '100%' }} />}
-                            />
-                            {budget_consult.step == 'propositions' &&
-                                <Fragment>
-                                    {has_proposed ?
-                                        <HasProposedContainer>
-                                            <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
-                                        </HasProposedContainer>
-                                    :
-                                        <PropositionFormContainer>
-                                            <h2>Proposez votre idée</h2>
-                                            <BudgetPropositionForm 
-                                                budget_consult={budget_consult} 
-                                                disabled={!budget_consult.propositions_active} 
-                                                sub_territories={sub_territories}
-                                                onFormSubmit={this.handlePropositionSubmit}
-                                            />
-                                        </PropositionFormContainer>
-                                    }
-                                    {validated_count > 0 &&
-                                        <h3>Déjà {validated_count} idées proposées</h3>
-                                    }
-                                </Fragment>
-                            }
-                            <BudgetPropositionsDisplayer title="Les projets déposés" budget_consult_id={budget_consult._id} page={validated_page} total_pages={validated_total_pages} status="validated" />
-                            <PaginationContainer>
-                                <Pagination increment total_pages={validated_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
-                            </PaginationContainer>
+                            <SocialShareContainer style={{marginBottom: "2em"}}>
+                                <p style={{marginBottom: 0}}><strong>Partagez sur les réseaux sociaux</strong></p>
+                                {Meteor.isClient && [
+                                    <a href={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href } target="_blank">
+                                        <Button icon="facebook" color="blue" size="tiny" content="Facebook"/>
+                                    </a>,
+                                    <a href={"https://twitter.com/home?status=" + encodeURIComponent("#jeparticipe @toulouse #budget " +  budget_consult.title + " " +  window.location.href) } target="_blank">
+                                        <Button icon="twitter" color="blue" size="tiny" content="Twitter"/>
+                                    </a>
+                                ]}
+                            </SocialShareContainer>
                         </CustomContainer>
-                    }
-                    {active_step == 'agora' &&
-                        <CustomContainer>
-                            <div dangerouslySetInnerHTML={{__html: budget_consult.agora_content }} />
+                        <CustomContainer className="animated fadeInDown">
+                            <Stepper 
+                                active_step={active_step}
+                                active_step_index={active_step_index}
+                                steps={steps}
+                                budget_step={step_index}
+                                onStepClick={this.changeStep} />
                         </CustomContainer>
-                    }
-                    {active_step == 'votes' &&
-                        <CustomContainer>
-                            <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
-                            <BudgetPropositionsDisplayer 
-                                votable={budget_consult.step == 'votes'}
-                                display_votes
-                                maximum_votes={budget_consult.available_votes} 
-                                budget_consult_id={budget_consult._id} 
-                                page={votable_page} 
-                                total_pages={votable_total_pages}
-                                total_budget={budget_consult.total_budget}
-                                status="votable" 
-                            />
-                            <PaginationContainer>
-                                <Pagination increment total_pages={votable_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
-                            </PaginationContainer>
-                        </CustomContainer>
-                    }
-                    {active_step == 'results' &&
-                        <CustomContainer>
-                            <div dangerouslySetInnerHTML={{__html: budget_consult.results_content }} />
-                        </CustomContainer>
-                    }
+                        {active_step == 'propositions' &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.propositions_content }} />
+                                <TerritoriesMap
+                                    avoid_link_territory
+                                    display_roads
+                                    territories={sub_territories}
+                                    budget_propositions={budget_propositions_coordinates}
+                                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCziAxTCEOc9etrIjh77P86s_LA9plQdG4&v=3.exp&libraries=geometry,drawing,places"
+                                    loadingElement={<div style={{ height: `100%` }} />}
+                                    containerElement={<MapContainer />}
+                                    mapElement={<div style={{ height: `100%`, width: '100%' }} />}
+                                />
+                                {budget_consult.step == 'propositions' &&
+                                    <Fragment>
+                                        {has_proposed ?
+                                            <HasProposedContainer>
+                                                <h3>Vous avez proposé le nombre maximum d'idées pour cette consultation.</h3>
+                                            </HasProposedContainer>
+                                        :
+                                            <PropositionFormContainer>
+                                                <h2>Proposez votre idée</h2>
+                                                <BudgetPropositionForm 
+                                                    budget_consult={budget_consult} 
+                                                    disabled={!budget_consult.propositions_active} 
+                                                    sub_territories={sub_territories}
+                                                    onFormSubmit={this.handlePropositionSubmit}
+                                                />
+                                            </PropositionFormContainer>
+                                        }
+                                        {validated_count > 0 &&
+                                            <h3>Déjà {validated_count} idées proposées</h3>
+                                        }
+                                    </Fragment>
+                                }
+                                <BudgetPropositionsDisplayer title="Les projets déposés" budget_consult_id={budget_consult._id} page={validated_page} total_pages={validated_total_pages} status="validated" />
+                                <PaginationContainer>
+                                    <Pagination increment total_pages={validated_total_pages} page={validated_page} onPageClick={(validated_page) => this.setState({validated_page})} />
+                                </PaginationContainer>
+                            </CustomContainer>
+                        }
+                        {active_step == 'agora' &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.agora_content }} />
+                            </CustomContainer>
+                        }
+                        {active_step == 'votes' &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
+                                {budget_consult.step == 'votes' &&
+                                    <Fragment>
+                                        <BudgetPropositionsDisplayer 
+                                            votable={budget_consult.step == 'votes'}
+                                            display_votes
+                                            maximum_votes={budget_consult.available_votes} 
+                                            budget_consult_id={budget_consult._id} 
+                                            page={votable_page} 
+                                            total_pages={votable_total_pages}
+                                            total_budget={budget_consult.total_budget}
+                                            status="votable" 
+                                        />
+                                        <PaginationContainer>
+                                            <Pagination increment total_pages={votable_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
+                                        </PaginationContainer>
+                                    </Fragment>
+                                }
+                            </CustomContainer>
+                        }
+                        {active_step == 'results' &&
+                            <CustomContainer>
+                                <div dangerouslySetInnerHTML={{__html: budget_consult.results_content }} />
+                            </CustomContainer>
+                        }
+                    </Grid.Column>
                 </MainContainer>
             )
         }else{
@@ -271,7 +284,7 @@ export default BudgetConsultContainer = withTracker(({match}) => {
     }
 })(BudgetConsult)
 
-const MainContainer = styled.div`
+const MainContainer = styled(Grid)`
     
 `
 

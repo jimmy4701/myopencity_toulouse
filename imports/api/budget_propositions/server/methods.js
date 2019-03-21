@@ -141,7 +141,7 @@ Meteor.methods({
 },
 'budget_propositions.get_votable'({budget_consult_id, page}){
     const budget_consult = BudgetConsults.findOne({_id: budget_consult_id})
-    const all_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'votable'}, {status: 'validated'}]}, {fields: {estimation: 1}}).fetch()
+    const all_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'votable'}, {status: 'validated'}]}, {fields: {estimation: 1}, sort: {votes_count: -1}}).fetch()
     
     let total_estimation = 0
     let limit_index = null
@@ -177,5 +177,9 @@ Meteor.methods({
     const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult_id, $and: [{status: 'votable'}, {status: 'validated'}]}, {limit: 10, sort: {votes_count: -1}, skip: 10 * page }).fetch()
     
     return {budget_propositions, budget_index}
-}
+},
+'budget_propositions.get_for_map'(budget_proposition_id){
+    const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id, status: 'validated'}, {fields: {title: 1, coordinates: 1, content: 1}})
+    return budget_proposition
+},
 })
