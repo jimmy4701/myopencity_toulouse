@@ -79,12 +79,8 @@ class BudgetConsult extends Component {
     changeStep = (active_step) => {
         const {budget_consult} = this.props
         const steps = ['propositions', 'agora', 'analysis', 'votes', 'results']
-        const budget_step_index = steps.indexOf(budget_consult.step)
         const active_step_index = steps.indexOf(active_step)
-
-        if(active_step_index <= budget_step_index){
-            this.setState({active_step, active_step_index})
-        }
+        this.setState({active_step, active_step_index})
 
     }
 
