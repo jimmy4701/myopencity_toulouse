@@ -36,12 +36,20 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: Date,
         optional: true
     },
+    propositions_label: {
+        type: String,
+        optional: true
+    },
     agora_start_date: {
         type: Date,
         optional: true
     },
     agora_end_date : {
         type: Date,
+        optional: true
+    },
+    agora_label: {
+        type: String,
         optional: true
     },
     analysis_start_date: {
@@ -52,6 +60,10 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: Date,
         optional: true
     },
+    analysis_label: {
+        type: String,
+        optional: true
+    },
     votes_start_date: {
         type: Date,
         optional: true
@@ -60,8 +72,16 @@ const BudgetConsultsSchema = new SimpleSchema({
         type: Date,
         optional: true
     },
+    votes_label: {
+        type: String,
+        optional: true
+    },
     results_start_date: {
         type: Date,
+        optional: true
+    },
+    results_label: {
+        type: String,
         optional: true
     },
     updated_at: {

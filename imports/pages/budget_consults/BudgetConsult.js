@@ -113,22 +113,22 @@ class BudgetConsult extends Component {
                   { 
                       key: "propositions",
                       title: budget_consult.propositions_step_name,
-                      description: this.getDateDescription('propositions')
+                      description: budget_consult.propositions_label
                     },
                   { 
                       key: "agora",
                       title: budget_consult.agora_step_name,
-                      description: this.getDateDescription('agora')
+                      description: budget_consult.agora_label
                     },
                   { 
                       key: "votes",
                       title: budget_consult.votes_step_name,
-                      description: this.getDateDescription('votes')
+                      description: budget_consult.votes_label
                     },
                   { 
                       key: "results",
                       title: budget_consult.results_step_name,
-                      description: this.getDateDescription('results')
+                      description: budget_consult.results_label
                     },
               ]
             const step_index = steps.findIndex(o => o.key == (budget_consult ? budget_consult.step : 'propositions') )

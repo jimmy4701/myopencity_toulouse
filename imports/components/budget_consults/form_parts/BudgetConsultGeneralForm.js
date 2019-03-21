@@ -55,8 +55,34 @@ export default class BudgetConsultGeneralForm extends Component {
                     <PhasePartial active={budget_consult.step == "results"} onClick={() => this.handleBudgetStep("results")} >Résultats</PhasePartial>
                 </PhasesContainer>
                 <Divider />
-                <h3>Dates des différentes phases</h3>
                 <Form>
+                    <CustomFormGroup>
+                        <Form.Input
+                            label='Label Propositions'
+                            onChange={this.handleChange}
+                            value={budget_consult.propositions_label}
+                            name='propositions_label'
+                        />
+                        <Form.Input
+                            label='Label Agora'
+                            onChange={this.handleChange}
+                            value={budget_consult.agora_label}
+                            name='agora_label'
+                        />
+                        <Form.Input
+                            label='Label Votes'
+                            onChange={this.handleChange}
+                            value={budget_consult.votes_label}
+                            name='votes_label'
+                        />
+                        <Form.Input
+                            label='Label Résultats'
+                            onChange={this.handleChange}
+                            value={budget_consult.results_label}
+                            name='results_label'
+                        />
+                    </CustomFormGroup>
+                    <h3>Dates des différentes phases</h3>
                     <CustomFormGroup>
                         <Form.Field>
                             <label>Début de la phase de propositions</label>
