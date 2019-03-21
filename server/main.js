@@ -3,6 +3,7 @@ import {Configuration} from '/imports/api/configuration/configuration'
 import {Consults} from '/imports/api/consults/consults'
 import moment from 'moment'
 import {ExternalApisConfiguration} from '/imports/api/external_apis_configuration/external_apis_configuration'
+import forbidden_domains from './forbidden_emails'
 
 import './server_imports'
 
@@ -37,24 +38,31 @@ Meteor.startup(() => {
   // Handling external services login
   Accounts.onCreateUser(function (options, user) {
 
-      if (user.services.facebook) {
-          user.username = user.services.facebook.name
-          user.emails = [{address: user.services.facebook.email}]
-          // Handle avatar_url
-          user.profile = {
-            avatar_url: user.services.facebook.picture ? user.services.facebook.picture : '/images/avatar-logo.png'
-          }
-          return user
-      }else if (user.services.google) {
-          user.username = user.services.google.given_name
-          user.emails = [{address: user.services.google.email}]
-          // Handle avatar_url
-          user.profile = {
-            avatar_url: user.services.google.picture ? user.services.google.picture : '/images/avatar-logo.png'
-          }
-          return user
-      }else{
+    
+    if (user.services.facebook) {
+      user.username = user.services.facebook.name
+      user.emails = [{address: user.services.facebook.email}]
+      // Handle avatar_url
+      user.profile = {
+        avatar_url: user.services.facebook.picture ? user.services.facebook.picture : '/images/avatar-logo.png'
+      }
+      return user
+    }else if (user.services.google) {
+      user.username = user.services.google.given_name
+      user.emails = [{address: user.services.google.email}]
+      // Handle avatar_url
+      user.profile = {
+        avatar_url: user.services.google.picture ? user.services.google.picture : '/images/avatar-logo.png'
+      }
+      return user
+    }else{
+        let regex = new RegExp(forbidden_domains.join("|"), 'ig')
 
+        if(user.emails[0].address.match(regex)){
+          console.log('TENTATIVE DE CREATION DE COMPTE TEMPORAIRE', user.emails[0].address, new Date())
+          throw new Meteor.Error('403', "Ce type d'adresse email est interdit sur la plateforme")
+        }
+      
         user.profile = {
           avatar_url: '/images/avatar-logo.png'
         }
