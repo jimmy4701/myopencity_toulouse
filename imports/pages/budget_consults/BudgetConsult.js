@@ -230,19 +230,23 @@ class BudgetConsult extends Component {
                         {active_step == 'votes' &&
                             <CustomContainer>
                                 <div dangerouslySetInnerHTML={{__html: budget_consult.votes_content }} />
-                                <BudgetPropositionsDisplayer 
-                                    votable={budget_consult.step == 'votes'}
-                                    display_votes
-                                    maximum_votes={budget_consult.available_votes} 
-                                    budget_consult_id={budget_consult._id} 
-                                    page={votable_page} 
-                                    total_pages={votable_total_pages}
-                                    total_budget={budget_consult.total_budget}
-                                    status="votable" 
-                                />
-                                <PaginationContainer>
-                                    <Pagination increment total_pages={votable_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
-                                </PaginationContainer>
+                                {budget_consult.step == 'votes' &&
+                                    <Fragment>
+                                        <BudgetPropositionsDisplayer 
+                                            votable={budget_consult.step == 'votes'}
+                                            display_votes
+                                            maximum_votes={budget_consult.available_votes} 
+                                            budget_consult_id={budget_consult._id} 
+                                            page={votable_page} 
+                                            total_pages={votable_total_pages}
+                                            total_budget={budget_consult.total_budget}
+                                            status="votable" 
+                                        />
+                                        <PaginationContainer>
+                                            <Pagination increment total_pages={votable_total_pages} page={votable_page} onPageClick={(votable_page) => this.setState({votable_page})} />
+                                        </PaginationContainer>
+                                    </Fragment>
+                                }
                             </CustomContainer>
                         }
                         {active_step == 'results' &&
