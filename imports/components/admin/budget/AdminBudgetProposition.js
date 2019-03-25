@@ -26,6 +26,17 @@ class AdminBudgetProposition extends Component {
         })
     }
 
+    componentDidMount(){
+        Meteor.call('budget_propositions.get_user_info', this.props.budget_proposition.user , (error, result) => {
+            if(error){
+                console.log('Erreur', error.message)
+                toast.error(error.message)
+            }else{
+                this.setState({user_email: result})
+            }
+        })
+    }
+
     verify = () => {
         const {budget_proposition} = this.props
         Meteor.call('budget_propositions.verify', budget_proposition._id, (error, result) => {
@@ -88,7 +99,7 @@ class AdminBudgetProposition extends Component {
 
     render(){
         const {budget_proposition, sub_territories, all_sub_territories, loading} = this.props
-        const { editing } = this.state
+        const { editing, user_email } = this.state
         const is_validated = budget_proposition.status.includes('validated')
         const is_invalid = budget_proposition.status.includes('invalid')
         const is_votable = budget_proposition.status.includes('votable')
@@ -97,6 +108,7 @@ class AdminBudgetProposition extends Component {
             return(
                 <MainContainer>
                     <Title>{budget_proposition.title} - Proposé le {moment(budget_proposition.created_at).format('DD/MM/YYYY à HH:mm')}</Title>
+                    <Address>Utilisateur : {user_email}</Address>
                     <Address>{budget_proposition.address}</Address>
                     <TerritoriesContainer>{sub_territories.map(territory => <Label size="mini">{territory.name}</Label>)}</TerritoriesContainer>
                     {is_invalid && is_votable && <Label color="red">La proposition est votable mais invalidée</Label>}

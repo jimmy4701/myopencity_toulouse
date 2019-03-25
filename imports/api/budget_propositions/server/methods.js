@@ -182,4 +182,11 @@ Meteor.methods({
     const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id, status: 'validated'}, {fields: {title: 1, coordinates: 1, content: 1}})
     return budget_proposition
 },
+'budget_propositions.get_user_info'(user_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé à récupérer les informations d'utilisateur concernant la proposition")
+    }
+    const user = Meteor.users.findOne({_id: user_id}, {fields: {emails: 1}})
+    return user ? user.emails[0].address : "Utilisateur supprimé"
+},
 })
