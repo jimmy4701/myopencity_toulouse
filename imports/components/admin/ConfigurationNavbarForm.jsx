@@ -93,6 +93,11 @@ export default class ConfigurationNavbarForm extends Component {
                                 onClick={() => this.toggleConfiguration('navbar_territories')}
                                 label="Afficher l'onglet quartiers"
                             />
+                            <Form.Checkbox
+                                checked={configuration.navbar_budget}
+                                onClick={() => this.toggleConfiguration('navbar_budget')}
+                                label="Afficher l'onglet budget"
+                            />
                         </Form.Group>
                         <Form.Group widths='equal'>
                             <Form.Input
@@ -118,6 +123,12 @@ export default class ConfigurationNavbarForm extends Component {
                                 onChange={this.handleChange}
                                 value={configuration.navbar_projects_term}
                                 name='navbar_projects_term'
+                            />
+                            <Form.Input
+                                label='Terme pour "Budget"'
+                                onChange={this.handleChange}
+                                value={configuration.navbar_budget_term}
+                                name='navbar_budget_term'
                             />
                         </Form.Group>
 

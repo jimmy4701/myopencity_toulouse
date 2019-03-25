@@ -6,15 +6,21 @@ import {Link} from 'react-router-dom'
 
 export default class Navbar extends TrackerReact(Component){
 
-  constructor(props){
-    super(props)
-    this.state = {
-      open_sidebar: false
-    }
+  state = {
+    open_sidebar: false
   }
 
   componentDidMount(){
     this.setState({screen_size: window.innerWidth})
+
+    Meteor.call('budget_consults.get_navbar_url_shorten', (error, result) => {
+      if(error){
+        console.log('Erreur', error.message)
+        toast.error(error.message)
+      }else{
+        this.setState({budget_url_shorten: result})
+      }
+    })
   }
 
   toggleSidebar(e){
@@ -37,8 +43,12 @@ export default class Navbar extends TrackerReact(Component){
       navbar_participation_term,
       navbar_home_term,
       navbar_lexical,
-      navbar_lexical_term
+      navbar_lexical_term,
+      navbar_budget,
+      navbar_budget_term
     } = Session.get('global_configuration')
+
+    const {budget_url_shorten} = this.state
 
     return(
       <div>
@@ -59,6 +69,11 @@ export default class Navbar extends TrackerReact(Component){
               {navbar_consults &&
                 <Link className="item" to="/consults">
                   <div className="navbar-item">{navbar_consults_term}</div>
+                </Link>
+              }
+              {navbar_budget && budget_url_shorten &&
+                <Link className="item" to={`/budgets/${budget_url_shorten}`}>
+                  <div className="navbar-item">{navbar_budget_term ? navbar_budget_term : "Budget"}</div>
                 </Link>
               }
               {navbar_projects && 
