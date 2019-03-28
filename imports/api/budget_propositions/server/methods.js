@@ -131,7 +131,7 @@ Meteor.methods({
 },
 'budget_propositions.coordinates'(url_shorten){
     const budget_consult = BudgetConsults.findOne({url_shorten})
-    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'votable'}, {fields: {coordinates: 1}}).fetch()
+    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}, {fields: {coordinates: 1, title: 1, content: 1}}).fetch()
     
     return budget_propositions
 },
