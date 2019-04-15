@@ -231,5 +231,5 @@ export default ConsultPartContainer = withTracker(({ consult_part }) => {
 
 
 const CustomModal = styled(Modal)`
-  top: 20em !important;
+
 `
