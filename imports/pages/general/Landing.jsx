@@ -12,6 +12,7 @@ import TerritoriesMap from '/imports/components/territories/TerritoriesMap'
 import ConsultPartial from '/imports/components/consults/ConsultPartial'
 import ProjectPartial from '/imports/components/projects/ProjectPartial'
 import _ from 'lodash'
+import BudgetConsultPartial from '/imports/components/budget_consults/BudgetConsultPartial'
 import styled from 'styled-components'
 
 export class Landing extends Component {
@@ -90,12 +91,16 @@ export class Landing extends Component {
                 </Link>
               </BudgetConsultContainer>
             }
-            {consults.length > 0 ?
+            {(consults.length > 0 || budget_consult)?
               <Grid.Column width={16} className="center-align landing-title-container mobile-padding" style={{backgroundColor: landing_consults_background_color}}>
                 <Header as="h2">Les {consult_term}s du moment</Header>
-                {consults.length > 0 &&
                   <ConsultsContainer>
                     <Grid stackable centered>
+                      {budget_consult && 
+                        <ConsultColumn width={4} textAlign="center">
+                           <BudgetConsultPartial budget_consult={budget_consult} />
+                        </ConsultColumn>
+                      }
                       {consults.map((consult, index) => {
                         return (
                           <ConsultColumn width={4} textAlign="center">
@@ -105,7 +110,6 @@ export class Landing extends Component {
                       })}
                     </Grid>
                   </ConsultsContainer>
-                }
               </Grid.Column>
               : ''}
             {projects.length > 0 ?

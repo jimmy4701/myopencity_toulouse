@@ -19,7 +19,7 @@ Meteor.publish('budget_consults.by_id', function(id){
 })
 
 Meteor.publish('budget_consults.landing', function(){
-    return BudgetConsults.find({active: true, landing_display: true}, {limit: 1, sort: {}, fields: {title: 1, url_shorten: 1, step: 1, active: 1, landing_display: 1, sub_territories: 1}})
+    return BudgetConsults.find({active: true, landing_display: true}, {limit: 1, sort: {}, fields: {title: 1, url_shorten: 1, step: 1, active: 1, landing_display: 1, description: 1, sub_territories: 1, image_url_mini: 1, image_url: 1}})
 })
 
 Meteor.publish('budget_consults.by_url_shorten', function(url_shorten){

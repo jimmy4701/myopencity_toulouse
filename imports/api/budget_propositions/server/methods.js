@@ -131,7 +131,7 @@ Meteor.methods({
 },
 'budget_propositions.coordinates'(url_shorten){
     const budget_consult = BudgetConsults.findOne({url_shorten})
-    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'votable'}, {fields: {coordinates: 1}}).fetch()
+    const budget_propositions = BudgetPropositions.find({budget_consult: budget_consult._id, status: 'validated'}, {fields: {coordinates: 1, title: 1, content: 1}}).fetch()
     
     return budget_propositions
 },
@@ -181,5 +181,12 @@ Meteor.methods({
 'budget_propositions.get_for_map'(budget_proposition_id){
     const budget_proposition = BudgetPropositions.findOne({_id: budget_proposition_id, status: 'validated'}, {fields: {title: 1, coordinates: 1, content: 1}})
     return budget_proposition
+},
+'budget_propositions.get_user_info'(user_id){
+    if(!Roles.userIsInRole(this.userId, 'admin')){
+        throw new Meteor.Error('403', "Vous n'êtes pas autorisé à récupérer les informations d'utilisateur concernant la proposition")
+    }
+    const user = Meteor.users.findOne({_id: user_id}, {fields: {emails: 1}})
+    return user ? user.emails[0].address : "Utilisateur supprimé"
 },
 })

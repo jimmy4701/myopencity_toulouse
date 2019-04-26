@@ -498,6 +498,15 @@ const ConfigurationSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false
   },
+  navbar_budget_term: {
+    type: String,
+    defaultValue: "Budget",
+    label: "Le terme pour Budget dans la barre de navigation"
+  },
+  navbar_budget: {
+    type: Boolean,
+    defaultValue: false
+  },
   ended_consults_display_explain: {
     type: Boolean,
     defaultValue: false

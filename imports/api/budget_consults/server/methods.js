@@ -112,5 +112,9 @@ Meteor.methods({
     const budget_consult = BudgetConsults.findOne({_id: budget_consult_id}, {limit: 1, fields: {voters: 1}})
     const found_voter = budget_consult.voters.find(o => o.user == this.userId)
     return found_voter ? true : false
+},
+'budget_consults.get_navbar_url_shorten'(){
+    return BudgetConsults.findOne({active: true, visible: true}).url_shorten
 }
 })
+
