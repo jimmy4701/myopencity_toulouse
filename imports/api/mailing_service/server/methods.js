@@ -25,6 +25,7 @@ Meteor.methods({
         const external_configuration = ExternalApisConfiguration.findOne()
         const alternative = Alternatives.findOne({_id: alternative_id})
         const consult = Consults.findOne({_id: alternative.consult})
+        const author = Meteor.users.findOne({_id: alternative.user})
         const territories = Territories.find({_id: {$in: consult.territories }})
         territories_ids = territories.map(territory => territory._id)
         let users = []
@@ -38,7 +39,7 @@ Meteor.methods({
 
         const html = renderToString(
           sheet.collectStyles(
-            <EmailNewAlternative  alternative={alternative} url={external_configuration.email_smtp_from_domain + "/admin/alternatives"} />
+            <EmailNewAlternative  alternative={alternative} url={external_configuration.email_smtp_from_domain + "/admin/alternatives"} username={author.username} consult={consult} />
           )
         )
 
@@ -136,14 +137,15 @@ Meteor.methods({
   }else{
 
       const external_configuration = ExternalApisConfiguration.findOne()
-      const budget_proposition = BudgetPropositions.findOne({_id: proposition_id}, {fields: {content: 1, budget_consult: 1}})
+      const budget_proposition = BudgetPropositions.findOne({_id: proposition_id}, {fields: {content: 1, budget_consult: 1, user: 1}})
+      const author = Meteor.users.findOne({_id: budget_proposition.user})
       const budget_consult = BudgetConsults.findOne({_id: budget_proposition.budget_consult}, {fields: {title: 1, moderators_emails: 1}})
       // Send alternative notification
       const sheet = new ServerStyleSheet()
 
       const html = renderToString(
         sheet.collectStyles(
-          <EmailNewBudgetProposition  budget_consult={budget_consult} budget_proposition={budget_proposition} url={`${external_configuration.email_smtp_from_domain}/admin/budget_propositions/${budget_proposition.budget_consult}`} />
+          <EmailNewBudgetProposition  username={author.username} budget_consult={budget_consult} budget_proposition={budget_proposition} url={`${external_configuration.email_smtp_from_domain}/admin/budget_propositions/${budget_proposition.budget_consult}`} />
         )
       )
 

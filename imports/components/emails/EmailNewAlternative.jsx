@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {Configuration} from '/imports/api/configuration/configuration'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Alternatives } from '/imports/api/alternatives/alternatives'
+import { Link } from 'react-router-dom'
 
 export class EmailResetPassword extends Component {
     render() {
-        const { username, url, configuration, loading, alternative } = this.props
+        const { username, url, configuration, loading, alternative, consult } = this.props
 
         if(!loading){
             return (
@@ -23,9 +24,11 @@ export class EmailResetPassword extends Component {
                             </tr>
                             <tr style={{padding: "5em 0"}}>
                                 <td width="600" height="300" style={{textAlign: "center"}}>
-                                    <h2>Un nouvel avis a été créé sur une consultation</h2>
+                                    <h2>Un nouvel avis a été créé sur la consultation <a to={`/consults/${consult.url_shorten}`} target="_blank">{consult.title}</a></h2>
                                     <p>Voici, ci-dessous, son contenu :</p><br/><br/>
+                                    <h4>Titre : {alternative.title}</h4>
                                     <div dangerouslySetInnerHTML={{__html: alternative.content }} />
+                                    <p>Proposition faite par {username}</p>
                                     <p>Pour valider ou invalider cet avis, merci de cliquer sur le lien ci-dessous.</p>
                                     <a href={url} style={{borderRadius: "5px", padding: "1em", color: "white", backgroundColor: "#345fff"}} target="_blank">Modérer les avis</a>
                                 </td>

@@ -25,7 +25,9 @@ class EmailNewBudgetProposition extends Component {
                                 <td width="600" height="300" style={{textAlign: "center"}}>
                                     <h2>Une nouvelle idée a été proposée sur le budget participatif "{budget_consult.title}"</h2>
                                     <p>Voici, ci-dessous, son contenu :</p><br/><br/>
-                                    <div dangerouslySetInnerHTML={{__html: budget_proposition.content }} />
+                                    <h4>Titre : {budget_proposition.title}</h4>
+                                    <div dangerouslySetInnerHTML={{__html: budget_proposition.content }} /><br/>
+                                    <p>Idée proposée par {username}</p><br/><br/>
                                     <p>Pour valider ou invalider cette idée, merci de cliquer sur le lien ci-dessous.</p>
                                     <a href={url} style={{borderRadius: "5px", padding: "1em", color: "white", backgroundColor: "#345fff"}} target="_blank">Modérer les idées</a>
                                 </td>
