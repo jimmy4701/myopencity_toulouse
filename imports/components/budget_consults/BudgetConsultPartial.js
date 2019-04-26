@@ -38,7 +38,7 @@ export default class BudgetConsultPartial extends Component {
 
         return(
             <MainContainer>
-                <Link to={"/budget_consults/" + budget_consult.url_shorten}>
+                <Link to={"/budgets/" + budget_consult.url_shorten}>
                     <Image src={budget_consult.image_url_mini ? budget_consult.image_url_mini : budget_consult.image_url} />
                 </Link>
                 <Card.Content className="center-align">
