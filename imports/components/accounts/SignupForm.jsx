@@ -277,7 +277,7 @@ export class SignupForm extends Component{
                       required
                       checked={accept_legal_notice}
                       onClick={() => this.toggleState('accept_legal_notice')}
-                      label={<label for="accept_legal_notice"  >J'accepte les <a href="/mentions_legales" target="_blank">mentions légales</a><span className="required-char"> *</span></label>}
+                      label={<label for="accept_legal_notice"  >En cochant cette case, je consens à ce que mes données soient traitées dans le cadre des projets participatifs organisés par la Mairie de Toulouse. Je suis informé du retrait possible de mon consentement, à tout moment, en le demandant à jeparticipe@mairie-toulouse.fr<span className="required-char"> *</span></label>}
                     />
                   </Form.Field>
                 }
