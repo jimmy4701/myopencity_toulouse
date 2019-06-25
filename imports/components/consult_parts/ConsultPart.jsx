@@ -124,7 +124,7 @@ export class ConsultPart extends Component{
 
     if(!loading){
 
-      const display_results = (results_configuration == "on_vote" && consult_part_vote) || (results_configuration == 'on_consultation_end' && consult_ended)
+      const display_results = (results_configuration == "on_vote" && consult_part_vote) || (results_configuration == 'on_consultation_end' && consult_ended) || (results_configuration == 'on_vote_not_on_end' && consult_part_vote && !consult_ended)
       const display_vote_button = consult_votable && !consult_part_vote
 
       return(
