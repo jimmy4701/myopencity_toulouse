@@ -21,7 +21,7 @@ class InitialPresentationPage extends TrackerReact(Component){
   componentDidMount(){
     const that = this
     new WOW().init()
-    Timers.setInterval(() => {
+    setInterval(() => {
       if(that.state.step == 0){
         new WOW().init()
         that.setState({step: 1, interval: 3000})

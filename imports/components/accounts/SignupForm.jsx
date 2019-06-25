@@ -190,7 +190,7 @@ export class SignupForm extends Component{
   render(){
     const {user, accept_conditions, accept_legal_notice, error_message, step, profile} = this.state
     const {global_configuration, loading, className, territories} = this.props
-    const {facebook_connected, google_connected, cgu_term, cgu_acceptance, legal_notice_term, legal_notice_acceptance, cnil_signup_text, navbar_color} = global_configuration
+    const {facebook_connected, google_connected, cgu_term, cgu_acceptance, legal_notice_term, legal_notice_acceptance, cnil_signup_text, navbar_color, cgu_acceptance_label} = global_configuration
     const isValid = user.email && user.password && user.username && user.password == user.confirm_password && (cgu_acceptance ? accept_conditions : true) && (legal_notice_acceptance ? accept_legal_notice : true)
 
     if(!loading){
@@ -277,7 +277,7 @@ export class SignupForm extends Component{
                       required
                       checked={accept_legal_notice}
                       onClick={() => this.toggleState('accept_legal_notice')}
-                      label={<label for="accept_legal_notice"  >En cochant cette case, je consens à ce que mes données soient traitées dans le cadre des projets participatifs organisés par la Mairie de Toulouse. Je suis informé du retrait possible de mon consentement, à tout moment, en le demandant à jeparticipe@mairie-toulouse.fr<span className="required-char"> *</span></label>}
+                      label={<label for="accept_legal_notice">{cgu_acceptance_label}<span className="required-char"> *</span></label>}
                     />
                   </Form.Field>
                 }

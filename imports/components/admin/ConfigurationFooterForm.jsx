@@ -197,6 +197,10 @@ class ConfigurationFooterForm extends Component {
                                 label="Afficher le bouton à propos dans le footer"
                             />
                         <Form.Field width={16}>
+                            <label>Texte d'acceptation des CGU à l'inscription</label>
+                            <Input type="text" value={configuration.cgu_acceptance_label} onChange={this.handleConfigurationChange} name="cgu_acceptance_label" />
+                        </Form.Field>
+                        <Form.Field width={16}>
                             <label>Conditions générales d'utilisation</label>
                             <TinyMCE
                                 content={configuration.cgu}

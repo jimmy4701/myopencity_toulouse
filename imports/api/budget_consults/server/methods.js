@@ -114,7 +114,8 @@ Meteor.methods({
     return found_voter ? true : false
 },
 'budget_consults.get_navbar_url_shorten'(){
-    return BudgetConsults.findOne({active: true, visible: true}).url_shorten
+    const budget_consult = BudgetConsults.findOne({active: true, visible: true})
+    if(budget_consult) return budget_consult.url_shorten
 }
 })
 

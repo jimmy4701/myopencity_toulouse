@@ -514,6 +514,10 @@ const ConfigurationSchema = new SimpleSchema({
   ended_consults_explain: {
     type: String,
     defaultValue: "<p>Explication pour la page de consultations terminées</p>"
+  },
+  cgu_acceptance_label: {
+    type: String,
+    defaultValue: "En cochant cette case, je consens à ce que mes données soient traitées dans le cadre des projets participatifs organisés par la Mairie de Toulouse. Je suis informé du retrait possible de mon consentement, à tout moment, en le demandant à jeparticipe@mairie-toulouse.fr"
   }
 })
 

@@ -3,6 +3,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react'
 import {Menu, Container, Sidebar, Icon, Image} from 'semantic-ui-react'
 import NavbarAccountItem from '/imports/components/navigation/NavbarAccountItem'
 import {Link} from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default class Navbar extends TrackerReact(Component){
 
