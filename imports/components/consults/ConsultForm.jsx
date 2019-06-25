@@ -614,11 +614,13 @@ export default class ConsultForm extends TrackerReact(Component) {
                   value={consult.display_votes_configuration}
                 />
                 <Header as="h3">Modération</Header>
-                <Form.Select
+                <Form.Dropdown
                   options={moderators_options}
                   label="Sélectionnez les modérateurs de cette consultation"
                   onChange={this.handleModeratorsSelect}
                   multiple
+                  search
+                  selection
                   value={consult.moderators}
                 />
                 <Message info>
