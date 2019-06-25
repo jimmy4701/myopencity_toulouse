@@ -17,7 +17,7 @@ export default class AdminUsersPage extends TrackerReact(Component){
       page: 0,
       users_count: 0,
       filter_text: "",
-      results_per_page: 50
+      results_per_page: 20
     }
   }
 
@@ -66,9 +66,9 @@ export default class AdminUsersPage extends TrackerReact(Component){
               <Grid stackable>
                 <Grid.Column width={16} className="center-align">
                   <Pagination
-                    activePage={page}
-                    onPageChange={(e, {activePage}) => this.changePage(activePage, e)}
-                    totalPages={nb_pages}
+                    activePage={page + 1}
+                    onPageChange={(e, {activePage}) => this.changePage(activePage - 1, e)}
+                    totalPages={nb_pages +1}
                   />
                 </Grid.Column>
               </Grid>

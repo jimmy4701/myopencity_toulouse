@@ -9,6 +9,7 @@ import './server_imports'
 
 Meteor.startup(() => {
 
+
   // Migrations
   Migrations.migrateTo('latest')
 
