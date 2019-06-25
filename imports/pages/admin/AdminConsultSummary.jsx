@@ -9,11 +9,14 @@ import { withTracker } from 'meteor/react-meteor-data'
 import moment from 'moment'
 import _ from 'lodash'
 import Helmet from 'react-helmet'
+import styled from 'styled-components'
 
 export class AdminConsultSummary extends Component {
 
     state = {
-        statistics: {}
+        statistics: {
+            ages: []
+        }
     }
 
     componentWillReceiveProps(){
@@ -102,6 +105,12 @@ export class AdminConsultSummary extends Component {
                                         <Statistic label={ages_options[cle]} value={statistics.ages[cle] + "  (" + _.round(statistics.ages[cle]*100/statistics.total_voters, 2) + " %)"} size="tiny" />
                                     )
                                 })}
+                                <Header as='h2'>Genres</Header>
+                                <div>
+                                    <Statistic label="Femmes" value={statistics.genders.woman} size="tiny" />
+                                    <Statistic label="Hommes" value={statistics.genders.man} size="tiny" />
+                                    <Statistic label="Non-précisé" value={statistics.genders.none} size="tiny" />
+                                </div>
                                 <Header as='h2'>Quartiers</Header>
                             </Grid.Column>
                             <Grid.Column width={8}>
@@ -176,3 +185,9 @@ export default AdminConsultSummaryContainer = withTracker(({match}) => {
         return {loading: true}
     }
 })(AdminConsultSummary)
+
+const GendersContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
