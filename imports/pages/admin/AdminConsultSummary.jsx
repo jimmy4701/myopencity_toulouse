@@ -15,7 +15,9 @@ export class AdminConsultSummary extends Component {
 
     state = {
         statistics: {
-            ages: []
+            ages: [],
+            genders: {},
+            territories: {}
         }
     }
 

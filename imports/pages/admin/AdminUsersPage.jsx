@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import TrackerReact from 'meteor/ultimatejs:tracker-react'
-import {Grid, Header, Container, Form, Input, Button} from 'semantic-ui-react'
+import {Grid, Header, Container, Form, Input, Button, Pagination} from 'semantic-ui-react'
 import AdminUsersTable from '/imports/components/admin/AdminUsersTable'
 import _ from 'lodash'
 
@@ -65,9 +65,11 @@ export default class AdminUsersPage extends TrackerReact(Component){
             {nb_pages > 1 ?
               <Grid stackable>
                 <Grid.Column width={16} className="center-align">
-                  {_.times(nb_pages + 1, (index) => {
-                    return <Button onClick={(e) => {this.changePage(index, e)}}>{index + 1}</Button>
-                  })}
+                  <Pagination
+                    activePage={page}
+                    onPageChange={(e, {activePage}) => this.changePage(activePage, e)}
+                    totalPages={nb_pages}
+                  />
                 </Grid.Column>
               </Grid>
             : ''}
